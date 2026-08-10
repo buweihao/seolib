@@ -57,3 +57,35 @@ Important architecture decisions use a compact ADR-style record. New records are
 **Reason:** The library should grow from real buyer needs and approved reference analysis instead of a large placeholder catalog.
 
 **Consequences:** `BaseLayout.astro` and the foundation page validate the toolchain but are not registered library components. The component catalog remains empty until Phase 2/3 evidence justifies entries.
+
+## 2026-08-10 — Use manifest-driven reference cropping
+
+**Decision:** Preserve each supplied full-page capture as source evidence and record human-selected semantic crop boundaries in a versioned JSON manifest. Generate and validate section images deterministically from that manifest.
+
+**Reason:** Section meaning requires visual judgment, while image cropping, naming, and dimension checks should be repeatable and reviewable. Separating these responsibilities prevents an opaque segmentation script from presenting guesses as approved analysis.
+
+**Consequences:** Every ingested full-page capture uses `source/home-full.png`, `section-manifest.json`, and generated `sections/` output. Ambiguous boundaries carry confidence and review notes. The cropping tool never chooses section semantics, and later component work cannot begin merely because a crop exists.
+
+## 2026-08-10 — Scope Premium expression to the composition root
+
+**Decision:** Implement Premium as an ordered composition of shared typed components with semantic token overrides scoped to `.premium-homepage`, rather than forking Premium-specific component variants or changing global defaults.
+
+**Reason:** The direction needs a distinct editorial rhythm and visual character, but its content purposes and interaction patterns remain shared with future Manufacturing and Launch compositions.
+
+**Consequences:** `PremiumHomepage-001` derives its prop groups from child component interfaces and owns only section order and local token mapping. Shared sections remain theme-neutral. The mapping is Approved for reuse but is not a client theme, and must be revalidated if its color, type, spacing, or radius values change.
+
+## 2026-08-10 — Model manufacturing trust as evidence responsibilities
+
+**Decision:** Build the Manufacturing composition around facility context, capability inputs/outputs, quality checkpoints, and explicit buyer/supplier responsibilities. Keep all supplier facts in typed props and scope the visual mapping to `.manufacturing-homepage`.
+
+**Reason:** Manufacturing buyers need operational clarity and verifiable boundaries more than generic trust badges. A responsibility-led structure is reusable without inventing certifications, quantities, timing, or facility claims.
+
+**Consequences:** `FacilityOverview-001`, `CapabilityMatrix-001`, and `QualityFramework-001` expose claim-neutral structures that can be populated with client-verified evidence. `ManufacturingHomepage-001` owns only the approved nine-section order and local token mapping. All four entries are Approved for reuse and must be revalidated when interfaces or Manufacturing tokens change.
+
+## 2026-08-10 — Prove Launch through composition-only reuse
+
+**Decision:** Implement the Launch direction with zero new primitives or sections. Reuse eight Approved sections, express project readiness through `CapabilityMatrix-001` labels and content props, and scope the visual mapping to `.launch-homepage`.
+
+**Reason:** Early-stage buyers need a clearer decision sequence and lower information density, but those needs do not establish a new component purpose. Reusing the existing interfaces tests whether the shared library can create a genuinely distinct direction without duplication.
+
+**Consequences:** `LaunchHomepage-001` owns only the approved eight-section order and local token mapping. MOQ, timing, evidence, and readiness remain client-supplied facts or evaluation factors rather than defaults or promises. The composition is in Review; Phase 7 remains outside this decision.

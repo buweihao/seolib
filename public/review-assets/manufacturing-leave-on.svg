@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title description">
+  <title id="title">Abstract leave-on format</title>
+  <desc id="description">Original dropper vessel geometry with layered decision checkpoints.</desc>
+  <rect width="800" height="600" fill="#d8e2e7"/>
+  <rect x="290" y="205" width="220" height="300" rx="30" fill="#183950"/>
+  <rect x="330" y="130" width="140" height="95" rx="18" fill="#bb7b45"/>
+  <path d="M400 130V65" stroke="#183950" stroke-width="16"/>
+  <circle cx="400" cy="340" r="64" fill="none" stroke="#f8fafb" stroke-width="14"/>
+  <circle cx="400" cy="340" r="18" fill="#f8fafb"/>
+  <path d="M80 510H720" stroke="#48758f" stroke-width="18" stroke-dasharray="42 18"/>
+</svg>

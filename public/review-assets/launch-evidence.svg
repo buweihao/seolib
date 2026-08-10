@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-labelledby="title description">
+  <title id="title">Abstract question funnel</title>
+  <desc id="description">Scattered questions move through an original funnel into three clear review decisions.</desc>
+  <rect width="1200" height="900" fill="#dceee8"/>
+  <g fill="#f0b27d"><circle cx="150" cy="155" r="42"/><circle cx="340" cy="105" r="28"/><circle cx="535" cy="180" r="48"/><circle cx="755" cy="115" r="35"/><circle cx="1015" cy="170" r="45"/></g>
+  <path d="M120 260h960L760 565v140H440V565z" fill="#f8fcfa" stroke="#176458" stroke-width="16" stroke-linejoin="round"/>
+  <path d="M280 360h640M375 455h450" stroke="#88c8b4" stroke-width="20" stroke-linecap="round"/>
+  <rect x="230" y="750" width="220" height="90" rx="28" fill="#88c8b4"/>
+  <rect x="490" y="750" width="220" height="90" rx="28" fill="#2b8274"/>
+  <rect x="750" y="750" width="220" height="90" rx="28" fill="#176458"/>
+</svg>

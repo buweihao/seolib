@@ -1,0 +1,29 @@
+---
+interface Props {
+  size?: "reading" | "content" | "wide";
+  class?: string;
+}
+
+const { size = "content", class: className } = Astro.props;
+---
+
+<div class:list={["ds-container", className]} data-size={size}>
+  <slot />
+</div>
+
+<style>
+  .ds-container {
+    width: 100%;
+    max-width: var(--ds-container-content);
+    margin-inline: auto;
+    padding-inline: var(--ds-page-gutter);
+  }
+
+  .ds-container[data-size="reading"] {
+    max-width: var(--ds-container-reading);
+  }
+
+  .ds-container[data-size="wide"] {
+    max-width: var(--ds-container-wide);
+  }
+</style>

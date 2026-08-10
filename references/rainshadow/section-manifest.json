@@ -1,0 +1,15 @@
+{
+  "source": "home-full.png",
+  "sourceDimensions": { "width": 1905, "height": 4377 },
+  "sections": [
+    { "index": 1, "slug": "header", "startY": 0, "endY": 109, "confidence": "high", "notes": "Compact route navigation and two promotional notices." },
+    { "index": 2, "slug": "hero", "startY": 109, "endY": 562, "confidence": "high", "notes": "Natural formulation positioning with split imagery and text." },
+    { "index": 3, "slug": "trust-bar", "startY": 562, "endY": 714, "confidence": "medium", "notes": "Overlapping proof panel for cruelty-free, formulation, GMP, MOQ, and USA manufacturing." },
+    { "index": 4, "slug": "service-paths", "startY": 714, "endY": 936, "confidence": "high", "notes": "Buy direct, private label, and custom manufacturing routes." },
+    { "index": 5, "slug": "financing-promotion", "startY": 936, "endY": 1554, "confidence": "medium", "notes": "PayPal pay-later promotion; primarily transactional rather than manufacturing proof." },
+    { "index": 6, "slug": "product-categories", "startY": 1554, "endY": 2411, "confidence": "medium", "notes": "Category and featured-offer image grid." },
+    { "index": 7, "slug": "featured-products", "startY": 2411, "endY": 3183, "confidence": "medium", "notes": "Four shop-oriented featured products." },
+    { "index": 8, "slug": "company-introduction", "startY": 3183, "endY": 3569, "confidence": "medium", "notes": "Experience, location, certifications, and service summary." },
+    { "index": 9, "slug": "footer", "startY": 3569, "endY": 4377, "confidence": "high", "notes": "Contact strip, navigation columns, subscribe form, and payment footer." }
+  ]
+}

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1400" role="img" aria-labelledby="title description">
+  <title id="title">Abstract launch decision path</title>
+  <desc id="description">An original branching path connects an initial idea to several review decisions.</desc>
+  <rect width="1200" height="1400" fill="#dceee8"/>
+  <rect x="120" y="120" width="960" height="1160" rx="70" fill="#f8fcfa"/>
+  <circle cx="600" cy="260" r="105" fill="#f0b27d"/>
+  <path d="M600 365v180M600 545L325 770M600 545l275 225M325 770v230M875 770v230" fill="none" stroke="#176458" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="205" y="1000" width="240" height="150" rx="38" fill="#88c8b4"/>
+  <rect x="755" y="1000" width="240" height="150" rx="38" fill="#2b8274"/>
+  <circle cx="325" cy="770" r="54" fill="#f8fcfa" stroke="#176458" stroke-width="22"/>
+  <circle cx="875" cy="770" r="54" fill="#f8fcfa" stroke="#176458" stroke-width="22"/>
+  <path d="M260 1075h130M810 1075h130" stroke="#f8fcfa" stroke-width="20" stroke-linecap="round"/>
+</svg>

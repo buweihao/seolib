@@ -1,0 +1,20 @@
+{
+  "source": "home-full.png",
+  "sourceDimensions": { "width": 1920, "height": 10089 },
+  "sections": [
+    { "index": 1, "slug": "header", "startY": 0, "endY": 150, "confidence": "medium", "notes": "Announcement and navigation; lower edge blends into the blank hero capture." },
+    { "index": 2, "slug": "hero", "startY": 150, "endY": 1427, "confidence": "low", "notes": "The source capture is blank in the expected hero area; preserved without reconstruction." },
+    { "index": 3, "slug": "trust-bar", "startY": 1427, "endY": 1550, "confidence": "high", "notes": "Facility, GMP, experience, location, and MOQ proof points." },
+    { "index": 4, "slug": "service-paths", "startY": 1550, "endY": 2111, "confidence": "medium", "notes": "Three service models for private label, custom formulation, and contract manufacturing." },
+    { "index": 5, "slug": "product-categories", "startY": 2111, "endY": 3000, "confidence": "medium", "notes": "Six category cards showing formula breadth." },
+    { "index": 6, "slug": "process", "startY": 3000, "endY": 3878, "confidence": "medium", "notes": "Six-step concept-to-shelf process." },
+    { "index": 7, "slug": "laboratory", "startY": 3878, "endY": 4373, "confidence": "medium", "notes": "Miami laboratory proof with compliance and capability bullets." },
+    { "index": 8, "slug": "company-journey", "startY": 4373, "endY": 5819, "confidence": "high", "notes": "Dark timeline and summary metrics." },
+    { "index": 9, "slug": "testimonials", "startY": 5819, "endY": 6791, "confidence": "medium", "notes": "Three customer-story cards." },
+    { "index": 10, "slug": "resources", "startY": 6791, "endY": 7805, "confidence": "medium", "notes": "Manufacturing education and compliance article cards." },
+    { "index": 11, "slug": "lead-magnet", "startY": 7805, "endY": 8497, "confidence": "medium", "notes": "Email capture for a founder manufacturing checklist." },
+    { "index": 12, "slug": "quote-form", "startY": 8497, "endY": 9069, "confidence": "medium", "notes": "Dark inquiry section with response-time promise and staged form." },
+    { "index": 13, "slug": "social-feed", "startY": 9069, "endY": 9581, "confidence": "medium", "notes": "Instagram-style image grid." },
+    { "index": 14, "slug": "footer", "startY": 9581, "endY": 10089, "confidence": "high", "notes": "Service, company, contact, and compliance links." }
+  ]
+}

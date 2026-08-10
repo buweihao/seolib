@@ -1,0 +1,84 @@
+---
+import type { ComponentProps } from "astro/types";
+
+import BuyerPathways from "../sections/BuyerPathways.astro";
+import CapabilityMatrix from "../sections/CapabilityMatrix.astro";
+import FacilityOverview from "../sections/FacilityOverview.astro";
+import InquiryCTA from "../sections/InquiryCTA.astro";
+import ProcessSteps from "../sections/ProcessSteps.astro";
+import ProductFamilies from "../sections/ProductFamilies.astro";
+import ProofStrip from "../sections/ProofStrip.astro";
+import QualityFramework from "../sections/QualityFramework.astro";
+import StatementHero from "../sections/StatementHero.astro";
+
+interface Props {
+  hero: ComponentProps<typeof StatementHero>;
+  proof: ComponentProps<typeof ProofStrip>;
+  facility: ComponentProps<typeof FacilityOverview>;
+  capabilities: ComponentProps<typeof CapabilityMatrix>;
+  products: ComponentProps<typeof ProductFamilies>;
+  quality: ComponentProps<typeof QualityFramework>;
+  pathways: ComponentProps<typeof BuyerPathways>;
+  process: ComponentProps<typeof ProcessSteps>;
+  inquiry: ComponentProps<typeof InquiryCTA>;
+  class?: string;
+}
+
+const {
+  hero,
+  proof,
+  facility,
+  capabilities,
+  products,
+  quality,
+  pathways,
+  process,
+  inquiry,
+  class: className,
+} = Astro.props;
+---
+
+<main class:list={["manufacturing-homepage", className]}>
+  <StatementHero {...hero} />
+  <ProofStrip {...proof} />
+  <FacilityOverview {...facility} />
+  <CapabilityMatrix {...capabilities} />
+  <ProductFamilies {...products} />
+  <QualityFramework {...quality} />
+  <BuyerPathways {...pathways} />
+  <ProcessSteps {...process} />
+  <InquiryCTA {...inquiry} />
+</main>
+
+<style>
+  .manufacturing-homepage {
+    --ds-font-display: ui-sans-serif, system-ui, sans-serif;
+    --ds-color-canvas: oklch(97.5% 0.007 235);
+    --ds-color-surface: oklch(99.7% 0.003 235);
+    --ds-color-ink: oklch(22% 0.03 245);
+    --ds-color-muted: oklch(44% 0.025 245);
+    --ds-color-border: oklch(81% 0.022 235);
+    --ds-color-accent: oklch(36% 0.09 245);
+    --ds-color-accent-contrast: oklch(98% 0.005 235);
+    --ds-color-focus: oklch(61% 0.17 250);
+    --ds-section-standard: clamp(4rem, 8vw, 6rem);
+    --ds-section-feature: clamp(4.5rem, 9vw, 7.5rem);
+    --ds-radius-control: 0.25rem;
+    --ds-radius-card: 0.25rem;
+    --ds-radius-media: 0.25rem;
+    --ds-text-display: clamp(2.75rem, 6.5vw, 5.75rem);
+    --ds-leading-display: 1;
+
+    min-height: 100vh;
+    background: var(--ds-color-canvas);
+    color: var(--ds-color-ink);
+  }
+
+  .manufacturing-homepage :global(h1),
+  .manufacturing-homepage :global(h2),
+  .manufacturing-homepage :global(h3) {
+    font-family: var(--ds-font-display);
+    font-weight: 650;
+    letter-spacing: -0.025em;
+  }
+</style>

@@ -9,23 +9,40 @@ Use a stable lowercase site slug made from letters, numbers, and hyphens. Prefer
 ```text
 references/
   site-name/
-    screenshots/
-      home-desktop.png
-      home-mobile.png
-      hero-001.png
-      services-001.png
-      process-001.png
+    source/
+      home-full.png
+      home.pdf
+    sections/
+      01-header.png
+      02-hero.png
+      03-services.png
+    section-manifest.json
     html/
       home.html
     notes.md
 ```
 
-Only create folders that contain evidence. If HTML is not useful or should not be retained, omit the `html/` directory and record `Not saved` in the notes.
+Only create folders that contain evidence. `source/home-full.png` is the normalized, full-page source used for deterministic section crops. Keep a supplied PDF as `source/home.pdf` when present; do not invent missing formats. If HTML is not useful or should not be retained, omit the `html/` directory and record `Not saved` in the notes.
+
+## Reference index
+
+| Site | Primary value | Sections available | Analysis status |
+| --- | --- | ---: | --- |
+| Vitelle | Professional manufacturing proof and private-label journey | 10 | Desktop analyzed and crop set visually checked |
+| Laeyo | Procurement-oriented launch paths, MOQ, workflow, and audit proof | 12 | Desktop analyzed; fixed-navigation capture artifacts documented |
+| Romano | Broad service-to-quote funnel with laboratory and company history | 14 | Desktop analyzed; captured hero area needs source review |
+| Créer | Premium editorial positioning for brand development and creative services | 15 | Desktop analyzed; dense editorial transitions need human review |
+| RainShadow Labs | Commerce-first service paths, financing, and product discovery | 9 | Desktop analyzed; trust/service overlap visually checked |
+| YG Laboratories | Compact laboratory credibility and gated product catalog | 6 | Desktop analyzed; sparse catalog state needs human review |
+
+All six packages were ingested on 2026-08-10. Mobile evidence and confirmed source URLs were not supplied and remain explicitly unresolved.
 
 ## Naming rules
 
-- Page screenshots: `<page>-desktop.<ext>` and `<page>-mobile.<ext>`
-- Section screenshots: `<section>-<three-digit-index>.<ext>`
+- Normalized full-page screenshot: `source/<page>-full.<ext>`
+- Optional viewport screenshots: `<page>-desktop.<ext>` and `<page>-mobile.<ext>`
+- Section screenshots: `sections/<two-digit-index>-<section-slug>.<ext>`
+- Crop instructions: `section-manifest.json`
 - Saved HTML: `<page>.html`
 - Analysis: `notes.md`
 - Use lowercase ASCII slugs and hyphens; avoid spaces and timestamps in canonical names.

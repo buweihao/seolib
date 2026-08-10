@@ -1,0 +1,200 @@
+---
+import ActionLink from "../primitives/ActionLink.astro";
+import Container from "../primitives/Container.astro";
+import MediaFrame from "../primitives/MediaFrame.astro";
+import SectionHeading from "../primitives/SectionHeading.astro";
+
+interface FacilityMedia {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  aspect?: "portrait" | "landscape" | "square";
+}
+
+interface FacilityArea {
+  name: string;
+  description: string;
+  evidenceNote?: string;
+}
+
+interface FacilityAction {
+  href: string;
+  label: string;
+  ariaLabel?: string;
+}
+
+interface Props {
+  id: string;
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  media: FacilityMedia;
+  areas: readonly FacilityArea[];
+  verificationNote?: string;
+  primaryAction?: FacilityAction;
+  secondaryAction?: FacilityAction;
+  class?: string;
+}
+
+const {
+  id,
+  eyebrow,
+  title,
+  description,
+  media,
+  areas,
+  verificationNote,
+  primaryAction,
+  secondaryAction,
+  class: className,
+} = Astro.props;
+
+const headingId = `${id}-title`;
+---
+
+<section id={id} class:list={["facility-overview", className]} aria-labelledby={headingId}>
+  <Container size="wide">
+    <div class="facility-overview__grid">
+      <MediaFrame
+        class="facility-overview__media"
+        src={media.src}
+        alt={media.alt}
+        width={media.width}
+        height={media.height}
+        aspect={media.aspect ?? "landscape"}
+      />
+
+      <div class="facility-overview__content">
+        <SectionHeading
+          id={headingId}
+          eyebrow={eyebrow}
+          title={title}
+          description={description}
+        />
+
+        <ul class="facility-overview__areas" role="list">
+          {areas.map((area, index) => (
+            <li>
+              <span class="facility-overview__index" aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <div>
+                <h3>{area.name}</h3>
+                <p>{area.description}</p>
+                {area.evidenceNote && <p class="facility-overview__evidence">{area.evidenceNote}</p>}
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        {verificationNote && <p class="facility-overview__note">{verificationNote}</p>}
+
+        {(primaryAction || secondaryAction) && (
+          <div class="facility-overview__actions">
+            {primaryAction && (
+              <ActionLink
+                href={primaryAction.href}
+                label={primaryAction.label}
+                ariaLabel={primaryAction.ariaLabel}
+                variant="primary"
+              />
+            )}
+            {secondaryAction && (
+              <ActionLink
+                href={secondaryAction.href}
+                label={secondaryAction.label}
+                ariaLabel={secondaryAction.ariaLabel}
+                variant="text"
+              />
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  </Container>
+</section>
+
+<style>
+  .facility-overview {
+    border-block: 1px solid var(--ds-color-border);
+    background: var(--ds-color-surface);
+    padding-block: var(--ds-section-standard);
+  }
+
+  .facility-overview__grid {
+    display: grid;
+    gap: var(--ds-space-12);
+    align-items: start;
+  }
+
+  .facility-overview__areas {
+    display: grid;
+    gap: 0;
+    margin: var(--ds-space-8) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .facility-overview__areas li {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    gap: var(--ds-space-3);
+    border-top: 1px solid var(--ds-color-border);
+    padding-block: var(--ds-space-6);
+  }
+
+  .facility-overview__index {
+    color: var(--ds-color-accent);
+    font-size: 0.75rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+  }
+
+  .facility-overview__areas h3,
+  .facility-overview__areas p,
+  .facility-overview__note {
+    margin: 0;
+  }
+
+  .facility-overview__areas h3 {
+    font-size: 1.125rem;
+    line-height: 1.3;
+  }
+
+  .facility-overview__areas p {
+    margin-top: var(--ds-space-2);
+    color: var(--ds-color-muted);
+  }
+
+  .facility-overview__areas .facility-overview__evidence {
+    color: var(--ds-color-ink);
+    font-size: 0.875rem;
+    font-weight: 650;
+  }
+
+  .facility-overview__note {
+    border-left: 3px solid var(--ds-color-accent);
+    padding-left: var(--ds-space-4);
+    font-size: 0.9375rem;
+  }
+
+  .facility-overview__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ds-space-3) var(--ds-space-6);
+    margin-top: var(--ds-space-6);
+  }
+
+  @media (min-width: 64rem) {
+    .facility-overview__grid {
+      grid-template-columns: minmax(22rem, 0.9fr) minmax(0, 1.1fr);
+      gap: clamp(3rem, 7vw, 7rem);
+    }
+
+    .facility-overview__media {
+      position: sticky;
+      top: var(--ds-space-8);
+    }
+  }
+</style>

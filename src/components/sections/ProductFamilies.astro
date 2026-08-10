@@ -1,0 +1,143 @@
+---
+import ActionLink from "../primitives/ActionLink.astro";
+import Container from "../primitives/Container.astro";
+import MediaFrame from "../primitives/MediaFrame.astro";
+import SectionHeading from "../primitives/SectionHeading.astro";
+
+interface ProductFamilyMedia {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  aspect?: "portrait" | "landscape" | "square";
+}
+
+interface ProductFamilyAction {
+  href: string;
+  label: string;
+  ariaLabel?: string;
+}
+
+interface ProductFamily {
+  name: string;
+  description: string;
+  media?: ProductFamilyMedia;
+  action?: ProductFamilyAction;
+}
+
+interface Props {
+  id: string;
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  families: readonly ProductFamily[];
+  class?: string;
+}
+
+const {
+  id,
+  eyebrow,
+  title,
+  description,
+  families,
+  class: className,
+} = Astro.props;
+
+const headingId = `${id}-title`;
+---
+
+<section id={id} class:list={["product-families", className]} aria-labelledby={headingId}>
+  <Container size="wide">
+    <SectionHeading
+      id={headingId}
+      eyebrow={eyebrow}
+      title={title}
+      description={description}
+    />
+
+    <ul class="product-families__list" role="list">
+      {families.map((family) => (
+        <li>
+          <article class="product-families__card">
+            {family.media && (
+              <MediaFrame
+                src={family.media.src}
+                alt={family.media.alt}
+                width={family.media.width}
+                height={family.media.height}
+                aspect={family.media.aspect ?? "landscape"}
+              />
+            )}
+            <div class="product-families__content">
+              <h3>{family.name}</h3>
+              <p>{family.description}</p>
+              {family.action && (
+                <ActionLink
+                  href={family.action.href}
+                  label={family.action.label}
+                  ariaLabel={family.action.ariaLabel}
+                  variant="text"
+                />
+              )}
+            </div>
+          </article>
+        </li>
+      ))}
+    </ul>
+  </Container>
+</section>
+
+<style>
+  .product-families {
+    padding-block: var(--ds-section-standard);
+  }
+
+  .product-families__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    gap: var(--ds-space-8) var(--ds-space-6);
+    margin: var(--ds-space-12) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .product-families__card {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+  }
+
+  .product-families__content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    border-top: 1px solid var(--ds-color-border);
+    padding-top: var(--ds-space-6);
+  }
+
+  .product-families__card :global(.media-frame) + .product-families__content {
+    margin-top: var(--ds-space-6);
+  }
+
+  .product-families__content h3,
+  .product-families__content p {
+    margin: 0;
+  }
+
+  .product-families__content h3 {
+    font-size: clamp(1.35rem, 2vw, 1.75rem);
+    font-weight: 550;
+    line-height: 1.2;
+  }
+
+  .product-families__content > p {
+    flex: 1;
+    margin-top: var(--ds-space-3);
+    color: var(--ds-color-muted);
+  }
+
+  .product-families__content > :global(.action-link) {
+    align-self: flex-start;
+    margin-top: var(--ds-space-4);
+  }
+</style>

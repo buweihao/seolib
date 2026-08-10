@@ -1,0 +1,16 @@
+{
+  "source": "home-full.png",
+  "sourceDimensions": { "width": 1905, "height": 7088 },
+  "sections": [
+    { "index": 1, "slug": "header", "startY": 0, "endY": 113, "confidence": "high", "notes": "Utility bar and primary navigation end at the hero image." },
+    { "index": 2, "slug": "hero", "startY": 113, "endY": 802, "confidence": "high", "notes": "Award-led hero plus the science positioning strapline." },
+    { "index": 3, "slug": "startup-introduction", "startY": 802, "endY": 1241, "confidence": "high", "notes": "Private-label readiness message and get-started CTA." },
+    { "index": 4, "slug": "brand-showcase-video", "startY": 1241, "endY": 1939, "confidence": "high", "notes": "Full-width video proof showing a possible branded product line." },
+    { "index": 5, "slug": "why-choose-us", "startY": 1939, "endY": 2567, "confidence": "high", "notes": "Four capability claims paired with laboratory staff imagery." },
+    { "index": 6, "slug": "facility-video", "startY": 2567, "endY": 3377, "confidence": "high", "notes": "Facility journey video used as operational proof." },
+    { "index": 7, "slug": "product-collections", "startY": 3377, "endY": 4314, "confidence": "high", "notes": "Three product collection paths mapped to professional buyer types." },
+    { "index": 8, "slug": "education-videos", "startY": 4314, "endY": 4701, "confidence": "high", "notes": "Two educational video entry points for getting started and medspa programs." },
+    { "index": 9, "slug": "private-label-process", "startY": 4701, "endY": 6479, "confidence": "medium", "notes": "Decorative product interstitial leads into the six-step private-label process." },
+    { "index": 10, "slug": "footer", "startY": 6479, "endY": 7088, "confidence": "high", "notes": "Company details, quick links, product links, and brochure CTA." }
+  ]
+}

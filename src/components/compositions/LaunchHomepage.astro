@@ -1,0 +1,80 @@
+---
+import type { ComponentProps } from "astro/types";
+
+import BuyerPathways from "../sections/BuyerPathways.astro";
+import CapabilityMatrix from "../sections/CapabilityMatrix.astro";
+import EvidenceFeature from "../sections/EvidenceFeature.astro";
+import InquiryCTA from "../sections/InquiryCTA.astro";
+import ProcessSteps from "../sections/ProcessSteps.astro";
+import ProductFamilies from "../sections/ProductFamilies.astro";
+import ProofStrip from "../sections/ProofStrip.astro";
+import StatementHero from "../sections/StatementHero.astro";
+
+interface Props {
+  hero: ComponentProps<typeof StatementHero>;
+  proof: ComponentProps<typeof ProofStrip>;
+  pathways: ComponentProps<typeof BuyerPathways>;
+  products: ComponentProps<typeof ProductFamilies>;
+  readiness: ComponentProps<typeof CapabilityMatrix>;
+  evidence: ComponentProps<typeof EvidenceFeature>;
+  process: ComponentProps<typeof ProcessSteps>;
+  inquiry: ComponentProps<typeof InquiryCTA>;
+  class?: string;
+}
+
+const {
+  hero,
+  proof,
+  pathways,
+  products,
+  readiness,
+  evidence,
+  process,
+  inquiry,
+  class: className,
+} = Astro.props;
+---
+
+<main class:list={["launch-homepage", className]}>
+  <StatementHero {...hero} />
+  <ProofStrip {...proof} />
+  <BuyerPathways {...pathways} />
+  <ProductFamilies {...products} />
+  <CapabilityMatrix {...readiness} />
+  <EvidenceFeature {...evidence} />
+  <ProcessSteps {...process} />
+  <InquiryCTA {...inquiry} />
+</main>
+
+<style>
+  .launch-homepage {
+    --ds-font-display: ui-sans-serif, system-ui, sans-serif;
+    --ds-color-canvas: oklch(98% 0.012 175);
+    --ds-color-surface: oklch(99.7% 0.004 175);
+    --ds-color-ink: oklch(22% 0.035 225);
+    --ds-color-muted: oklch(45% 0.03 220);
+    --ds-color-border: oklch(84% 0.025 180);
+    --ds-color-accent: oklch(39% 0.095 180);
+    --ds-color-accent-contrast: oklch(99% 0.006 175);
+    --ds-color-focus: oklch(60% 0.17 250);
+    --ds-section-standard: clamp(4.5rem, 9vw, 6.75rem);
+    --ds-section-feature: clamp(5rem, 10vw, 8.5rem);
+    --ds-radius-control: 0.5rem;
+    --ds-radius-card: 1rem;
+    --ds-radius-media: 1rem;
+    --ds-text-display: clamp(3rem, 7vw, 6rem);
+    --ds-leading-display: 1;
+
+    min-height: 100vh;
+    background: var(--ds-color-canvas);
+    color: var(--ds-color-ink);
+  }
+
+  .launch-homepage :global(h1),
+  .launch-homepage :global(h2),
+  .launch-homepage :global(h3) {
+    font-family: var(--ds-font-display);
+    font-weight: 650;
+    letter-spacing: -0.03em;
+  }
+</style>

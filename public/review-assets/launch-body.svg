@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title description">
+  <title id="title">Abstract body care direction</title>
+  <desc id="description">An original jar and flowing shapes represent an open body care direction.</desc>
+  <rect width="800" height="600" fill="#edf6f2"/>
+  <path d="M0 170c180-90 280 80 430 10s240-40 370 40V0H0z" fill="#88c8b4"/>
+  <rect x="245" y="275" width="310" height="225" rx="55" fill="#f9fcfb" stroke="#176458" stroke-width="12"/>
+  <rect x="225" y="215" width="350" height="95" rx="30" fill="#2b8274"/>
+  <path d="M100 470c150-100 220 55 350-5s220-45 300 15" fill="none" stroke="#f0b27d" stroke-width="26" stroke-linecap="round"/>
+</svg>

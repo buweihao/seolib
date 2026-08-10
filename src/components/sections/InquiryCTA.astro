@@ -1,0 +1,142 @@
+---
+import ActionLink from "../primitives/ActionLink.astro";
+import Container from "../primitives/Container.astro";
+import SectionHeading from "../primitives/SectionHeading.astro";
+
+interface InquiryAction {
+  href: string;
+  label: string;
+  ariaLabel?: string;
+}
+
+interface Props {
+  id: string;
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  preparationItems: readonly string[];
+  primaryAction: InquiryAction;
+  secondaryAction?: InquiryAction;
+  class?: string;
+}
+
+const {
+  id,
+  eyebrow,
+  title,
+  description,
+  preparationItems,
+  primaryAction,
+  secondaryAction,
+  class: className,
+} = Astro.props;
+
+const headingId = `${id}-title`;
+---
+
+<section id={id} class:list={["inquiry-cta", className]} aria-labelledby={headingId}>
+  <Container size="wide">
+    <div class="inquiry-cta__grid">
+      <div>
+        <SectionHeading
+          id={headingId}
+          eyebrow={eyebrow}
+          title={title}
+          description={description}
+        />
+        <div class="inquiry-cta__actions">
+          <ActionLink
+            href={primaryAction.href}
+            label={primaryAction.label}
+            ariaLabel={primaryAction.ariaLabel}
+            variant="primary"
+          />
+          {secondaryAction && (
+            <ActionLink
+              href={secondaryAction.href}
+              label={secondaryAction.label}
+              ariaLabel={secondaryAction.ariaLabel}
+              variant="text"
+            />
+          )}
+        </div>
+      </div>
+
+      <div class="inquiry-cta__preparation">
+        <p>Helpful information to prepare</p>
+        <ul>
+          {preparationItems.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+  </Container>
+</section>
+
+<style>
+  .inquiry-cta {
+    --ds-color-accent: oklch(91% 0.025 85);
+    --ds-color-accent-contrast: oklch(23% 0.025 155);
+    --ds-color-muted: oklch(83% 0.012 85);
+
+    background: var(--ds-color-ink);
+    color: var(--ds-color-canvas);
+    padding-block: var(--ds-section-feature);
+  }
+
+  .inquiry-cta__grid {
+    display: grid;
+    gap: var(--ds-space-12);
+    align-items: end;
+  }
+
+  .inquiry-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ds-space-3) var(--ds-space-6);
+    margin-top: var(--ds-space-8);
+  }
+
+  .inquiry-cta__preparation {
+    border-top: 1px solid color-mix(in oklch, var(--ds-color-canvas), transparent 68%);
+    padding-top: var(--ds-space-6);
+  }
+
+  .inquiry-cta__preparation > p {
+    margin: 0;
+    color: var(--ds-color-accent);
+    font-size: 0.75rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .inquiry-cta__preparation ul {
+    display: grid;
+    gap: var(--ds-space-3);
+    margin: var(--ds-space-6) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .inquiry-cta__preparation li {
+    position: relative;
+    padding-left: var(--ds-space-6);
+  }
+
+  .inquiry-cta__preparation li::before {
+    position: absolute;
+    top: 0.65em;
+    left: 0;
+    width: 0.5rem;
+    height: 1px;
+    background: var(--ds-color-accent);
+    content: "";
+  }
+
+  @media (min-width: 64rem) {
+    .inquiry-cta__grid {
+      grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr);
+      gap: clamp(4rem, 9vw, 10rem);
+    }
+  }
+</style>

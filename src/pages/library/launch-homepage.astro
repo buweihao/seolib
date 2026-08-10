@@ -1,0 +1,240 @@
+---
+import type { ComponentProps } from "astro/types";
+
+import LaunchHomepage from "../../components/compositions/LaunchHomepage.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const launchHomepage = {
+  hero: {
+    id: "launch-hero",
+    eyebrow: "Internal launch review",
+    title: "Start with the decisions that make a launch easier to evaluate.",
+    description:
+      "An approachable homepage study for helping an early-stage buyer choose a starting route, understand the factors that shape scope, and prepare a useful first brief.",
+    primaryAction: {
+      href: "#launch-inquiry",
+      label: "Prepare a starting brief",
+    },
+    secondaryAction: {
+      href: "#launch-pathways",
+      label: "Choose a starting route",
+    },
+    media: {
+      src: "/review-assets/launch-hero.svg",
+      alt: "Abstract branching path connecting an initial idea to several review decisions",
+      width: 1200,
+      height: 1400,
+    },
+  },
+  proof: {
+    label: "Launch planning principles",
+    items: [
+      { title: "Choose a starting route", detail: "Match the conversation to what is already decided." },
+      { title: "Ask before estimating", detail: "Make scope factors visible before discussing conditions." },
+      { title: "Keep evidence gates", detail: "Define what must be reviewed before a decision advances." },
+      { title: "Name decision owners", detail: "Separate buyer choices from supplier confirmation." },
+    ],
+  },
+  pathways: {
+    id: "launch-pathways",
+    eyebrow: "Starting routes",
+    title: "Begin from the decision you can make now.",
+    description:
+      "These neutral routes organize the first conversation by project maturity. They do not represent fixed service models or commercial terms.",
+    pathways: [
+      {
+        title: "Shape an initial idea",
+        description: "Turn an audience, use case, and market intention into a focused set of product questions.",
+        decisionCue: "Useful when the opportunity is clearer than the product direction.",
+        action: { href: "#launch-products", label: "Explore product framing" },
+      },
+      {
+        title: "Adapt a defined direction",
+        description: "Start from a known format and identify the product, presentation, and evidence decisions still open.",
+        decisionCue: "Useful when the category is chosen but the scope needs boundaries.",
+        action: { href: "#launch-readiness", label: "Review scope factors" },
+      },
+      {
+        title: "Structure a ready brief",
+        description: "Organize existing requirements into inputs, questions, acceptance criteria, and review gates.",
+        decisionCue: "Useful when many decisions exist but are not yet in one accountable brief.",
+        action: { href: "#launch-process", label: "Review the sequence" },
+      },
+    ],
+  },
+  products: {
+    id: "launch-products",
+    eyebrow: "Product direction study",
+    title: "Use a small range to clarify the first brief.",
+    description:
+      "These fictional families test category framing only. They are not a supplier catalogue, formula list, minimum-order promise, or availability statement.",
+    families: [
+      {
+        name: "Daily essentials",
+        description: "Frame familiar routine roles, pack context, and the decisions needed to keep an initial range coherent.",
+        media: {
+          src: "/review-assets/launch-daily.svg",
+          alt: "Abstract group of simple vessels representing a small daily routine",
+          width: 800,
+          height: 600,
+        },
+        action: { href: "#launch-readiness", label: "Check readiness factors" },
+      },
+      {
+        name: "Focused routines",
+        description: "Organize a narrower use case around clear expectations, evidence needs, and packaging questions.",
+        media: {
+          src: "/review-assets/launch-focused.svg",
+          alt: "Abstract focused vessel connected to three decision points",
+          width: 800,
+          height: 600,
+        },
+        action: { href: "#launch-readiness", label: "Check readiness factors" },
+      },
+      {
+        name: "Body care directions",
+        description: "Explore format and routine possibilities while keeping fill, pack, and review assumptions explicit.",
+        media: {
+          src: "/review-assets/launch-body.svg",
+          alt: "Abstract jar and flowing shapes representing a body care direction",
+          width: 800,
+          height: 600,
+        },
+        action: { href: "#launch-readiness", label: "Check readiness factors" },
+      },
+    ],
+  },
+  readiness: {
+    id: "launch-readiness",
+    eyebrow: "Launch readiness",
+    title: "Understand what changes the project before asking for terms.",
+    description:
+      "Minimums, timing, and project complexity depend on verified inputs. This fixture demonstrates the questions to resolve and makes no commercial promise.",
+    labels: {
+      buyerInput: "What to prepare",
+      supplierOutput: "What to confirm",
+      evidence: "Why it affects scope",
+    },
+    items: [
+      {
+        name: "Product scope",
+        description: "Define the routine role, number of directions, and decisions that must remain connected.",
+        buyerInput: "Audience, intended use, priority directions, and what can be deferred.",
+        supplierOutput: "A bounded scope with dependencies and unresolved questions.",
+        evidenceNote: "A broader or less-defined scope changes the work required before evaluation.",
+      },
+      {
+        name: "Packaging status",
+        description: "Make the selected, preferred, and still-open packaging decisions visible.",
+        buyerInput: "Known formats, artwork status, sourcing assumptions, and constraints.",
+        supplierOutput: "Compatibility questions and packaging dependencies to validate.",
+        evidenceNote: "Packaging readiness can affect sampling, review sequence, minimums, and timing.",
+      },
+      {
+        name: "Evidence needs",
+        description: "Identify the statements, markets, and acceptance criteria that require support.",
+        buyerInput: "Intended claims, destination needs, and evidence expectations.",
+        supplierOutput: "A list of what can be reviewed now and what needs further validation.",
+        evidenceNote: "Different evidence requirements change the gates needed before approval.",
+      },
+      {
+        name: "Decision ownership",
+        description: "Clarify who approves product, packaging, evidence, and commercial trade-offs.",
+        buyerInput: "Named reviewers, priorities, and the decisions each person owns.",
+        supplierOutput: "A review sequence with responsibilities and blocked dependencies.",
+        evidenceNote: "Clear ownership reduces avoidable waiting without promising a delivery date.",
+      },
+    ],
+  },
+  evidence: {
+    id: "launch-evidence",
+    eyebrow: "Reduce uncertainty",
+    title: "A smaller set of open questions makes the next step more useful.",
+    description:
+      "Launch readiness is not about having every answer. It is about knowing which decisions are fixed, which remain open, and what evidence is needed next.",
+    points: [
+      {
+        title: "Separate fixed decisions from preferences",
+        description: "This allows a supplier to see where alternatives are acceptable and where they are not.",
+      },
+      {
+        title: "Define what approval means",
+        description: "State the criteria a direction must satisfy before it can move forward.",
+      },
+      {
+        title: "Keep market needs explicit",
+        description: "Treat destination and evidence needs as project inputs rather than late-stage assumptions.",
+      },
+    ],
+    media: {
+      src: "/review-assets/launch-evidence.svg",
+      alt: "Abstract funnel organizing scattered questions into three clear review decisions",
+      width: 1200,
+      height: 900,
+      aspect: "landscape",
+    },
+    mediaPosition: "end",
+    action: { href: "#launch-process", label: "See the brief-building sequence" },
+  },
+  process: {
+    id: "launch-process",
+    eyebrow: "Brief-building sequence",
+    title: "Move from an idea to an assessable starting point.",
+    description: "The sequence keeps early work short, visible, and tied to the next decision.",
+    steps: [
+      {
+        title: "Frame the opportunity",
+        description: "Describe the audience, use context, market, and commercial intention in plain language.",
+        buyerAction: "Share the opportunity, constraints, and decisions already made.",
+        supplierAction: "Identify the missing context required to assess fit.",
+      },
+      {
+        title: "Choose a starting route",
+        description: "Select the route that matches the maturity of the product and packaging decisions.",
+        buyerAction: "Prioritize what must be distinctive and what can remain flexible.",
+        supplierAction: "Explain the questions and dependencies associated with the route.",
+      },
+      {
+        title: "Define review criteria",
+        description: "Record what needs to be supported, compared, and approved before the scope advances.",
+        buyerAction: "Name approval criteria and decision owners.",
+        supplierAction: "Map criteria to evidence, samples, or further validation.",
+      },
+      {
+        title: "Prepare the first inquiry",
+        description: "Consolidate the known facts, open questions, and desired next output into one brief.",
+        buyerAction: "Confirm priorities and include the minimum useful context.",
+        supplierAction: "Return an assessment bounded by the information provided.",
+      },
+    ],
+  },
+  inquiry: {
+    id: "launch-inquiry",
+    eyebrow: "Launch review handoff",
+    title: "Bring enough context to get a useful next question.",
+    description:
+      "This static fixture demonstrates qualification and CTA hierarchy only. It does not submit a form or promise minimums, timing, pricing, or a supplier response.",
+    preparationItems: [
+      "Audience, market, and intended use",
+      "Preferred product direction",
+      "Packaging status and constraints",
+      "The next decision you need to make",
+    ],
+    primaryAction: {
+      href: "mailto:launch-review@example.invalid",
+      label: "Open a review email",
+    },
+    secondaryAction: {
+      href: "#launch-hero",
+      label: "Return to the starting brief",
+    },
+  },
+} satisfies ComponentProps<typeof LaunchHomepage>;
+---
+
+<BaseLayout
+  title="Launch Homepage Composition Review"
+  description="Internal review fixture for the Launch homepage composition."
+>
+  <LaunchHomepage {...launchHomepage} />
+</BaseLayout>

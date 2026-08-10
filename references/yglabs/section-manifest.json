@@ -1,0 +1,12 @@
+{
+  "source": "home-full.png",
+  "sourceDimensions": { "width": 1905, "height": 2314 },
+  "sections": [
+    { "index": 1, "slug": "header", "startY": 0, "endY": 159, "confidence": "high", "notes": "Utility links, identity, shop-oriented navigation, and contact route." },
+    { "index": 2, "slug": "hero", "startY": 159, "endY": 760, "confidence": "high", "notes": "Carousel hero centered on 50 years of formulation experience." },
+    { "index": 3, "slug": "science-positioning", "startY": 760, "endY": 1009, "confidence": "medium", "notes": "Experience and chemistry narrative with a shop CTA." },
+    { "index": 4, "slug": "value-pillars", "startY": 1009, "endY": 1460, "confidence": "medium", "notes": "Four equal columns covering private label, custom development, education, and experience." },
+    { "index": 5, "slug": "best-selling-products", "startY": 1460, "endY": 2026, "confidence": "medium", "notes": "Sparse commerce-oriented best-seller display with login-gated pricing." },
+    { "index": 6, "slug": "footer", "startY": 2026, "endY": 2314, "confidence": "high", "notes": "Contact bar plus product, development, resource, and newsletter links." }
+  ]
+}

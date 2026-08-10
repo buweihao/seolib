@@ -1,0 +1,200 @@
+---
+import type { ComponentProps } from "astro/types";
+
+import PremiumHomepage from "../../components/compositions/PremiumHomepage.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const premiumHomepage = {
+  hero: {
+    id: "premium-hero",
+    eyebrow: "Internal composition review",
+    title: "Build a product direction that can withstand better questions.",
+    description:
+      "A calm, evidence-led homepage study for evaluating how positioning, capability context, and buyer decisions can form one coherent path.",
+    primaryAction: {
+      href: "#premium-inquiry",
+      label: "Prepare a review brief",
+    },
+    secondaryAction: {
+      href: "#premium-products",
+      label: "Explore product directions",
+    },
+    media: {
+      src: "/review-assets/premium-hero.svg",
+      alt: "Abstract arrangement of vessels, leaves, and layered geometric forms",
+      width: 1200,
+      height: 1400,
+    },
+  },
+  proof: {
+    label: "Working principles",
+    items: [
+      { title: "Scope before styling", detail: "Clarify the decision the page must support." },
+      { title: "Evidence before claims", detail: "Pair each statement with appropriate context." },
+      { title: "Review gates stay visible", detail: "Keep unresolved choices explicit." },
+      { title: "Decisions remain traceable", detail: "Preserve the reasoning behind each direction." },
+    ],
+  },
+  evidence: {
+    id: "premium-evidence",
+    eyebrow: "Evidence architecture",
+    title: "Make the reasoning as legible as the result.",
+    description:
+      "The composition separates positioning language from supporting context so a buyer can understand what is proposed, what informs it, and what still needs validation.",
+    points: [
+      {
+        title: "Frame the commercial question",
+        description: "Start with audience, channel, price position, and intended use—not a preselected format.",
+      },
+      {
+        title: "Name the proof required",
+        description: "Map each important statement to the documentation, test, or review that would support it.",
+      },
+      {
+        title: "Keep assumptions reversible",
+        description: "Separate early creative direction from verified supplier and product facts.",
+      },
+    ],
+    media: {
+      src: "/review-assets/premium-evidence.svg",
+      alt: "Abstract grid of botanical and material-study shapes",
+      width: 1200,
+      height: 900,
+      aspect: "landscape",
+    },
+    mediaPosition: "start",
+    action: {
+      href: "#premium-process",
+      label: "See the review sequence",
+    },
+  },
+  products: {
+    id: "premium-products",
+    eyebrow: "Product family study",
+    title: "Organize possibilities around customer routines.",
+    description:
+      "These fictional directions test category framing only. They are not a catalogue, supplier capability statement, or product claim.",
+    families: [
+      {
+        name: "Daily care systems",
+        description: "A modular direction for familiar steps that need a clear role within one routine.",
+        media: {
+          src: "/review-assets/product-daily.svg",
+          alt: "Abstract bottles and a circular form representing a daily care set",
+          width: 800,
+          height: 600,
+        },
+        action: { href: "#premium-pathways", label: "Consider this pathway" },
+      },
+      {
+        name: "Targeted treatment concepts",
+        description: "A focused direction for communicating a defined use occasion without overstating outcomes.",
+        media: {
+          src: "/review-assets/product-targeted.svg",
+          alt: "Abstract dropper form with layered geometric accents",
+          width: 800,
+          height: 600,
+        },
+        action: { href: "#premium-pathways", label: "Consider this pathway" },
+      },
+      {
+        name: "Body and ritual formats",
+        description: "An experiential direction for texture, sequence, and presentation across a broader routine.",
+        media: {
+          src: "/review-assets/product-ritual.svg",
+          alt: "Abstract jar and flowing forms representing a body care ritual",
+          width: 800,
+          height: 600,
+        },
+        action: { href: "#premium-pathways", label: "Consider this pathway" },
+      },
+    ],
+  },
+  pathways: {
+    id: "premium-pathways",
+    eyebrow: "Buyer pathways",
+    title: "Choose the conversation that matches the current decision.",
+    description: "Each route asks for a different level of definition before development begins.",
+    pathways: [
+      {
+        title: "Clarify a new direction",
+        description: "Turn an audience and market opportunity into a focused product brief.",
+        decisionCue: "Useful when the commercial intent is clearer than the format.",
+        action: { href: "#premium-process", label: "Review the sequence" },
+      },
+      {
+        title: "Structure an existing idea",
+        description: "Organize known requirements, open questions, and evidence needs into a workable scope.",
+        decisionCue: "Useful when a concept exists but its dependencies are scattered.",
+        action: { href: "#premium-process", label: "Review the sequence" },
+      },
+      {
+        title: "Evaluate a range extension",
+        description: "Test how a new family could relate to the logic and expectations of an existing range.",
+        decisionCue: "Useful when coherence matters as much as novelty.",
+        action: { href: "#premium-process", label: "Review the sequence" },
+      },
+    ],
+  },
+  process: {
+    id: "premium-process",
+    eyebrow: "Review sequence",
+    title: "Move from intent to an accountable brief.",
+    description: "The sequence keeps buyer inputs and supplier validation responsibilities distinct.",
+    steps: [
+      {
+        title: "Define the decision",
+        description: "Agree on the audience, use context, constraints, and success criteria for the review.",
+        buyerAction: "Share commercial context and non-negotiable requirements.",
+        supplierAction: "Identify gaps, dependencies, and questions requiring validation.",
+      },
+      {
+        title: "Shape the direction",
+        description: "Compare a small number of product and positioning routes against the agreed criteria.",
+        buyerAction: "Prioritize routes and explain the commercial trade-offs.",
+        supplierAction: "Frame feasibility considerations without presenting assumptions as facts.",
+      },
+      {
+        title: "Map the evidence",
+        description: "List the records, samples, tests, and reviews needed before important statements are used.",
+        buyerAction: "Confirm the claims and markets that matter to the project.",
+        supplierAction: "Define what can be documented and what needs further work.",
+      },
+      {
+        title: "Approve the brief",
+        description: "Record the selected direction, unresolved items, owners, and the next review gate.",
+        buyerAction: "Approve scope and decision criteria.",
+        supplierAction: "Confirm deliverables, assumptions, and validation steps.",
+      },
+    ],
+  },
+  inquiry: {
+    id: "premium-inquiry",
+    eyebrow: "Review handoff",
+    title: "Bring the context that makes the next conversation useful.",
+    description:
+      "This static review fixture demonstrates CTA hierarchy only. It does not submit a form or represent a live supplier response promise.",
+    preparationItems: [
+      "Target audience and sales channel",
+      "Market, timing, and working range",
+      "Existing references or constraints",
+      "Questions that must be answered next",
+    ],
+    primaryAction: {
+      href: "mailto:review@example.invalid",
+      label: "Open a review email",
+    },
+    secondaryAction: {
+      href: "#premium-hero",
+      label: "Return to the review brief",
+    },
+  },
+} satisfies ComponentProps<typeof PremiumHomepage>;
+---
+
+<BaseLayout
+  title="Premium Homepage Composition Review"
+  description="Internal review fixture for the Premium homepage composition."
+>
+  <PremiumHomepage {...premiumHomepage} />
+</BaseLayout>

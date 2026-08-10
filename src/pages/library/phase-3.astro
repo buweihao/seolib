@@ -1,0 +1,132 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../../components/primitives/Container.astro";
+import ActionLink from "../../components/primitives/ActionLink.astro";
+import BuyerPathways from "../../components/sections/BuyerPathways.astro";
+import ProcessSteps from "../../components/sections/ProcessSteps.astro";
+import ProofStrip from "../../components/sections/ProofStrip.astro";
+
+const proofItems = [
+  { title: "Requirements documented", detail: "Project assumptions remain visible for review." },
+  { title: "Decision gates defined", detail: "Approvals are named before work advances." },
+  { title: "Routes kept distinct", detail: "Each path explains its level of customization." },
+  { title: "Next action stated", detail: "Buyers can see what information is needed next." },
+] as const;
+
+const pathways = [
+  {
+    title: "Start from an existing base",
+    description: "Choose this route when speed and a focused set of decisions matter more than formula ownership.",
+    decisionCue: "Best fit: a clear brief with limited development variables.",
+    action: { href: "#review-process", label: "Review the workflow", ariaLabel: "Review the example workflow for an existing base" },
+  },
+  {
+    title: "Adapt a proven direction",
+    description: "Use a guided development route when the product needs meaningful changes without a fully open brief.",
+    decisionCue: "Best fit: defined goals with selected formulation or packaging changes.",
+    action: { href: "#review-process", label: "Review the workflow", ariaLabel: "Review the example workflow for an adapted direction" },
+  },
+  {
+    title: "Develop a custom concept",
+    description: "Use a custom route when differentiation, testing scope, and decision ownership are central to the project.",
+    decisionCue: "Best fit: a detailed brief and capacity for additional review gates.",
+    action: { href: "#review-process", label: "Review the workflow", ariaLabel: "Review the example workflow for a custom concept" },
+  },
+] as const;
+
+const steps = [
+  {
+    title: "Align the brief",
+    description: "Confirm the intended user, product direction, market context, and open decisions before selecting a route.",
+    buyerAction: "Share goals, constraints, and available references.",
+    supplierAction: "Identify missing inputs and propose an appropriate route.",
+  },
+  {
+    title: "Review the proposal",
+    description: "Compare scope, assumptions, dependencies, and decision gates before development begins.",
+    buyerAction: "Confirm priorities and flag unresolved requirements.",
+    supplierAction: "Document scope boundaries and the review sequence.",
+  },
+  {
+    title: "Evaluate the sample",
+    description: "Assess the agreed characteristics against the brief and consolidate feedback into one review cycle.",
+    buyerAction: "Return structured observations from the agreed reviewers.",
+    supplierAction: "Explain changes, tradeoffs, and the next approval gate.",
+  },
+  {
+    title: "Confirm readiness",
+    description: "Close outstanding decisions and verify that approved specifications and production inputs are aligned.",
+    buyerAction: "Approve the recorded specification and supplied assets.",
+    supplierAction: "Confirm that required inputs are complete before proceeding.",
+  },
+] as const;
+---
+
+<BaseLayout
+  title="Phase 3 Component Review"
+  description="Internal review fixture for the Phase 3 core component library."
+>
+  <main>
+    <section class="review-intro" aria-labelledby="review-title">
+      <Container size="reading">
+        <p class="review-intro__eyebrow">Internal review fixture</p>
+        <h1 id="review-title">Phase 3 core components</h1>
+        <p>
+          This page uses neutral example content to inspect component structure, responsive behavior, and
+          accessibility. It is not a homepage, client theme, or factual supplier presentation.
+        </p>
+        <ActionLink href="#review-pathways" label="Start component review" variant="primary" />
+      </Container>
+    </section>
+
+    <ProofStrip label="Illustrative supplier proof statements" items={proofItems} />
+
+    <BuyerPathways
+      id="review-pathways"
+      eyebrow="Choose a working route"
+      title="Match the path to the decisions already made"
+      description="The options describe different levels of readiness and control without presenting one route as universally best."
+      pathways={pathways}
+    />
+
+    <ProcessSteps
+      id="review-process"
+      eyebrow="Example working sequence"
+      title="Make responsibilities visible at every gate"
+      description="A short ordered process helps both sides understand what is being decided, who contributes, and what permits the project to advance."
+      steps={steps}
+    />
+  </main>
+</BaseLayout>
+
+<style>
+  .review-intro {
+    padding-block: var(--ds-section-feature);
+  }
+
+  .review-intro__eyebrow {
+    margin: 0 0 var(--ds-space-4);
+    color: var(--ds-color-accent);
+    font-size: 0.8125rem;
+    font-weight: 750;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .review-intro h1,
+  .review-intro p {
+    margin-top: 0;
+  }
+
+  .review-intro h1 {
+    margin-bottom: var(--ds-space-6);
+    font-size: var(--ds-text-display);
+    line-height: var(--ds-leading-display);
+  }
+
+  .review-intro p:not(.review-intro__eyebrow) {
+    margin-bottom: var(--ds-space-8);
+    color: var(--ds-color-muted);
+    font-size: 1.125rem;
+  }
+</style>

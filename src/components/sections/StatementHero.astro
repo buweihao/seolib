@@ -1,0 +1,141 @@
+---
+import ActionLink from "../primitives/ActionLink.astro";
+import Container from "../primitives/Container.astro";
+import MediaFrame from "../primitives/MediaFrame.astro";
+
+interface HeroAction {
+  href: string;
+  label: string;
+  ariaLabel?: string;
+}
+
+interface HeroMedia {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  aspect?: "portrait" | "landscape" | "square";
+}
+
+interface Props {
+  id?: string;
+  eyebrow?: string;
+  title: string;
+  description: string;
+  primaryAction: HeroAction;
+  secondaryAction?: HeroAction;
+  media: HeroMedia;
+  class?: string;
+}
+
+const {
+  id,
+  eyebrow,
+  title,
+  description,
+  primaryAction,
+  secondaryAction,
+  media,
+  class: className,
+} = Astro.props;
+
+const headingId = id ? `${id}-title` : undefined;
+---
+
+<section id={id} class:list={["statement-hero", className]} aria-labelledby={headingId}>
+  <Container size="wide">
+    <div class="statement-hero__grid">
+      <div class="statement-hero__content">
+        {eyebrow && <p class="statement-hero__eyebrow">{eyebrow}</p>}
+        <h1 id={headingId}>{title}</h1>
+        <p class="statement-hero__description">{description}</p>
+        <div class="statement-hero__actions">
+          <ActionLink
+            href={primaryAction.href}
+            label={primaryAction.label}
+            ariaLabel={primaryAction.ariaLabel}
+            variant="primary"
+          />
+          {secondaryAction && (
+            <ActionLink
+              href={secondaryAction.href}
+              label={secondaryAction.label}
+              ariaLabel={secondaryAction.ariaLabel}
+              variant="text"
+            />
+          )}
+        </div>
+      </div>
+
+      <MediaFrame
+        class="statement-hero__media"
+        src={media.src}
+        alt={media.alt}
+        width={media.width}
+        height={media.height}
+        aspect={media.aspect ?? "portrait"}
+        loading="eager"
+      />
+    </div>
+  </Container>
+</section>
+
+<style>
+  .statement-hero {
+    padding-block: var(--ds-section-feature) var(--ds-section-standard);
+  }
+
+  .statement-hero__grid {
+    display: grid;
+    gap: var(--ds-space-12);
+    align-items: center;
+  }
+
+  .statement-hero__content {
+    max-width: 48rem;
+  }
+
+  .statement-hero__eyebrow {
+    margin: 0 0 var(--ds-space-4);
+    color: var(--ds-color-accent);
+    font-size: 0.8125rem;
+    font-weight: 750;
+    letter-spacing: 0.12em;
+    line-height: 1.3;
+    text-transform: uppercase;
+  }
+
+  .statement-hero h1,
+  .statement-hero__description {
+    margin: 0;
+  }
+
+  .statement-hero h1 {
+    max-width: 12ch;
+    font-size: var(--ds-text-display);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: var(--ds-leading-display);
+  }
+
+  .statement-hero__description {
+    max-width: 58ch;
+    margin-top: var(--ds-space-6);
+    color: var(--ds-color-muted);
+    font-size: clamp(1.0625rem, 1.7vw, 1.25rem);
+  }
+
+  .statement-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ds-space-3) var(--ds-space-6);
+    margin-top: var(--ds-space-8);
+  }
+
+  @media (min-width: 64rem) {
+    .statement-hero__grid {
+      grid-template-columns: minmax(0, 1.08fr) minmax(20rem, 0.72fr);
+      gap: clamp(3rem, 7vw, 8rem);
+    }
+  }
+</style>

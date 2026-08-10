@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title description">
+  <title id="title">Abstract body-care format</title>
+  <desc id="description">Original jar geometry beside modular blocks that represent format decisions.</desc>
+  <rect width="800" height="600" fill="#eef2f3"/>
+  <rect x="90" y="110" width="620" height="380" fill="#c7d5db"/>
+  <rect x="245" y="240" width="310" height="230" rx="34" fill="#f8fafb" stroke="#183950" stroke-width="12"/>
+  <rect x="225" y="185" width="350" height="80" rx="16" fill="#48758f"/>
+  <rect x="105" y="390" width="105" height="100" fill="#bb7b45"/>
+  <rect x="590" y="315" width="120" height="175" fill="#183950"/>
+  <circle cx="400" cy="355" r="42" fill="#d8c4af"/>
+</svg>

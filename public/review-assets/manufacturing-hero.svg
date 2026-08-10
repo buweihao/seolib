@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1400" role="img" aria-labelledby="title description">
+  <title id="title">Abstract modular production line</title>
+  <desc id="description">Connected vessels, tracks, and checkpoints arranged as an original geometric study.</desc>
+  <rect width="1200" height="1400" fill="#dbe5ea"/>
+  <rect x="110" y="140" width="980" height="1120" fill="#f4f7f8" stroke="#183950" stroke-width="10"/>
+  <path d="M210 990H990M210 440H990" stroke="#48758f" stroke-width="18"/>
+  <path d="M330 440V290H520V440M700 440V240H900V440" fill="none" stroke="#183950" stroke-width="22"/>
+  <rect x="260" y="600" width="250" height="310" rx="16" fill="#c3d2d9" stroke="#183950" stroke-width="12"/>
+  <rect x="690" y="570" width="250" height="340" rx="16" fill="#48758f"/>
+  <circle cx="385" cy="755" r="62" fill="#f4f7f8" stroke="#183950" stroke-width="12"/>
+  <circle cx="815" cy="740" r="62" fill="#dbe5ea"/>
+  <path d="M510 755H690" stroke="#bb7b45" stroke-width="24"/>
+  <circle cx="210" cy="990" r="30" fill="#bb7b45"/>
+  <circle cx="600" cy="990" r="30" fill="#bb7b45"/>
+  <circle cx="990" cy="990" r="30" fill="#bb7b45"/>
+  <path d="M260 1100H940" stroke="#183950" stroke-width="12" stroke-dasharray="26 22"/>
+</svg>

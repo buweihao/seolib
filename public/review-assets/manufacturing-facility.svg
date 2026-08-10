@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-labelledby="title description">
+  <title id="title">Abstract facility plan</title>
+  <desc id="description">Original geometric floor plan with separate zones and verification markers.</desc>
+  <rect width="1200" height="900" fill="#e6edf0"/>
+  <rect x="90" y="90" width="1020" height="720" fill="#f9fbfb" stroke="#183950" stroke-width="12"/>
+  <path d="M430 90V810M790 90V810M90 430H1110" stroke="#9fb4c0" stroke-width="10"/>
+  <rect x="150" y="150" width="220" height="220" fill="#c8d6dc"/>
+  <rect x="490" y="150" width="240" height="220" fill="#48758f"/>
+  <rect x="850" y="150" width="200" height="220" fill="#d7c6b5"/>
+  <rect x="150" y="500" width="220" height="250" fill="#48758f"/>
+  <rect x="490" y="500" width="240" height="250" fill="#d7c6b5"/>
+  <rect x="850" y="500" width="200" height="250" fill="#c8d6dc"/>
+  <g fill="#bb7b45" stroke="#f9fbfb" stroke-width="8">
+    <circle cx="260" cy="260" r="30"/><circle cx="610" cy="260" r="30"/><circle cx="950" cy="260" r="30"/>
+    <circle cx="260" cy="625" r="30"/><circle cx="610" cy="625" r="30"/><circle cx="950" cy="625" r="30"/>
+  </g>
+</svg>

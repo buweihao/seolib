@@ -34,50 +34,89 @@ Exit note: Astro 7.2.0, Tailwind CSS 4.3.3, TypeScript 5.9.3, and npm 11.6.2 are
 
 ## Phase 2 — Reference Library
 
-- [ ] Add the first approved reference package
-- [ ] Capture desktop and mobile evidence
-- [ ] Analyze content structure separately from UI patterns
-- [ ] Extract candidate reusable principles without copying protected material
-- [ ] Review reference completeness against the workflow
+- [x] Ingest six supplied desktop reference packages without altering their source captures
+- [x] Record mobile evidence and confirmed source URLs as unavailable in the supplied batch
+- [x] Define semantic section boundaries in reviewed manifests and generate deterministic crops
+- [x] Analyze content structure separately from UI patterns for every site
+- [x] Extract candidate reusable principles without copying protected material
+- [x] Add a cross-site comparison and reference index
+- [x] Add and document reusable inspection, preview, stitching, cropping, and validation tooling
+- [x] Complete human review of the explicitly flagged ambiguous crops
 
-Status: Not started
+Status: Complete — 2026-08-10
+
+Exit note: Vitelle, Laeyo, Romano, Créer, RainShadow Labs, and YG Laboratories contain six preserved desktop sources, six manifests, 66 validated section crops, separate content/UI analyses, and an approved cross-site comparison. The reviewer accepted the documented capture limitations. Mobile captures and confirmed URLs were not included in the supplied evidence.
 
 ## Phase 3 — Core Component Library
 
-- [ ] Confirm source directory conventions
-- [ ] Implement the minimum approved primitives needed by real sections
-- [ ] Implement initial evidence-backed sections
-- [ ] Type component interfaces and remove client-specific hard-coding
-- [ ] Register and visually review each component
+- [x] Draft an evidence-backed implementation plan and explicit non-goals
+- [x] Register the proposed minimum components as `Idea`
+- [x] Receive explicit approval for `docs/PHASE_3_PLAN.md`
+- [x] Implement three approved primitives needed by real sections
+- [x] Implement three approved evidence-backed sections
+- [x] Type public interfaces and remove client-specific hard-coding
+- [x] Create a neutral internal review fixture without composing a homepage
+- [x] Review desktop/mobile behavior, semantics, keyboard access, and focus states
+- [x] Pass type and production build checks
+- [x] Move passing components to `Review` and stop for human approval
 
-Status: Not started
+Status: Complete — 2026-08-10
+
+Exit note: six components were approved for reuse after static build, type, semantic, keyboard-focus, and 390px/768px/1440px visual review. No client-specific values, hydration, third-party assets, or additional dependencies were introduced.
 
 ## Phase 4 — Premium Homepage
 
-- [ ] Define the Premium composition from approved components
-- [ ] Validate spacious, editorial, scientific, premium, and restrained qualities
-- [ ] Review responsive behavior and conversion hierarchy
-- [ ] Pass build, type, accessibility, and visual checks
+- [x] Draft the Chinese implementation plan and explicit approval boundary
+- [x] Register one primitive, four shared sections, and one composition as `Idea`
+- [x] Receive explicit approval for `docs/PHASE_4_PLAN.md`
+- [x] Implement `MediaFrame-001` and four evidence-backed shared sections
+- [x] Compose `PremiumHomepage-001` from new and approved shared components
+- [x] Add a scoped Premium token mapping without changing global defaults
+- [x] Create a neutral internal review fixture without replacing `/`
+- [x] Validate spacious, editorial, scientific, premium, and restrained qualities
+- [x] Review 390px/768px/1440px behavior, media, conversion hierarchy, semantics, keyboard access, focus, and contrast
+- [x] Pass type and production build checks
+- [x] Move passing Phase 4 components to `Review` and stop for human approval
 
-Status: Not started
+Status: Complete — 2026-08-10
+
+Exit note: `PremiumHomepage-001` composes the approved Phase 3 library with five new shared components in the approved seven-section order. The isolated review route passed static build, type, 390px/768px/1440px visual, semantic, keyboard-focus, media, overflow, console, token-isolation, and WCAG contrast checks. Human review approved all six Phase 4 entries for reuse; Phase 5 has not started.
 
 ## Phase 5 — Manufacturing Homepage
 
-- [ ] Define the Manufacturing composition from the shared library
-- [ ] Validate factory, capability, certification, product-range, and quality-control hierarchy
-- [ ] Review responsive behavior and B2B trust signals
-- [ ] Pass build, type, accessibility, and visual checks
+- [x] Draft the Chinese implementation plan and explicit approval boundary
+- [x] Register three proposed shared sections and one composition as `Idea`
+- [x] Receive explicit approval for `docs/PHASE_5_PLAN.md`
+- [x] Implement three evidence-backed shared sections
+- [x] Compose `ManufacturingHomepage-001` from Approved and new shared components
+- [x] Add a scoped Manufacturing token mapping without changing global or Premium defaults
+- [x] Create a neutral internal review fixture without replacing `/`
+- [x] Validate factory, capability, product-range, quality-control, cooperation-path, and process hierarchy
+- [x] Review 390px/768px/1440px behavior, information density, media, semantics, keyboard access, focus, contrast, and token isolation
+- [x] Pass type and production build checks
+- [x] Move passing Phase 5 entries to `Review` and stop for human approval
 
-Status: Not started
+Status: Complete — 2026-08-10
+
+Exit note: `ManufacturingHomepage-001` composes the Approved shared library with three new evidence-backed sections in the approved nine-section order. The isolated review route passed static build, type, 390px/768px/1440px visual, semantic, keyboard-focus, media, overflow, console, token-isolation, and WCAG contrast checks. Human review approved all four Phase 5 entries for reuse.
 
 ## Phase 6 — Launch Homepage
 
-- [ ] Define the Launch composition from the shared library
-- [ ] Validate low-MOQ, speed-to-market, buyer-fit, and conversion hierarchy
-- [ ] Review responsive behavior and approachable visual treatment
-- [ ] Pass build, type, accessibility, and visual checks
+- [x] Draft the Chinese implementation plan and explicit approval boundary
+- [x] Confirm the Launch direction requires no new primitive or section
+- [x] Register `LaunchHomepage-001` as `Idea`
+- [x] Receive explicit approval for `docs/PHASE_6_PLAN.md`
+- [x] Compose `LaunchHomepage-001` from eight Approved shared sections
+- [x] Add a scoped Launch token mapping without changing global, Premium, or Manufacturing defaults
+- [x] Create a neutral internal review fixture without replacing `/`
+- [x] Validate buyer-fit, project-readiness, MOQ/timing-factor, and conversion hierarchy without unsupported promises
+- [x] Review 390px/768px/1440px behavior, media, semantics, keyboard access, focus, contrast, and four-way token isolation
+- [x] Pass type and production build checks
+- [x] Move `LaunchHomepage-001` to `Review` and stop for human approval
 
-Status: Not started
+Status: In review — 2026-08-10
+
+Exit note: `LaunchHomepage-001` reuses eight Approved sections in the approved decision-led order with no new primitive or section. Its isolated fixture passed static build, type, 390px/768px/1440px visual, semantic, keyboard-focus, media, overflow, four-way token-isolation, and WCAG contrast checks. Phase 7 has not started.
 
 ## Phase 7 — Five Base Pages
 

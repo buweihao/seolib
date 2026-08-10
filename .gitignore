@@ -4,6 +4,9 @@ node_modules/
 # build output
 dist/
 .astro/
+.tmp/
+__pycache__/
+*.pyc
 
 # local environment files
 .env

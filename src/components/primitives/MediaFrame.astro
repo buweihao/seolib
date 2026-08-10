@@ -1,0 +1,60 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  loading?: "eager" | "lazy";
+  aspect?: "portrait" | "landscape" | "square";
+  class?: string;
+}
+
+const {
+  src,
+  alt,
+  width,
+  height,
+  loading = "lazy",
+  aspect,
+  class: className,
+} = Astro.props;
+---
+
+<div class:list={["media-frame", className]} data-aspect={aspect}>
+  <img
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    loading={loading}
+    decoding="async"
+  />
+</div>
+
+<style>
+  .media-frame {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--ds-radius-media);
+    background: var(--ds-color-border);
+  }
+
+  .media-frame[data-aspect="portrait"] {
+    aspect-ratio: 4 / 5;
+  }
+
+  .media-frame[data-aspect="landscape"] {
+    aspect-ratio: 4 / 3;
+  }
+
+  .media-frame[data-aspect="square"] {
+    aspect-ratio: 1;
+  }
+
+  .media-frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>

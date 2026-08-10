@@ -51,6 +51,49 @@ Before proposing a component, record:
 - whether an approved component already solves it;
 - how the implementation will remain visually and technically original.
 
+## Batch ingestion and cropping
+
+Use the repository tool for supplied full-page captures. It performs deterministic image operations only; visual section detection and naming remain human decisions.
+
+### Canonical package
+
+```text
+references/<site-slug>/
+  source/
+    home-full.png
+    home.pdf          # only when supplied
+  sections/
+    01-header.png
+    02-hero.png
+  section-manifest.json
+  notes.md
+```
+
+Temporary preview chunks belong under `.tmp/reference-analysis/` and must not become permanent reference evidence. Preserve the original source file without resampling or overwriting it.
+
+### Manifest contract
+
+`section-manifest.json` records the source path and dimensions plus a sequential list of crops. Each crop contains an `index`, lowercase ASCII `slug`, integer `startY` and `endY` pixel boundary, and `confidence` of `high`, `medium`, or `low`. Optional review notes explain capture artifacts or uncertain boundaries. Crop intervals use a `startY`-inclusive, `endY`-exclusive coordinate convention.
+
+### Commands
+
+Install the small image dependency in the active Python environment, then use:
+
+```powershell
+python -m pip install -r scripts/reference-library/requirements.txt
+python scripts/reference-library/reference_tool.py inspect references/_incoming/png
+python scripts/reference-library/reference_tool.py stitch --inputs page-1.png page-2.png --output .tmp/reference-analysis/combined.png
+python scripts/reference-library/reference_tool.py previews --source references/site-name/source/home-full.png --output-dir .tmp/reference-analysis/site-name
+python scripts/reference-library/reference_tool.py crop --site-dir references/site-name
+python scripts/reference-library/reference_tool.py validate --site-dir references/site-name
+```
+
+`stitch` is only for ordered page images of equal width. For a supplied PDF, retain the PDF in `source/`, render its pages at a documented resolution, stitch only when a normalized full-page image is needed, and visually compare the render with the PDF before cropping.
+
+### Validation boundary
+
+The tool rejects missing sources, dimension mismatches, invalid or non-sequential metadata, out-of-bounds crops, and output images with unexpected dimensions. Validation also decodes every crop and confirms that notes exist. It does not infer semantic boundaries, determine section purpose, or approve ambiguous cuts. Those decisions require visual inspection and must be recorded in `notes.md` before reuse is considered.
+
 ## Reference notes template
 
 Copy this template to `references/<site-slug>/notes.md`.
@@ -69,8 +112,10 @@ Copy this template to `references/<site-slug>/notes.md`.
 
 ## Saved evidence
 
-- Desktop screenshot: `screenshots/home-desktop.png`
+- Full-page source: `source/home-full.png`
+- Supplied PDF: `source/home.pdf` or Not supplied
 - Mobile screenshot: `screenshots/home-mobile.png`
+- Section manifest: `section-manifest.json`
 - HTML: `html/home.html` or Not saved
 
 ## Page outline

@@ -1,0 +1,98 @@
+---
+interface Props {
+  href: string;
+  label: string;
+  variant?: "primary" | "secondary" | "text";
+  ariaLabel?: string;
+  class?: string;
+}
+
+const {
+  href,
+  label,
+  variant = "primary",
+  ariaLabel,
+  class: className,
+} = Astro.props;
+---
+
+<a
+  class:list={["action-link", className]}
+  data-variant={variant}
+  href={href}
+  aria-label={ariaLabel}
+>
+  <span>{label}</span>
+  <span class="action-link__mark" aria-hidden="true">→</span>
+</a>
+
+<style>
+  .action-link {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    gap: var(--ds-space-3);
+    border: 1px solid transparent;
+    border-radius: var(--ds-radius-control);
+    padding: var(--ds-space-2) var(--ds-space-4);
+    font-weight: 650;
+    line-height: 1.2;
+    text-decoration: none;
+    transition:
+      color 160ms ease,
+      background-color 160ms ease,
+      border-color 160ms ease;
+  }
+
+  .action-link[data-variant="primary"] {
+    background: var(--ds-color-accent);
+    color: var(--ds-color-accent-contrast);
+  }
+
+  .action-link[data-variant="secondary"] {
+    border-color: var(--ds-color-border);
+    background: var(--ds-color-surface);
+    color: var(--ds-color-ink);
+  }
+
+  .action-link[data-variant="text"] {
+    min-height: 2.75rem;
+    justify-content: flex-start;
+    padding-inline: 0;
+    color: var(--ds-color-accent);
+  }
+
+  .action-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .action-link[data-variant="primary"]:hover {
+    background: color-mix(in oklch, var(--ds-color-accent), black 12%);
+  }
+
+  .action-link[data-variant="secondary"]:hover {
+    border-color: var(--ds-color-accent);
+  }
+
+  .action-link__mark {
+    font-size: 1.1em;
+    transition: transform 160ms ease;
+  }
+
+  .action-link:hover .action-link__mark {
+    transform: translateX(0.2rem);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .action-link,
+    .action-link__mark {
+      transition: none;
+    }
+
+    .action-link:hover .action-link__mark {
+      transform: none;
+    }
+  }
+</style>

@@ -1,0 +1,167 @@
+---
+import Container from "../primitives/Container.astro";
+import SectionHeading from "../primitives/SectionHeading.astro";
+
+interface ProcessStep {
+  title: string;
+  description: string;
+  buyerAction?: string;
+  supplierAction?: string;
+}
+
+interface ResponsibilityLabels {
+  buyer: string;
+  supplier: string;
+}
+
+interface Props {
+  id: string;
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  headingLevel?: "h2" | "h3";
+  steps: readonly ProcessStep[];
+  responsibilityLabels?: ResponsibilityLabels;
+  class?: string;
+}
+
+const {
+  id,
+  eyebrow,
+  title,
+  description,
+  headingLevel = "h2",
+  steps,
+  responsibilityLabels = { buyer: "Buyer", supplier: "Supplier" },
+  class: className,
+} = Astro.props;
+
+const headingId = `${id}-title`;
+---
+
+<section id={id} class:list={["process-steps", className]} aria-labelledby={headingId}>
+  <Container>
+    <SectionHeading
+      id={headingId}
+      eyebrow={eyebrow}
+      title={title}
+      description={description}
+      level={headingLevel}
+    />
+
+    <ol class="process-steps__list">
+      {steps.map((step, index) => (
+        <li class="process-steps__item">
+          <div class="process-steps__number" aria-hidden="true">
+            {String(index + 1).padStart(2, "0")}
+          </div>
+          <div class="process-steps__body">
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+            {(step.buyerAction || step.supplierAction) && (
+              <dl class="process-steps__responsibilities">
+                {step.buyerAction && (
+                  <div>
+                    <dt>{responsibilityLabels.buyer}</dt>
+                    <dd>{step.buyerAction}</dd>
+                  </div>
+                )}
+                {step.supplierAction && (
+                  <div>
+                    <dt>{responsibilityLabels.supplier}</dt>
+                    <dd>{step.supplierAction}</dd>
+                  </div>
+                )}
+              </dl>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </Container>
+</section>
+
+<style>
+  .process-steps {
+    border-block: 1px solid var(--ds-color-border);
+    background: var(--ds-color-surface);
+    padding-block: var(--ds-section-standard);
+  }
+
+  .process-steps__list {
+    display: grid;
+    gap: 0;
+    margin: var(--ds-space-12) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .process-steps__item {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr);
+    gap: var(--ds-space-4);
+    border-top: 1px solid var(--ds-color-border);
+    padding-block: var(--ds-space-8);
+  }
+
+  .process-steps__number {
+    color: var(--ds-color-accent);
+    font-size: 0.875rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+    line-height: 1.5;
+  }
+
+  .process-steps__body h3,
+  .process-steps__body > p,
+  .process-steps__responsibilities,
+  .process-steps__responsibilities dd {
+    margin: 0;
+  }
+
+  .process-steps__body h3 {
+    font-size: clamp(1.25rem, 2vw, 1.625rem);
+    line-height: 1.25;
+  }
+
+  .process-steps__body > p {
+    max-width: 62ch;
+    margin-top: var(--ds-space-3);
+    color: var(--ds-color-muted);
+  }
+
+  .process-steps__responsibilities {
+    display: grid;
+    gap: var(--ds-space-4);
+    margin-top: var(--ds-space-6);
+  }
+
+  .process-steps__responsibilities div {
+    border-left: 2px solid var(--ds-color-border);
+    padding-left: var(--ds-space-3);
+  }
+
+  .process-steps__responsibilities dt {
+    color: var(--ds-color-accent);
+    font-size: 0.75rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .process-steps__responsibilities dd {
+    margin-top: var(--ds-space-1);
+    font-size: 0.9375rem;
+  }
+
+  @media (min-width: 48rem) {
+    .process-steps__item {
+      grid-template-columns: 5rem minmax(0, 1fr);
+      gap: var(--ds-space-8);
+    }
+
+    .process-steps__responsibilities {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

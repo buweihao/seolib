@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title description">
+  <title id="title">Abstract rinse-off format</title>
+  <desc id="description">Original pump-vessel geometry crossed by a flowing review line.</desc>
+  <rect width="800" height="600" fill="#e5ecef"/>
+  <rect x="280" y="180" width="240" height="330" rx="18" fill="#f8fafb" stroke="#183950" stroke-width="12"/>
+  <path d="M330 180v-70h170M500 110v52" fill="none" stroke="#183950" stroke-width="18"/>
+  <path d="M90 420c170-110 360 100 620-30" fill="none" stroke="#bb7b45" stroke-width="24"/>
+  <circle cx="160" cy="170" r="70" fill="#9fb4c0"/>
+</svg>

@@ -1,0 +1,158 @@
+---
+import ActionLink from "../primitives/ActionLink.astro";
+import Container from "../primitives/Container.astro";
+import SectionHeading from "../primitives/SectionHeading.astro";
+
+interface PathwayAction {
+  href: string;
+  label: string;
+  ariaLabel?: string;
+}
+
+interface BuyerPathway {
+  title: string;
+  description: string;
+  decisionCue?: string;
+  action?: PathwayAction;
+}
+
+interface Props {
+  id: string;
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  headingLevel?: "h2" | "h3";
+  pathways: readonly BuyerPathway[];
+  class?: string;
+}
+
+const {
+  id,
+  eyebrow,
+  title,
+  description,
+  headingLevel = "h2",
+  pathways,
+  class: className,
+} = Astro.props;
+
+const headingId = `${id}-title`;
+---
+
+<section id={id} class:list={["buyer-pathways", className]} aria-labelledby={headingId}>
+  <Container>
+    <SectionHeading
+      id={headingId}
+      eyebrow={eyebrow}
+      title={title}
+      description={description}
+      level={headingLevel}
+    />
+
+    <ul class="buyer-pathways__list" role="list">
+      {pathways.map((pathway, index) => (
+        <li class="buyer-pathways__item">
+          <article class="buyer-pathways__card">
+            <p class="buyer-pathways__index" aria-hidden="true">
+              {String(index + 1).padStart(2, "0")}
+            </p>
+            <div class="buyer-pathways__content">
+              <h3>{pathway.title}</h3>
+              <p>{pathway.description}</p>
+              {pathway.decisionCue && <p class="buyer-pathways__cue">{pathway.decisionCue}</p>}
+            </div>
+            {pathway.action && (
+              <ActionLink
+                href={pathway.action.href}
+                label={pathway.action.label}
+                ariaLabel={pathway.action.ariaLabel}
+                variant="text"
+              />
+            )}
+          </article>
+        </li>
+      ))}
+    </ul>
+  </Container>
+</section>
+
+<style>
+  .buyer-pathways {
+    padding-block: var(--ds-section-standard);
+  }
+
+  .buyer-pathways__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+    gap: var(--ds-space-4);
+    margin: var(--ds-space-12) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .buyer-pathways__item {
+    min-width: 0;
+  }
+
+  .buyer-pathways__card {
+    display: flex;
+    height: 100%;
+    min-height: 22rem;
+    flex-direction: column;
+    border: 1px solid var(--ds-color-border);
+    border-radius: var(--ds-radius-card);
+    background: var(--ds-color-surface);
+    padding: var(--ds-space-6);
+  }
+
+  .buyer-pathways__index {
+    margin: 0 0 var(--ds-space-12);
+    color: var(--ds-color-accent);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+  }
+
+  .buyer-pathways__content {
+    flex: 1;
+  }
+
+  .buyer-pathways__content h3,
+  .buyer-pathways__content p {
+    margin: 0;
+  }
+
+  .buyer-pathways__content h3 {
+    font-size: clamp(1.35rem, 2vw, 1.75rem);
+    line-height: 1.2;
+  }
+
+  .buyer-pathways__content > p {
+    margin-top: var(--ds-space-4);
+    color: var(--ds-color-muted);
+  }
+
+  .buyer-pathways__content .buyer-pathways__cue {
+    margin-top: var(--ds-space-6);
+    border-left: 2px solid var(--ds-color-accent);
+    padding-left: var(--ds-space-3);
+    color: var(--ds-color-ink);
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+
+  .buyer-pathways__card > :global(.action-link) {
+    align-self: flex-start;
+    margin-top: var(--ds-space-6);
+  }
+
+  @media (min-width: 64rem) {
+    .buyer-pathways__list {
+      gap: var(--ds-space-6);
+    }
+
+    .buyer-pathways__card {
+      padding: var(--ds-space-8);
+    }
+  }
+</style>

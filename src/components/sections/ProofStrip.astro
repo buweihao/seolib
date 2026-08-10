@@ -1,0 +1,110 @@
+---
+import Container from "../primitives/Container.astro";
+
+interface ProofItem {
+  title: string;
+  detail?: string;
+}
+
+interface Props {
+  label: string;
+  items: readonly ProofItem[];
+  class?: string;
+}
+
+const { label, items, class: className } = Astro.props;
+---
+
+<section class:list={["proof-strip", className]} aria-label={label}>
+  <Container size="wide">
+    <ul class="proof-strip__list" role="list">
+      {items.map((item) => (
+        <li class="proof-strip__item">
+          <span class="proof-strip__marker" aria-hidden="true"></span>
+          <div>
+            <p class="proof-strip__title">{item.title}</p>
+            {item.detail && <p class="proof-strip__detail">{item.detail}</p>}
+          </div>
+        </li>
+      ))}
+    </ul>
+  </Container>
+</section>
+
+<style>
+  .proof-strip {
+    border-block: 1px solid var(--ds-color-border);
+    background: var(--ds-color-surface);
+  }
+
+  .proof-strip__list {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1px;
+    margin: 0;
+    padding: 0;
+    background: var(--ds-color-border);
+    list-style: none;
+  }
+
+  .proof-strip__item {
+    display: flex;
+    min-width: 0;
+    align-items: flex-start;
+    gap: var(--ds-space-3);
+    background: var(--ds-color-surface);
+    padding-block: var(--ds-space-6);
+  }
+
+  .proof-strip__marker {
+    width: 0.625rem;
+    height: 0.625rem;
+    flex: 0 0 auto;
+    margin-top: 0.45rem;
+    border: 2px solid var(--ds-color-accent);
+    border-radius: 50%;
+  }
+
+  .proof-strip__title,
+  .proof-strip__detail {
+    margin: 0;
+  }
+
+  .proof-strip__title {
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .proof-strip__detail {
+    margin-top: var(--ds-space-1);
+    color: var(--ds-color-muted);
+    font-size: 0.875rem;
+    line-height: 1.45;
+  }
+
+  @media (min-width: 40rem) {
+    .proof-strip__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .proof-strip__item {
+      padding-inline: var(--ds-space-6);
+    }
+
+  }
+
+  @media (min-width: 64rem) {
+    .proof-strip__list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .proof-strip__item:first-child {
+      padding-left: 0;
+    }
+
+    .proof-strip__item:last-child {
+      padding-right: 0;
+    }
+
+  }
+</style>

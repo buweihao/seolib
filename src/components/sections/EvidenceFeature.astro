@@ -1,0 +1,161 @@
+---
+import ActionLink from "../primitives/ActionLink.astro";
+import Container from "../primitives/Container.astro";
+import MediaFrame from "../primitives/MediaFrame.astro";
+import SectionHeading from "../primitives/SectionHeading.astro";
+
+interface EvidencePoint {
+  title: string;
+  description?: string;
+}
+
+interface EvidenceAction {
+  href: string;
+  label: string;
+  ariaLabel?: string;
+}
+
+interface EvidenceMedia {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  aspect?: "portrait" | "landscape" | "square";
+}
+
+interface Props {
+  id: string;
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  points: readonly EvidencePoint[];
+  media: EvidenceMedia;
+  mediaPosition?: "start" | "end";
+  action?: EvidenceAction;
+  class?: string;
+}
+
+const {
+  id,
+  eyebrow,
+  title,
+  description,
+  points,
+  media,
+  mediaPosition = "start",
+  action,
+  class: className,
+} = Astro.props;
+
+const headingId = `${id}-title`;
+---
+
+<section
+  id={id}
+  class:list={["evidence-feature", className]}
+  data-media-position={mediaPosition}
+  aria-labelledby={headingId}
+>
+  <Container size="wide">
+    <div class="evidence-feature__grid">
+      <MediaFrame
+        class="evidence-feature__media"
+        src={media.src}
+        alt={media.alt}
+        width={media.width}
+        height={media.height}
+        aspect={media.aspect ?? "landscape"}
+      />
+
+      <div class="evidence-feature__content">
+        <SectionHeading
+          id={headingId}
+          eyebrow={eyebrow}
+          title={title}
+          description={description}
+        />
+
+        <ul class="evidence-feature__points" role="list">
+          {points.map((point) => (
+            <li>
+              <h3>{point.title}</h3>
+              {point.description && <p>{point.description}</p>}
+            </li>
+          ))}
+        </ul>
+
+        {action && (
+          <ActionLink
+            href={action.href}
+            label={action.label}
+            ariaLabel={action.ariaLabel}
+            variant="text"
+          />
+        )}
+      </div>
+    </div>
+  </Container>
+</section>
+
+<style>
+  .evidence-feature {
+    border-block: 1px solid var(--ds-color-border);
+    background: var(--ds-color-surface);
+    padding-block: var(--ds-section-standard);
+  }
+
+  .evidence-feature__grid {
+    display: grid;
+    gap: var(--ds-space-12);
+    align-items: center;
+  }
+
+  .evidence-feature__content {
+    min-width: 0;
+  }
+
+  .evidence-feature__points {
+    display: grid;
+    gap: 0;
+    margin: var(--ds-space-8) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .evidence-feature__points li {
+    border-top: 1px solid var(--ds-color-border);
+    padding-block: var(--ds-space-4);
+  }
+
+  .evidence-feature__points h3,
+  .evidence-feature__points p {
+    margin: 0;
+  }
+
+  .evidence-feature__points h3 {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  .evidence-feature__points p {
+    max-width: 56ch;
+    margin-top: var(--ds-space-2);
+    color: var(--ds-color-muted);
+    font-size: 0.9375rem;
+  }
+
+  .evidence-feature__content > :global(.action-link) {
+    margin-top: var(--ds-space-4);
+  }
+
+  @media (min-width: 64rem) {
+    .evidence-feature__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.82fr);
+      gap: clamp(3rem, 7vw, 8rem);
+    }
+
+    .evidence-feature[data-media-position="end"] .evidence-feature__media {
+      order: 2;
+    }
+  }
+</style>

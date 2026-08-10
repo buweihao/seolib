@@ -1,0 +1,76 @@
+---
+import type { ComponentProps } from "astro/types";
+
+import BuyerPathways from "../sections/BuyerPathways.astro";
+import EvidenceFeature from "../sections/EvidenceFeature.astro";
+import InquiryCTA from "../sections/InquiryCTA.astro";
+import ProcessSteps from "../sections/ProcessSteps.astro";
+import ProductFamilies from "../sections/ProductFamilies.astro";
+import ProofStrip from "../sections/ProofStrip.astro";
+import StatementHero from "../sections/StatementHero.astro";
+
+interface Props {
+  hero: ComponentProps<typeof StatementHero>;
+  proof: ComponentProps<typeof ProofStrip>;
+  evidence: ComponentProps<typeof EvidenceFeature>;
+  products: ComponentProps<typeof ProductFamilies>;
+  pathways: ComponentProps<typeof BuyerPathways>;
+  process: ComponentProps<typeof ProcessSteps>;
+  inquiry: ComponentProps<typeof InquiryCTA>;
+  class?: string;
+}
+
+const {
+  hero,
+  proof,
+  evidence,
+  products,
+  pathways,
+  process,
+  inquiry,
+  class: className,
+} = Astro.props;
+---
+
+<main class:list={["premium-homepage", className]}>
+  <StatementHero {...hero} />
+  <ProofStrip {...proof} />
+  <EvidenceFeature {...evidence} />
+  <ProductFamilies {...products} />
+  <BuyerPathways {...pathways} />
+  <ProcessSteps {...process} />
+  <InquiryCTA {...inquiry} />
+</main>
+
+<style>
+  .premium-homepage {
+    --ds-font-display: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+    --ds-color-canvas: oklch(97.5% 0.012 82);
+    --ds-color-surface: oklch(99.3% 0.006 82);
+    --ds-color-ink: oklch(20% 0.025 155);
+    --ds-color-muted: oklch(43% 0.025 145);
+    --ds-color-border: oklch(82% 0.018 92);
+    --ds-color-accent: oklch(31% 0.055 155);
+    --ds-color-accent-contrast: oklch(98% 0.008 85);
+    --ds-color-focus: oklch(58% 0.17 250);
+    --ds-section-standard: clamp(5rem, 10vw, 8rem);
+    --ds-section-feature: clamp(6rem, 13vw, 11rem);
+    --ds-radius-control: 0.25rem;
+    --ds-radius-card: 0.375rem;
+    --ds-radius-media: 0.5rem;
+    --ds-text-display: clamp(3rem, 8vw, 7rem);
+    --ds-leading-display: 0.96;
+
+    min-height: 100vh;
+    background: var(--ds-color-canvas);
+    color: var(--ds-color-ink);
+  }
+
+  .premium-homepage :global(h1),
+  .premium-homepage :global(h2),
+  .premium-homepage :global(h3) {
+    font-family: var(--ds-font-display);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+  }
+</style>

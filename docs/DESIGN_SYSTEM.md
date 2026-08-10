@@ -81,9 +81,9 @@ Composition themes may map these semantic roles to different values without chan
 
 ## Buttons
 
-Expected semantic variants include primary, secondary, and text/link actions. Visual definitions remain TBD until the Button primitive is justified and reviewed.
+`ActionLink-001` now provides neutral primary, secondary, and text-link variants for navigation and CTA destinations. A true Button primitive for in-page actions remains deferred until an approved interaction requires it.
 
-Button review must cover:
+Action and future button review must cover:
 
 - default, hover, active, focus-visible, and disabled states;
 - link versus action semantics;
@@ -93,8 +93,9 @@ Button review must cover:
 
 ## Images
 
-- Aspect-ratio strategy: TBD per content role
-- Focal-point and cropping rules: TBD
+- `MediaFrame-001` preserves explicit intrinsic width and height and supports `portrait`, `landscape`, and `square` geometry.
+- Images remain responsive with bounded block size; section components select a content-appropriate aspect rather than applying one global crop.
+- Loading defaults to lazy and may be set to eager for above-the-fold media.
 - Responsive source widths: TBD
 - Placeholder/error treatment: TBD
 - Caption and credit treatment: TBD
@@ -140,4 +141,8 @@ The following are composition goals, not three independent design systems:
 - **Manufacturing:** trustworthy, capable, professional, clear hierarchy
 - **Launch:** approachable, modern, easy, conversion-focused
 
-Exact token mappings and allowed variations are TBD.
+The approved Premium composition has a mapping scoped to `.premium-homepage`: a native serif display stack, warm neutral surfaces, dark botanical ink/accent, larger section spacing, and restrained radii. It passed WCAG 2.2 AA contrast checks and does not replace the neutral global defaults.
+
+The approved Manufacturing composition has a mapping scoped to `.manufacturing-homepage`: system sans-serif display and body typography, cool neutral surfaces, industrial blue/mineral accents, tighter section spacing, restrained radii, and explicit border-led grouping. It passed WCAG 2.2 AA contrast and Premium/global token-isolation checks.
+
+The Launch composition in Review has a mapping scoped to `.launch-homepage`: system sans-serif typography, bright mint-neutral canvas and surfaces, a clear teal accent, restrained warm supporting media, intermediate section spacing, and softer card/media radii. Text/action contrast and focus indicators passed the relevant WCAG 2.2 AA thresholds, and the mapping remained isolated from Premium, Manufacturing, and global defaults.

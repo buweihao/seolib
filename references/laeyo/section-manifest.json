@@ -1,0 +1,18 @@
+{
+  "source": "home-full.png",
+  "sourceDimensions": { "width": 1905, "height": 8024 },
+  "sections": [
+    { "index": 1, "slug": "header", "startY": 0, "endY": 180, "confidence": "high", "notes": "Contact utility row and primary navigation." },
+    { "index": 2, "slug": "hero", "startY": 180, "endY": 945, "confidence": "high", "notes": "Factory image, export-ready value proposition, and manufacturing introduction." },
+    { "index": 3, "slug": "factory-visit", "startY": 945, "endY": 1610, "confidence": "medium", "notes": "Includes a repeated fixed-navigation capture artifact before the factory tour content." },
+    { "index": 4, "slug": "buyer-types", "startY": 1610, "endY": 2252, "confidence": "high", "notes": "Buyer segments and the deliverables expected for each." },
+    { "index": 5, "slug": "launch-paths", "startY": 2252, "endY": 2730, "confidence": "high", "notes": "Private label, ODM, and OEM paths compared by buyer priority and risk." },
+    { "index": 6, "slug": "product-programs", "startY": 2730, "endY": 4480, "confidence": "medium", "notes": "Long category shortlist section interrupted by repeated fixed-navigation capture artifacts." },
+    { "index": 7, "slug": "moq-and-lead-time", "startY": 4480, "endY": 4990, "confidence": "medium", "notes": "MOQ and lead-time scenarios with acceleration levers; a fixed navigation bar overlays the table." },
+    { "index": 8, "slug": "sampling-workflow", "startY": 4990, "endY": 5500, "confidence": "medium", "notes": "Six gated steps from RFQ intake to shipment and document pack." },
+    { "index": 9, "slug": "capabilities", "startY": 5500, "endY": 6270, "confidence": "medium", "notes": "Why-choose heading and four capability pillars; fixed navigation crosses the heading." },
+    { "index": 10, "slug": "audit-proof", "startY": 6270, "endY": 6770, "confidence": "medium", "notes": "Audit-oriented evidence routes for IP, compliance, factory, testing, and QA; fixed navigation crosses the evidence grid." },
+    { "index": 11, "slug": "rfq", "startY": 6770, "endY": 7426, "confidence": "medium", "notes": "Quote promise and request form; fixed navigation crosses the form but the semantic section is complete." },
+    { "index": 12, "slug": "footer", "startY": 7426, "endY": 8024, "confidence": "high", "notes": "Company summary and deep buyer-resource link columns." }
+  ]
+}

@@ -1,0 +1,275 @@
+---
+import type { ComponentProps } from "astro/types";
+
+import ManufacturingHomepage from "../../components/compositions/ManufacturingHomepage.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const manufacturingHomepage = {
+  hero: {
+    id: "manufacturing-hero",
+    eyebrow: "Internal manufacturing review",
+    title: "Turn a manufacturing brief into evidence-led decisions.",
+    description:
+      "A procurement-focused homepage study for reviewing how facility context, capability boundaries, quality checkpoints, and buyer responsibilities can form one clear path.",
+    primaryAction: {
+      href: "#manufacturing-inquiry",
+      label: "Prepare a manufacturing brief",
+    },
+    secondaryAction: {
+      href: "#manufacturing-facility",
+      label: "Review the evidence path",
+    },
+    media: {
+      src: "/review-assets/manufacturing-hero.svg",
+      alt: "Abstract modular production line with connected vessels and checkpoints",
+      width: 1200,
+      height: 1400,
+    },
+  },
+  proof: {
+    label: "Evidence categories to investigate",
+    items: [
+      { title: "Facility context", detail: "Identify where relevant work and review gates occur." },
+      { title: "Defined ownership", detail: "Separate buyer inputs from supplier outputs." },
+      { title: "Checkpoint records", detail: "Name the evidence expected at each decision." },
+      { title: "Open assumptions", detail: "Keep unverified conditions visible before commitment." },
+    ],
+  },
+  facility: {
+    id: "manufacturing-facility",
+    eyebrow: "Facility verification",
+    title: "See the operating context behind the proposal.",
+    description:
+      "A useful facility overview connects spaces and handoffs to the buyer decision they support. This fixture identifies review categories only and makes no factory claim.",
+    media: {
+      src: "/review-assets/manufacturing-facility.svg",
+      alt: "Abstract floor plan with separated production zones and verification points",
+      width: 1200,
+      height: 900,
+      aspect: "landscape",
+    },
+    areas: [
+      {
+        name: "Development review",
+        description: "Clarify where requirements, compatibility questions, and sample decisions are assessed.",
+        evidenceNote: "Review category: ownership and decision records",
+      },
+      {
+        name: "Controlled handoff",
+        description: "Understand how an approved direction moves into production preparation without losing context.",
+        evidenceNote: "Review category: approved specifications and change control",
+      },
+      {
+        name: "Fill and pack readiness",
+        description: "Connect packaging requirements to line, material, and inspection considerations.",
+        evidenceNote: "Review category: compatibility and readiness checks",
+      },
+      {
+        name: "Release records",
+        description: "Identify which records support review before finished goods are handed over.",
+        evidenceNote: "Review category: release and traceability documents",
+      },
+    ],
+    verificationNote:
+      "For a real project, every facility statement must be replaced by client-supplied facts and supporting material.",
+    primaryAction: { href: "#manufacturing-capabilities", label: "Map the operating stages" },
+    secondaryAction: { href: "#manufacturing-quality", label: "Review quality checkpoints" },
+  },
+  capabilities: {
+    id: "manufacturing-capabilities",
+    eyebrow: "Capability boundaries",
+    title: "Make each production stage accountable.",
+    description:
+      "The matrix explains what information should enter a stage, what should leave it, and what evidence should support the handoff. It is not a statement of supplier capacity.",
+    items: [
+      {
+        name: "Brief evaluation",
+        description: "Translate commercial intent into requirements, constraints, and unresolved questions.",
+        buyerInput: "Audience, channel, market, intended use, and non-negotiable constraints.",
+        supplierOutput: "A scoped question set and documented assumptions.",
+        evidenceNote: "Brief version, decision log, and responsibility map to request.",
+      },
+      {
+        name: "Sample direction",
+        description: "Compare a defined direction against the agreed criteria before production planning.",
+        buyerInput: "Priority attributes, packaging context, and acceptance criteria.",
+        supplierOutput: "A reviewable sample direction with recorded open items.",
+        evidenceNote: "Sample record and approval criteria to request.",
+      },
+      {
+        name: "Production readiness",
+        description: "Confirm that approved inputs, materials, responsibilities, and controls align.",
+        buyerInput: "Approved direction, artwork status, and commercial decisions.",
+        supplierOutput: "A readiness summary identifying dependencies and review gates.",
+        evidenceNote: "Specification set and readiness checklist to request.",
+      },
+      {
+        name: "Release handoff",
+        description: "Define what must be reviewed before a completed production stage is accepted.",
+        buyerInput: "Required documents, destination needs, and acceptance ownership.",
+        supplierOutput: "A structured handoff with records appropriate to the agreed scope.",
+        evidenceNote: "Release, traceability, and handoff records to request.",
+      },
+    ],
+  },
+  products: {
+    id: "manufacturing-products",
+    eyebrow: "Product range framing",
+    title: "Shortlist categories by manufacturing questions.",
+    description:
+      "These fictional families demonstrate information architecture only. They are not a catalogue, formula list, or claim that a supplier produces these formats.",
+    families: [
+      {
+        name: "Rinse-off systems",
+        description: "Frame viscosity, dispensing, use sequence, and packaging questions before selecting a direction.",
+        media: {
+          src: "/review-assets/manufacturing-rinse.svg",
+          alt: "Abstract pump vessel and flowing line representing a rinse-off format",
+          width: 800,
+          height: 600,
+        },
+        action: { href: "#manufacturing-pathways", label: "Compare cooperation routes" },
+      },
+      {
+        name: "Leave-on directions",
+        description: "Organize texture, application, pack interaction, and review evidence as one decision set.",
+        media: {
+          src: "/review-assets/manufacturing-leave-on.svg",
+          alt: "Abstract dropper vessel and layered checkpoints representing a leave-on format",
+          width: 800,
+          height: 600,
+        },
+        action: { href: "#manufacturing-pathways", label: "Compare cooperation routes" },
+      },
+      {
+        name: "Body care formats",
+        description: "Connect format, fill approach, pack scale, and routine context without implying production facts.",
+        media: {
+          src: "/review-assets/manufacturing-body.svg",
+          alt: "Abstract jar and modular blocks representing body care format decisions",
+          width: 800,
+          height: 600,
+        },
+        action: { href: "#manufacturing-pathways", label: "Compare cooperation routes" },
+      },
+    ],
+  },
+  quality: {
+    id: "manufacturing-quality",
+    eyebrow: "Quality framework",
+    title: "Place evidence at the decision it supports.",
+    description:
+      "A quality narrative should explain checkpoints and records without substituting generic badges for project-specific verification.",
+    checkpoints: [
+      {
+        stage: "Input definition",
+        controlPurpose: "Confirm that requirements, materials, artwork, and ownership are explicit before work advances.",
+        evidenceType: "Approved specifications and responsibility records to request.",
+      },
+      {
+        stage: "Sample approval",
+        controlPurpose: "Record what was reviewed, which criteria were used, and which issues remain open.",
+        evidenceType: "Sample approval and change history to request.",
+      },
+      {
+        stage: "Production readiness",
+        controlPurpose: "Check that approved inputs and planned controls are aligned before execution.",
+        evidenceType: "Readiness checklist and control plan to request.",
+      },
+      {
+        stage: "Release and handoff",
+        controlPurpose: "Define the records and acceptance review needed before final handoff.",
+        evidenceType: "Release, inspection, and traceability records to request.",
+      },
+    ],
+    verificationAction: { href: "#manufacturing-process", label: "Follow the review gates" },
+  },
+  pathways: {
+    id: "manufacturing-pathways",
+    eyebrow: "Cooperation routes",
+    title: "Choose a route by what is already decided.",
+    description:
+      "The route should reflect the maturity of the brief and the decisions still owned by the buyer—not a preselected commercial promise.",
+    pathways: [
+      {
+        title: "Select and adapt",
+        description: "Begin from a defined direction and focus review on fit, presentation, and remaining constraints.",
+        decisionCue: "Useful when speed of decision matters more than broad exploration.",
+        action: { href: "#manufacturing-process", label: "Review responsibilities" },
+      },
+      {
+        title: "Guided customization",
+        description: "Adjust a starting direction through a bounded set of product and packaging decisions.",
+        decisionCue: "Useful when differentiation needs a controlled scope.",
+        action: { href: "#manufacturing-process", label: "Review responsibilities" },
+      },
+      {
+        title: "Original brief",
+        description: "Start from a commercial and use-case brief with more questions requiring structured validation.",
+        decisionCue: "Useful when the intended outcome is clearer than the technical route.",
+        action: { href: "#manufacturing-process", label: "Review responsibilities" },
+      },
+    ],
+  },
+  process: {
+    id: "manufacturing-process",
+    eyebrow: "Decision-gated process",
+    title: "Keep inputs, outputs, and approvals visible.",
+    description: "The review sequence separates buyer decisions from supplier validation responsibilities.",
+    steps: [
+      {
+        title: "Qualify the brief",
+        description: "Confirm the audience, use context, constraints, and questions that determine supplier fit.",
+        buyerAction: "Provide commercial context and identify non-negotiable decisions.",
+        supplierAction: "Document gaps, dependencies, and evidence needed for assessment.",
+      },
+      {
+        title: "Review the direction",
+        description: "Evaluate a bounded option against agreed criteria and record what remains unresolved.",
+        buyerAction: "Review the direction and state acceptance criteria.",
+        supplierAction: "Return a structured option and identify assumptions requiring approval.",
+      },
+      {
+        title: "Confirm readiness",
+        description: "Align approved inputs, packaging context, responsibilities, and planned controls.",
+        buyerAction: "Approve scope, content, and outstanding commercial decisions.",
+        supplierAction: "Confirm readiness evidence and flag any blocked dependency.",
+      },
+      {
+        title: "Approve the handoff",
+        description: "Review the agreed records and ownership before the next commercial or production commitment.",
+        buyerAction: "Confirm acceptance ownership and required handoff information.",
+        supplierAction: "Provide the records and status defined by the approved scope.",
+      },
+    ],
+  },
+  inquiry: {
+    id: "manufacturing-inquiry",
+    eyebrow: "Manufacturing review handoff",
+    title: "Start with the facts that shape supplier fit.",
+    description:
+      "This static fixture demonstrates qualification and CTA hierarchy only. It does not submit a form or promise a supplier response.",
+    preparationItems: [
+      "Market, audience, and sales channel",
+      "Product direction and intended use",
+      "Packaging status and known constraints",
+      "Evidence and decisions required next",
+    ],
+    primaryAction: {
+      href: "mailto:manufacturing-review@example.invalid",
+      label: "Open a review email",
+    },
+    secondaryAction: {
+      href: "#manufacturing-hero",
+      label: "Return to the manufacturing brief",
+    },
+  },
+} satisfies ComponentProps<typeof ManufacturingHomepage>;
+---
+
+<BaseLayout
+  title="Manufacturing Homepage Composition Review"
+  description="Internal review fixture for the Manufacturing homepage composition."
+>
+  <ManufacturingHomepage {...manufacturingHomepage} />
+</BaseLayout>

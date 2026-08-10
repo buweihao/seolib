@@ -1,0 +1,21 @@
+{
+  "source": "home-full.png",
+  "sourceDimensions": { "width": 1920, "height": 10365 },
+  "sections": [
+    { "index": 1, "slug": "announcement", "startY": 0, "endY": 51, "confidence": "high", "notes": "Limited-time offer banner." },
+    { "index": 2, "slug": "header", "startY": 51, "endY": 152, "confidence": "high", "notes": "Logo, compact navigation, and contact CTA." },
+    { "index": 3, "slug": "hero", "startY": 152, "endY": 1094, "confidence": "high", "notes": "Editorial split hero presenting an end-to-end clean beauty partner." },
+    { "index": 4, "slug": "services-marquee", "startY": 1094, "endY": 1165, "confidence": "high", "notes": "Horizontal oversized services ticker." },
+    { "index": 5, "slug": "what-we-do-intro", "startY": 1165, "endY": 1428, "confidence": "high", "notes": "Oversized chapter heading introducing the service sequence." },
+    { "index": 6, "slug": "product-development", "startY": 1428, "endY": 2542, "confidence": "high", "notes": "Private label and product development service detail with material imagery." },
+    { "index": 7, "slug": "brand-creation", "startY": 2542, "endY": 3570, "confidence": "high", "notes": "Brand voice and visual identity service detail." },
+    { "index": 8, "slug": "creative-services", "startY": 3570, "endY": 4804, "confidence": "high", "notes": "Digital presence, web, social, and content services." },
+    { "index": 9, "slug": "why-us", "startY": 4804, "endY": 6042, "confidence": "high", "notes": "Six operational/value reasons displayed in an editorial grid." },
+    { "index": 10, "slug": "philosophy", "startY": 6042, "endY": 7005, "confidence": "high", "notes": "Innovation, sustainability, end-to-end, affordability, and collaboration principles." },
+    { "index": 11, "slug": "free-services", "startY": 7005, "endY": 8224, "confidence": "high", "notes": "Three complete high-value free-service offers tied to a 5,000 MOQ order." },
+    { "index": 12, "slug": "standards", "startY": 8224, "endY": 8617, "confidence": "high", "notes": "Retail and clean-label standard logos." },
+    { "index": 13, "slug": "vision", "startY": 8617, "endY": 9384, "confidence": "high", "notes": "Split-image mission and vision statement with CTA." },
+    { "index": 14, "slug": "value-marquee", "startY": 9384, "endY": 9797, "confidence": "medium", "notes": "Oversized horizontally clipped value statements; preserve as captured." },
+    { "index": 15, "slug": "footer", "startY": 9797, "endY": 10365, "confidence": "high", "notes": "Explore links, newsletter capture, contact, and copyright." }
+  ]
+}

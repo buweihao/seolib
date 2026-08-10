@@ -1,0 +1,174 @@
+---
+import Container from "../primitives/Container.astro";
+import SectionHeading from "../primitives/SectionHeading.astro";
+
+interface CapabilityItem {
+  name: string;
+  description: string;
+  buyerInput?: string;
+  supplierOutput?: string;
+  evidenceNote?: string;
+}
+
+interface CapabilityLabels {
+  buyerInput: string;
+  supplierOutput: string;
+  evidence: string;
+}
+
+interface Props {
+  id: string;
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  items: readonly CapabilityItem[];
+  labels?: CapabilityLabels;
+  class?: string;
+}
+
+const {
+  id,
+  eyebrow,
+  title,
+  description,
+  items,
+  labels = {
+    buyerInput: "Buyer input",
+    supplierOutput: "Supplier output",
+    evidence: "Evidence to review",
+  },
+  class: className,
+} = Astro.props;
+
+const headingId = `${id}-title`;
+---
+
+<section id={id} class:list={["capability-matrix", className]} aria-labelledby={headingId}>
+  <Container size="wide">
+    <SectionHeading
+      id={headingId}
+      eyebrow={eyebrow}
+      title={title}
+      description={description}
+    />
+
+    <ol class="capability-matrix__list">
+      {items.map((item, index) => (
+        <li class="capability-matrix__item">
+          <article>
+            <header>
+              <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+              <h3>{item.name}</h3>
+              <p>{item.description}</p>
+            </header>
+
+            {(item.buyerInput || item.supplierOutput || item.evidenceNote) && (
+              <dl>
+                {item.buyerInput && (
+                  <div>
+                    <dt>{labels.buyerInput}</dt>
+                    <dd>{item.buyerInput}</dd>
+                  </div>
+                )}
+                {item.supplierOutput && (
+                  <div>
+                    <dt>{labels.supplierOutput}</dt>
+                    <dd>{item.supplierOutput}</dd>
+                  </div>
+                )}
+                {item.evidenceNote && (
+                  <div>
+                    <dt>{labels.evidence}</dt>
+                    <dd>{item.evidenceNote}</dd>
+                  </div>
+                )}
+              </dl>
+            )}
+          </article>
+        </li>
+      ))}
+    </ol>
+  </Container>
+</section>
+
+<style>
+  .capability-matrix {
+    padding-block: var(--ds-section-standard);
+  }
+
+  .capability-matrix__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+    gap: 1px;
+    margin: var(--ds-space-12) 0 0;
+    padding: 1px;
+    background: var(--ds-color-border);
+    list-style: none;
+  }
+
+  .capability-matrix__item {
+    min-width: 0;
+    background: var(--ds-color-surface);
+  }
+
+  .capability-matrix article {
+    height: 100%;
+    padding: var(--ds-space-6);
+  }
+
+  .capability-matrix header > span {
+    display: block;
+    margin-bottom: var(--ds-space-8);
+    color: var(--ds-color-accent);
+    font-size: 0.75rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+  }
+
+  .capability-matrix h3,
+  .capability-matrix p,
+  .capability-matrix dl,
+  .capability-matrix dd {
+    margin: 0;
+  }
+
+  .capability-matrix h3 {
+    font-size: clamp(1.25rem, 2vw, 1.625rem);
+    line-height: 1.2;
+  }
+
+  .capability-matrix header p {
+    margin-top: var(--ds-space-3);
+    color: var(--ds-color-muted);
+  }
+
+  .capability-matrix dl {
+    display: grid;
+    gap: var(--ds-space-4);
+    margin-top: var(--ds-space-8);
+  }
+
+  .capability-matrix dl div {
+    border-top: 1px solid var(--ds-color-border);
+    padding-top: var(--ds-space-3);
+  }
+
+  .capability-matrix dt {
+    color: var(--ds-color-accent);
+    font-size: 0.6875rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .capability-matrix dd {
+    margin-top: var(--ds-space-1);
+    font-size: 0.9375rem;
+  }
+
+  @media (min-width: 64rem) {
+    .capability-matrix article {
+      padding: var(--ds-space-8);
+    }
+  }
+</style>
