@@ -1,0 +1,25 @@
+---
+import type { ComponentProps } from "astro/types";
+
+import EvidenceFeature from "../sections/EvidenceFeature.astro";
+import InquiryCTA from "../sections/InquiryCTA.astro";
+import PageIntro from "../sections/PageIntro.astro";
+import ProductFamilies from "../sections/ProductFamilies.astro";
+
+interface Props {
+  intro: ComponentProps<typeof PageIntro>;
+  products: ComponentProps<typeof ProductFamilies>;
+  evidence: ComponentProps<typeof EvidenceFeature>;
+  inquiry: ComponentProps<typeof InquiryCTA>;
+  class?: string;
+}
+
+const { intro, products, evidence, inquiry, class: className } = Astro.props;
+---
+
+<div class:list={["products-page", className]}>
+  <PageIntro {...intro} />
+  <ProductFamilies {...products} />
+  <EvidenceFeature {...evidence} />
+  <InquiryCTA {...inquiry} />
+</div>

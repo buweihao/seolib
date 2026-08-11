@@ -1,0 +1,16 @@
+---
+import ProductsPage from "../../../components/compositions/ProductsPage.astro";
+import { baseSitePaths, createBaseSiteShell, productsPage } from "../../../fixtures/baseSite";
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+
+const shell = createBaseSiteShell(baseSitePaths.products);
+---
+
+<SiteLayout
+  title="Products Structure | Five-page Site Review"
+  description="Internal review of a B2B product-family page without ecommerce or supplier availability claims."
+  noindex
+  {...shell}
+>
+  <ProductsPage {...productsPage} />
+</SiteLayout>

@@ -1,0 +1,249 @@
+---
+import ActionLink from "../primitives/ActionLink.astro";
+import Container from "../primitives/Container.astro";
+
+interface NavigationItem {
+  href: string;
+  label: string;
+}
+
+interface HeaderAction {
+  href: string;
+  label: string;
+  ariaLabel?: string;
+}
+
+interface Props {
+  brand: string;
+  homeHref: string;
+  navigation: readonly NavigationItem[];
+  currentPath: string;
+  inquiryAction?: HeaderAction;
+  utilityText?: string;
+  class?: string;
+}
+
+const {
+  brand,
+  homeHref,
+  navigation,
+  currentPath,
+  inquiryAction,
+  utilityText,
+  class: className,
+} = Astro.props;
+
+const normalizePath = (path: string) => {
+  const withoutQuery = path.split(/[?#]/, 1)[0] || "/";
+  return withoutQuery === "/" ? "/" : `${withoutQuery.replace(/\/+$/, "")}/`;
+};
+
+const normalizedCurrentPath = normalizePath(currentPath);
+---
+
+<header class:list={["site-header", className]}>
+  {utilityText && <p class="site-header__utility">{utilityText}</p>}
+  <Container size="wide" class="site-header__container">
+    <a class="site-header__brand" href={homeHref} aria-label={`${brand} home`}>{brand}</a>
+
+    <div class="site-header__desktop">
+      <nav aria-label="Primary navigation">
+        <ul>
+          {navigation.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={normalizePath(item.href) === normalizedCurrentPath ? "page" : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      {inquiryAction && (
+        <ActionLink
+          href={inquiryAction.href}
+          label={inquiryAction.label}
+          ariaLabel={inquiryAction.ariaLabel}
+          variant="primary"
+        />
+      )}
+    </div>
+
+    <details class="site-header__menu">
+      <summary>
+        <span>Menu</span>
+        <span class="site-header__menu-mark" aria-hidden="true"></span>
+      </summary>
+      <div class="site-header__panel">
+        <nav aria-label="Primary navigation">
+          <ul>
+            {navigation.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  aria-current={normalizePath(item.href) === normalizedCurrentPath ? "page" : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        {inquiryAction && (
+          <ActionLink
+            href={inquiryAction.href}
+            label={inquiryAction.label}
+            ariaLabel={inquiryAction.ariaLabel}
+            variant="primary"
+          />
+        )}
+      </div>
+    </details>
+  </Container>
+</header>
+
+<style>
+  .site-header {
+    position: relative;
+    z-index: 10;
+    border-bottom: 1px solid var(--ds-color-border);
+    background: color-mix(in oklch, var(--ds-color-canvas), transparent 4%);
+  }
+
+  .site-header__utility {
+    margin: 0;
+    border-bottom: 1px solid var(--ds-color-border);
+    padding: var(--ds-space-2) var(--ds-page-gutter);
+    color: var(--ds-color-muted);
+    font-size: 0.75rem;
+    font-weight: 650;
+    letter-spacing: 0.05em;
+    text-align: center;
+  }
+
+  .site-header :global(.site-header__container) {
+    display: flex;
+    min-height: 4.75rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--ds-space-4);
+  }
+
+  .site-header__brand {
+    max-width: 18rem;
+    padding-block: var(--ds-space-3);
+    font-family: var(--ds-font-display);
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 750;
+    line-height: 1.2;
+    text-decoration: none;
+  }
+
+  .site-header__desktop {
+    display: none;
+  }
+
+  .site-header__menu summary {
+    display: flex;
+    min-width: 4.75rem;
+    min-height: 2.75rem;
+    align-items: center;
+    justify-content: center;
+    gap: var(--ds-space-3);
+    border: 1px solid var(--ds-color-border);
+    border-radius: var(--ds-radius-control);
+    padding: var(--ds-space-2) var(--ds-space-3);
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .site-header__menu summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .site-header__menu-mark {
+    width: 0.85rem;
+    height: 0.65rem;
+    border-block: 2px solid currentColor;
+  }
+
+  .site-header__menu[open] .site-header__menu-mark {
+    height: 0;
+    border-bottom: 0;
+  }
+
+  .site-header__panel {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    display: grid;
+    gap: var(--ds-space-4);
+    border-bottom: 1px solid var(--ds-color-border);
+    background: var(--ds-color-canvas);
+    padding: var(--ds-space-6) var(--ds-page-gutter);
+    box-shadow: 0 1rem 2rem color-mix(in oklch, var(--ds-color-ink), transparent 90%);
+  }
+
+  .site-header nav ul {
+    display: grid;
+    gap: var(--ds-space-1);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-header nav a {
+    display: flex;
+    min-height: 2.75rem;
+    align-items: center;
+    border-bottom: 1px solid var(--ds-color-border);
+    font-weight: 650;
+    text-decoration: none;
+  }
+
+  .site-header nav a[aria-current="page"] {
+    color: var(--ds-color-accent);
+    text-decoration: underline;
+    text-decoration-thickness: 0.125rem;
+    text-underline-offset: 0.35rem;
+  }
+
+  .site-header nav a:hover {
+    color: var(--ds-color-accent);
+  }
+
+  .site-header__panel > :global(.action-link) {
+    justify-self: start;
+  }
+
+  @media (min-width: 64rem) {
+    .site-header__desktop {
+      display: flex;
+      width: 100%;
+      flex: 1;
+      align-items: center;
+      justify-content: flex-end;
+      gap: clamp(1rem, 3vw, 2.5rem);
+    }
+
+    .site-header__menu {
+      display: none;
+    }
+
+    .site-header nav ul {
+      display: flex;
+      align-items: center;
+      gap: clamp(0.25rem, 1.5vw, 1.25rem);
+    }
+
+    .site-header nav a {
+      border: 0;
+      padding-inline: var(--ds-space-2);
+      font-size: 0.9375rem;
+    }
+  }
+</style>

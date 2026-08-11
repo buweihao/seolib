@@ -1,0 +1,17 @@
+---
+import LaunchHomepage from "../../../components/compositions/LaunchHomepage.astro";
+import { baseSitePaths, createBaseSiteShell, homePage } from "../../../fixtures/baseSite";
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+
+const shell = createBaseSiteShell(baseSitePaths.home);
+---
+
+<SiteLayout
+  title="Five-page B2B Manufacturer Site Review"
+  description="Internal review fixture for the reusable five-page B2B manufacturer website structure."
+  noindex
+  contentOwnsMain
+  {...shell}
+>
+  <LaunchHomepage {...homePage} />
+</SiteLayout>

@@ -10,6 +10,7 @@ import ProofStrip from "../sections/ProofStrip.astro";
 import StatementHero from "../sections/StatementHero.astro";
 
 interface Props {
+  id?: string;
   hero: ComponentProps<typeof StatementHero>;
   proof: ComponentProps<typeof ProofStrip>;
   evidence: ComponentProps<typeof EvidenceFeature>;
@@ -21,6 +22,7 @@ interface Props {
 }
 
 const {
+  id,
   hero,
   proof,
   evidence,
@@ -32,7 +34,7 @@ const {
 } = Astro.props;
 ---
 
-<main class:list={["premium-homepage", className]}>
+<main id={id} class:list={["premium-homepage", className]}>
   <StatementHero {...hero} />
   <ProofStrip {...proof} />
   <EvidenceFeature {...evidence} />

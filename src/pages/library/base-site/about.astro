@@ -1,0 +1,16 @@
+---
+import AboutPage from "../../../components/compositions/AboutPage.astro";
+import { aboutPage, baseSitePaths, createBaseSiteShell } from "../../../fixtures/baseSite";
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+
+const shell = createBaseSiteShell(baseSitePaths.about);
+---
+
+<SiteLayout
+  title="About Structure | Five-page Site Review"
+  description="Internal review of an evidence-led B2B manufacturer About page structure."
+  noindex
+  {...shell}
+>
+  <AboutPage {...aboutPage} />
+</SiteLayout>

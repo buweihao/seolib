@@ -1,0 +1,171 @@
+---
+import Container from "../primitives/Container.astro";
+import SectionHeading from "../primitives/SectionHeading.astro";
+
+interface ContactOption {
+  label: string;
+  value: string;
+  href: string;
+  description: string;
+}
+
+interface Props {
+  id: string;
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  options: readonly ContactOption[];
+  preparationItems: readonly string[];
+  preparationTitle?: string;
+  followUpNote?: string;
+  class?: string;
+}
+
+const {
+  id,
+  eyebrow,
+  title,
+  description,
+  options,
+  preparationItems,
+  preparationTitle = "Helpful information to prepare",
+  followUpNote,
+  class: className,
+} = Astro.props;
+---
+
+<section id={id} class:list={["contact-options", className]} aria-labelledby={`${id}-title`}>
+  <Container size="wide">
+    <SectionHeading id={`${id}-title`} eyebrow={eyebrow} title={title} description={description} />
+
+    <div class="contact-options__grid">
+      <address>
+        <ul role="list">
+          {options.map((option) => (
+            <li>
+              <article>
+                <p class="contact-options__label">{option.label}</p>
+                <a href={option.href}>{option.value}</a>
+                <p>{option.description}</p>
+              </article>
+            </li>
+          ))}
+        </ul>
+      </address>
+
+      <aside class="contact-options__preparation" aria-labelledby={`${id}-preparation-title`}>
+        <h3 id={`${id}-preparation-title`}>{preparationTitle}</h3>
+        <ul>
+          {preparationItems.map((item) => <li>{item}</li>)}
+        </ul>
+        {followUpNote && <p>{followUpNote}</p>}
+      </aside>
+    </div>
+  </Container>
+</section>
+
+<style>
+  .contact-options {
+    padding-block: var(--ds-section-standard);
+  }
+
+  .contact-options__grid {
+    display: grid;
+    gap: var(--ds-space-12);
+    margin-top: var(--ds-space-12);
+  }
+
+  .contact-options address {
+    font-style: normal;
+  }
+
+  .contact-options address ul {
+    display: grid;
+    gap: 1px;
+    margin: 0;
+    padding: 1px;
+    background: var(--ds-color-border);
+    list-style: none;
+  }
+
+  .contact-options address li {
+    min-width: 0;
+    background: var(--ds-color-surface);
+  }
+
+  .contact-options article {
+    height: 100%;
+    padding: var(--ds-space-6);
+  }
+
+  .contact-options article p {
+    margin: 0;
+  }
+
+  .contact-options__label {
+    color: var(--ds-color-accent);
+    font-size: 0.75rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .contact-options article a {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    margin-top: var(--ds-space-3);
+    overflow-wrap: anywhere;
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    font-weight: 700;
+    text-underline-offset: 0.2em;
+  }
+
+  .contact-options article p:last-child {
+    margin-top: var(--ds-space-3);
+    color: var(--ds-color-muted);
+  }
+
+  .contact-options__preparation {
+    border-left: 3px solid var(--ds-color-accent);
+    background: var(--ds-color-surface);
+    padding: var(--ds-space-6);
+  }
+
+  .contact-options__preparation h3,
+  .contact-options__preparation ul,
+  .contact-options__preparation > p {
+    margin: 0;
+  }
+
+  .contact-options__preparation h3 {
+    font-size: clamp(1.25rem, 2vw, 1.625rem);
+  }
+
+  .contact-options__preparation ul {
+    display: grid;
+    gap: var(--ds-space-3);
+    margin-top: var(--ds-space-6);
+    padding-left: 1.2rem;
+  }
+
+  .contact-options__preparation > p {
+    margin-top: var(--ds-space-6);
+    border-top: 1px solid var(--ds-color-border);
+    padding-top: var(--ds-space-4);
+    color: var(--ds-color-muted);
+    font-size: 0.9375rem;
+  }
+
+  @media (min-width: 48rem) {
+    .contact-options address ul {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .contact-options__grid {
+      grid-template-columns: minmax(0, 1.25fr) minmax(18rem, 0.75fr);
+    }
+  }
+</style>

@@ -1,0 +1,16 @@
+---
+import CapabilitiesPage from "../../../components/compositions/CapabilitiesPage.astro";
+import { baseSitePaths, capabilitiesPage, createBaseSiteShell } from "../../../fixtures/baseSite";
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+
+const shell = createBaseSiteShell(baseSitePaths.capabilities);
+---
+
+<SiteLayout
+  title="Capabilities Structure | Five-page Site Review"
+  description="Internal review of a B2B capability, quality, and responsibility-led page structure."
+  noindex
+  {...shell}
+>
+  <CapabilitiesPage {...capabilitiesPage} />
+</SiteLayout>

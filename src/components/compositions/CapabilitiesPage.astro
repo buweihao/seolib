@@ -1,0 +1,28 @@
+---
+import type { ComponentProps } from "astro/types";
+
+import CapabilityMatrix from "../sections/CapabilityMatrix.astro";
+import InquiryCTA from "../sections/InquiryCTA.astro";
+import PageIntro from "../sections/PageIntro.astro";
+import ProcessSteps from "../sections/ProcessSteps.astro";
+import QualityFramework from "../sections/QualityFramework.astro";
+
+interface Props {
+  intro: ComponentProps<typeof PageIntro>;
+  capabilities: ComponentProps<typeof CapabilityMatrix>;
+  quality: ComponentProps<typeof QualityFramework>;
+  process: ComponentProps<typeof ProcessSteps>;
+  inquiry: ComponentProps<typeof InquiryCTA>;
+  class?: string;
+}
+
+const { intro, capabilities, quality, process, inquiry, class: className } = Astro.props;
+---
+
+<div class:list={["capabilities-page", className]}>
+  <PageIntro {...intro} />
+  <CapabilityMatrix {...capabilities} />
+  <QualityFramework {...quality} />
+  <ProcessSteps {...process} />
+  <InquiryCTA {...inquiry} />
+</div>

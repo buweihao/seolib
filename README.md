@@ -4,7 +4,7 @@ A static-first Astro foundation for building original English B2B websites for s
 
 ## Current phase
 
-Phase 1 establishes the application and design-system foundation. It intentionally contains no production homepage, theme composition, marketing section, CMS, or client content.
+Phase 7 is in review. Three homepage directions are Approved, and the connected Home, Products, Capabilities, About, and Contact review system is implemented under `/library/base-site/`. Client configuration, CMS, public routes, and deployment remain deferred to later phases.
 
 ## Requirements
 

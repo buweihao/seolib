@@ -1,0 +1,172 @@
+---
+import ActionLink from "../primitives/ActionLink.astro";
+import Container from "../primitives/Container.astro";
+
+interface FooterLink {
+  href: string;
+  label: string;
+}
+
+interface FooterLinkGroup {
+  title: string;
+  links: readonly FooterLink[];
+}
+
+interface FooterAction {
+  href: string;
+  label: string;
+  ariaLabel?: string;
+}
+
+interface Props {
+  brand: string;
+  description?: string;
+  linkGroups: readonly FooterLinkGroup[];
+  contactActions?: readonly FooterAction[];
+  copyrightLabel: string;
+  class?: string;
+}
+
+const {
+  brand,
+  description,
+  linkGroups,
+  contactActions = [],
+  copyrightLabel,
+  class: className,
+} = Astro.props;
+---
+
+<footer class:list={["site-footer", className]}>
+  <Container size="wide">
+    <div class="site-footer__grid">
+      <div class="site-footer__identity">
+        <p class="site-footer__brand">{brand}</p>
+        {description && <p>{description}</p>}
+        {contactActions.length > 0 && (
+          <div class="site-footer__actions">
+            {contactActions.map((action) => (
+              <ActionLink
+                href={action.href}
+                label={action.label}
+                ariaLabel={action.ariaLabel}
+                variant="text"
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      <nav class="site-footer__navigation" aria-label="Footer navigation">
+        {linkGroups.map((group) => (
+          <div>
+            <h2>{group.title}</h2>
+            <ul>
+              {group.links.map((link) => (
+                <li><a href={link.href}>{link.label}</a></li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </nav>
+    </div>
+
+    <p class="site-footer__copyright">{copyrightLabel}</p>
+  </Container>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--ds-color-border);
+    background: var(--ds-color-ink);
+    color: var(--ds-color-canvas);
+    padding-block: var(--ds-section-compact) var(--ds-space-8);
+  }
+
+  .site-footer__grid {
+    display: grid;
+    gap: var(--ds-space-12);
+  }
+
+  .site-footer__identity {
+    max-width: 34rem;
+  }
+
+  .site-footer__brand,
+  .site-footer__identity > p,
+  .site-footer__copyright,
+  .site-footer h2 {
+    margin: 0;
+  }
+
+  .site-footer__brand {
+    font-family: var(--ds-font-display);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .site-footer__identity > p:not(.site-footer__brand) {
+    margin-top: var(--ds-space-4);
+    color: color-mix(in oklch, var(--ds-color-canvas), transparent 22%);
+  }
+
+  .site-footer__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ds-space-2) var(--ds-space-6);
+    margin-top: var(--ds-space-6);
+  }
+
+  .site-footer__actions :global(.action-link) {
+    --ds-color-accent: var(--ds-color-canvas);
+  }
+
+  .site-footer__navigation {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    gap: var(--ds-space-8);
+  }
+
+  .site-footer h2 {
+    color: color-mix(in oklch, var(--ds-color-canvas), transparent 32%);
+    font-family: var(--ds-font-sans);
+    font-size: 0.75rem;
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .site-footer ul {
+    display: grid;
+    gap: var(--ds-space-2);
+    margin: var(--ds-space-4) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-footer li a {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    text-underline-offset: 0.2em;
+  }
+
+  .site-footer li a:hover {
+    color: color-mix(in oklch, var(--ds-color-canvas), var(--ds-color-accent) 28%);
+  }
+
+  .site-footer__copyright {
+    margin-top: var(--ds-space-12);
+    border-top: 1px solid color-mix(in oklch, var(--ds-color-canvas), transparent 78%);
+    padding-top: var(--ds-space-6);
+    color: color-mix(in oklch, var(--ds-color-canvas), transparent 38%);
+    font-size: 0.8125rem;
+  }
+
+  @media (min-width: 48rem) {
+    .site-footer__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.8fr);
+    }
+  }
+</style>

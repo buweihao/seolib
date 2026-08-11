@@ -1,0 +1,16 @@
+---
+import ContactPage from "../../../components/compositions/ContactPage.astro";
+import { baseSitePaths, contactPage, createBaseSiteShell } from "../../../fixtures/baseSite";
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+
+const shell = createBaseSiteShell(baseSitePaths.contact);
+---
+
+<SiteLayout
+  title="Contact Structure | Five-page Site Review"
+  description="Internal review of B2B contact-channel and inquiry-preparation structure without form submission."
+  noindex
+  {...shell}
+>
+  <ContactPage {...contactPage} />
+</SiteLayout>

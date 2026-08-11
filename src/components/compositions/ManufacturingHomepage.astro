@@ -12,6 +12,7 @@ import QualityFramework from "../sections/QualityFramework.astro";
 import StatementHero from "../sections/StatementHero.astro";
 
 interface Props {
+  id?: string;
   hero: ComponentProps<typeof StatementHero>;
   proof: ComponentProps<typeof ProofStrip>;
   facility: ComponentProps<typeof FacilityOverview>;
@@ -25,6 +26,7 @@ interface Props {
 }
 
 const {
+  id,
   hero,
   proof,
   facility,
@@ -38,7 +40,7 @@ const {
 } = Astro.props;
 ---
 
-<main class:list={["manufacturing-homepage", className]}>
+<main id={id} class:list={["manufacturing-homepage", className]}>
   <StatementHero {...hero} />
   <ProofStrip {...proof} />
   <FacilityOverview {...facility} />

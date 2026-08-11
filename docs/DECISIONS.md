@@ -88,4 +88,12 @@ Important architecture decisions use a compact ADR-style record. New records are
 
 **Reason:** Early-stage buyers need a clearer decision sequence and lower information density, but those needs do not establish a new component purpose. Reusing the existing interfaces tests whether the shared library can create a genuinely distinct direction without duplication.
 
-**Consequences:** `LaunchHomepage-001` owns only the approved eight-section order and local token mapping. MOQ, timing, evidence, and readiness remain client-supplied facts or evaluation factors rather than defaults or promises. The composition is in Review; Phase 7 remains outside this decision.
+**Consequences:** `LaunchHomepage-001` owns only the approved eight-section order and local token mapping. MOQ, timing, evidence, and readiness remain client-supplied facts or evaluation factors rather than defaults or promises. The composition passed human review on 2026-08-11 and is Approved; Phase 7 remains outside this decision.
+
+## 2026-08-11 — Validate the five-page system before client configuration
+
+**Decision:** Define Home, Products, Capabilities, About, and Contact as the reusable base IA. Validate them as connected, noindex review routes with a typed shared shell and neutral fixture data before introducing public client routes.
+
+**Reason:** Cross-page navigation and inquiry journeys must be proven once, while company facts, composition choice, media, contacts, and theme values still belong to the future client configuration layer.
+
+**Consequences:** Home reuses an Approved homepage composition; four inner-page compositions reuse shared sections. `SiteLayout.astro` owns metadata, skip link, header, main, and footer behavior. Phase 8 will replace neutral fixture values with typed client configuration and connect the same compositions to public routes without copying components.

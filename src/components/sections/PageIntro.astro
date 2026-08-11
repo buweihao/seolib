@@ -1,0 +1,138 @@
+---
+import ActionLink from "../primitives/ActionLink.astro";
+import Container from "../primitives/Container.astro";
+
+interface IntroAction {
+  href: string;
+  label: string;
+  ariaLabel?: string;
+}
+
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  id: string;
+  eyebrow?: string;
+  title: string;
+  description: string;
+  primaryAction?: IntroAction;
+  secondaryAction?: IntroAction;
+  breadcrumbs?: readonly BreadcrumbItem[];
+  class?: string;
+}
+
+const {
+  id,
+  eyebrow,
+  title,
+  description,
+  primaryAction,
+  secondaryAction,
+  breadcrumbs = [],
+  class: className,
+} = Astro.props;
+---
+
+<section id={id} class:list={["page-intro", className]} aria-labelledby={`${id}-title`}>
+  <Container>
+    {breadcrumbs.length > 0 && (
+      <nav class="page-intro__breadcrumbs" aria-label="Breadcrumb">
+        <ol>
+          {breadcrumbs.map((item, index) => (
+            <li>
+              {item.href && index < breadcrumbs.length - 1
+                ? <a href={item.href}>{item.label}</a>
+                : <span aria-current={index === breadcrumbs.length - 1 ? "page" : undefined}>{item.label}</span>}
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )}
+
+    <div class="page-intro__content">
+      {eyebrow && <p class="page-intro__eyebrow">{eyebrow}</p>}
+      <h1 id={`${id}-title`}>{title}</h1>
+      <p class="page-intro__description">{description}</p>
+      {(primaryAction || secondaryAction) && (
+        <div class="page-intro__actions">
+          {primaryAction && <ActionLink {...primaryAction} variant="primary" />}
+          {secondaryAction && <ActionLink {...secondaryAction} variant="text" />}
+        </div>
+      )}
+    </div>
+  </Container>
+</section>
+
+<style>
+  .page-intro {
+    border-bottom: 1px solid var(--ds-color-border);
+    padding-block: var(--ds-space-8) var(--ds-section-compact);
+  }
+
+  .page-intro__breadcrumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ds-space-2);
+    margin: 0;
+    padding: 0;
+    color: var(--ds-color-muted);
+    font-size: 0.8125rem;
+    list-style: none;
+  }
+
+  .page-intro__breadcrumbs li:not(:last-child)::after {
+    margin-left: var(--ds-space-2);
+    color: var(--ds-color-border);
+    content: "/";
+  }
+
+  .page-intro__breadcrumbs a {
+    padding-block: var(--ds-space-2);
+    text-underline-offset: 0.2em;
+  }
+
+  .page-intro__content {
+    max-width: 58rem;
+    margin-top: var(--ds-space-8);
+  }
+
+  .page-intro__eyebrow,
+  .page-intro h1,
+  .page-intro__description {
+    margin: 0;
+  }
+
+  .page-intro__eyebrow {
+    margin-bottom: var(--ds-space-4);
+    color: var(--ds-color-accent);
+    font-size: 0.8125rem;
+    font-weight: 750;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .page-intro h1 {
+    max-width: 16ch;
+    font-size: clamp(2.5rem, 6vw, 5.5rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1;
+  }
+
+  .page-intro__description {
+    max-width: 66ch;
+    margin-top: var(--ds-space-6);
+    color: var(--ds-color-muted);
+    font-size: clamp(1.0625rem, 1.7vw, 1.25rem);
+  }
+
+  .page-intro__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--ds-space-3) var(--ds-space-6);
+    margin-top: var(--ds-space-8);
+  }
+</style>

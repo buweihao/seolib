@@ -114,18 +114,24 @@ Exit note: `ManufacturingHomepage-001` composes the Approved shared library with
 - [x] Pass type and production build checks
 - [x] Move `LaunchHomepage-001` to `Review` and stop for human approval
 
-Status: In review — 2026-08-10
+Status: Complete — 2026-08-11
 
-Exit note: `LaunchHomepage-001` reuses eight Approved sections in the approved decision-led order with no new primitive or section. Its isolated fixture passed static build, type, 390px/768px/1440px visual, semantic, keyboard-focus, media, overflow, four-way token-isolation, and WCAG contrast checks. Phase 7 has not started.
+Exit note: `LaunchHomepage-001` reuses eight Approved sections in the approved decision-led order with no new primitive or section. Its isolated fixture passed static build, type, 390px/768px/1440px visual, semantic, keyboard-focus, media, overflow, four-way token-isolation, and WCAG contrast checks, then passed human review and was approved for reuse.
 
 ## Phase 7 — Five Base Pages
 
-- [ ] Confirm the five-page information architecture
-- [ ] Compose pages from the shared component library
-- [ ] Define cross-page navigation and inquiry journeys
-- [ ] Validate metadata, accessibility, responsiveness, and builds
+- [x] Draft the Chinese implementation plan and explicit approval boundary
+- [x] Confirm the proposed five-page information architecture
+- [x] Register proposed shared shell sections and inner-page compositions as `Idea`
+- [x] Receive explicit approval for `docs/PHASE_7_PLAN.md`
+- [x] Compose pages from the shared component library
+- [x] Define cross-page navigation and inquiry journeys
+- [x] Validate metadata, accessibility, responsiveness, and builds
+- [x] Move Phase 7 entries to `Review` and stop for human approval
 
-Status: Not started
+Status: In review — 2026-08-11
+
+Exit note: Home, Products, Capabilities, About, and Contact now exist as five connected internal review routes with shared header/footer, current-page navigation, inquiry journeys, skip link, one main/one h1 per route, unique metadata, and `noindex`. `astro check` and the static build passed with all five routes generated; browser review covered 390px/768px/1440px structure, images, current navigation, mobile menu, and overflow. A desktop navigation visibility issue was corrected; the user requested direct Git push without further validation after that final CSS adjustment. Public routes, client configuration, CMS, and deployment remain out of scope.
 
 ## Phase 8 — Client Configuration System
 

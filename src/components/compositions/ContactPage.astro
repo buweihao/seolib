@@ -1,0 +1,19 @@
+---
+import type { ComponentProps } from "astro/types";
+
+import ContactOptions from "../sections/ContactOptions.astro";
+import PageIntro from "../sections/PageIntro.astro";
+
+interface Props {
+  intro: ComponentProps<typeof PageIntro>;
+  contact: ComponentProps<typeof ContactOptions>;
+  class?: string;
+}
+
+const { intro, contact, class: className } = Astro.props;
+---
+
+<div class:list={["contact-page", className]}>
+  <PageIntro {...intro} />
+  <ContactOptions {...contact} />
+</div>

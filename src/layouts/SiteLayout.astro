@@ -1,0 +1,47 @@
+---
+import type { ComponentProps } from "astro/types";
+
+import SiteFooter from "../components/sections/SiteFooter.astro";
+import SiteHeader from "../components/sections/SiteHeader.astro";
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props extends ComponentProps<typeof BaseLayout> {
+  header: ComponentProps<typeof SiteHeader>;
+  footer: ComponentProps<typeof SiteFooter>;
+  contentOwnsMain?: boolean;
+}
+
+const {
+  header,
+  footer,
+  contentOwnsMain = false,
+  ...metadata
+} = Astro.props;
+---
+
+<BaseLayout {...metadata}>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <SiteHeader {...header} />
+  {contentOwnsMain ? <slot /> : <main id="main-content"><slot /></main>}
+  <SiteFooter {...footer} />
+</BaseLayout>
+
+<style>
+  .skip-link {
+    position: fixed;
+    z-index: 100;
+    top: var(--ds-space-3);
+    left: var(--ds-space-3);
+    translate: 0 calc(-100% - 2rem);
+    border-radius: var(--ds-radius-control);
+    background: var(--ds-color-ink);
+    color: var(--ds-color-canvas);
+    padding: var(--ds-space-3) var(--ds-space-4);
+    font-weight: 750;
+    text-decoration: none;
+  }
+
+  .skip-link:focus {
+    translate: 0;
+  }
+</style>
