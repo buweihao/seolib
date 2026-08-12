@@ -1,0 +1,9 @@
+---
+import FlexibleHomepage from "../../../../components/compositions/FlexibleHomepage.astro";
+import { brandLedPatterns, compositionContent } from "../../../../fixtures/patternCompositions";
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Brand-led composition review" description="A brand-led homepage composition using the shared Phase 7.5 content models." noindex>
+  <FlexibleHomepage theme="brand" reviewLabel="方向 A：品牌叙事型" patterns={brandLedPatterns} {...compositionContent} />
+</BaseLayout>

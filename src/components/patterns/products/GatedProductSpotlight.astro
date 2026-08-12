@@ -1,0 +1,21 @@
+---
+import type { GatedProductContent } from "../../../content-models/sections";
+import ActionLink from "../../primitives/ActionLink.astro";
+interface Props extends GatedProductContent { id?: string; headingLevel?: "h2" | "h3"; }
+const { id, headingLevel="h2", eyebrow, title, description, product, accessLabel, accessAction, note }=Astro.props;
+const HeadingTag=headingLevel;
+const ProductHeadingTag=headingLevel === "h2" ? "h3" : "h4";
+---
+<section id={id} class="gated-product-spotlight" aria-labelledby={id?`${id}-title`:undefined}>
+  <header>{eyebrow&&<p>{eyebrow}</p>}<HeadingTag id={id?`${id}-title`:undefined}>{title}</HeadingTag>{description&&<span>{description}</span>}</header>
+  <article>
+    <figure><img src={product.media.src} alt={product.media.alt} width={product.media.width} height={product.media.height} loading="lazy" /></figure>
+    <div><p>{product.category??"Selected product"}</p><ProductHeadingTag>{product.name}</ProductHeadingTag>{product.detail&&<span>{product.detail}</span>}<strong>{accessLabel}</strong><ActionLink {...accessAction} variant="text" /></div>
+  </article>
+  {note&&<p class="gated-product-spotlight__note">{note}</p>}
+</section>
+<style>
+ .gated-product-spotlight{padding:clamp(4rem,9vw,9rem) var(--ds-page-gutter);background:#fff;color:#1c292d}.gated-product-spotlight>header{text-align:center}.gated-product-spotlight>header p,.gated-product-spotlight>header :is(h2,h3),.gated-product-spotlight>header span{margin:0}.gated-product-spotlight>header p{color:#277e80;font-size:.72rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase}.gated-product-spotlight>header :is(h2,h3){margin-top:.6rem;font-size:clamp(2rem,4vw,3.5rem);font-weight:500}.gated-product-spotlight>header>span{display:block;max-width:56ch;margin:1rem auto 0;color:#667174}
+ .gated-product-spotlight article{display:grid;gap:2rem;width:min(100%,78rem);margin:clamp(3rem,8vw,7rem) auto 0}.gated-product-spotlight figure{display:grid;min-height:22rem;place-items:center;margin:0;background:linear-gradient(145deg,#fbfcfc,#eef4f4)}.gated-product-spotlight img{display:block;width:min(70%,18rem);height:18rem;object-fit:contain}.gated-product-spotlight article>div{align-self:center;max-width:27rem}.gated-product-spotlight article p,.gated-product-spotlight article :is(h3,h4),.gated-product-spotlight article span,.gated-product-spotlight article strong{margin:0}.gated-product-spotlight article p{color:#277e80;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.gated-product-spotlight article :is(h3,h4){margin-top:.75rem;font-size:clamp(1.6rem,3vw,2.7rem);font-weight:500}.gated-product-spotlight article span{display:block;margin-top:1rem;color:#667174}.gated-product-spotlight article strong{display:block;margin-top:1.5rem;font-size:.85rem}.gated-product-spotlight article :global(.action-link){margin-top:.5rem}.gated-product-spotlight__note{max-width:60ch;margin:3rem auto 0;color:#6f7779;font-size:.8rem;text-align:center}
+ @media(min-width:56rem){.gated-product-spotlight article{grid-template-columns:minmax(24rem,.72fr) minmax(0,1.28fr);gap:clamp(3rem,8vw,9rem)}.gated-product-spotlight article>div{justify-self:start}}
+</style>

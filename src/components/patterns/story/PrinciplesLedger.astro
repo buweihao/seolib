@@ -1,0 +1,32 @@
+---
+import type { PrinciplesContent } from "../../../content-models/sections";
+interface Props extends PrinciplesContent { id?: string; headingLevel?: "h2" | "h3"; }
+const { id, headingLevel = "h2", eyebrow, title, description, media, principles } = Astro.props;
+const HeadingTag = headingLevel;
+---
+<section id={id} class="principles-ledger" aria-labelledby={id ? `${id}-title` : undefined} style={media ? `--principles-image:url('${media.src}')` : undefined}>
+  <div class="principles-ledger__intro">
+    {eyebrow && <p>{eyebrow}</p>}
+    <HeadingTag id={id ? `${id}-title` : undefined}>{title}</HeadingTag>
+    {description && <span>{description}</span>}
+  </div>
+  <ol>
+    {principles.map((principle,index)=><li><div><span>{String(index+1).padStart(2,"0")}</span><h3>{principle.title}</h3></div><p>{principle.description}</p></li>)}
+  </ol>
+</section>
+<style>
+  .principles-ledger { position:relative; padding:clamp(3rem,7vw,7rem) var(--ds-page-gutter); background:linear-gradient(rgb(35 8 8 / .86),rgb(35 8 8 / .86)),var(--principles-image,linear-gradient(135deg,#4f1715,#210807)); background-size:cover; background-position:center; color:white; }
+  .principles-ledger__intro { width:min(100%,88rem); margin:0 auto clamp(2rem,5vw,4rem); }
+  .principles-ledger__intro p,.principles-ledger__intro :is(h2,h3),.principles-ledger__intro span { margin:0; }
+  .principles-ledger__intro p { font-size:.75rem; font-weight:800; letter-spacing:.13em; text-transform:uppercase; }
+  .principles-ledger__intro :is(h2,h3) { margin-top:.75rem; font-size:clamp(3rem,8vw,8rem); font-weight:500; letter-spacing:-.06em; line-height:.9; overflow-wrap:anywhere; }
+  .principles-ledger__intro > span { display:block; max-width:58ch; margin-top:1.25rem; color:rgb(255 255 255 / .75); }
+  .principles-ledger ol { width:min(100%,88rem); margin:0 auto; padding:0; border-top:1px solid rgb(255 255 255 / .65); list-style:none; }
+  .principles-ledger li { display:grid; gap:1rem; padding:clamp(1.5rem,3vw,2.5rem) 0; border-bottom:1px solid rgb(255 255 255 / .65); }
+  .principles-ledger li>div { display:grid; grid-template-columns:3rem minmax(0,1fr); gap:1rem; align-items:start; }
+  .principles-ledger li span { color:#d8c8ff; font-weight:800; }
+  .principles-ledger li h3,.principles-ledger li p { margin:0; }
+  .principles-ledger li h3 { font-size:clamp(1.45rem,3vw,2.6rem); line-height:1.05; overflow-wrap:anywhere; }
+  .principles-ledger li p { max-width:60ch; color:rgb(255 255 255 / .84); }
+  @media(min-width:56rem){.principles-ledger li{grid-template-columns:minmax(18rem,.8fr) minmax(0,1.2fr); gap:clamp(2rem,6vw,7rem); align-items:start}.principles-ledger li p{padding-top:.25rem}}
+</style>

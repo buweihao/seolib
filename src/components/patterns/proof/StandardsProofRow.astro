@@ -1,0 +1,17 @@
+---
+import type { StandardsRowContent } from "../../../content-models/sections";
+import SectionHeading from "../../primitives/SectionHeading.astro";
+interface Props extends StandardsRowContent { id: string; }
+const { id, eyebrow, title, description, standards, note } = Astro.props;
+---
+<section id={id} class="standards" aria-labelledby={`${id}-title`}><div class="inner"><SectionHeading id={`${id}-title`} {eyebrow} {title} {description} />
+  <ul role="list">{standards.map((standard, index) => <li><span aria-hidden="true">{String(index+1).padStart(2,"0")}</span><strong>{standard.name}</strong>{standard.detail && <small>{standard.detail}</small>}</li>)}</ul>
+  {note && <p>{note}</p>}
+</div></section>
+<style>
+  .standards { padding:var(--ds-section-standard) var(--ds-page-gutter); overflow:hidden; }
+  .inner { width:min(100%,var(--ds-container-wide)); margin-inline:auto; }
+  ul { display:flex; gap:0; margin:var(--ds-space-8) 0 0; padding:0; overflow-x:auto; border-block:1px solid var(--ds-color-border); list-style:none; }
+  li { flex:0 0 min(20rem,80vw); display:grid; gap:.35rem; place-items:center; padding:var(--ds-space-8) var(--ds-space-4); border-right:1px solid var(--ds-color-border); text-align:center; }
+  li span { color:var(--ds-color-accent); font-weight:800; } strong { font-size:1.15rem; text-transform:uppercase; } small, .standards p { color:var(--ds-color-muted); }
+</style>

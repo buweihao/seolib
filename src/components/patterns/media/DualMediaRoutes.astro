@@ -1,0 +1,19 @@
+---
+import type { DualMediaRoutesContent } from "../../../content-models/sections";
+import SectionHeading from "../../primitives/SectionHeading.astro";
+interface Props extends DualMediaRoutesContent { id: string; }
+const { id, eyebrow, title, description, routes } = Astro.props;
+---
+<section id={id} class="media-routes" aria-labelledby={`${id}-title`}><div class="inner"><SectionHeading id={`${id}-title`} {eyebrow} {title} {description} />
+  <div class="grid">{routes.map((route) => <a href={route.action.href} aria-label={route.action.ariaLabel ?? route.action.label}><img src={route.media.src} alt={route.media.alt} width={route.media.width} height={route.media.height} loading="lazy" /><span class="shade"></span><span class="label"><strong>{route.title}</strong><i aria-hidden="true">▶</i><small>{route.action.label}</small></span></a>)}</div>
+</div></section>
+<style>
+  .media-routes { padding: var(--ds-section-standard) var(--ds-page-gutter); }
+  .inner { width: min(100%, var(--ds-container-wide)); margin-inline: auto; }
+  .grid { display: grid; gap: var(--ds-space-6); margin-top: var(--ds-space-8); }
+  .grid > a { position: relative; min-height: 25rem; overflow: hidden; border: 1px solid var(--ds-color-border); color: white; text-decoration: none; }
+  img, .shade { position: absolute; inset: 0; width: 100%; height: 100%; } img { object-fit: cover; } .shade { background: rgb(0 0 0 / .42); }
+  .label { position: relative; z-index: 1; display: grid; place-items: center; align-content: center; min-height: inherit; padding: var(--ds-space-6); text-align: center; }
+  strong { font-size: clamp(1.75rem,4vw,3rem); } i { display: grid; place-items: center; width: 5rem; height: 5rem; margin-block: var(--ds-space-6); border: .35rem solid white; border-radius: 50%; font-style: normal; } small { font-weight: 750; text-transform: uppercase; letter-spacing: .08em; }
+  @media (min-width: 48rem) { .grid { grid-template-columns: repeat(2,1fr); } }
+</style>

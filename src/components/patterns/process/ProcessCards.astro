@@ -1,0 +1,29 @@
+---
+import SectionHeading from "../../primitives/SectionHeading.astro";
+import type { ProcessContent } from "../../../content-models/sections";
+
+interface Props extends ProcessContent { id: string; }
+const { id, eyebrow, title, description, steps } = Astro.props;
+---
+
+<section class="process-cards" aria-labelledby={`${id}-title`}>
+  <div class="process-cards__inner">
+    <SectionHeading id={`${id}-title`} {eyebrow} {title} {description} />
+    <ol>
+      {steps.map((step, index) => (
+        <li><span>Step {index + 1}</span><h3>{step.title}</h3><p>{step.description}</p></li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .process-cards { padding: var(--space-section) var(--gutter); background: var(--color-ink); color: var(--color-on-ink); }
+  .process-cards__inner { width: min(100%, var(--container-wide)); margin-inline: auto; }
+  ol { list-style: none; padding: 0; margin: var(--space-10) 0 0; display: grid; gap: var(--space-5); }
+  li { padding: clamp(1.5rem, 3vw, 2.25rem); border: 1px solid color-mix(in srgb, currentColor 20%, transparent); }
+  li > span { color: var(--color-accent-soft); font-size: var(--text-sm); font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+  h3 { margin: var(--space-5) 0 var(--space-3); font-size: var(--text-xl); }
+  p { margin: 0; color: color-mix(in srgb, currentColor 72%, transparent); }
+  @media (min-width: 48rem) { ol { grid-template-columns: repeat(2, 1fr); } }
+</style>

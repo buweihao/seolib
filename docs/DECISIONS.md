@@ -97,3 +97,67 @@ Important architecture decisions use a compact ADR-style record. New records are
 **Reason:** Cross-page navigation and inquiry journeys must be proven once, while company facts, composition choice, media, contacts, and theme values still belong to the future client configuration layer.
 
 **Consequences:** Home reuses an Approved homepage composition; four inner-page compositions reuse shared sections. `SiteLayout.astro` owns metadata, skip link, header, main, and footer behavior. Phase 8 will replace neutral fixture values with typed client configuration and connect the same compositions to public routes without copying components.
+
+## 2026-08-12 — Separate content models, UI patterns, and composition
+
+**Decision:** A section's buyer-facing fields live in a shared content model; multiple original UI patterns may consume that same model; a composition selects patterns and orders them. Reference attribution is split into content evidence, UI pattern evidence, and original treatment.
+
+**Reason:** Theme tokens cannot create materially different structures, while binding one content purpose to one UI made the library too narrow. Treating an entire reference website as a component source also blurred whether it informed the information or the display.
+
+**Consequences:** Eight content models are exported from `src/content-models/sections.ts`. Existing Approved sections consume them without losing status. Twelve new alternatives enter `Review`. `FlexibleHomepage-001` proves typed interchangeability, while client persistence, arbitrary page schemas, CMS integration, and public routing remain Phase 8 work.
+
+## 2026-08-12 — Preserve high-difference PNG structures
+
+**Decision:** Treat awards, certifications, media coverage, product outcomes, and client cases as valid configurable content categories rather than reasons to discard a reference UI structure. Downgrade look-only differences to variants, and implement materially different DOM/information relationships as independent patterns.
+
+**Reason:** The first Phase 7.5 pass was too conservative and produced several visually homogeneous sections. The user wants a broad component vocabulary derived from the supplied PNG evidence, while keeping third-party facts and protected assets separate from reusable code.
+
+**Consequences:** `StatementHero-001B` is a visual variant rather than an independent pattern. `RecognitionBackdropHero-001` and nine additional PNG-derived structures enter `Review`. All 66 supplied section PNGs are mapped in `docs/PNG_PATTERN_AUDIT.md`. Client-specific badges, awards, media, metrics, certifications, and case claims remain typed inputs that require verification before publication.
+
+## 2026-08-12 — Require visually recognizable PNG mappings
+
+**Decision:** A reference PNG is not considered represented merely because an existing component answers the same buyer question. Its mapped component or named variant must retain the recognizable visual skeleton: proportions, media arrangement, layering, background planes, borders, density, and section rhythm.
+
+**Reason:** Content-only abstraction made materially different reference sections appear homogeneous in the review library and prevented reviewers from finding the UI they selected from the supplied screenshots.
+
+**Consequences:** Internal review fixtures must demonstrate the actual visual construction with original placeholder assets. Visually distinct treatments may remain named variants even when they share a content model. The 66-PNG audit must be revisited wherever its current mapping identifies only a content-equivalent component without sufficient visual fidelity.
+
+## 2026-08-12 — Model the Vitelle recognition Hero as a carousel
+
+**Decision:** `RecognitionBackdropHero-001` is a multi-slide carousel, not a single static evidence collage. Each slide owns its evidence media, badges, title, positioning statement, and optional action.
+
+**Reason:** The selected reference behavior is perceived as a rotating Hero campaign. A single collage preserves one frame's appearance but not the actual UI the reviewer expects to select.
+
+**Consequences:** The carousel includes explicit previous/next, pagination, pause/resume, keyboard arrow support, polite status announcements, hover/focus pause, and reduced-motion defaults. Autoplay timing is configurable, and only one slide remains visible and interactive at a time.
+
+## 2026-08-12 — Remove homogeneous Hero candidates after review
+
+**Decision:** Remove `StatementHero-001B` (Statement Editorial Variant) and `FactoryEvidenceHero-001` from the selectable library because neither remains structurally distinct enough from `StatementHero-001` under human review.
+
+**Reason:** A named pattern must offer a recognizable choice in composition, media behavior, information relationship, or interaction—not merely a different surface treatment. Keeping near-duplicates makes client selection harder and overstates the library's coverage.
+
+**Consequences:** The review browser retains Statement Split, Centered Proof, and Recognition Backdrop as the current structurally distinct Hero examples. The flexible homepage selector retains the two `HeroContent`-compatible choices: Statement Split and Centered Proof. The two affected PNG mappings remain documented as gaps that require faithful replacement patterns rather than aliases to Statement Split.
+
+## 2026-08-12 — Replace deleted Hero duplicates with faithful structures
+
+**Decision:** Implement the Créer 03 and Laeyo 02 Hero evidence as `CinematicTypeHero-001` and `ArcFactoryHero-001`, using the shared `HeroContent` model while preserving their distinct structural relationships.
+
+**Reason:** Removing homogeneous implementations should expose a coverage gap, not erase a genuinely distinctive source structure. The Créer reference is defined by a dark typographic field beside flush campaign media; the Laeyo reference is defined by a broad procurement statement meeting panoramic facility media through a dominant arc.
+
+**Consequences:** Both PNG mappings return to `Component` status and both `HeroContent`-compatible implementations enter the flexible homepage selector. The selectable review library reaches 30 independent UI patterns, 22 of them implemented during Phase 7.5. All copy and media remain configurable, and the library uses original review assets and responsive code rather than source branding or images.
+
+## 2026-08-12 — Consolidate split Heroes and complete the next PNG batch
+
+**Decision:** Remove `CinematicTypeHero-001` after human review found it homogeneous with `ArcFactoryHero-001`. Retain Arc Factory as the only new split-media Hero, make it content-height-driven and stack below 75rem, then implement `ImmersiveMediaStage-001`, `ServiceMarquee-001`, and `PrinciplesLedger-001`.
+
+**Reason:** Visual theme differences do not justify duplicate section choices. The three next-batch screenshots, however, introduce materially different relationships: framed media over a blurred field, continuous but optional motion, and ruled principle rows.
+
+**Consequences:** Arc Factory no longer clips text or media during intermediate viewport narrowing. The accessible Marquee stops animating under reduced motion and exposes a scrollable static list. The library contains 32 independent review patterns, with product/SKU, testimonial authenticity, RFQ workflow, and social-feed integration remaining deferred.
+
+## 2026-08-12 — Model product selection and testimonials without invented commerce
+
+**Decision:** Add separate `ProductCutoutShelf-001`, `GatedProductSpotlight-001`, and `VerifiedTestimonialCards-001` patterns instead of treating all three screenshots as generic card grids.
+
+**Reason:** RainShadow 07 communicates a curated four-product shelf, YG Labs 05 communicates intentionally controlled catalogue access through extreme whitespace, and Romano 09 communicates peer reassurance through equal quote cards. Their information and layout relationships are materially different.
+
+**Consequences:** Product SKU data now has typed media, category, detail, and action fields without default price or availability. Gated access must be explicitly configured and warns against fictional login requirements. Testimonials require a verification-status label; attribution and rating remain client-supplied, and review fixtures are marked non-publishable. The library reaches 35 independent review patterns.

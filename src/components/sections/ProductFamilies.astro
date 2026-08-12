@@ -3,34 +3,10 @@ import ActionLink from "../primitives/ActionLink.astro";
 import Container from "../primitives/Container.astro";
 import MediaFrame from "../primitives/MediaFrame.astro";
 import SectionHeading from "../primitives/SectionHeading.astro";
+import type { ProductFamiliesContent } from "../../content-models/sections";
 
-interface ProductFamilyMedia {
-  src: string;
-  alt: string;
-  width: number;
-  height: number;
-  aspect?: "portrait" | "landscape" | "square";
-}
-
-interface ProductFamilyAction {
-  href: string;
-  label: string;
-  ariaLabel?: string;
-}
-
-interface ProductFamily {
-  name: string;
-  description: string;
-  media?: ProductFamilyMedia;
-  action?: ProductFamilyAction;
-}
-
-interface Props {
+interface Props extends ProductFamiliesContent {
   id: string;
-  eyebrow?: string;
-  title: string;
-  description?: string;
-  families: readonly ProductFamily[];
   class?: string;
 }
 

@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Phase 7.5 composition review" description="Compare two page compositions built from the same content models." noindex>
+  <main class="composition-index">
+    <p>Phase 7.5 · Composition review</p>
+    <h1>同一份内容，不同的网站方向</h1>
+    <p class="lead">下面两页使用完全相同的产品、证据、流程和询盘内容，只改变 UI 模式、页面节奏和主题。它们不是三套固定模板，而是两次可审核的搭配示范。</p>
+    <div class="choices">
+      <a href="/library/patterns/compositions/brand-led/"><span>方向 A</span><strong>品牌叙事型</strong><small>编辑式 Hero、图片拼贴、分栏询盘</small></a>
+      <a href="/library/patterns/compositions/procurement-led/"><span>方向 B</span><strong>采购证据型</strong><small>工厂证据 Hero、分类目录、证明列</small></a>
+    </div>
+    <a class="back" href="/library/patterns/">返回全部 UI 模式</a>
+  </main>
+</BaseLayout>
+
+<style>
+  .composition-index { width: min(100% - 2 * var(--ds-page-gutter), var(--ds-container-content)); margin: 0 auto; padding-block: var(--ds-section-feature); }
+  .composition-index > p:first-child { color: var(--ds-color-accent); font-size: .75rem; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
+  h1 { max-width: 14ch; margin: var(--ds-space-4) 0; font-size: var(--ds-text-display); line-height: var(--ds-leading-display); }
+  .lead { max-width: 68ch; color: var(--ds-color-muted); font-size: 1.125rem; }
+  .choices { display: grid; gap: var(--ds-space-6); margin-block: var(--ds-space-12); }
+  .choices a { display: grid; gap: var(--ds-space-2); padding: clamp(1.5rem, 4vw, 3rem); border: 1px solid var(--ds-color-border); background: var(--ds-color-surface); text-decoration: none; }
+  .choices span { color: var(--ds-color-accent); font-size: .75rem; font-weight: 750; text-transform: uppercase; letter-spacing: .08em; }
+  .choices strong { font-size: 1.75rem; }
+  .choices small { color: var(--ds-color-muted); }
+  .back { font-weight: 700; }
+  @media (min-width: 48rem) { .choices { grid-template-columns: repeat(2, 1fr); } }
+</style>

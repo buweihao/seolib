@@ -1,0 +1,20 @@
+---
+import type { TestimonialsContent } from "../../../content-models/sections";
+interface Props extends TestimonialsContent { id?:string; headingLevel?:"h2"|"h3"; }
+const { id, headingLevel="h2", eyebrow, title, description, testimonials, note }=Astro.props;
+const HeadingTag=headingLevel;
+---
+<section id={id} class="verified-testimonials" aria-labelledby={id?`${id}-title`:undefined}>
+ <header>{eyebrow&&<p>{eyebrow}</p>}<HeadingTag id={id?`${id}-title`:undefined}>{title}</HeadingTag>{description&&<span>{description}</span>}</header>
+ <ul role="list">{testimonials.map(item=><li>
+  {item.rating&&<p class="verified-testimonials__rating"><span class="verified-testimonials__sr">Rating: {item.rating} out of 5</span><span aria-hidden="true">{"★".repeat(Math.max(0,Math.min(5,item.rating)))}</span></p>}
+  <blockquote><p>“{item.quote}”</p><footer><strong>{item.attribution}</strong>{item.role&&<span>{item.role}{item.organization?`, ${item.organization}`:""}</span>}</footer></blockquote>
+  <p class="verified-testimonials__status">{item.verificationStatus}</p>
+ </li>)}</ul>
+ {note&&<p class="verified-testimonials__note">{note}</p>}
+</section>
+<style>
+ .verified-testimonials{padding:clamp(3rem,7vw,7rem) var(--ds-page-gutter);background:#f4f8fc;color:#09244c}.verified-testimonials>header{text-align:center}.verified-testimonials>header p,.verified-testimonials>header :is(h2,h3),.verified-testimonials>header span{margin:0}.verified-testimonials>header p{color:#0885bd;font-size:.72rem;font-weight:800;letter-spacing:.13em;text-transform:uppercase}.verified-testimonials>header :is(h2,h3){margin-top:.6rem;font-size:clamp(2rem,4vw,3.5rem)}.verified-testimonials>header>span{display:block;max-width:58ch;margin:1rem auto 0;color:#516580}
+ .verified-testimonials ul{display:grid;gap:1.5rem;width:min(100%,68rem);margin:clamp(2.5rem,5vw,4rem) auto 0;padding:0;list-style:none}.verified-testimonials li{display:flex;min-width:0;flex-direction:column;padding:clamp(1.5rem,3vw,2.25rem);border:1px solid #dce4ed;border-radius:1rem;background:white;box-shadow:0 .35rem .8rem rgb(12 35 67 / .06)}.verified-testimonials__rating{margin:0;color:#e99600;font-size:1.1rem;letter-spacing:.12em}.verified-testimonials blockquote{display:flex;flex:1;flex-direction:column;margin:1rem 0 0}.verified-testimonials blockquote>p{margin:0;color:#314967;font-size:1.05rem;font-style:italic;line-height:1.55}.verified-testimonials blockquote footer{display:grid;gap:.15rem;margin-top:auto;padding-top:2rem}.verified-testimonials blockquote footer span{color:#6e80a0;font-size:.85rem}.verified-testimonials__status{margin:1.25rem 0 0;padding-top:1rem;border-top:1px solid #e3e9f0;color:#697b94;font-size:.72rem;font-weight:750;letter-spacing:.06em;text-transform:uppercase}.verified-testimonials__note{max-width:65ch;margin:1.5rem auto 0;color:#65758c;font-size:.8rem;text-align:center}.verified-testimonials__sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+ @media(min-width:64rem){.verified-testimonials ul{grid-template-columns:repeat(3,minmax(0,1fr))}}
+</style>

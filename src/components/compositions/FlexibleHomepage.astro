@@ -1,0 +1,76 @@
+---
+import type { EvidenceContent, HeroContent, InquiryContent, PathwaysContent, ProcessContent, ProductFamiliesContent } from "../../content-models/sections";
+import EvidenceFeature from "../sections/EvidenceFeature.astro";
+import InquiryCTA from "../sections/InquiryCTA.astro";
+import ProcessSteps from "../sections/ProcessSteps.astro";
+import ProductFamilies from "../sections/ProductFamilies.astro";
+import StatementHero from "../sections/StatementHero.astro";
+import BuyerPathways from "../sections/BuyerPathways.astro";
+import CenteredProofHero from "../patterns/hero/CenteredProofHero.astro";
+import ArcFactoryHero from "../patterns/hero/ArcFactoryHero.astro";
+import ProductMosaic from "../patterns/products/ProductMosaic.astro";
+import ProductCategoryList from "../patterns/products/ProductCategoryList.astro";
+import ProofColumns from "../patterns/evidence/ProofColumns.astro";
+import HorizontalProcess from "../patterns/process/HorizontalProcess.astro";
+import ProcessCards from "../patterns/process/ProcessCards.astro";
+import SplitPathways from "../patterns/pathways/SplitPathways.astro";
+import SplitInquiry from "../patterns/inquiry/SplitInquiry.astro";
+
+const heroPatterns = {
+  statement: StatementHero,
+  centeredProof: CenteredProofHero,
+  arcFactory: ArcFactoryHero,
+} as const;
+const productPatterns = { cards: ProductFamilies, mosaic: ProductMosaic, categoryList: ProductCategoryList } as const;
+const evidencePatterns = { mediaSplit: EvidenceFeature, proofColumns: ProofColumns } as const;
+const processPatterns = { vertical: ProcessSteps, horizontal: HorizontalProcess, cards: ProcessCards } as const;
+const pathwayPatterns = { cards: BuyerPathways, split: SplitPathways } as const;
+const inquiryPatterns = { dark: InquiryCTA, split: SplitInquiry } as const;
+
+export interface HomepagePatternSelection {
+  hero: keyof typeof heroPatterns;
+  products: keyof typeof productPatterns;
+  evidence: keyof typeof evidencePatterns;
+  process: keyof typeof processPatterns;
+  pathways: keyof typeof pathwayPatterns;
+  inquiry: keyof typeof inquiryPatterns;
+}
+
+interface Props {
+  theme: "brand" | "procurement";
+  reviewLabel: string;
+  patterns: HomepagePatternSelection;
+  hero: HeroContent;
+  products: ProductFamiliesContent;
+  evidence: EvidenceContent;
+  process: ProcessContent;
+  pathways: PathwaysContent;
+  inquiry: InquiryContent;
+}
+
+const { theme, reviewLabel, patterns, hero, products, evidence, process, pathways, inquiry } = Astro.props;
+const HeroPattern = heroPatterns[patterns.hero];
+const ProductPattern = productPatterns[patterns.products];
+const EvidencePattern = evidencePatterns[patterns.evidence];
+const ProcessPattern = processPatterns[patterns.process];
+const PathwayPattern = pathwayPatterns[patterns.pathways];
+const InquiryPattern = inquiryPatterns[patterns.inquiry];
+---
+
+<main class:list={["flexible-homepage", `flexible-homepage--${theme}`]}>
+  <div class="flexible-homepage__review"><span>Phase 7.5 composition</span><strong>{reviewLabel}</strong><a href="/library/patterns/compositions/">返回组合对比</a></div>
+  <HeroPattern {...hero} id="composition-hero" />
+  <PathwayPattern {...pathways} id="composition-pathways" />
+  <ProductPattern {...products} id="composition-products" />
+  <EvidencePattern {...evidence} id="composition-evidence" />
+  <ProcessPattern {...process} id="composition-process" />
+  <InquiryPattern {...inquiry} id="composition-inquiry" />
+</main>
+
+<style>
+  .flexible-homepage__review { display: flex; flex-wrap: wrap; align-items: center; gap: var(--ds-space-2) var(--ds-space-4); padding: .75rem var(--ds-page-gutter); background: var(--ds-color-surface); border-bottom: 1px solid var(--ds-color-border); font-size: .875rem; }
+  .flexible-homepage__review span { color: var(--ds-color-accent); font-weight: 750; text-transform: uppercase; letter-spacing: .08em; }
+  .flexible-homepage__review a { margin-left: auto; }
+  .flexible-homepage--brand { --ds-color-canvas: oklch(97% .015 65); --ds-color-surface: oklch(99% .008 65); --ds-color-ink: oklch(24% .025 40); --ds-color-muted: oklch(48% .025 40); --ds-color-accent: oklch(52% .12 28); --ds-color-accent-contrast: white; --ds-color-border: oklch(86% .025 55); }
+  .flexible-homepage--procurement { --ds-color-canvas: oklch(98% .004 230); --ds-color-surface: white; --ds-color-ink: oklch(21% .025 235); --ds-color-muted: oklch(46% .025 235); --ds-color-accent: oklch(42% .095 225); --ds-color-accent-contrast: white; --ds-color-border: oklch(86% .018 225); }
+</style>

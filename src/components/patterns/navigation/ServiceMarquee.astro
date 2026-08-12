@@ -1,0 +1,22 @@
+---
+import type { MarqueeContent } from "../../../content-models/sections";
+interface Props extends MarqueeContent { id?: string; }
+const { id, label, items, speedSeconds = 28 } = Astro.props;
+const repeated = [...items, ...items];
+---
+<section id={id} class="service-marquee" aria-label={label} style={`--marquee-speed:${speedSeconds}s`}>
+  <h2 class="service-marquee__sr">{label}</h2>
+  <ul class="service-marquee__track" role="list">
+    {repeated.map((item,index)=><li aria-hidden={index >= items.length ? "true" : undefined}><span aria-hidden="true"></span>{item}</li>)}
+  </ul>
+</section>
+<style>
+  .service-marquee { overflow:hidden; border-block:1px solid var(--ds-color-border); background:var(--ds-color-surface); }
+  .service-marquee__sr { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
+  .service-marquee__track { display:flex; width:max-content; margin:0; padding:clamp(1rem,2.5vw,2rem) 0; list-style:none; animation:service-marquee-scroll var(--marquee-speed) linear infinite; }
+  .service-marquee__track li { display:flex; flex:none; align-items:center; gap:clamp(1.5rem,3vw,3rem); padding-right:clamp(2rem,5vw,6rem); font-size:clamp(1.8rem,4vw,4.5rem); font-weight:650; letter-spacing:-.045em; white-space:nowrap; }
+  .service-marquee__track li span { width:clamp(1rem,2vw,1.6rem); aspect-ratio:1; border-radius:.2rem; background:linear-gradient(135deg,#302d36,#8a8493); box-shadow:inset 0 0 0 1px rgb(255 255 255 / .25); }
+  .service-marquee:hover .service-marquee__track,.service-marquee:focus-within .service-marquee__track { animation-play-state:paused; }
+  @keyframes service-marquee-scroll { to { transform:translateX(-50%); } }
+  @media(prefers-reduced-motion:reduce){.service-marquee{overflow-x:auto}.service-marquee__track{animation:none}.service-marquee__track li[aria-hidden="true"]{display:none}}
+</style>

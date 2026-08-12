@@ -1,0 +1,53 @@
+---
+import PatternLibraryLayout from "../../../layouts/PatternLibraryLayout.astro";
+import PatternReview from "../../../components/patterns/PatternReview.astro";
+import RecognitionBackdropHero from "../../../components/patterns/hero/RecognitionBackdropHero.astro";
+import ArcFactoryHero from "../../../components/patterns/hero/ArcFactoryHero.astro";
+import ImmersiveMediaStage from "../../../components/patterns/media/ImmersiveMediaStage.astro";
+import ServiceMarquee from "../../../components/patterns/navigation/ServiceMarquee.astro";
+import PrinciplesLedger from "../../../components/patterns/story/PrinciplesLedger.astro";
+import ProductCutoutShelf from "../../../components/patterns/products/ProductCutoutShelf.astro";
+import GatedProductSpotlight from "../../../components/patterns/products/GatedProductSpotlight.astro";
+import VerifiedTestimonialCards from "../../../components/patterns/evidence/VerifiedTestimonialCards.astro";
+import FloatingTrustBar from "../../../components/patterns/proof/FloatingTrustBar.astro";
+import ServiceChapterAccordion from "../../../components/patterns/services/ServiceChapterAccordion.astro";
+import BuyerTypeMatrix from "../../../components/patterns/audience/BuyerTypeMatrix.astro";
+import CommercialConditionsTable from "../../../components/patterns/commercial/CommercialConditionsTable.astro";
+import AuditProofHub from "../../../components/patterns/resources/AuditProofHub.astro";
+import DualMediaRoutes from "../../../components/patterns/media/DualMediaRoutes.astro";
+import CompanyTimeline from "../../../components/patterns/story/CompanyTimeline.astro";
+import StandardsProofRow from "../../../components/patterns/proof/StandardsProofRow.astro";
+import ResourceConversionPanel from "../../../components/patterns/resources/ResourceConversionPanel.astro";
+import { arcFactoryHero, immersiveMedia, principlesLedger, serviceMarquee, productCutoutShelf, gatedProductSpotlight, verifiedTestimonials, recognitionHero, floatingTrust, serviceChapter, buyerMatrix, commercialConditions, auditHub, dualMediaRoutes, companyTimeline, standardsRow, resourceConversion } from "../../../fixtures/referencePatterns";
+
+const evidence = {
+  contentEvidence: "使用可配置的审核示例内容；真实公司事实、数字、奖项和文件必须由客户提供。",
+  originalTreatment: "只复用抽象信息关系与布局逻辑，图片、比例、排版、颜色和响应式行为均为原创实现。",
+};
+---
+<PatternLibraryLayout title="PNG 非同质化零件审核台" description="这一批零件直接来自六组参考 PNG 中结构差异最明显的区段。奖项、认证、媒体和产品成果不再被当作禁止研究的内容；它们被建模为客户可替换、可核验的数据。">
+  <div class="stack">
+    <PatternReview patternId="ArcFactoryHero-001" name="Arc factory panorama" suitableFor="需要在工厂全景旁介绍采购价值的制造商" {...evidence} uiEvidence="Laeyo 02 Hero：宽文案场通过主导性的弧形遮罩连接工厂全景。"><ArcFactoryHero {...arcFactoryHero} id="png-arc-factory" headingLevel="h3" /></PatternReview>
+    <PatternReview patternId="ImmersiveMediaStage-001" name="Immersive media stage" suitableFor="品牌故事、产品系列、设施参观或单一重点媒体入口" {...evidence} uiEvidence="Vitelle 04：模糊全幅背景承托带边框的中央媒体舞台与覆盖式标题/播放入口。"><ImmersiveMediaStage {...immersiveMedia} id="png-immersive-media" headingLevel="h3" /></PatternReview>
+    <PatternReview patternId="ServiceMarquee-001" name="Service marquee" suitableFor="在章节间快速展示服务范围或价值关键词" {...evidence} uiEvidence="Créer 04/14：超宽单行标签持续横向通过视口，以方形分隔符建立节奏。"><ServiceMarquee {...serviceMarquee} id="png-service-marquee" /></PatternReview>
+    <PatternReview patternId="PrinciplesLedger-001" name="Principles ledger" suitableFor="企业原则、方法论或可验证的合作准则" {...evidence} uiEvidence="Créer 10：超大章节标题，下方以横线分隔的标题/说明双栏原则条目。"><PrinciplesLedger {...principlesLedger} id="png-principles" headingLevel="h3" /></PatternReview>
+    <PatternReview patternId="ProductCutoutShelf-001" name="Product cutout shelf" suitableFor="首页精选产品、现成配方方向或少量重点 SKU" {...evidence} uiEvidence="RainShadow 07：大面积留白中的四个等距产品剪影、短名称与单一查看全部入口。"><ProductCutoutShelf {...productCutoutShelf} id="png-product-shelf" headingLevel="h3" /></PatternReview>
+    <PatternReview patternId="GatedProductSpotlight-001" name="Gated product spotlight" suitableFor="真实采用账号审批或登录后报价的 B2B 产品目录" {...evidence} uiEvidence="YG Labs 05：单个产品孤立于超宽留白区域，并明确提示登录后查看价格。"><GatedProductSpotlight {...gatedProductSpotlight} id="png-gated-product" headingLevel="h3" /></PatternReview>
+    <PatternReview patternId="VerifiedTestimonialCards-001" name="Verified testimonial cards" suitableFor="拥有书面发布授权的客户评价或案例摘要" {...evidence} uiEvidence="Romano 09：浅色章节中的三张同权引语卡，评分、引语和署名依次排列。"><VerifiedTestimonialCards {...verifiedTestimonials} id="png-testimonials" headingLevel="h3" /></PatternReview>
+    <PatternReview patternId="RecognitionBackdropHero-001" name="Recognition collage hero" suitableFor="拥有真实获奖、媒体、产品成果、品牌案例或工厂证明素材的企业" {...evidence} uiEvidence="Vitelle 02 Hero：交错证明卡片、分布式认可徽章、中央标题条和底部独立定位语句。"><RecognitionBackdropHero {...recognitionHero} id="png-recognition" headingLevel="h3" /></PatternReview>
+    <PatternReview patternId="FloatingTrustBar-001" name="Floating trust bar" suitableFor="需要在 Hero 与服务路线之间快速总结关键证明" {...evidence} uiEvidence="RainShadow 03 Trust Bar：悬浮白色证明面板连接两个内容章节。"><div class="trust-demo"><div></div><FloatingTrustBar {...floatingTrust} id="png-trust" /></div></PatternReview>
+    <PatternReview patternId="ServiceChapterAccordion-001" name="Service chapter accordion" suitableFor="一项核心服务需要强视觉解释，同时保留相关服务入口" {...evidence} uiEvidence="Créer 06/08：深色章节文字、活动详情、次级折叠项与半屏材料图片。"><ServiceChapterAccordion {...serviceChapter} id="png-services" /></PatternReview>
+    <PatternReview patternId="BuyerTypeMatrix-001" name="Buyer type matrix" suitableFor="供应商同时服务品牌、电商、零售和分销等不同买家" {...evidence} uiEvidence="Laeyo 04：买家身份、典型需求与具体交付结果的矩阵关系。"><BuyerTypeMatrix {...buyerMatrix} id="png-buyers" /></PatternReview>
+    <PatternReview patternId="CommercialConditionsTable-001" name="Commercial conditions table" suitableFor="MOQ、交期、测试或文件条件需要透明解释" {...evidence} uiEvidence="Laeyo 07：以表格并列场景、数量、时间和影响因素。"><CommercialConditionsTable {...commercialConditions} id="png-conditions" /></PatternReview>
+    <PatternReview patternId="AuditProofHub-001" name="Audit proof hub" suitableFor="采购审核、信任中心、文件中心或供应商尽调入口" {...evidence} uiEvidence="Laeyo 10：按审核问题组织多组证明资源，而非只展示徽章。"><AuditProofHub {...auditHub} id="png-audit" /></PatternReview>
+    <PatternReview patternId="DualMediaRoutes-001" name="Dual media routes" suitableFor="教育视频、工厂参观、创始人入门或两类项目入口" {...evidence} uiEvidence="Vitelle 08：两个等权媒体入口，以叠加标题和播放行为区分路线。"><DualMediaRoutes {...dualMediaRoutes} id="png-media" /></PatternReview>
+    <PatternReview patternId="CompanyTimeline-001" name="Company timeline" suitableFor="公司历史、能力演进、设施扩张和可核验里程碑" {...evidence} uiEvidence="Romano 08：交替时间线与底部指标共同表达公司发展。"><CompanyTimeline {...companyTimeline} id="png-timeline" /></PatternReview>
+    <PatternReview patternId="StandardsProofRow-001" name="Standards proof row" suitableFor="认证、零售准备、测试或标准类别需要横向集中展示" {...evidence} uiEvidence="Créer 12 与 RainShadow 03：横向证明/标准项目形成集中信任带。"><StandardsProofRow {...standardsRow} id="png-standards" /></PatternReview>
+    <PatternReview patternId="ResourceConversionPanel-001" name="Resource conversion panel" suitableFor="在正式询盘前提供清单、brief、白皮书或咨询准备" {...evidence} uiEvidence="Romano 11：深色信息面与高对比行动面并列的两阶段转化。"><ResourceConversionPanel {...resourceConversion} id="png-resource" /></PatternReview>
+  </div>
+</PatternLibraryLayout>
+<style>
+  .stack { width:min(100% - 2 * var(--ds-page-gutter),100rem); margin:0 auto; padding-bottom:var(--ds-section-feature); }
+  .trust-demo > div:first-child { height:12rem; background:linear-gradient(135deg,color-mix(in oklch,var(--ds-color-accent),white 65%),var(--ds-color-accent)); }
+  .trust-demo :global(.trust-bar) { margin-bottom:var(--ds-section-standard); }
+</style>

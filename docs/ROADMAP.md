@@ -133,6 +133,21 @@ Status: In review — 2026-08-11
 
 Exit note: Home, Products, Capabilities, About, and Contact now exist as five connected internal review routes with shared header/footer, current-page navigation, inquiry journeys, skip link, one main/one h1 per route, unique metadata, and `noindex`. `astro check` and the static build passed with all five routes generated; browser review covered 390px/768px/1440px structure, images, current navigation, mobile menu, and overflow. A desktop navigation visibility issue was corrected; the user requested direct Git push without further validation after that final CSS adjustment. Public routes, client configuration, CMS, and deployment remain out of scope.
 
+## Phase 7.5 — UI Pattern Component Library
+
+- [x] Separate eight reusable content models from UI implementation props
+- [x] Refactor the eight existing section families to consume shared content models
+- [x] Add 27 original UI patterns across Hero and additional content-purpose families
+- [x] Build noindex core and PNG-derived pattern browsers with traceable evidence
+- [x] Record content evidence, UI evidence, original treatment, and suitable use
+- [x] Build a typed flexible homepage and two same-content composition examples
+- [x] Pass type and production build checks
+- [ ] Complete human visual, responsive, and selection review
+
+Status: In review — 2026-08-12
+
+Exit note: reusable content models sit independently from UI patterns. After the user-approved PNG re-audit and successive non-homogeneous expansion batches, the library exposes 35 independent reviewable patterns across `/library/patterns/` and `/library/patterns/png-derived/`. Twenty-seven patterns are original Phase 7.5 implementations. `FlexibleHomepage-001` selects six section patterns by typed IDs, and its brand-led and procurement-led routes prove that identical content can create different structures. Phase 8 has not started.
+
 ## Phase 8 — Client Configuration System
 
 - [ ] Define typed client configuration and content schemas

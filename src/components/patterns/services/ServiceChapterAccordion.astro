@@ -1,0 +1,30 @@
+---
+import type { ServiceChapterContent } from "../../../content-models/sections";
+interface Props extends ServiceChapterContent { id: string; }
+const { id, eyebrow, title, description, media, items } = Astro.props;
+---
+<section id={id} class="service-chapter" aria-labelledby={`${id}-title`}>
+  <div class="service-chapter__content">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}<h2 id={`${id}-title`}>{title}</h2>{description && <p class="intro">{description}</p>}
+    <div class="service-chapter__items">{items.map((item, index) => <details open={index === 0}><summary>{item.title}</summary><div><p>{item.description}</p>{item.points && <ul>{item.points.map((point) => <li>{point}</li>)}</ul>}{item.action && <a href={item.action.href}>{item.action.label} →</a>}</div></details>)}</div>
+  </div>
+  <img src={media.src} alt={media.alt} width={media.width} height={media.height} loading="lazy" />
+</section>
+<style>
+  .service-chapter { display: grid; background: var(--ds-color-ink); color: var(--ds-color-canvas); }
+  .service-chapter__content { min-width: 0; padding: var(--ds-section-standard) var(--ds-page-gutter); }
+  .eyebrow { margin: 0; color: var(--ds-color-accent); font-size: .75rem; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
+  h2 { max-width: 9ch; margin: var(--ds-space-3) 0 0; font-size: clamp(2.75rem, 7vw, 6rem); line-height: .92; }
+  .intro { color: color-mix(in oklch, currentColor, transparent 25%); }
+  .service-chapter__items { margin-top: var(--ds-space-8); border-top: 1px solid rgb(255 255 255 / .35); }
+  details { border-bottom: 1px solid rgb(255 255 255 / .35); }
+  summary { display: flex; gap: var(--ds-space-4); padding: var(--ds-space-4) 0; cursor: pointer; font-weight: 750; text-transform: uppercase; }
+  summary::before { content: "+"; width: 1.25rem; font-size: 1.35rem; }
+  details[open] summary::before { content: "−"; }
+  summary::-webkit-details-marker { display: none; }
+  details > div { padding: 0 0 var(--ds-space-6) 2.25rem; }
+  details p { max-width: 46rem; }
+  details a { font-weight: 750; }
+  .service-chapter > img { width: 100%; height: 100%; min-height: 28rem; object-fit: cover; }
+  @media (min-width: 64rem) { .service-chapter { grid-template-columns: 1fr 1fr; } .service-chapter__content { padding-inline: max(var(--ds-page-gutter), calc((100vw - var(--ds-container-wide))/2)); } }
+</style>

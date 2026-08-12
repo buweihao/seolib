@@ -1,0 +1,41 @@
+---
+import type { PathwaysContent } from "../../../content-models/sections";
+
+interface Props extends PathwaysContent { id: string; }
+const { id, eyebrow, title, description, pathways } = Astro.props;
+---
+
+<section class="split-pathways" aria-labelledby={`${id}-title`}>
+  <header>
+    <p class="eyebrow">{eyebrow}</p>
+    <h2 id={`${id}-title`}>{title}</h2>
+    <p>{description}</p>
+  </header>
+  <div class="split-pathways__routes">
+    {pathways.map((item, index) => (
+      <article class:list={["split-pathways__route", { "split-pathways__route--alt": index % 2 === 1 }]}>
+        <p class="route-label">Route {index + 1}</p>
+        <h3>{item.title}</h3>
+        <p>{item.description}</p>
+        {item.decisionCue && <p class="decision-cue">{item.decisionCue}</p>}
+        {item.action && <a href={item.action.href}>{item.action.label}<span aria-hidden="true"> →</span></a>}
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .split-pathways { padding: var(--space-section) var(--gutter); }
+  .split-pathways > header { width: min(100%, 46rem); margin: 0 auto var(--space-10); text-align: center; }
+  .eyebrow, .route-label { color: var(--color-accent); font-size: var(--text-sm); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  h2 { margin: var(--space-3) 0; font-size: var(--text-4xl); }
+  header > p:last-child, article > p:not(.route-label) { color: var(--color-text-muted); }
+  .decision-cue { font-weight: 700; }
+  .split-pathways__routes { width: min(100%, var(--container-wide)); margin-inline: auto; display: grid; }
+  article { padding: clamp(2rem, 5vw, 4rem); background: var(--color-surface-subtle); }
+  article.split-pathways__route--alt { background: var(--color-ink); color: var(--color-on-ink); }
+  .split-pathways__route--alt > p:not(.route-label) { color: color-mix(in srgb, currentColor 72%, transparent); }
+  h3 { margin: var(--space-4) 0; font-size: var(--text-2xl); }
+  a { display: inline-block; margin-top: var(--space-5); color: inherit; font-weight: 700; }
+  @media (min-width: 48rem) { .split-pathways__routes { grid-template-columns: repeat(2, 1fr); } }
+</style>

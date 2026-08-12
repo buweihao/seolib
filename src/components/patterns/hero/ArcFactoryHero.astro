@@ -1,0 +1,170 @@
+---
+import type { HeroContent } from "../../../content-models/sections";
+import ActionLink from "../../primitives/ActionLink.astro";
+
+interface Props extends HeroContent {
+  id?: string;
+  headingLevel?: "h1" | "h2" | "h3";
+  class?: string;
+}
+
+const {
+  id,
+  headingLevel = "h1",
+  eyebrow,
+  title,
+  description,
+  primaryAction,
+  secondaryAction,
+  media,
+  proofItems = [],
+  class: className,
+} = Astro.props;
+const HeadingTag = headingLevel;
+const headingId = id ? `${id}-title` : undefined;
+---
+
+<section id={id} class:list={["arc-factory-hero", className]} aria-labelledby={headingId}>
+  <div class="arc-factory-hero__copy">
+    {eyebrow && <p class="arc-factory-hero__eyebrow">{eyebrow}</p>}
+    <HeadingTag id={headingId}>{title}</HeadingTag>
+    <p class="arc-factory-hero__description">{description}</p>
+    {proofItems.length > 0 && (
+      <ul class="arc-factory-hero__proof" role="list">
+        {proofItems.slice(0, 3).map((item) => <li>{item}</li>)}
+      </ul>
+    )}
+    <div class="arc-factory-hero__actions">
+      <ActionLink {...primaryAction} variant="primary" />
+      {secondaryAction && <ActionLink {...secondaryAction} variant="text" />}
+    </div>
+  </div>
+  <div class="arc-factory-hero__visual">
+    <figure>
+      <img src={media.src} alt={media.alt} width={media.width} height={media.height} loading="eager" decoding="async" />
+    </figure>
+  </div>
+</section>
+
+<style>
+  .arc-factory-hero {
+    position: relative;
+    display: grid;
+    background:
+      radial-gradient(circle at 1% 83%, transparent 0 19%, rgb(202 228 247 / .72) 19.2% 26%, transparent 26.2%),
+      #f2f6ff;
+    color: #08244d;
+    isolation: isolate;
+  }
+
+  .arc-factory-hero__copy {
+    z-index: 2;
+    min-width: 0;
+    align-self: center;
+    max-width: 47rem;
+    padding: clamp(4rem, 8vw, 7rem) var(--ds-page-gutter);
+  }
+
+  .arc-factory-hero__eyebrow,
+  .arc-factory-hero :is(h1, h2, h3),
+  .arc-factory-hero__description {
+    margin: 0;
+  }
+
+  .arc-factory-hero__eyebrow {
+    margin-bottom: 1.25rem;
+    color: #087aad;
+    font-size: .75rem;
+    font-weight: 800;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+  }
+
+  .arc-factory-hero :is(h1, h2, h3) {
+    max-width: 15ch;
+    font-size: clamp(2.55rem, 4.6vw, 4.75rem);
+    font-weight: 650;
+    letter-spacing: -.04em;
+    line-height: 1.08;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+  }
+
+  .arc-factory-hero__description {
+    max-width: 58ch;
+    margin-top: clamp(1.5rem, 3vw, 2.25rem);
+    color: #253d5d;
+    font-size: clamp(1rem, 1.35vw, 1.18rem);
+  }
+
+  .arc-factory-hero__proof {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .65rem 1.35rem;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .arc-factory-hero__proof li {
+    position: relative;
+    padding-left: 1rem;
+    font-size: .85rem;
+    font-weight: 700;
+  }
+
+  .arc-factory-hero__proof li::before {
+    position: absolute;
+    left: 0;
+    color: #1fa9db;
+    content: "◆";
+    font-size: .55rem;
+    transform: translateY(.25rem);
+  }
+
+  .arc-factory-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .arc-factory-hero__visual {
+    min-width: 0;
+    overflow: hidden;
+    background: #25afe0;
+  }
+
+  .arc-factory-hero__visual figure {
+    margin: 0;
+  }
+
+  .arc-factory-hero__visual img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  @media (min-width: 75rem) {
+    .arc-factory-hero {
+      grid-template-columns: minmax(34rem, .95fr) minmax(0, 1.2fr);
+    }
+
+    .arc-factory-hero__copy {
+      padding-inline: clamp(2rem, 4vw, 5rem);
+    }
+
+    .arc-factory-hero__visual {
+      display: grid;
+      align-self: stretch;
+      align-content: center;
+      border-left: clamp(1rem, 1.6vw, 1.75rem) solid #25afe0;
+      border-radius: 48% 0 0 48% / 100% 0 0 100%;
+    }
+
+    .arc-factory-hero__visual figure {
+      width: 100%;
+    }
+  }
+</style>

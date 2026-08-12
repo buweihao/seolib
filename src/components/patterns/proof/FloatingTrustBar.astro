@@ -1,0 +1,19 @@
+---
+import type { TrustBarContent } from "../../../content-models/sections";
+interface Props extends TrustBarContent { id: string; }
+const { id, label, items } = Astro.props;
+---
+<aside id={id} class="trust-bar" aria-label={label}>
+  <ul role="list">{items.map((item, index) => <li><span aria-hidden="true">{String(index + 1).padStart(2,"0")}</span><div><strong>{item.title}</strong>{item.detail && <small>{item.detail}</small>}</div></li>)}</ul>
+</aside>
+<style>
+  .trust-bar { position: relative; z-index: 2; width: min(calc(100% - 2 * var(--ds-page-gutter)), var(--ds-container-wide)); margin: clamp(-3rem, -5vw, -1.5rem) auto 0; padding: var(--ds-space-4); background: var(--ds-color-surface); box-shadow: 0 1rem 2.5rem rgb(0 0 0 / .14); }
+  ul { display: grid; gap: 1px; margin: 0; padding: 0; background: var(--ds-color-border); list-style: none; }
+  li { display: grid; grid-template-columns: auto 1fr; gap: var(--ds-space-3); align-items: center; padding: var(--ds-space-4); background: var(--ds-color-surface); }
+  li > span { color: var(--ds-color-accent); font-size: .75rem; font-weight: 800; }
+  strong, small { display: block; }
+  strong { text-transform: uppercase; letter-spacing: .04em; }
+  small { color: var(--ds-color-muted); }
+  @media (min-width: 48rem) { ul { grid-template-columns: repeat(2,1fr); } }
+  @media (min-width: 72rem) { ul { grid-template-columns: repeat(5,1fr); } }
+</style>

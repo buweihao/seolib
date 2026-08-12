@@ -1,0 +1,38 @@
+---
+import type { HeroContent } from "../../../content-models/sections";
+import ActionLink from "../../primitives/ActionLink.astro";
+import Container from "../../primitives/Container.astro";
+import MediaFrame from "../../primitives/MediaFrame.astro";
+
+interface Props extends HeroContent { id?: string; headingLevel?: "h1" | "h2" | "h3"; class?: string; }
+const { id, headingLevel = "h1", eyebrow, title, description, primaryAction, secondaryAction, media, proofItems = [], class: className } = Astro.props;
+const HeadingTag = headingLevel;
+---
+
+<section id={id} class:list={["centered-proof-hero", className]} aria-labelledby={id ? `${id}-title` : undefined}>
+  <Container>
+    <div class="centered-proof-hero__copy">
+      {eyebrow && <p>{eyebrow}</p>}
+      <HeadingTag id={id ? `${id}-title` : undefined}>{title}</HeadingTag>
+      <p class="centered-proof-hero__description">{description}</p>
+      <div class="centered-proof-hero__actions"><ActionLink {...primaryAction} variant="primary" />{secondaryAction && <ActionLink {...secondaryAction} variant="text" />}</div>
+    </div>
+    <MediaFrame class="centered-proof-hero__media" {...media} aspect={media.aspect ?? "landscape"} loading="eager" />
+    {proofItems.length > 0 && <ul class="centered-proof-hero__proof" role="list">{proofItems.map((item) => <li>{item}</li>)}</ul>}
+  </Container>
+</section>
+
+<style>
+  .centered-proof-hero { padding-block: var(--ds-section-feature) var(--ds-section-standard); text-align: center; }
+  .centered-proof-hero__copy { display: grid; justify-items: center; }
+  .centered-proof-hero__copy > p:first-child { margin: 0 0 var(--ds-space-4); color: var(--ds-color-accent); font-size: .75rem; font-weight: 750; letter-spacing: .13em; text-transform: uppercase; }
+  .centered-proof-hero :is(h1,h2,h3), .centered-proof-hero__description { margin: 0; }
+  .centered-proof-hero :is(h1,h2,h3) { max-width: 16ch; font-size: var(--ds-text-display); line-height: var(--ds-leading-display); }
+  .centered-proof-hero__description { max-width: 62ch; margin-top: var(--ds-space-6); color: var(--ds-color-muted); font-size: 1.125rem; }
+  .centered-proof-hero__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--ds-space-3) var(--ds-space-6); margin-top: var(--ds-space-8); }
+  .centered-proof-hero :global(.centered-proof-hero__media) { max-height: 28rem; margin-top: var(--ds-space-12); }
+  .centered-proof-hero__proof { display: grid; gap: 1px; margin: var(--ds-space-8) 0 0; padding: 1px; background: var(--ds-color-border); list-style: none; text-align: left; }
+  .centered-proof-hero__proof li { background: var(--ds-color-surface); padding: var(--ds-space-4); font-weight: 650; }
+  @media (min-width: 40rem) { .centered-proof-hero__proof { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 64rem) { .centered-proof-hero__proof { grid-template-columns: repeat(4, 1fr); } }
+</style>

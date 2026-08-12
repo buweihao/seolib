@@ -2,27 +2,10 @@
 import ActionLink from "../primitives/ActionLink.astro";
 import Container from "../primitives/Container.astro";
 import SectionHeading from "../primitives/SectionHeading.astro";
+import type { QualityContent } from "../../content-models/sections";
 
-interface QualityCheckpoint {
-  stage: string;
-  controlPurpose: string;
-  evidenceType?: string;
-}
-
-interface QualityAction {
-  href: string;
-  label: string;
-  ariaLabel?: string;
-}
-
-interface Props {
+interface Props extends QualityContent {
   id: string;
-  eyebrow?: string;
-  title: string;
-  description?: string;
-  checkpoints: readonly QualityCheckpoint[];
-  evidenceLabel?: string;
-  verificationAction?: QualityAction;
   class?: string;
 }
 

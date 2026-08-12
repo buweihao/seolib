@@ -1,0 +1,31 @@
+---
+import type { ProductFamiliesContent } from "../../../content-models/sections";
+import ActionLink from "../../primitives/ActionLink.astro";
+import Container from "../../primitives/Container.astro";
+import MediaFrame from "../../primitives/MediaFrame.astro";
+import SectionHeading from "../../primitives/SectionHeading.astro";
+
+interface Props extends ProductFamiliesContent { id: string; class?: string; }
+const { id, eyebrow, title, description, families, class: className } = Astro.props;
+---
+
+<section id={id} class:list={["product-list-pattern", className]} aria-labelledby={`${id}-title`}><Container>
+  <SectionHeading id={`${id}-title`} eyebrow={eyebrow} title={title} description={description} />
+  <ol>{families.map((family, index) => <li><article>
+    <span aria-hidden="true">{String(index + 1).padStart(2,"0")}</span>
+    <div><h3>{family.name}</h3><p>{family.description}</p>{family.action && <ActionLink {...family.action} variant="text" />}</div>
+    {family.media && <MediaFrame {...family.media} aspect="square" />}
+  </article></li>)}</ol>
+</Container></section>
+
+<style>
+  .product-list-pattern { padding-block: var(--ds-section-standard); }
+  .product-list-pattern ol { margin: var(--ds-space-12) 0 0; padding: 0; list-style: none; }
+  .product-list-pattern li { border-top: 1px solid var(--ds-color-border); }
+  .product-list-pattern article { display: grid; grid-template-columns: 2.5rem minmax(0,1fr); gap: var(--ds-space-4); align-items: center; padding-block: var(--ds-space-6); }
+  .product-list-pattern article > span { align-self: start; color: var(--ds-color-accent); font-size: .75rem; font-weight: 750; }
+  .product-list-pattern h3, .product-list-pattern p { margin: 0; } .product-list-pattern h3 { font-size: 1.5rem; } .product-list-pattern p { margin-top: var(--ds-space-2); color: var(--ds-color-muted); }
+  .product-list-pattern :global(.action-link) { margin-top: var(--ds-space-2); }
+  .product-list-pattern :global(.media-frame) { display: none; }
+  @media (min-width: 48rem) { .product-list-pattern article { grid-template-columns: 3rem minmax(0,1fr) 9rem; } .product-list-pattern :global(.media-frame) { display: block; } }
+</style>

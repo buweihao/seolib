@@ -2,34 +2,17 @@
 import ActionLink from "../primitives/ActionLink.astro";
 import Container from "../primitives/Container.astro";
 import MediaFrame from "../primitives/MediaFrame.astro";
+import type { HeroContent } from "../../content-models/sections";
 
-interface HeroAction {
-  href: string;
-  label: string;
-  ariaLabel?: string;
-}
-
-interface HeroMedia {
-  src: string;
-  alt: string;
-  width: number;
-  height: number;
-  aspect?: "portrait" | "landscape" | "square";
-}
-
-interface Props {
+interface Props extends HeroContent {
   id?: string;
-  eyebrow?: string;
-  title: string;
-  description: string;
-  primaryAction: HeroAction;
-  secondaryAction?: HeroAction;
-  media: HeroMedia;
+  headingLevel?: "h1" | "h2" | "h3";
   class?: string;
 }
 
 const {
   id,
+  headingLevel = "h1",
   eyebrow,
   title,
   description,
@@ -40,6 +23,7 @@ const {
 } = Astro.props;
 
 const headingId = id ? `${id}-title` : undefined;
+const HeadingTag = headingLevel;
 ---
 
 <section id={id} class:list={["statement-hero", className]} aria-labelledby={headingId}>
@@ -47,7 +31,7 @@ const headingId = id ? `${id}-title` : undefined;
     <div class="statement-hero__grid">
       <div class="statement-hero__content">
         {eyebrow && <p class="statement-hero__eyebrow">{eyebrow}</p>}
-        <h1 id={headingId}>{title}</h1>
+        <HeadingTag id={headingId}>{title}</HeadingTag>
         <p class="statement-hero__description">{description}</p>
         <div class="statement-hero__actions">
           <ActionLink
@@ -105,12 +89,12 @@ const headingId = id ? `${id}-title` : undefined;
     text-transform: uppercase;
   }
 
-  .statement-hero h1,
+  .statement-hero :is(h1, h2, h3),
   .statement-hero__description {
     margin: 0;
   }
 
-  .statement-hero h1 {
+  .statement-hero :is(h1, h2, h3) {
     max-width: 12ch;
     font-size: var(--ds-text-display);
     font-weight: 500;

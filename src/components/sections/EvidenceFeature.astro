@@ -3,35 +3,11 @@ import ActionLink from "../primitives/ActionLink.astro";
 import Container from "../primitives/Container.astro";
 import MediaFrame from "../primitives/MediaFrame.astro";
 import SectionHeading from "../primitives/SectionHeading.astro";
+import type { EvidenceContent } from "../../content-models/sections";
 
-interface EvidencePoint {
-  title: string;
-  description?: string;
-}
-
-interface EvidenceAction {
-  href: string;
-  label: string;
-  ariaLabel?: string;
-}
-
-interface EvidenceMedia {
-  src: string;
-  alt: string;
-  width: number;
-  height: number;
-  aspect?: "portrait" | "landscape" | "square";
-}
-
-interface Props {
+interface Props extends EvidenceContent {
   id: string;
-  eyebrow?: string;
-  title: string;
-  description?: string;
-  points: readonly EvidencePoint[];
-  media: EvidenceMedia;
   mediaPosition?: "start" | "end";
-  action?: EvidenceAction;
   class?: string;
 }
 

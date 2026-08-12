@@ -1,0 +1,9 @@
+---
+import FlexibleHomepage from "../../../../components/compositions/FlexibleHomepage.astro";
+import { compositionContent, procurementLedPatterns } from "../../../../fixtures/patternCompositions";
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Procurement-led composition review" description="A procurement-led homepage composition using the shared Phase 7.5 content models." noindex>
+  <FlexibleHomepage theme="procurement" reviewLabel="方向 B：采购证据型" patterns={procurementLedPatterns} {...compositionContent} />
+</BaseLayout>

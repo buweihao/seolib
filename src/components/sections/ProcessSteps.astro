@@ -1,27 +1,11 @@
 ---
 import Container from "../primitives/Container.astro";
 import SectionHeading from "../primitives/SectionHeading.astro";
+import type { ProcessContent } from "../../content-models/sections";
 
-interface ProcessStep {
-  title: string;
-  description: string;
-  buyerAction?: string;
-  supplierAction?: string;
-}
-
-interface ResponsibilityLabels {
-  buyer: string;
-  supplier: string;
-}
-
-interface Props {
+interface Props extends ProcessContent {
   id: string;
-  eyebrow?: string;
-  title: string;
-  description?: string;
   headingLevel?: "h2" | "h3";
-  steps: readonly ProcessStep[];
-  responsibilityLabels?: ResponsibilityLabels;
   class?: string;
 }
 

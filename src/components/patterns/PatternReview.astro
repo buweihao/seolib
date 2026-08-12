@@ -1,0 +1,39 @@
+---
+interface Props {
+  patternId: string;
+  name: string;
+  suitableFor: string;
+  contentEvidence: string;
+  uiEvidence: string;
+  originalTreatment: string;
+}
+
+const { patternId, name, suitableFor, contentEvidence, uiEvidence, originalTreatment } = Astro.props;
+---
+
+<article class="pattern-review" id={patternId}>
+  <header class="pattern-review__meta">
+    <div><p>{patternId} · Review</p><h2>{name}</h2></div>
+    <dl>
+      <div><dt>适用场景</dt><dd>{suitableFor}</dd></div>
+      <div><dt>内容证据</dt><dd>{contentEvidence}</dd></div>
+      <div><dt>UI 证据</dt><dd>{uiEvidence}</dd></div>
+      <div><dt>原创处理</dt><dd>{originalTreatment}</dd></div>
+    </dl>
+  </header>
+  <div class="pattern-review__demo"><slot /></div>
+</article>
+
+<style>
+  .pattern-review { scroll-margin-top: 1rem; border: 1px solid var(--ds-color-border); background: var(--ds-color-surface); }
+  .pattern-review + .pattern-review { margin-top: var(--ds-space-16); }
+  .pattern-review__meta { display: grid; gap: var(--ds-space-6); padding: clamp(1.25rem, 4vw, 2.5rem); border-bottom: 1px solid var(--ds-color-border); }
+  .pattern-review__meta p, .pattern-review__meta h2 { margin: 0; }
+  .pattern-review__meta p { color: var(--ds-color-accent); font-size: .75rem; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; }
+  .pattern-review__meta h2 { margin-top: var(--ds-space-2); font-size: clamp(1.5rem, 3vw, 2.25rem); }
+  dl { display: grid; gap: var(--ds-space-4); margin: 0; }
+  dt { color: var(--ds-color-muted); font-size: .75rem; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
+  dd { margin: var(--ds-space-1) 0 0; }
+  .pattern-review__demo { overflow: hidden; }
+  @media (min-width: 64rem) { .pattern-review__meta { grid-template-columns: .8fr 2fr; } dl { grid-template-columns: repeat(2, 1fr); } }
+</style>

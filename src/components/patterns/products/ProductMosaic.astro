@@ -1,0 +1,29 @@
+---
+import type { ProductFamiliesContent } from "../../../content-models/sections";
+import ActionLink from "../../primitives/ActionLink.astro";
+import Container from "../../primitives/Container.astro";
+import MediaFrame from "../../primitives/MediaFrame.astro";
+import SectionHeading from "../../primitives/SectionHeading.astro";
+
+interface Props extends ProductFamiliesContent { id: string; class?: string; }
+const { id, eyebrow, title, description, families, class: className } = Astro.props;
+---
+
+<section id={id} class:list={["product-mosaic", className]} aria-labelledby={`${id}-title`}><Container size="wide">
+  <SectionHeading id={`${id}-title`} eyebrow={eyebrow} title={title} description={description} />
+  <ul role="list">{families.map((family, index) => <li class:list={{ "product-mosaic__wide": index === 0 || index === 3 }}><article>
+    {family.media && <MediaFrame {...family.media} aspect={family.media.aspect ?? "landscape"} />}
+    <div><h3>{family.name}</h3><p>{family.description}</p>{family.action && <ActionLink {...family.action} variant="text" />}</div>
+  </article></li>)}</ul>
+</Container></section>
+
+<style>
+  .product-mosaic { padding-block: var(--ds-section-standard); }
+  .product-mosaic ul { display: grid; gap: var(--ds-space-4); margin: var(--ds-space-12) 0 0; padding: 0; list-style: none; }
+  .product-mosaic article { position: relative; height: 100%; min-height: 24rem; overflow: hidden; border-radius: var(--ds-radius-media); background: var(--ds-color-ink); color: var(--ds-color-canvas); }
+  .product-mosaic :global(.media-frame) { position: absolute; inset: 0; height: 100%; border-radius: 0; opacity: .58; }
+  .product-mosaic article > div { position: relative; z-index: 1; display: flex; min-height: 24rem; flex-direction: column; justify-content: flex-end; padding: var(--ds-space-6); background: linear-gradient(transparent 25%, color-mix(in oklch, var(--ds-color-ink), transparent 8%)); }
+  .product-mosaic h3, .product-mosaic p { margin: 0; } .product-mosaic h3 { font-size: 1.75rem; } .product-mosaic p { margin-top: var(--ds-space-2); }
+  .product-mosaic :global(.action-link) { --ds-color-accent: var(--ds-color-canvas); align-self: start; margin-top: var(--ds-space-3); }
+  @media (min-width: 48rem) { .product-mosaic ul { grid-template-columns: repeat(2, 1fr); } .product-mosaic__wide { grid-column: span 2; } }
+</style>

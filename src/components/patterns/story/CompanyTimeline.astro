@@ -1,0 +1,22 @@
+---
+import type { TimelineContent } from "../../../content-models/sections";
+import SectionHeading from "../../primitives/SectionHeading.astro";
+interface Props extends TimelineContent { id: string; }
+const { id, eyebrow, title, description, milestones, metrics = [] } = Astro.props;
+---
+<section id={id} class="timeline" aria-labelledby={`${id}-title`}><div class="inner"><SectionHeading id={`${id}-title`} {eyebrow} {title} {description} />
+  <ol>{milestones.map((item, index) => <li class:list={{right:index%2===1}}><article><span>{item.label}</span><h3>{item.title}</h3><p>{item.description}</p></article></li>)}</ol>
+  {metrics.length > 0 && <dl>{metrics.map((metric) => <div><dt>{metric.value}</dt><dd>{metric.label}</dd></div>)}</dl>}
+</div></section>
+<style>
+  .timeline { padding: var(--ds-section-standard) var(--ds-page-gutter); background: var(--ds-color-ink); color: var(--ds-color-canvas); }
+  .inner { width: min(100%, var(--ds-container-content)); margin-inline: auto; }
+  ol { position: relative; margin: var(--ds-space-12) 0 0; padding: 0; list-style: none; }
+  ol::before { content:""; position:absolute; top:0; bottom:0; left:.5rem; border-left:3px solid var(--ds-color-accent); }
+  li { position:relative; padding: 0 0 var(--ds-space-8) 2rem; }
+  li::before { content:""; position:absolute; top:1.5rem; left:.15rem; width:.8rem; height:.8rem; border-radius:50%; background:var(--ds-color-accent); }
+  article { padding: var(--ds-space-6); background: color-mix(in oklch, var(--ds-color-ink), white 8%); }
+  article span { color: var(--ds-color-accent); font-size:1.25rem; font-weight:800; } h3 { margin:.25rem 0; } article p { margin:0; color:color-mix(in oklch,currentColor,transparent 25%); }
+  dl { display:grid; gap:var(--ds-space-4); margin:var(--ds-space-8) 0 0; } dl div { border-top:2px solid var(--ds-color-accent); padding-top:var(--ds-space-4); } dt { color:var(--ds-color-accent); font-size:clamp(2rem,5vw,3.5rem); font-weight:800; } dd { margin:0; }
+  @media (min-width:48rem) { ol::before { left:50%; } li { width:50%; padding:0 var(--ds-space-8) var(--ds-space-8) 0; text-align:right; } li.right { margin-left:50%; padding-right:0; padding-left:var(--ds-space-8); text-align:left; } li::before { left:auto; right:-.4rem; } li.right::before { right:auto; left:-.4rem; } dl { grid-template-columns:repeat(4,1fr); } }
+</style>

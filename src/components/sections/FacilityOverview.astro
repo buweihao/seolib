@@ -3,37 +3,10 @@ import ActionLink from "../primitives/ActionLink.astro";
 import Container from "../primitives/Container.astro";
 import MediaFrame from "../primitives/MediaFrame.astro";
 import SectionHeading from "../primitives/SectionHeading.astro";
+import type { FacilityContent } from "../../content-models/sections";
 
-interface FacilityMedia {
-  src: string;
-  alt: string;
-  width: number;
-  height: number;
-  aspect?: "portrait" | "landscape" | "square";
-}
-
-interface FacilityArea {
-  name: string;
-  description: string;
-  evidenceNote?: string;
-}
-
-interface FacilityAction {
-  href: string;
-  label: string;
-  ariaLabel?: string;
-}
-
-interface Props {
+interface Props extends FacilityContent {
   id: string;
-  eyebrow?: string;
-  title: string;
-  description?: string;
-  media: FacilityMedia;
-  areas: readonly FacilityArea[];
-  verificationNote?: string;
-  primaryAction?: FacilityAction;
-  secondaryAction?: FacilityAction;
   class?: string;
 }
 

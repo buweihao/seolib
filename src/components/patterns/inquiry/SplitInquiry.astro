@@ -1,0 +1,35 @@
+---
+import type { InquiryContent } from "../../../content-models/sections";
+
+interface Props extends InquiryContent { id: string; }
+const { id, eyebrow, title, description, preparationItems, primaryAction, secondaryAction } = Astro.props;
+const actions = secondaryAction ? [primaryAction, secondaryAction] : [primaryAction];
+---
+
+<section class="split-inquiry" aria-labelledby={`${id}-title`}>
+  <div class="split-inquiry__copy">
+    <p class="eyebrow">{eyebrow}</p>
+    <h2 id={`${id}-title`}>{title}</h2>
+  </div>
+  <div class="split-inquiry__action">
+    <p>{description}</p>
+    <ul>{preparationItems.map((item) => <li>{item}</li>)}</ul>
+    <div>
+      {actions.map((action, index) => <a class:list={[{ secondary: index > 0 }]} href={action.href}>{action.label}</a>)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .split-inquiry { display: grid; width: min(calc(100% - 2 * var(--gutter)), var(--container-wide)); margin: var(--space-section) auto; background: var(--color-accent); color: var(--color-on-accent); }
+  .split-inquiry > div { padding: clamp(2rem, 6vw, 5rem); }
+  .split-inquiry__copy { display: flex; flex-direction: column; justify-content: space-between; border-bottom: 1px solid color-mix(in srgb, currentColor 28%, transparent); }
+  .eyebrow { margin: 0; font-size: var(--text-sm); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+  h2 { margin: var(--space-8) 0 0; font-size: var(--text-4xl); }
+  .split-inquiry__action > p { margin: 0 0 var(--space-7); font-size: var(--text-lg); }
+  ul { margin: 0 0 var(--space-7); padding-left: 1.25rem; }
+  .split-inquiry__action > div { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+  a { padding: .85rem 1.15rem; background: var(--color-ink); color: var(--color-on-ink); text-decoration: none; font-weight: 700; }
+  a.secondary { background: transparent; border: 1px solid currentColor; color: inherit; }
+  @media (min-width: 48rem) { .split-inquiry { grid-template-columns: 1fr 1fr; } .split-inquiry__copy { border-right: 1px solid color-mix(in srgb, currentColor 28%, transparent); border-bottom: 0; } }
+</style>

@@ -73,6 +73,34 @@
   --ds-leading-body: 1.65;
   --ds-text-display: clamp(2.25rem, 6vw, 4.75rem);
   --ds-leading-display: 1.05;
+
+  /* Phase 7.5 semantic aliases used by interchangeable UI patterns. */
+  --color-surface: var(--ds-color-surface);
+  --color-surface-subtle: color-mix(in oklch, var(--ds-color-canvas), var(--ds-color-ink) 3%);
+  --color-ink: var(--ds-color-ink);
+  --color-text-muted: var(--ds-color-muted);
+  --color-border: var(--ds-color-border);
+  --color-border-strong: color-mix(in oklch, var(--ds-color-border), var(--ds-color-ink) 18%);
+  --color-accent: var(--ds-color-accent);
+  --color-accent-soft: color-mix(in oklch, var(--ds-color-accent), white 42%);
+  --color-on-accent: var(--ds-color-accent-contrast);
+  --color-on-ink: var(--ds-color-canvas);
+  --container-wide: var(--ds-container-wide);
+  --gutter: var(--ds-page-gutter);
+  --space-section: var(--ds-section-standard);
+  --space-2: var(--ds-space-2);
+  --space-3: var(--ds-space-3);
+  --space-4: var(--ds-space-4);
+  --space-5: 1.25rem;
+  --space-6: var(--ds-space-6);
+  --space-7: 1.75rem;
+  --space-8: var(--ds-space-8);
+  --space-10: 2.5rem;
+  --text-sm: .875rem;
+  --text-lg: 1.125rem;
+  --text-xl: clamp(1.25rem, 2vw, 1.5rem);
+  --text-2xl: clamp(1.5rem, 3vw, 2rem);
+  --text-4xl: clamp(2rem, 5vw, 3.5rem);
 }
 
 @layer base {

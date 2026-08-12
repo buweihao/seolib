@@ -1,0 +1,21 @@
+---
+import type { CommercialConditionsContent } from "../../../content-models/sections";
+import SectionHeading from "../../primitives/SectionHeading.astro";
+interface Props extends CommercialConditionsContent { id: string; }
+const { id, eyebrow, title, description, columns, rows, note } = Astro.props;
+---
+<section id={id} class="conditions" aria-labelledby={`${id}-title`}><div class="inner"><SectionHeading id={`${id}-title`} {eyebrow} {title} {description} />
+  <div class="table-wrap"><table><thead><tr>{columns.map((column) => <th scope="col">{column}</th>)}</tr></thead><tbody>{rows.map((row) => <tr><th scope="row">{row.label}</th>{row.values.map((value) => <td><span>{value}</span></td>)}</tr>)}</tbody></table></div>
+  {note && <p class="note">{note}</p>}
+</div></section>
+<style>
+  .conditions { padding: var(--ds-section-standard) var(--ds-page-gutter); }
+  .inner { width: min(100%, var(--ds-container-wide)); margin-inline: auto; }
+  .table-wrap { margin-top: var(--ds-space-8); overflow-x: auto; border: 1px solid var(--ds-color-border); border-radius: var(--ds-radius-card); }
+  table { width: 100%; min-width: 48rem; border-collapse: collapse; }
+  th, td { padding: var(--ds-space-4); border-bottom: 1px solid var(--ds-color-border); text-align: left; vertical-align: top; }
+  thead th { background: color-mix(in oklch, var(--ds-color-canvas), var(--ds-color-accent) 7%); }
+  tbody th { width: 25%; }
+  td span { display: inline-block; padding: .35rem .65rem; border-radius: 99rem; background: color-mix(in oklch, var(--ds-color-accent), white 88%); color: var(--ds-color-accent); font-weight: 700; }
+  .note { color: var(--ds-color-muted); }
+</style>

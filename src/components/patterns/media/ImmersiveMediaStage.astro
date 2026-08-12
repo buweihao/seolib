@@ -1,0 +1,41 @@
+---
+import type { ImmersiveMediaContent } from "../../../content-models/sections";
+
+interface Props extends ImmersiveMediaContent { id?: string; headingLevel?: "h2" | "h3"; }
+const { id, headingLevel = "h2", eyebrow, title, description, media, action, actionLabel = "Open media story" } = Astro.props;
+const HeadingTag = headingLevel;
+---
+<section id={id} class="immersive-media-stage" aria-labelledby={id ? `${id}-title` : undefined}>
+  <img class="immersive-media-stage__backdrop" src={media.src} alt="" width={media.width} height={media.height} loading="lazy" aria-hidden="true" />
+  <div class="immersive-media-stage__veil"></div>
+  <div class="immersive-media-stage__frame">
+    <img src={media.src} alt={media.alt} width={media.width} height={media.height} loading="lazy" />
+    <div class="immersive-media-stage__copy">
+      {eyebrow && <p>{eyebrow}</p>}
+      <HeadingTag id={id ? `${id}-title` : undefined}>{title}</HeadingTag>
+      {description && <span>{description}</span>}
+      <a href={action.href} aria-label={action.ariaLabel ?? action.label}>
+        <span class="immersive-media-stage__play" aria-hidden="true">▶</span>
+        <strong>{actionLabel}</strong>
+      </a>
+    </div>
+  </div>
+</section>
+<style>
+  .immersive-media-stage { position:relative; display:grid; min-height:clamp(32rem,56vw,46rem); place-items:center; padding:clamp(2rem,5vw,5rem) var(--ds-page-gutter); overflow:hidden; background:#1f2524; color:white; isolation:isolate; }
+  .immersive-media-stage__backdrop,.immersive-media-stage__veil { position:absolute; inset:0; width:100%; height:100%; }
+  .immersive-media-stage__backdrop { z-index:-2; object-fit:cover; filter:blur(12px); transform:scale(1.08); }
+  .immersive-media-stage__veil { z-index:-1; background:rgb(10 16 15 / .62); }
+  .immersive-media-stage__frame { position:relative; width:min(100%,68rem); aspect-ratio:16/9; overflow:hidden; border:.3rem solid white; background:#283330; box-shadow:0 2rem 5rem rgb(0 0 0 / .35); }
+  .immersive-media-stage__frame > img { display:block; width:100%; height:100%; object-fit:cover; }
+  .immersive-media-stage__frame::after { position:absolute; inset:0; background:linear-gradient(rgb(0 0 0 / .08),rgb(0 0 0 / .52)); content:""; }
+  .immersive-media-stage__copy { position:absolute; z-index:2; inset:0; display:grid; align-content:center; justify-items:center; padding:clamp(1.25rem,5vw,4rem); text-align:center; }
+  .immersive-media-stage__copy p,.immersive-media-stage__copy :is(h2,h3),.immersive-media-stage__copy span { margin:0; }
+  .immersive-media-stage__copy p { font-size:.75rem; font-weight:800; letter-spacing:.13em; text-transform:uppercase; }
+  .immersive-media-stage__copy :is(h2,h3) { max-width:13ch; margin-top:.75rem; font-size:clamp(2rem,5vw,4.75rem); line-height:1.02; text-wrap:balance; }
+  .immersive-media-stage__copy > span { max-width:48ch; margin-top:1rem; color:rgb(255 255 255 / .82); }
+  .immersive-media-stage__copy a { display:grid; justify-items:center; gap:.65rem; margin-top:1.5rem; color:inherit; text-decoration:none; }
+  .immersive-media-stage__play { display:grid; width:clamp(3.5rem,7vw,5.75rem); aspect-ratio:1; place-items:center; padding-left:.2em; border:.2rem solid white; border-radius:50%; font-size:clamp(1.2rem,2vw,1.8rem); }
+  .immersive-media-stage__copy a:focus-visible { outline:3px solid white; outline-offset:.5rem; }
+  @media(max-width:36rem){.immersive-media-stage{min-height:auto}.immersive-media-stage__frame{aspect-ratio:4/5}.immersive-media-stage__copy>span{font-size:.9rem}}
+</style>

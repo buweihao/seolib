@@ -1,0 +1,21 @@
+---
+import type { ResourceHubContent } from "../../../content-models/sections";
+import SectionHeading from "../../primitives/SectionHeading.astro";
+interface Props extends ResourceHubContent { id: string; }
+const { id, eyebrow, title, description, resources, note } = Astro.props;
+---
+<section id={id} class="audit-hub" aria-labelledby={`${id}-title`}><div class="inner"><SectionHeading id={`${id}-title`} {eyebrow} {title} {description} />
+  <div class="grid">{resources.map((resource, index) => <article><span>{String(index + 1).padStart(2,"0")}</span><h3>{resource.title}</h3><p>{resource.description}</p><a href={resource.action.href}>{resource.action.label} →</a></article>)}</div>
+  {note && <p class="note">{note}</p>}
+</div></section>
+<style>
+  .audit-hub { padding: var(--ds-section-standard) var(--ds-page-gutter); background: color-mix(in oklch, var(--ds-color-canvas), var(--ds-color-accent) 4%); }
+  .inner { width: min(100%, var(--ds-container-wide)); margin-inline: auto; }
+  .grid { display: grid; gap: var(--ds-space-4); margin-top: var(--ds-space-8); }
+  article { position: relative; padding: var(--ds-space-6); border: 1px solid var(--ds-color-border); border-radius: var(--ds-radius-card); background: var(--ds-color-surface); }
+  article > span { position: absolute; top: var(--ds-space-4); right: var(--ds-space-4); color: var(--ds-color-border); font-size: 2rem; font-weight: 800; }
+  h3 { margin: 0; padding-right: 3rem; font-size: 1.25rem; } article p { color: var(--ds-color-muted); } article a { color: var(--ds-color-accent); font-weight: 750; }
+  .note { color: var(--ds-color-muted); }
+  @media (min-width: 48rem) { .grid { grid-template-columns: repeat(2,1fr); } }
+  @media (min-width: 64rem) { .grid { grid-template-columns: repeat(3,1fr); } }
+</style>

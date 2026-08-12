@@ -1,0 +1,18 @@
+---
+import type { ResourceCTAContent } from "../../../content-models/sections";
+import ActionLink from "../../primitives/ActionLink.astro";
+interface Props extends ResourceCTAContent { id: string; }
+const { id, eyebrow, title, description, preparationItems = [], primaryAction, secondaryAction, note } = Astro.props;
+---
+<section id={id} class="resource-panel" aria-labelledby={`${id}-title`}><div class="copy">{eyebrow && <p class="eyebrow">{eyebrow}</p>}<h2 id={`${id}-title`}>{title}</h2>{description && <p>{description}</p>}</div>
+  <div class="action"><p class="label">Prepare before you continue</p>{preparationItems.length > 0 && <ul>{preparationItems.map((item)=><li>{item}</li>)}</ul>}<div><ActionLink {...primaryAction} variant="primary" />{secondaryAction && <ActionLink {...secondaryAction} variant="text" />}</div>{note && <small>{note}</small>}</div>
+</section>
+<style>
+  .resource-panel { display:grid; width:min(calc(100% - 2 * var(--ds-page-gutter)),var(--ds-container-wide)); margin:var(--ds-section-standard) auto; background:var(--ds-color-ink); color:var(--ds-color-canvas); }
+  .resource-panel > div { padding:clamp(2rem,6vw,5rem); }
+  .copy { border-bottom:1px solid rgb(255 255 255 / .25); } .eyebrow,.label { margin:0; color:var(--ds-color-accent); font-size:.75rem; font-weight:750; letter-spacing:.1em; text-transform:uppercase; }
+  h2 { max-width:11ch; margin:var(--ds-space-4) 0; font-size:clamp(2.5rem,6vw,5rem); line-height:.95; }
+  .copy > p:last-child { color:color-mix(in oklch,currentColor,transparent 28%); }
+  ul { padding-left:1.2rem; } .action > div { display:flex; flex-wrap:wrap; gap:var(--ds-space-4); margin-top:var(--ds-space-6); } .action :global(.action-link[data-variant="text"]) { --ds-color-accent:var(--ds-color-canvas); } small { display:block; margin-top:var(--ds-space-4); opacity:.72; }
+  @media(min-width:48rem){.resource-panel{grid-template-columns:1fr 1fr}.copy{border-right:1px solid rgb(255 255 255 / .25);border-bottom:0}}
+</style>

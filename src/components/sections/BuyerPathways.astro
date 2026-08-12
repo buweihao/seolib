@@ -2,27 +2,11 @@
 import ActionLink from "../primitives/ActionLink.astro";
 import Container from "../primitives/Container.astro";
 import SectionHeading from "../primitives/SectionHeading.astro";
+import type { PathwaysContent } from "../../content-models/sections";
 
-interface PathwayAction {
-  href: string;
-  label: string;
-  ariaLabel?: string;
-}
-
-interface BuyerPathway {
-  title: string;
-  description: string;
-  decisionCue?: string;
-  action?: PathwayAction;
-}
-
-interface Props {
+interface Props extends PathwaysContent {
   id: string;
-  eyebrow?: string;
-  title: string;
-  description?: string;
   headingLevel?: "h2" | "h3";
-  pathways: readonly BuyerPathway[];
   class?: string;
 }
 

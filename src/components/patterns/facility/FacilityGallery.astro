@@ -1,0 +1,39 @@
+---
+import SectionHeading from "../../primitives/SectionHeading.astro";
+import type { FacilityContent } from "../../../content-models/sections";
+
+interface Props extends FacilityContent { id: string; }
+const { id, eyebrow, title, description, media, areas, verificationNote, primaryAction } = Astro.props;
+---
+
+<section class="facility-gallery" aria-labelledby={`${id}-title`}>
+  <div class="facility-gallery__inner">
+    <SectionHeading id={`${id}-title`} {eyebrow} {title} {description} />
+    <img class="facility-gallery__lead" src={media.src} alt={media.alt} width={media.width} height={media.height} loading="lazy" />
+    <div class="facility-gallery__grid">
+      {areas.map((area, index) => (
+        <article>
+          <div><span>{String(index + 1).padStart(2, "0")}</span><h3>{area.name}</h3><p>{area.description}</p>{area.evidenceNote && <small>{area.evidenceNote}</small>}</div>
+        </article>
+      ))}
+    </div>
+    {verificationNote && <p class="facility-gallery__note">{verificationNote}</p>}
+    {primaryAction && <a class="facility-gallery__action" href={primaryAction.href}>{primaryAction.label}</a>}
+  </div>
+</section>
+
+<style>
+  .facility-gallery { padding: var(--space-section) var(--gutter); background: var(--color-surface-subtle); }
+  .facility-gallery__inner { width: min(100%, var(--container-wide)); margin-inline: auto; }
+  .facility-gallery__grid { display: grid; gap: var(--space-5); margin-top: var(--space-10); }
+  .facility-gallery__lead { width: 100%; max-height: 38rem; margin-top: var(--space-10); object-fit: cover; }
+  article { min-height: 16rem; position: relative; overflow: hidden; background: var(--color-ink); color: var(--color-on-ink); }
+  article > div { padding: clamp(1.5rem, 4vw, 2.5rem); }
+  span { color: var(--color-accent-soft); font-weight: 700; }
+  h3 { margin: var(--space-3) 0; font-size: var(--text-2xl); }
+  p { margin: 0; color: color-mix(in srgb, currentColor 78%, transparent); }
+  small { display: block; margin-top: var(--space-4); opacity: .72; }
+  .facility-gallery__note { margin: var(--space-6) 0 0; color: var(--color-text-muted); }
+  .facility-gallery__action { display: inline-block; margin-top: var(--space-4); font-weight: 700; }
+  @media (min-width: 48rem) { .facility-gallery__grid { grid-template-columns: repeat(3, 1fr); } }
+</style>

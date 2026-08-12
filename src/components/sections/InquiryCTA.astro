@@ -2,21 +2,10 @@
 import ActionLink from "../primitives/ActionLink.astro";
 import Container from "../primitives/Container.astro";
 import SectionHeading from "../primitives/SectionHeading.astro";
+import type { InquiryContent } from "../../content-models/sections";
 
-interface InquiryAction {
-  href: string;
-  label: string;
-  ariaLabel?: string;
-}
-
-interface Props {
+interface Props extends InquiryContent {
   id: string;
-  eyebrow?: string;
-  title: string;
-  description?: string;
-  preparationItems: readonly string[];
-  primaryAction: InquiryAction;
-  secondaryAction?: InquiryAction;
   class?: string;
 }
 
