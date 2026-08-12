@@ -1,0 +1,21 @@
+---
+import ContactPage from "../../../../components/compositions/ContactPage.astro";
+import InquiryForm from "../../../../components/inquiry/InquiryForm.astro";
+import { procurementEvidenceClient } from "../../../../config/clients/procurement-evidence";
+import ClientPageShell from "../../../../layouts/ClientPageShell.astro";
+---
+
+<ClientPageShell
+  config={procurementEvidenceClient}
+  currentPath={procurementEvidenceClient.routes.contact}
+  title="Contact and project inquiry | Procurement evidence client preview"
+  description="Review-only contact and secure project inquiry page for the typed skincare manufacturer client configuration."
+>
+  <ContactPage {...procurementEvidenceClient.pages.contact} />
+  <InquiryForm
+    config={procurementEvidenceClient.inquiry}
+    id="secure-inquiry"
+    title="Tell the manufacturer what you plan to launch."
+    description="Project inquiry delivery remains disabled until the client verifies its domain, privacy policy, sender, recipient, and rate-limit configuration."
+  />
+</ClientPageShell>

@@ -1,39 +1,69 @@
 ---
 import "../styles/global.css";
+import { serializeJsonLd } from "../seo/jsonld";
+import type { SeoPageConfig } from "../seo/types";
 
 interface Props {
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
   lang?: string;
   canonical?: string;
   image?: string;
   noindex?: boolean;
+  seo?: SeoPageConfig;
 }
 
 const {
-  title,
-  description,
+  title: legacyTitle,
+  description: legacyDescription,
   lang = "en",
-  canonical,
-  image,
-  noindex = false,
+  canonical: legacyCanonical,
+  image: legacyImage,
+  noindex: legacyNoindex = false,
+  seo,
 } = Astro.props;
+
+const title = seo?.title ?? legacyTitle ?? "Untitled page";
+const description = seo?.description ?? legacyDescription ?? "";
+const noindex = seo?.noindex ?? legacyNoindex;
+const nofollow = seo?.nofollow ?? noindex;
+const baseUrl = Astro.site ?? Astro.url.origin;
+const absoluteUrl = (value: string | undefined) => value ? new URL(value, baseUrl).href : undefined;
+const canonical = absoluteUrl(seo?.canonical ?? legacyCanonical ?? (!noindex && Astro.site ? Astro.url.pathname : undefined));
+const image = absoluteUrl(seo?.image ?? legacyImage);
+const alternates = seo?.alternates?.map((item) => ({ ...item, href: absoluteUrl(item.href)! })) ?? [];
+const xDefault = absoluteUrl(seo?.xDefault);
+const jsonLd = seo?.jsonLd ? serializeJsonLd(seo.jsonLd) : undefined;
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang={seo?.locale ?? lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="robots" content={`${noindex ? "noindex" : "index"}, ${nofollow ? "nofollow" : "follow"}`} />
     {canonical && <link rel="canonical" href={canonical} />}
-    <meta property="og:type" content="website" />
+    {alternates.map((item) => <link rel="alternate" hreflang={item.lang} href={item.href} />)}
+    {xDefault && <link rel="alternate" hreflang="x-default" href={xDefault} />}
+    <meta property="og:type" content={seo?.type === "article" ? "article" : seo?.type === "product" ? "product" : "website"} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    {seo?.siteName && <meta property="og:site_name" content={seo.siteName} />}
+    {seo?.locale && <meta property="og:locale" content={seo.locale} />}
     {canonical && <meta property="og:url" content={canonical} />}
     {image && <meta property="og:image" content={image} />}
+    {image && seo?.imageAlt && <meta property="og:image:alt" content={seo.imageAlt} />}
+    <meta name="twitter:card" content={seo?.twitterCard ?? (image ? "summary_large_image" : "summary")} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {image && <meta name="twitter:image" content={image} />}
+    {image && seo?.imageAlt && <meta name="twitter:image:alt" content={seo.imageAlt} />}
+    {seo?.type === "article" && seo.publishedAt && <meta property="article:published_time" content={seo.publishedAt} />}
+    {seo?.type === "article" && seo.updatedAt && <meta property="article:modified_time" content={seo.updatedAt} />}
+    {seo?.type === "article" && seo.author && <meta property="article:author" content={seo.author} />}
+    {jsonLd && <script is:inline type="application/ld+json" set:html={jsonLd}></script>}
     <title>{title}</title>
   </head>
   <body class="bg-canvas text-ink antialiased">

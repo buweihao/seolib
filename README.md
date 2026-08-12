@@ -4,7 +4,7 @@ A static-first Astro foundation for building original English B2B websites for s
 
 ## Current phase
 
-Phase 7 and Phase 7.5 are in review. Three homepage directions are Approved; the connected five-page system lives under `/library/base-site/`; and the content-model/UI-pattern audit browser lives under `/library/patterns/`. It now contains 35 independent UI patterns, including a PNG-derived review route with 17 high-difference structures, plus two flexible compositions built from identical content. Client configuration, CMS, public routes, and deployment remain deferred.
+Phase 7, Phase 7.5, and the first Phase 8 client composition are in review. The shared Phase 8.1 SEO, CMS-boundary, and inquiry infrastructure is implemented; real client domains, content, privacy ownership, Resend/Cloudflare activation, public routes, and deployment remain client launch work.
 
 ## Requirements
 
@@ -18,6 +18,7 @@ npm ci
 npm run dev
 npm run check
 npm run build
+npm run verify
 ```
 
 The production build is static and writes to `dist/`, which is suitable for Cloudflare Pages.
@@ -31,6 +32,9 @@ The production build is static and writes to `dist/`, which is suitable for Clou
 - `src/components/sections/` — complete buyer-facing content modules
 - `src/components/compositions/` — Premium, Manufacturing, and Launch page arrangements
 - `src/config/` — future typed client configuration and theme mappings
+- `src/content-sources/` — CMS-neutral content contracts and adapters
+- `src/seo/` — shared metadata and structured-data contracts
+- `src/inquiry/` and `functions/api/` — shared inquiry validation and delivery
 - `references/` — private reference evidence and analysis, never production assets
 - `docs/` — roadmap, design system, component catalog, workflow, and decisions
 

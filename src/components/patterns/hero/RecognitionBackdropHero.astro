@@ -14,7 +14,6 @@ const {
   slides,
   autoplayMs = 6000,
 } = Astro.props;
-const HeadingTag = headingLevel;
 const carouselId = id ?? `recognition-carousel-${Math.random().toString(36).slice(2)}`;
 ---
 
@@ -23,11 +22,14 @@ const carouselId = id ?? `recognition-carousel-${Math.random().toString(36).slic
   class="recognition-collage"
   aria-roledescription="carousel"
   aria-label="Recognition highlights"
+  aria-labelledby={`${carouselId}-title`}
   data-recognition-carousel
   data-autoplay-ms={autoplayMs}
 >
   <div class="recognition-collage__viewport" aria-live="off">
-    {slides.map((slide, slideIndex) => (
+    {slides.map((slide, slideIndex) => {
+      const SlideHeadingTag = slideIndex === 0 ? headingLevel : headingLevel === "h1" ? "h2" : headingLevel;
+      return (
       <article
         class="recognition-collage__slide"
         data-slide
@@ -57,13 +59,14 @@ const carouselId = id ?? `recognition-carousel-${Math.random().toString(36).slic
           )}
           <div class="recognition-collage__message">
             {eyebrow && <p>{eyebrow}</p>}
-            <HeadingTag id={slideIndex === 0 ? `${carouselId}-title` : undefined}>{slide.title}</HeadingTag>
+            <SlideHeadingTag id={slideIndex === 0 ? `${carouselId}-title` : undefined}>{slide.title}</SlideHeadingTag>
             {slide.action && <ActionLink {...slide.action} variant="primary" />}
           </div>
         </div>
         <p class="recognition-collage__statement">{slide.supportingStatement}</p>
       </article>
-    ))}
+      );
+    })}
   </div>
   {slides.length > 1 && (
     <div class="recognition-collage__controls">

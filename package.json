@@ -12,9 +12,12 @@
     "dev": "astro dev",
     "build": "astro build",
     "check": "astro check",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "test": "node --experimental-strip-types --test tests/**/*.test.ts",
+    "verify": "npm run test && npm run check && npm run build"
   },
   "dependencies": {
+    "@astrojs/sitemap": "3.7.3",
     "astro": "7.2.0"
   },
   "devDependencies": {

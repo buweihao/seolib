@@ -1,5 +1,7 @@
 # Component Library
 
+Machine-readable registration, review links, status, family, and source ownership live in `src/config/component-registry.ts`. The UI review console renders its complete index, and automated tests reject unregistered user-facing Astro components. This document remains the descriptive decision record rather than a second runtime registry.
+
 This is the source of truth for reusable component status. Phase 0 registers no implementation or speculative component; entries are added only when supported by an approved need or reference analysis.
 
 ## Levels
@@ -66,7 +68,7 @@ Phase 2 established the buyer needs below. All implementations through Phase 6 p
 
 ## Phase 7.5 UI pattern catalog
 
-For UI patterns, evidence is deliberately split into three fields. **Content evidence** supports which buyer information belongs in the model. **UI pattern evidence** supports the general display relationship only. **Original treatment** records how this library avoids reproducing a source site's finished design. Existing Approved sections remain Approved; the new alternatives and flexible composition are in `Review`.
+For UI patterns, evidence is deliberately split into three fields. **Content evidence** supports which buyer information belongs in the model. **UI pattern evidence** supports the general display relationship only. **Original treatment** records how this library avoids reproducing a source site's finished design. Existing Approved sections remain Approved. The patterns selected for the first Phase 8 procurement-evidence configuration are Approved for reuse after explicit user selection and responsive technical review; unselected alternatives remain in `Review`.
 
 | ID | File | Status | Content model | Suitable for | Content evidence | UI pattern evidence | Original treatment |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -79,17 +81,17 @@ For UI patterns, evidence is deliberately split into three fields. **Content evi
 | `GatedProductSpotlight-001` | `src/components/patterns/products/GatedProductSpotlight.astro` | Review | `GatedProductContent` | Real account-approved or controlled-price catalogues | One product plus explicit access policy and route | YG Labs 05 isolated product in broad whitespace with gated-pricing message | Original asymmetric spotlight and explicit warning against fictional gating |
 | `VerifiedTestimonialCards-001` | `src/components/patterns/evidence/VerifiedTestimonialCards.astro` | Review | `TestimonialsContent` | Approved client quotes or case-summary evidence | Quote, attribution, organization, rating, and verification status | Romano 09 three equal quote cards | Original card treatment with mandatory verification status and removable optional ratings |
 | `ProductMosaic-001` | `src/components/patterns/products/ProductMosaic.astro` | Review | `ProductFamiliesContent` | Image-led product discovery | Shared product-family model | Mixed-size product media grouping | Original mosaic rhythm, overlays, and responsive spans |
-| `ProductCategoryList-001` | `src/components/patterns/products/ProductCategoryList.astro` | Review | `ProductFamiliesContent` | Dense category scanning | Shared product-family model | Numbered directory/list principle | Original semantic list with optional desktop thumbnails |
-| `ProofColumns-001` | `src/components/patterns/evidence/ProofColumns.astro` | Review | `EvidenceContent` | Direct comparison without relying on media | Shared supplier-evidence model | Repeated proof-column principle | Original numbered grid and neutral evidence hierarchy |
+| `ProductCategoryList-001` | `src/components/patterns/products/ProductCategoryList.astro` | Approved | `ProductFamiliesContent` | Dense category scanning | Shared product-family model | Numbered directory/list principle | Selected for Phase 8 procurement configuration; original semantic list with optional desktop thumbnails |
+| `ProofColumns-001` | `src/components/patterns/evidence/ProofColumns.astro` | Approved | `EvidenceContent` | Direct comparison without relying on media | Shared supplier-evidence model | Repeated proof-column principle | Selected for Phase 8 procurement configuration; original numbered grid and neutral evidence hierarchy |
 | `HorizontalProcess-001` | `src/components/patterns/process/HorizontalProcess.astro` | Review | `ProcessContent` | Short, clearly sequential processes | Shared cooperation-process model | Horizontal sequence principle | Original responsive ordered list and connector behavior |
 | `ProcessCards-001` | `src/components/patterns/process/ProcessCards.astro` | Review | `ProcessContent` | Modular stage explanations | Shared cooperation-process model | Stage-card grouping principle | Original dark modular grid and typography |
 | `SplitPathways-001` | `src/components/patterns/pathways/SplitPathways.astro` | Review | `PathwaysContent` | Strong cooperation-route comparison | Shared buyer-pathway model | Contrasting-route principle | Original alternating fields and retained decision cues |
-| `FacilityGallery-001` | `src/components/patterns/facility/FacilityGallery.astro` | Review | `FacilityContent` | Facility-led trust narrative | Shared facility/verification model | Large media plus area-gallery principle | Original total-view media with evidence-aware area wall |
-| `QualityEvidenceMatrix-001` | `src/components/patterns/quality/QualityEvidenceMatrix.astro` | Review | `QualityContent` | Procurement-led quality review | Shared checkpoint/evidence model | Matrix scanning principle | Original semantic article rows, not a copied table design |
-| `SplitInquiry-001` | `src/components/patterns/inquiry/SplitInquiry.astro` | Review | `InquiryContent` | Inquiry preparation and action together | Shared inquiry-preparation model | Split conversion-panel principle | Original two-plane layout and action treatment |
+| `FacilityGallery-001` | `src/components/patterns/facility/FacilityGallery.astro` | Approved | `FacilityContent` | Facility-led trust narrative | Shared facility/verification model | Large media plus area-gallery principle | Selected for Phase 8 procurement configuration; original total-view media with evidence-aware area wall |
+| `QualityEvidenceMatrix-001` | `src/components/patterns/quality/QualityEvidenceMatrix.astro` | Approved | `QualityContent` | Procurement-led quality review | Shared checkpoint/evidence model | Matrix scanning principle | Selected for Phase 8 procurement configuration; original semantic article rows, not a copied table design |
+| `SplitInquiry-001` | `src/components/patterns/inquiry/SplitInquiry.astro` | Approved | `InquiryContent` | Inquiry preparation and action together | Shared inquiry-preparation model | Split conversion-panel principle | Selected for Phase 8 procurement configuration; original two-plane layout and action treatment |
 | `FlexibleHomepage-001` | `src/components/compositions/FlexibleHomepage.astro` | Review | Six shared content models | Client direction prototyping | Phase 7.5 content-model contract | Typed pattern selection across section families | Owns selection/order/theme only; no duplicated section implementations |
-| `RecognitionBackdropHero-001` | `src/components/patterns/hero/RecognitionBackdropHero.astro` | Review | `RecognitionHeroContent` | Award/media/outcome-led suppliers | Per-slide verified recognition and outcome evidence | Vitelle 02 evidence-led carousel | Original multi-slide evidence collages, badges, title band, strapline, controls, autoplay pause, keyboard access, and mobile reflow |
-| `FloatingTrustBar-001` | `src/components/patterns/proof/FloatingTrustBar.astro` | Review | `TrustBarContent` | Hero-to-pathway trust bridge | Verified summary facts | RainShadow 03 floating trust panel | Text/number based, no copied icons or claims |
+| `RecognitionBackdropHero-001` | `src/components/patterns/hero/RecognitionBackdropHero.astro` | Approved | `RecognitionHeroContent` | Award/media/outcome-led suppliers | Per-slide verified recognition and outcome evidence | Vitelle 02 evidence-led carousel | Selected for Phase 8 procurement configuration; original multi-slide evidence collages, badges, title band, strapline, controls, autoplay pause, keyboard access, and mobile reflow |
+| `FloatingTrustBar-001` | `src/components/patterns/proof/FloatingTrustBar.astro` | Approved | `TrustBarContent` | Hero-to-pathway trust bridge | Verified summary facts | RainShadow 03 floating trust panel | Reviewed as an original text-based trust bridge; disabled in the current Phase 8 client configuration |
 | `ServiceChapterAccordion-001` | `src/components/patterns/services/ServiceChapterAccordion.astro` | Review | `ServiceChapterContent` | Cinematic capability chapters | Service scope and supporting points | Créer 06/08 split accordion chapters | Semantic details elements and original responsive layout |
 | `BuyerTypeMatrix-001` | `src/components/patterns/audience/BuyerTypeMatrix.astro` | Review | `BuyerMatrixContent` | Multi-audience suppliers | Buyer need and deliverable mapping | Laeyo 04 buyer matrix | Original neutral matrix and responsive cards |
 | `CommercialConditionsTable-001` | `src/components/patterns/commercial/CommercialConditionsTable.astro` | Review | `CommercialConditionsContent` | MOQ/timing/testing transparency | Client-verified commercial dependencies | Laeyo 07 condition table | Scroll-safe semantic table without default promises |
@@ -99,6 +101,13 @@ For UI patterns, evidence is deliberately split into three fields. **Content evi
 | `StandardsProofRow-001` | `src/components/patterns/proof/StandardsProofRow.astro` | Review | `StandardsRowContent` | Standards/readiness proof | Verified proof categories | Créer 12 and RainShadow 03 rows | Neutral text row; client marks optional |
 | `ResourceConversionPanel-001` | `src/components/patterns/resources/ResourceConversionPanel.astro` | Review | `ResourceCTAContent` | Pre-RFQ resources | Preparation and action content | Romano 11 split conversion | Link-based panel; no fake form or response promise |
 
+## Phase 8 client configuration composition
+
+| ID | File | Type | Status | Purpose | Public contract | Notes |
+| --- | --- | --- | --- | --- | --- | --- |
+| `ClientHomepage-001` | `src/components/compositions/ClientHomepage.astro` | Composition | Review | Resolve a typed client configuration into a selected, themed homepage without copying sections | `ClientSiteConfig` | First procurement-evidence configuration now connects Home to four typed inner-page routes; real identity, claims, contacts, and media remain pending |
+| `InquiryForm-001` | `src/components/inquiry/InquiryForm.astro` | Section utility | Review | Collect a buyer inquiry with explicit consent and source attribution | `ClientInquiryConfig` plus page context | Delivery is disabled in the review fixture; server validation, exact-origin checks, Cloudflare rate limiting, and Resend delivery live in shared infrastructure |
+
 ## Implementation roots
 
 | Level | Directory | Phase 1 state |
@@ -106,7 +115,7 @@ For UI patterns, evidence is deliberately split into three fields. **Content evi
 | Primitives | `src/components/primitives/` | Four registered and Approved components |
 | Sections | `src/components/sections/` and `src/components/patterns/` | Approved baseline sections plus the non-duplicative Phase 7.5 UI alternatives in Review |
 | Page compositions | `src/components/compositions/` | Three Approved homepages, four Phase 7 inner pages, and one flexible Phase 7.5 composition in Review |
-| Client configuration | `src/config/` | Contract documented; schema TBD |
+| Client configuration | `src/config/` | Typed schema, publish-safety validation, onboarding workflow, and first procurement-evidence client preview implemented |
 
 `src/layouts/BaseLayout.astro` is application infrastructure and is not a buyer-facing library component, so it is not assigned a catalog ID.
 

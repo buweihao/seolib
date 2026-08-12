@@ -1,0 +1,18 @@
+---
+import ClientHomepage from "../../../components/compositions/ClientHomepage.astro";
+import { procurementEvidenceClient } from "../../../config/clients/procurement-evidence";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  seo={{
+    title: "Procurement evidence client configuration preview",
+    description: "Phase 8 review route for a typed procurement-evidence skincare manufacturer configuration.",
+    noindex: true,
+    nofollow: true,
+    siteName: "B2B Skincare Website Library",
+    locale: "en",
+  }}
+>
+  <ClientHomepage config={procurementEvidenceClient} />
+</BaseLayout>

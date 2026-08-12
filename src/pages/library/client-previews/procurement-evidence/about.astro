@@ -1,0 +1,14 @@
+---
+import AboutPage from "../../../../components/compositions/AboutPage.astro";
+import { procurementEvidenceClient } from "../../../../config/clients/procurement-evidence";
+import ClientPageShell from "../../../../layouts/ClientPageShell.astro";
+---
+
+<ClientPageShell
+  config={procurementEvidenceClient}
+  currentPath={procurementEvidenceClient.routes.about}
+  title="About and facility evidence | Procurement evidence client preview"
+  description="Review-only company, facility, and evidence page for the typed skincare manufacturer client configuration."
+>
+  <AboutPage {...procurementEvidenceClient.pages.about} />
+</ClientPageShell>

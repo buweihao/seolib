@@ -1,0 +1,81 @@
+---
+import type { ClientSiteConfig } from "../config/schema";
+import { hasBlockingConfigIssues, validateClientSiteConfig } from "../config/validate";
+import SiteFooter from "../components/sections/SiteFooter.astro";
+import SiteHeader from "../components/sections/SiteHeader.astro";
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  config: ClientSiteConfig;
+  currentPath: string;
+  title: string;
+  description: string;
+}
+
+const { config, currentPath, title, description } = Astro.props;
+const issues = validateClientSiteConfig(config);
+if (hasBlockingConfigIssues(issues)) {
+  throw new Error(`Invalid client configuration: ${issues.filter((issue) => issue.severity === "error").map((issue) => `${issue.path}: ${issue.message}`).join("; ")}`);
+}
+const navigation = [
+  { href: config.routes.home, label: "Home" },
+  { href: config.routes.products, label: "Products" },
+  { href: config.routes.capabilities, label: "Capabilities" },
+  { href: config.routes.about, label: "About" },
+  { href: config.routes.contact, label: "Contact" },
+] as const;
+const warningCount = issues.filter((issue) => issue.severity === "warning").length;
+const { colors } = config.theme;
+---
+
+<BaseLayout {title} {description} noindex>
+  <div class="client-page-shell">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    {config.mode === "review" && (
+      <aside class="configuration-review" aria-label="Client configuration review status">
+        <p><strong>Phase 8 multi-page client preview</strong> · {config.direction} · {warningCount} verification warnings</p>
+      </aside>
+    )}
+    <SiteHeader
+      brand={config.identity.displayName.value}
+      homeHref={config.routes.home}
+      {navigation}
+      {currentPath}
+      utilityText="Configuration preview only — client identity, capabilities, evidence, and commercial terms remain unverified"
+      inquiryAction={{ href: config.routes.contact, label: config.contact.inquiryLabel }}
+    />
+    <main id="main-content"><slot /></main>
+    <SiteFooter
+      brand={config.identity.displayName.value}
+      description={config.identity.summary.value}
+      linkGroups={[{ title: "Review pages", links: navigation }]}
+      contactActions={[{ href: config.routes.contact, label: config.contact.inquiryLabel }]}
+      copyrightLabel="Review configuration only. No supplier claim, certification, commercial term, or contact channel is approved for publication."
+    />
+  </div>
+</BaseLayout>
+
+<style define:vars={{
+  clientCanvas: colors.canvas,
+  clientSurface: colors.surface,
+  clientSurfaceSubtle: colors.surfaceSubtle,
+  clientInk: colors.ink,
+  clientMuted: colors.muted,
+  clientAccent: colors.accent,
+  clientAccentContrast: colors.accentContrast,
+  clientBorder: colors.border,
+}}>
+  .client-page-shell {
+    --ds-color-canvas: var(--clientCanvas); --ds-color-surface: var(--clientSurface); --ds-color-ink: var(--clientInk);
+    --ds-color-muted: var(--clientMuted); --ds-color-accent: var(--clientAccent); --ds-color-accent-contrast: var(--clientAccentContrast);
+    --ds-color-border: var(--clientBorder); --color-canvas: var(--clientCanvas); --color-surface: var(--clientSurface);
+    --color-surface-subtle: var(--clientSurfaceSubtle); --color-ink: var(--clientInk); --color-text-muted: var(--clientMuted);
+    --color-accent: var(--clientAccent); --color-on-accent: var(--clientAccentContrast); --color-on-ink: var(--clientCanvas);
+    --color-border: var(--clientBorder); --color-border-strong: color-mix(in oklch, var(--clientBorder), var(--clientInk) 20%);
+    min-height: 100vh; background: var(--clientCanvas); color: var(--clientInk);
+  }
+  .configuration-review { margin: 0; padding: .75rem var(--ds-page-gutter); background: #fff4c7; color: #2d2500; font-size: .875rem; }
+  .configuration-review p { width: min(100%, var(--ds-container-wide)); margin: 0 auto; }
+  .skip-link { position: fixed; z-index: 100; top: .5rem; left: .5rem; padding: .75rem 1rem; background: var(--clientInk); color: var(--clientCanvas); transform: translateY(-200%); }
+  .skip-link:focus { transform: translateY(0); }
+</style>

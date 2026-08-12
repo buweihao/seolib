@@ -142,26 +142,46 @@ Exit note: Home, Products, Capabilities, About, and Contact now exist as five co
 - [x] Record content evidence, UI evidence, original treatment, and suitable use
 - [x] Build a typed flexible homepage and two same-content composition examples
 - [x] Pass type and production build checks
+- [x] Establish a typed single component registry and complete UI-review index
 - [ ] Complete human visual, responsive, and selection review
 
 Status: In review — 2026-08-12
 
-Exit note: reusable content models sit independently from UI patterns. After the user-approved PNG re-audit and successive non-homogeneous expansion batches, the library exposes 35 independent reviewable patterns across `/library/patterns/` and `/library/patterns/png-derived/`. Twenty-seven patterns are original Phase 7.5 implementations. `FlexibleHomepage-001` selects six section patterns by typed IDs, and its brand-led and procurement-led routes prove that identical content can create different structures. Phase 8 has not started.
+Exit note: reusable content models sit independently from UI patterns. After the user-approved PNG re-audit and successive non-homogeneous expansion batches, the library exposes 35 independent reviewable patterns across `/library/patterns/` and `/library/patterns/png-derived/`. A typed registry now indexes every user-facing component, links each entry to an isolated or in-context review, and fails tests when a new Astro component is not registered. `InquiryForm-001` now has an isolated review example. `FlexibleHomepage-001` selects six section patterns by typed IDs, and its brand-led and procurement-led routes prove that identical content can create different structures.
 
 ## Phase 8 — Client Configuration System
 
-- [ ] Define typed client configuration and content schemas
-- [ ] Separate content, images, contact details, and theme tokens from components
-- [ ] Support composition selection without component duplication
-- [ ] Document onboarding and validation workflow
+- [x] Define typed client configuration and content schemas
+- [x] Separate content, images, contact details, and theme tokens from components
+- [x] Support composition selection without component duplication
+- [x] Document onboarding and validation workflow
+- [x] Configure a five-page client preview from one client schema
 
-Status: Not started
+Status: In review — 2026-08-12
+
+Exit note: the user-selected procurement-evidence direction now resolves eight required pattern IDs, four explicit optional-pattern states, five client routes, homepage content, and four inner-page content groups through one `ClientSiteConfig`. The selected Hero is `RecognitionBackdropHero-001`, the selected product presentation is `ProductFamilies-001`, and `FloatingTrustBar-001` is explicitly excluded. Home, Products, Capabilities, About, and Contact share client identity, theme, navigation, footer, validation, and media registration without duplicating compositions. The noindex client preview remains in `review` mode; public routing is blocked until real client identity, recognition/capability evidence, facility media, product scope, commercial terms, contact ownership, domain, and privacy/delivery settings are supplied and verified.
+
+## Phase 8.1 — Shared SEO, content-source, and inquiry infrastructure
+
+- [x] Add typed page SEO, canonical, robots, language-alternate, social, and JSON-LD contracts
+- [x] Generate sitemap and robots output while excluding internal review routes
+- [x] Define a CMS-neutral content source so shared components do not depend on Sanity
+- [x] Add an accessible reusable inquiry form with attribution and privacy consent
+- [x] Add server-side validation, exact-origin enforcement, rate limiting, and Resend delivery
+- [x] Add automated unit/endpoint tests and a full `verify` command
+- [x] Document per-client deployment, privacy, DNS, CMS, and launch responsibilities
+- [ ] Activate a real domain, Resend sender, mailbox, privacy policy, and Cloudflare bindings for the first client
+
+Status: Shared foundation complete; first-client activation pending — 2026-08-12
+
+Exit note: SEO rendering, schema builders, crawler output, CMS boundaries, inquiry UI, attribution, server validation, Resend delivery, origin checks, and a required Cloudflare rate limiter are now reusable library infrastructure. New clients configure and validate these capabilities rather than rebuilding them. Live delivery remains intentionally disabled in review until client-owned domain, mailbox, privacy, environment, and rate-limit values exist.
 
 ## Phase 9 — SEO Landing Page Expansion
 
 - [ ] Define evidence-based landing-page categories and URL conventions
 - [ ] Create reusable structured-content patterns
-- [ ] Add canonical, sitemap, schema, and internal-linking rules
+- [x] Add shared canonical, sitemap, robots, and schema infrastructure
+- [ ] Define landing-page-specific schema and internal-linking rules
 - [ ] Validate content uniqueness, performance, and build scale
 
 Status: Not started
