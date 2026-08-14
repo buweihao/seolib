@@ -1,21 +1,134 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+
+interface ReviewLink {
+  href: string;
+  title: string;
+  description: string;
+  label?: string;
+}
+
+interface ReviewGroup {
+  eyebrow: string;
+  title: string;
+  description: string;
+  links: ReviewLink[];
+}
+
+const reviewGroups: ReviewGroup[] = [
+  {
+    eyebrow: "当前重点",
+    title: "Phase 8 客户配置预览",
+    description: "同一份客户配置驱动五个相互连通的页面。建议先从主页进入，再通过网站导航逐页审核。",
+    links: [
+      { href: "/library/client-previews/procurement-evidence/", title: "客户主页", description: "采购证据型首页与当前选定零件。", label: "建议从这里开始" },
+      { href: "/library/client-previews/procurement-evidence/products/", title: "Products", description: "产品范围、项目方向与询盘入口。" },
+      { href: "/library/client-previews/procurement-evidence/capabilities/", title: "Capabilities", description: "能力、流程、质量证据与责任边界。" },
+      { href: "/library/client-previews/procurement-evidence/about/", title: "About", description: "企业叙事、原则与设施信息。" },
+      { href: "/library/client-previews/procurement-evidence/contact/", title: "Contact", description: "客户询盘表单及提交前审核状态。" },
+    ],
+  },
+  {
+    eyebrow: "零件库",
+    title: "UI Patterns 与组合实验",
+    description: "先审核单个 UI 零件，再查看同一份内容如何通过不同零件组成不同网站方向。",
+    links: [
+      { href: "/library/patterns/", title: "全部 UI 零件", description: "按 Hero、产品、证据、流程、设施、质量和询盘分类查看。", label: "核心入口" },
+      { href: "/library/patterns/png-derived/", title: "PNG 衍生零件", description: "从参考 PNG 中提炼出的非同质化结构。" },
+      { href: "/library/patterns/compositions/", title: "组合对比", description: "用相同内容对比品牌叙事型与采购证据型结构。" },
+      { href: "/library/patterns/compositions/brand-led/", title: "品牌叙事型组合", description: "强调视觉、品牌气质与产品感知的搭配。" },
+      { href: "/library/patterns/compositions/procurement-led/", title: "采购证据型组合", description: "强调供应能力、证据与采购决策的搭配。" },
+    ],
+  },
+  {
+    eyebrow: "完整首页",
+    title: "三种早期 Composition",
+    description: "这些是共享零件的完整页面示例，不是固定模板；可用于比较页面节奏和信息侧重。",
+    links: [
+      { href: "/library/premium-homepage/", title: "Premium Homepage", description: "克制、编辑感、品牌与科学感并重。" },
+      { href: "/library/manufacturing-homepage/", title: "Manufacturing Homepage", description: "工厂、能力、质量与合作路线优先。" },
+      { href: "/library/launch-homepage/", title: "Launch Homepage", description: "项目准备度、合作匹配与转化优先。" },
+    ],
+  },
+  {
+    eyebrow: "页面基础",
+    title: "Phase 7 五页面基础站",
+    description: "未套用具体客户配置的共享基础页面，用于审核跨页面结构和导航。",
+    links: [
+      { href: "/library/base-site/", title: "Home", description: "五页面基础站主页。" },
+      { href: "/library/base-site/products/", title: "Products", description: "基础产品页面。" },
+      { href: "/library/base-site/capabilities/", title: "Capabilities", description: "基础能力页面。" },
+      { href: "/library/base-site/about/", title: "About", description: "基础关于页面。" },
+      { href: "/library/base-site/contact/", title: "Contact", description: "基础联系页面。" },
+    ],
+  },
+];
 ---
 
 <BaseLayout
-  title="B2B Skincare Website Library"
-  description="The design foundation for a reusable B2B skincare manufacturer website library."
+  title="网站零件库总导航"
+  description="集中进入 B2B skincare 网站零件、页面组合和客户配置预览的审核导航。"
+  noindex
 >
-  <main class="mx-auto flex min-h-screen max-w-content items-center px-(--ds-page-gutter) py-section-compact">
-    <div class="max-w-reading">
-      <p class="mb-4 text-sm font-semibold tracking-[0.12em] text-muted uppercase">Phase 1</p>
-      <h1 class="text-[length:var(--ds-text-display)] leading-[var(--ds-leading-display)] font-semibold">
-        Design foundation
-      </h1>
-      <p class="mt-6 max-w-[62ch] text-lg text-muted">
-        The static Astro foundation, shared design-token contract, and library directories are ready for
-        reference-led component work.
-      </p>
+  <main id="main-content" class="review-hub">
+    <header class="review-hub__intro">
+      <p class="review-hub__kicker">B2B Skincare Website Library</p>
+      <h1>网站审核总导航</h1>
+      <p class="review-hub__lead">这里不是客户网站首页，而是整个项目的审核地图。点击任意卡片即可直接进入对应零件、组合或完整页面。</p>
+      <nav aria-label="快速跳转" class="review-hub__quick-nav">
+        {reviewGroups.map((group, index) => <a href={`#review-group-${index + 1}`}>{group.title}</a>)}
+      </nav>
+    </header>
+
+    <div class="review-hub__groups">
+      {reviewGroups.map((group, groupIndex) => (
+        <section class="review-group" id={`review-group-${groupIndex + 1}`} aria-labelledby={`review-group-title-${groupIndex + 1}`}>
+          <div class="review-group__heading">
+            <p>{group.eyebrow}</p>
+            <h2 id={`review-group-title-${groupIndex + 1}`}>{group.title}</h2>
+            <div>{group.description}</div>
+          </div>
+          <div class="review-group__links">
+            {group.links.map((link) => (
+              <a class="review-card" href={link.href}>
+                <span class="review-card__topline">
+                  <strong>{link.title}</strong>
+                  {link.label && <small>{link.label}</small>}
+                </span>
+                <span>{link.description}</span>
+                <b aria-hidden="true">进入 →</b>
+              </a>
+            ))}
+          </div>
+        </section>
+      ))}
     </div>
   </main>
 </BaseLayout>
+
+<style>
+  .review-hub { min-height: 100vh; padding-bottom: var(--ds-section-feature); }
+  .review-hub__intro { padding: clamp(4rem, 10vw, 8rem) var(--ds-page-gutter) var(--ds-section-compact); background: var(--ds-color-ink); color: var(--ds-color-canvas); }
+  .review-hub__intro > * { width: min(100%, var(--ds-container-content)); margin-inline: auto; }
+  .review-hub__kicker { margin-block: 0 var(--ds-space-4); color: color-mix(in oklch, var(--ds-color-canvas), transparent 25%); font-size: .75rem; font-weight: 750; letter-spacing: .13em; text-transform: uppercase; }
+  h1 { margin-block: 0; font-size: clamp(2.8rem, 8vw, 6rem); line-height: .98; letter-spacing: -.04em; }
+  .review-hub__lead { max-width: 64ch; margin-top: var(--ds-space-6); color: color-mix(in oklch, var(--ds-color-canvas), transparent 18%); font-size: clamp(1.05rem, 2vw, 1.3rem); }
+  .review-hub__quick-nav { display: flex; flex-wrap: wrap; gap: var(--ds-space-2); margin-top: var(--ds-space-8); }
+  .review-hub__quick-nav a { padding: .6rem .9rem; border: 1px solid color-mix(in oklch, var(--ds-color-canvas), transparent 60%); border-radius: 999px; color: var(--ds-color-canvas); font-size: .875rem; text-decoration: none; }
+  .review-hub__quick-nav a:hover { background: var(--ds-color-canvas); color: var(--ds-color-ink); }
+  .review-hub__groups { width: min(100% - 2 * var(--ds-page-gutter), var(--ds-container-wide)); margin-inline: auto; }
+  .review-group { display: grid; gap: var(--ds-space-8); padding-block: var(--ds-section-compact); border-bottom: 1px solid var(--ds-color-border); scroll-margin-top: var(--ds-space-4); }
+  .review-group__heading p { margin: 0 0 var(--ds-space-2); color: var(--ds-color-accent); font-size: .75rem; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
+  .review-group__heading h2 { margin: 0; font-size: clamp(1.8rem, 4vw, 3rem); line-height: 1.08; }
+  .review-group__heading div { max-width: 54ch; margin-top: var(--ds-space-4); color: var(--ds-color-muted); }
+  .review-group__links { display: grid; gap: var(--ds-space-3); }
+  .review-card { display: grid; gap: var(--ds-space-3); min-width: 0; padding: clamp(1.25rem, 3vw, 2rem); border: 1px solid var(--ds-color-border); border-radius: var(--ds-radius-card); background: var(--ds-color-surface); text-decoration: none; transition: border-color 160ms ease, translate 160ms ease, box-shadow 160ms ease; }
+  .review-card:hover { border-color: var(--ds-color-accent); translate: 0 -.15rem; box-shadow: 0 .8rem 2rem color-mix(in oklch, var(--ds-color-ink), transparent 92%); }
+  .review-card__topline { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--ds-space-2); }
+  .review-card strong { font-size: 1.15rem; }
+  .review-card small { padding: .2rem .55rem; border-radius: 999px; background: color-mix(in oklch, var(--ds-color-accent), white 88%); color: var(--ds-color-accent); font-weight: 750; }
+  .review-card > span:nth-child(2) { color: var(--ds-color-muted); }
+  .review-card b { color: var(--ds-color-accent); font-size: .85rem; }
+  @media (min-width: 48rem) { .review-group { grid-template-columns: minmax(14rem, .72fr) minmax(0, 1.5fr); } .review-group__links { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (prefers-reduced-motion: reduce) { .review-card { transition: none; } }
+</style>

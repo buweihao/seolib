@@ -16,9 +16,9 @@ const core = "/library/patterns/" as const;
 const png = "/library/patterns/png-derived/" as const;
 
 export const componentRegistry = [
-  { id: "Container-001", name: "Container", kind: "primitive", family: "Primitives", status: "Approved", source: "src/components/primitives/Container.astro", reviewHref: "/library/phase-3/", reviewMode: "in-context" },
-  { id: "ActionLink-001", name: "Action Link", kind: "primitive", family: "Primitives", status: "Approved", source: "src/components/primitives/ActionLink.astro", reviewHref: "/library/phase-3/", reviewMode: "in-context" },
-  { id: "SectionHeading-001", name: "Section Heading", kind: "primitive", family: "Primitives", status: "Approved", source: "src/components/primitives/SectionHeading.astro", reviewHref: "/library/phase-3/", reviewMode: "in-context" },
+  { id: "Container-001", name: "Container", kind: "primitive", family: "Primitives", status: "Approved", source: "src/components/primitives/Container.astro", reviewHref: `${core}#ProductFamilies-001`, reviewMode: "in-context" },
+  { id: "ActionLink-001", name: "Action Link", kind: "primitive", family: "Primitives", status: "Approved", source: "src/components/primitives/ActionLink.astro", reviewHref: `${core}#StatementHero-001`, reviewMode: "in-context" },
+  { id: "SectionHeading-001", name: "Section Heading", kind: "primitive", family: "Primitives", status: "Approved", source: "src/components/primitives/SectionHeading.astro", reviewHref: `${core}#ProductFamilies-001`, reviewMode: "in-context" },
   { id: "MediaFrame-001", name: "Media Frame", kind: "primitive", family: "Primitives", status: "Approved", source: "src/components/primitives/MediaFrame.astro", reviewHref: "/library/premium-homepage/", reviewMode: "in-context" },
 
   { id: "StatementHero-001", name: "Statement Hero", kind: "section", family: "Hero", status: "Approved", source: "src/components/sections/StatementHero.astro", reviewHref: `${core}#StatementHero-001`, reviewMode: "isolated" },
@@ -35,7 +35,7 @@ export const componentRegistry = [
   { id: "EvidenceFeature-001", name: "Evidence Feature", kind: "section", family: "Evidence", status: "Approved", source: "src/components/sections/EvidenceFeature.astro", reviewHref: `${core}#EvidenceFeature-001`, reviewMode: "isolated" },
   { id: "ProofColumns-001", name: "Proof Columns", kind: "pattern", family: "Evidence", status: "Approved", source: "src/components/patterns/evidence/ProofColumns.astro", reviewHref: `${core}#ProofColumns-001`, reviewMode: "isolated" },
   { id: "VerifiedTestimonialCards-001", name: "Verified Testimonial Cards", kind: "pattern", family: "Evidence", status: "Review", source: "src/components/patterns/evidence/VerifiedTestimonialCards.astro", reviewHref: `${png}#VerifiedTestimonialCards-001`, reviewMode: "isolated" },
-  { id: "ProofStrip-001", name: "Proof Strip", kind: "section", family: "Evidence", status: "Approved", source: "src/components/sections/ProofStrip.astro", reviewHref: "/library/phase-3/", reviewMode: "in-context" },
+  { id: "ProofStrip-001", name: "Proof Strip", kind: "section", family: "Evidence", status: "Approved", source: "src/components/sections/ProofStrip.astro", reviewHref: "/library/premium-homepage/", reviewMode: "in-context" },
 
   { id: "ProcessSteps-001", name: "Process Steps", kind: "section", family: "Process", status: "Approved", source: "src/components/sections/ProcessSteps.astro", reviewHref: `${core}#ProcessSteps-001`, reviewMode: "isolated" },
   { id: "HorizontalProcess-001", name: "Horizontal Process", kind: "pattern", family: "Process", status: "Review", source: "src/components/patterns/process/HorizontalProcess.astro", reviewHref: `${core}#HorizontalProcess-001`, reviewMode: "isolated" },

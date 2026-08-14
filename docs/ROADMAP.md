@@ -161,6 +161,8 @@ Status: In review — 2026-08-12
 
 Exit note: the user-selected procurement-evidence direction now resolves eight required pattern IDs, four explicit optional-pattern states, five client routes, homepage content, and four inner-page content groups through one `ClientSiteConfig`. The selected Hero is `RecognitionBackdropHero-001`, the selected product presentation is `ProductFamilies-001`, and `FloatingTrustBar-001` is explicitly excluded. Home, Products, Capabilities, About, and Contact share client identity, theme, navigation, footer, validation, and media registration without duplicating compositions. The noindex client preview remains in `review` mode; public routing is blocked until real client identity, recognition/capability evidence, facility media, product scope, commercial terms, contact ownership, domain, and privacy/delivery settings are supplied and verified.
 
+Review navigation note — 2026-08-14: `/` is now the central review hub for the current component browsers, composition examples, five-page base routes, and the current five-page client preview. The superseded Phase 3 fixture was removed, its still-relevant component registrations now point to current review contexts, and every internal `noindex` review route exposes a persistent “总导航” return link.
+
 ## Phase 8.1 — Shared SEO, content-source, and inquiry infrastructure
 
 - [x] Add typed page SEO, canonical, robots, language-alternate, social, and JSON-LD contracts

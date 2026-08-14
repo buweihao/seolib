@@ -14,7 +14,7 @@ const internalReviewComponents = new Set([
 const astroFiles = (directory: string): string[] => readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
   const path = join(directory, entry.name);
   if (entry.isDirectory()) return astroFiles(path);
-  return entry.name.endsWith(".astro") ? [relative(workspaceRoot, path)] : [];
+  return entry.name.endsWith(".astro") ? [relative(workspaceRoot, path).replaceAll("\\", "/")] : [];
 });
 
 test("component registry has unique IDs and source files", () => {

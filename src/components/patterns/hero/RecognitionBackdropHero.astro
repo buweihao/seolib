@@ -67,15 +67,19 @@ const carouselId = id ?? `recognition-carousel-${Math.random().toString(36).slic
       </article>
       );
     })}
+    {slides.length > 1 && (
+      <>
+        <button class="recognition-collage__arrow recognition-collage__arrow--previous" type="button" data-previous aria-label="Previous recognition slide"><span aria-hidden="true">←</span></button>
+        <button class="recognition-collage__arrow recognition-collage__arrow--next" type="button" data-next aria-label="Next recognition slide"><span aria-hidden="true">→</span></button>
+      </>
+    )}
   </div>
   {slides.length > 1 && (
     <div class="recognition-collage__controls">
-      <button type="button" data-previous aria-label="Previous recognition slide"><span aria-hidden="true">←</span></button>
       <div class="recognition-collage__dots" role="group" aria-label="Choose recognition slide">
         {slides.map((slide, index) => <button type="button" data-dot={index} aria-label={`Show slide ${index + 1}: ${slide.title}`} aria-current={index === 0 ? "true" : "false"}></button>)}
       </div>
       <button type="button" data-toggle aria-label="Pause automatic rotation"><span data-pause aria-hidden="true">Ⅱ</span><span data-play aria-hidden="true" hidden>▶</span></button>
-      <button type="button" data-next aria-label="Next recognition slide"><span aria-hidden="true">→</span></button>
     </div>
   )}
   <p class="recognition-collage__status" data-status aria-live="polite"></p>
@@ -134,7 +138,7 @@ const carouselId = id ?? `recognition-carousel-${Math.random().toString(36).slic
 
 <style>
   .recognition-collage { background: #606060; color: white; }
-  .recognition-collage__viewport { display: grid; }
+  .recognition-collage__viewport { position: relative; display: grid; }
   .recognition-collage__slide { grid-area: 1 / 1; min-width: 0; transition: opacity .45s ease; }
   .recognition-collage__slide[data-active="false"] { visibility: hidden; opacity: 0; pointer-events: none; }
   .recognition-collage__slide[data-active="true"] { visibility: visible; opacity: 1; }
@@ -163,6 +167,13 @@ const carouselId = id ?? `recognition-carousel-${Math.random().toString(36).slic
   .recognition-collage :is(h1,h2,h3) { margin: 0; padding: .18em .42em; background: rgb(75 75 75 / .78); color: white; font-size: clamp(2rem, 4.3vw, 4rem); font-weight: 400; line-height: 1.08; }
   .recognition-collage__message :global(.action-link) { margin-top: var(--ds-space-4); box-shadow: 0 .5rem 1rem rgb(0 0 0 / .22); }
   .recognition-collage__statement { margin: 0; padding: clamp(1.45rem, 3vw, 2.5rem) var(--ds-page-gutter); border-bottom: 2px solid #27a7bf; text-align: center; font-size: clamp(.9rem, 2.2vw, 1.45rem); font-weight: 400; letter-spacing: .12em; text-transform: uppercase; }
+  .recognition-collage__arrow { position: absolute; z-index: 12; top: clamp(16.5rem, 24vw, 23rem); display: grid; width: clamp(3rem, 4vw, 4rem); aspect-ratio: 1; place-items: center; border: 1px solid rgb(255 255 255 / .68); border-radius: 50%; background: rgb(38 48 45 / .72); color: white; font-size: clamp(1.1rem, 2vw, 1.5rem); opacity: 0; pointer-events: none; translate: 0 -50%; transition: opacity .18s ease, background-color .18s ease, scale .18s ease; backdrop-filter: blur(.45rem); cursor: pointer; }
+  .recognition-collage__arrow--previous { left: clamp(.75rem, 2.5vw, 2.5rem); }
+  .recognition-collage__arrow--next { right: clamp(.75rem, 2.5vw, 2.5rem); }
+  .recognition-collage__viewport:hover .recognition-collage__arrow,
+  .recognition-collage__viewport:focus-within .recognition-collage__arrow,
+  .recognition-collage__arrow:focus-visible { opacity: 1; pointer-events: auto; }
+  .recognition-collage__arrow:hover { background: rgb(38 48 45 / .92); scale: 1.06; }
   .recognition-collage__controls { display: flex; align-items: center; justify-content: center; gap: .65rem; padding: .8rem var(--ds-page-gutter); background: #4f4f4f; }
   .recognition-collage__controls button { display: grid; min-width: 2.75rem; min-height: 2.75rem; place-items: center; border: 1px solid rgb(255 255 255 / .55); border-radius: 50%; background: transparent; color: white; cursor: pointer; }
   .recognition-collage__controls button:hover { background: rgb(255 255 255 / .12); }
@@ -182,6 +193,8 @@ const carouselId = id ?? `recognition-carousel-${Math.random().toString(36).slic
     .recognition-collage__badge--4 { display: none !important; }
     .recognition-collage__message { top: 54%; width: 88%; }
     .recognition-collage__message > p { color: white; text-shadow: 0 1px 3px rgb(0 0 0 / .8); }
+    .recognition-collage__arrow { top: 19.5rem; width: 3rem; }
   }
-  @media (prefers-reduced-motion: reduce) { .recognition-collage__slide { transition: none; } }
+  @media (hover: none) { .recognition-collage__arrow { opacity: 1; pointer-events: auto; } }
+  @media (prefers-reduced-motion: reduce) { .recognition-collage__slide, .recognition-collage__arrow { transition: none; } }
 </style>

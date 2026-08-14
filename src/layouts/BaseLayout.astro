@@ -68,5 +68,32 @@ const jsonLd = seo?.jsonLd ? serializeJsonLd(seo.jsonLd) : undefined;
   </head>
   <body class="bg-canvas text-ink antialiased">
     <slot />
+    {noindex && Astro.url.pathname !== "/" && (
+      <a class="review-hub-link" href="/" aria-label="返回网站审核总导航">总导航</a>
+    )}
   </body>
 </html>
+
+<style is:global>
+  .review-hub-link {
+    position: fixed;
+    z-index: 90;
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: .65rem 1rem;
+    border: 1px solid color-mix(in oklch, var(--ds-color-canvas), transparent 72%);
+    border-radius: 999px;
+    background: color-mix(in oklch, var(--ds-color-ink), transparent 8%);
+    box-shadow: 0 .6rem 1.6rem color-mix(in oklch, black, transparent 82%);
+    color: var(--ds-color-canvas);
+    font-size: .875rem;
+    font-weight: 750;
+    line-height: 1;
+    text-decoration: none;
+    backdrop-filter: blur(.5rem);
+  }
+  .review-hub-link:hover { background: var(--ds-color-accent); color: var(--ds-color-accent-contrast); }
+</style>
