@@ -12,49 +12,56 @@ export interface ComponentRegistration {
   reviewMode: "isolated" | "in-context";
 }
 
-const core = "/library/patterns/" as const;
 const png = "/library/patterns/png-derived/" as const;
+const hero = "/library/patterns/hero/" as const;
+const products = "/library/patterns/products/" as const;
+const evidence = "/library/patterns/evidence/" as const;
+const process = "/library/patterns/process/" as const;
+const pathways = "/library/patterns/pathways/" as const;
+const facility = "/library/patterns/facility/" as const;
+const quality = "/library/patterns/quality/" as const;
+const inquiry = "/library/patterns/inquiry/" as const;
 
 export const componentRegistry = [
-  { id: "Container-001", name: "Container", kind: "primitive", family: "Primitives", status: "Approved", source: "src/components/primitives/Container.astro", reviewHref: `${core}#ProductFamilies-001`, reviewMode: "in-context" },
-  { id: "ActionLink-001", name: "Action Link", kind: "primitive", family: "Primitives", status: "Approved", source: "src/components/primitives/ActionLink.astro", reviewHref: `${core}#StatementHero-001`, reviewMode: "in-context" },
-  { id: "SectionHeading-001", name: "Section Heading", kind: "primitive", family: "Primitives", status: "Approved", source: "src/components/primitives/SectionHeading.astro", reviewHref: `${core}#ProductFamilies-001`, reviewMode: "in-context" },
+  { id: "Container-001", name: "Container", kind: "primitive", family: "Primitives", status: "Approved", source: "src/components/primitives/Container.astro", reviewHref: `${products}#ProductFamilies-001`, reviewMode: "in-context" },
+  { id: "ActionLink-001", name: "Action Link", kind: "primitive", family: "Primitives", status: "Approved", source: "src/components/primitives/ActionLink.astro", reviewHref: `${hero}#StatementHero-001`, reviewMode: "in-context" },
+  { id: "SectionHeading-001", name: "Section Heading", kind: "primitive", family: "Primitives", status: "Approved", source: "src/components/primitives/SectionHeading.astro", reviewHref: `${products}#ProductFamilies-001`, reviewMode: "in-context" },
   { id: "MediaFrame-001", name: "Media Frame", kind: "primitive", family: "Primitives", status: "Approved", source: "src/components/primitives/MediaFrame.astro", reviewHref: "/library/premium-homepage/", reviewMode: "in-context" },
 
-  { id: "StatementHero-001", name: "Statement Hero", kind: "section", family: "Hero", status: "Approved", source: "src/components/sections/StatementHero.astro", reviewHref: `${core}#StatementHero-001`, reviewMode: "isolated" },
-  { id: "CenteredProofHero-001", name: "Centered Proof Hero", kind: "pattern", family: "Hero", status: "Review", source: "src/components/patterns/hero/CenteredProofHero.astro", reviewHref: `${core}#CenteredProofHero-001`, reviewMode: "isolated" },
-  { id: "ArcFactoryHero-001", name: "Arc Factory Hero", kind: "pattern", family: "Hero", status: "Review", source: "src/components/patterns/hero/ArcFactoryHero.astro", reviewHref: `${core}#ArcFactoryHero-001`, reviewMode: "isolated" },
-  { id: "RecognitionBackdropHero-001", name: "Recognition Backdrop Hero", kind: "pattern", family: "Hero", status: "Approved", source: "src/components/patterns/hero/RecognitionBackdropHero.astro", reviewHref: `${core}#RecognitionBackdropHero-001`, reviewMode: "isolated" },
+  { id: "StatementHero-001", name: "Statement Hero", kind: "section", family: "Hero", status: "Approved", source: "src/components/sections/StatementHero.astro", reviewHref: `${hero}#StatementHero-001`, reviewMode: "isolated" },
+  { id: "CenteredProofHero-001", name: "Centered Proof Hero", kind: "pattern", family: "Hero", status: "Review", source: "src/components/patterns/hero/CenteredProofHero.astro", reviewHref: `${hero}#CenteredProofHero-001`, reviewMode: "isolated" },
+  { id: "ArcFactoryHero-001", name: "Arc Factory Hero", kind: "pattern", family: "Hero", status: "Review", source: "src/components/patterns/hero/ArcFactoryHero.astro", reviewHref: `${hero}#ArcFactoryHero-001`, reviewMode: "isolated" },
+  { id: "RecognitionBackdropHero-001", name: "Recognition Backdrop Hero", kind: "pattern", family: "Hero", status: "Approved", source: "src/components/patterns/hero/RecognitionBackdropHero.astro", reviewHref: `${hero}#RecognitionBackdropHero-001`, reviewMode: "isolated" },
 
-  { id: "ProductFamilies-001", name: "Product Families", kind: "section", family: "Products", status: "Approved", source: "src/components/sections/ProductFamilies.astro", reviewHref: `${core}#ProductFamilies-001`, reviewMode: "isolated" },
-  { id: "ProductMosaic-001", name: "Product Mosaic", kind: "pattern", family: "Products", status: "Review", source: "src/components/patterns/products/ProductMosaic.astro", reviewHref: `${core}#ProductMosaic-001`, reviewMode: "isolated" },
-  { id: "ProductCategoryList-001", name: "Product Category List", kind: "pattern", family: "Products", status: "Approved", source: "src/components/patterns/products/ProductCategoryList.astro", reviewHref: `${core}#ProductCategoryList-001`, reviewMode: "isolated" },
+  { id: "ProductFamilies-001", name: "Product Families", kind: "section", family: "Products", status: "Approved", source: "src/components/sections/ProductFamilies.astro", reviewHref: `${products}#ProductFamilies-001`, reviewMode: "isolated" },
+  { id: "ProductMosaic-001", name: "Product Mosaic", kind: "pattern", family: "Products", status: "Review", source: "src/components/patterns/products/ProductMosaic.astro", reviewHref: `${products}#ProductMosaic-001`, reviewMode: "isolated" },
+  { id: "ProductCategoryList-001", name: "Product Category List", kind: "pattern", family: "Products", status: "Approved", source: "src/components/patterns/products/ProductCategoryList.astro", reviewHref: `${products}#ProductCategoryList-001`, reviewMode: "isolated" },
   { id: "ProductCutoutShelf-001", name: "Product Cutout Shelf", kind: "pattern", family: "Products", status: "Review", source: "src/components/patterns/products/ProductCutoutShelf.astro", reviewHref: `${png}#ProductCutoutShelf-001`, reviewMode: "isolated" },
   { id: "GatedProductSpotlight-001", name: "Gated Product Spotlight", kind: "pattern", family: "Products", status: "Review", source: "src/components/patterns/products/GatedProductSpotlight.astro", reviewHref: `${png}#GatedProductSpotlight-001`, reviewMode: "isolated" },
 
-  { id: "EvidenceFeature-001", name: "Evidence Feature", kind: "section", family: "Evidence", status: "Approved", source: "src/components/sections/EvidenceFeature.astro", reviewHref: `${core}#EvidenceFeature-001`, reviewMode: "isolated" },
-  { id: "ProofColumns-001", name: "Proof Columns", kind: "pattern", family: "Evidence", status: "Approved", source: "src/components/patterns/evidence/ProofColumns.astro", reviewHref: `${core}#ProofColumns-001`, reviewMode: "isolated" },
+  { id: "EvidenceFeature-001", name: "Evidence Feature", kind: "section", family: "Evidence", status: "Approved", source: "src/components/sections/EvidenceFeature.astro", reviewHref: `${evidence}#EvidenceFeature-001`, reviewMode: "isolated" },
+  { id: "ProofColumns-001", name: "Proof Columns", kind: "pattern", family: "Evidence", status: "Approved", source: "src/components/patterns/evidence/ProofColumns.astro", reviewHref: `${evidence}#ProofColumns-001`, reviewMode: "isolated" },
   { id: "VerifiedTestimonialCards-001", name: "Verified Testimonial Cards", kind: "pattern", family: "Evidence", status: "Review", source: "src/components/patterns/evidence/VerifiedTestimonialCards.astro", reviewHref: `${png}#VerifiedTestimonialCards-001`, reviewMode: "isolated" },
   { id: "ProofStrip-001", name: "Proof Strip", kind: "section", family: "Evidence", status: "Approved", source: "src/components/sections/ProofStrip.astro", reviewHref: "/library/premium-homepage/", reviewMode: "in-context" },
 
-  { id: "ProcessSteps-001", name: "Process Steps", kind: "section", family: "Process", status: "Approved", source: "src/components/sections/ProcessSteps.astro", reviewHref: `${core}#ProcessSteps-001`, reviewMode: "isolated" },
-  { id: "HorizontalProcess-001", name: "Horizontal Process", kind: "pattern", family: "Process", status: "Review", source: "src/components/patterns/process/HorizontalProcess.astro", reviewHref: `${core}#HorizontalProcess-001`, reviewMode: "isolated" },
-  { id: "ProcessCards-001", name: "Process Cards", kind: "pattern", family: "Process", status: "Review", source: "src/components/patterns/process/ProcessCards.astro", reviewHref: `${core}#ProcessCards-001`, reviewMode: "isolated" },
+  { id: "ProcessSteps-001", name: "Process Steps", kind: "section", family: "Process", status: "Approved", source: "src/components/sections/ProcessSteps.astro", reviewHref: `${process}#ProcessSteps-001`, reviewMode: "isolated" },
+  { id: "HorizontalProcess-001", name: "Horizontal Process", kind: "pattern", family: "Process", status: "Review", source: "src/components/patterns/process/HorizontalProcess.astro", reviewHref: `${process}#HorizontalProcess-001`, reviewMode: "isolated" },
+  { id: "ProcessCards-001", name: "Process Cards", kind: "pattern", family: "Process", status: "Review", source: "src/components/patterns/process/ProcessCards.astro", reviewHref: `${process}#ProcessCards-001`, reviewMode: "isolated" },
 
-  { id: "BuyerPathways-001", name: "Buyer Pathways", kind: "section", family: "Pathways", status: "Approved", source: "src/components/sections/BuyerPathways.astro", reviewHref: `${core}#BuyerPathways-001`, reviewMode: "isolated" },
-  { id: "SplitPathways-001", name: "Split Pathways", kind: "pattern", family: "Pathways", status: "Review", source: "src/components/patterns/pathways/SplitPathways.astro", reviewHref: `${core}#SplitPathways-001`, reviewMode: "isolated" },
+  { id: "BuyerPathways-001", name: "Buyer Pathways", kind: "section", family: "Pathways", status: "Approved", source: "src/components/sections/BuyerPathways.astro", reviewHref: `${pathways}#BuyerPathways-001`, reviewMode: "isolated" },
+  { id: "SplitPathways-001", name: "Split Pathways", kind: "pattern", family: "Pathways", status: "Review", source: "src/components/patterns/pathways/SplitPathways.astro", reviewHref: `${pathways}#SplitPathways-001`, reviewMode: "isolated" },
   { id: "BuyerTypeMatrix-001", name: "Buyer Type Matrix", kind: "pattern", family: "Audience", status: "Review", source: "src/components/patterns/audience/BuyerTypeMatrix.astro", reviewHref: `${png}#BuyerTypeMatrix-001`, reviewMode: "isolated" },
 
-  { id: "FacilityOverview-001", name: "Facility Overview", kind: "section", family: "Facility", status: "Approved", source: "src/components/sections/FacilityOverview.astro", reviewHref: `${core}#FacilityOverview-001`, reviewMode: "isolated" },
-  { id: "FacilityGallery-001", name: "Facility Gallery", kind: "pattern", family: "Facility", status: "Approved", source: "src/components/patterns/facility/FacilityGallery.astro", reviewHref: `${core}#FacilityGallery-001`, reviewMode: "isolated" },
+  { id: "FacilityOverview-001", name: "Facility Overview", kind: "section", family: "Facility", status: "Approved", source: "src/components/sections/FacilityOverview.astro", reviewHref: `${facility}#FacilityOverview-001`, reviewMode: "isolated" },
+  { id: "FacilityGallery-001", name: "Facility Gallery", kind: "pattern", family: "Facility", status: "Approved", source: "src/components/patterns/facility/FacilityGallery.astro", reviewHref: `${facility}#FacilityGallery-001`, reviewMode: "isolated" },
 
-  { id: "QualityFramework-001", name: "Quality Framework", kind: "section", family: "Quality", status: "Approved", source: "src/components/sections/QualityFramework.astro", reviewHref: `${core}#QualityFramework-001`, reviewMode: "isolated" },
-  { id: "QualityEvidenceMatrix-001", name: "Quality Evidence Matrix", kind: "pattern", family: "Quality", status: "Approved", source: "src/components/patterns/quality/QualityEvidenceMatrix.astro", reviewHref: `${core}#QualityEvidenceMatrix-001`, reviewMode: "isolated" },
+  { id: "QualityFramework-001", name: "Quality Framework", kind: "section", family: "Quality", status: "Approved", source: "src/components/sections/QualityFramework.astro", reviewHref: `${quality}#QualityFramework-001`, reviewMode: "isolated" },
+  { id: "QualityEvidenceMatrix-001", name: "Quality Evidence Matrix", kind: "pattern", family: "Quality", status: "Approved", source: "src/components/patterns/quality/QualityEvidenceMatrix.astro", reviewHref: `${quality}#QualityEvidenceMatrix-001`, reviewMode: "isolated" },
   { id: "CapabilityMatrix-001", name: "Capability Matrix", kind: "section", family: "Capabilities", status: "Approved", source: "src/components/sections/CapabilityMatrix.astro", reviewHref: "/library/manufacturing-homepage/", reviewMode: "in-context" },
 
-  { id: "InquiryCTA-001", name: "Inquiry CTA", kind: "section", family: "Inquiry", status: "Approved", source: "src/components/sections/InquiryCTA.astro", reviewHref: `${core}#InquiryCTA-001`, reviewMode: "isolated" },
-  { id: "SplitInquiry-001", name: "Split Inquiry", kind: "pattern", family: "Inquiry", status: "Approved", source: "src/components/patterns/inquiry/SplitInquiry.astro", reviewHref: `${core}#SplitInquiry-001`, reviewMode: "isolated" },
-  { id: "InquiryForm-001", name: "Inquiry Form", kind: "utility", family: "Inquiry", status: "Review", source: "src/components/inquiry/InquiryForm.astro", reviewHref: `${core}#InquiryForm-001`, reviewMode: "isolated" },
+  { id: "InquiryCTA-001", name: "Inquiry CTA", kind: "section", family: "Inquiry", status: "Approved", source: "src/components/sections/InquiryCTA.astro", reviewHref: `${inquiry}#InquiryCTA-001`, reviewMode: "isolated" },
+  { id: "SplitInquiry-001", name: "Split Inquiry", kind: "pattern", family: "Inquiry", status: "Approved", source: "src/components/patterns/inquiry/SplitInquiry.astro", reviewHref: `${inquiry}#SplitInquiry-001`, reviewMode: "isolated" },
+  { id: "InquiryForm-001", name: "Inquiry Form", kind: "utility", family: "Inquiry", status: "Review", source: "src/components/inquiry/InquiryForm.astro", reviewHref: `${inquiry}#InquiryForm-001`, reviewMode: "isolated" },
   { id: "ContactOptions-001", name: "Contact Options", kind: "section", family: "Inquiry", status: "Review", source: "src/components/sections/ContactOptions.astro", reviewHref: "/library/base-site/contact/", reviewMode: "in-context" },
 
   { id: "FloatingTrustBar-001", name: "Floating Trust Bar", kind: "pattern", family: "Proof", status: "Approved", source: "src/components/patterns/proof/FloatingTrustBar.astro", reviewHref: `${png}#FloatingTrustBar-001`, reviewMode: "isolated" },

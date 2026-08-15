@@ -96,12 +96,12 @@ const { colors } = config.theme;
   {config.mode === "review" && (
     <aside class="configuration-review" aria-label="Client configuration review status">
       <div>
-        <p><strong>Phase 8 client preview</strong> · {config.direction} · {warningCount} verification warnings</p>
+        <p><strong>护肤品客户网站示例，仅供 UI 与内容结构审核</strong> · {warningCount} 项客户事实待核验</p>
         <details>
-          <summary>Review configuration</summary>
+          <summary>查看审核信息</summary>
           <div class="configuration-review__details">
-            <div><h2>Selected patterns</h2><ul>{patternSummary.map((pattern) => <li>{pattern}</li>)}</ul></div>
-            <div><h2>Pending verification</h2><ul>{issues.map((issue) => <li><strong>{issue.path}</strong>: {issue.message}</li>)}</ul></div>
+            <div><h2>当前使用的 UI 零件</h2><ul>{patternSummary.map((pattern) => <li>{pattern}</li>)}</ul></div>
+            <div><h2>正式上线前待客户核验</h2><ul>{issues.map((issue) => <li><strong>{issue.path}</strong>: {issue.message}</li>)}</ul></div>
           </div>
         </details>
       </div>
@@ -113,7 +113,7 @@ const { colors } = config.theme;
     homeHref={config.routes.home}
     {navigation}
     currentPath={config.routes.home}
-    utilityText="Configuration preview only — client identity, facility facts, capabilities, and commercial terms remain unverified"
+    utilityText="Facial skincare · Body care · Private label development"
     inquiryAction={{ href: config.routes.contact, label: config.contact.inquiryLabel }}
   />
 
@@ -134,9 +134,9 @@ const { colors } = config.theme;
   <SiteFooter
     brand={config.identity.displayName.value}
     description={config.identity.summary.value}
-    linkGroups={[{ title: "Review pages", links: navigation }]}
+    linkGroups={[{ title: "Explore", links: navigation }]}
     contactActions={[{ href: config.routes.contact, label: config.contact.inquiryLabel }]}
-    copyrightLabel="Review configuration only. No supplier claim, certification, commercial term, or contact channel is approved for publication."
+    copyrightLabel="Illustrative skincare manufacturer website. Replace all demo identity, capability, evidence, and contact data before publication."
   />
 </div>
 

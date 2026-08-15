@@ -5,10 +5,10 @@ interface Props { title: string; description: string; }
 const { title, description } = Astro.props;
 
 const groups = [
-  ["/library/patterns/#component-registry-title", "全部组件"],
-  ["/library/patterns/#heroes", "首屏 Hero"], ["/library/patterns/#products", "产品"], ["/library/patterns/#evidence", "证据"],
-  ["/library/patterns/#process", "流程"], ["/library/patterns/#pathways", "合作路线"], ["/library/patterns/#facility", "工厂设施"],
-  ["/library/patterns/#quality", "质量"], ["/library/patterns/#inquiry", "询盘"], ["/library/patterns/png-derived/", "PNG 衍生零件"], ["/library/patterns/compositions/", "页面组合"],
+  ["/library/patterns/", "审核导航"],
+  ["/library/patterns/registry/", "组件注册表"],
+  ["/library/patterns/png-derived/", "PNG 衍生零件"],
+  ["/library/patterns/compositions/", "页面组合"],
 ] as const;
 ---
 

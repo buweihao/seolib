@@ -163,6 +163,12 @@ Exit note: the user-selected procurement-evidence direction now resolves eight r
 
 Review navigation note — 2026-08-14: `/` is now the central review hub for the current component browsers, composition examples, five-page base routes, and the current five-page client preview. The superseded Phase 3 fixture was removed, its still-relevant component registrations now point to current review contexts, and every internal `noindex` review route exposes a persistent “总导航” return link.
 
+Homepage content review note — 2026-08-15: the procurement-evidence client homepage now presents a clearly fictional skincare-manufacturer scenario instead of exposing internal project-guidance copy as customer-facing content. The visible journey is skincare offer → cooperation route → product categories → development support → quality → process → facility → inquiry; pending identity and evidence checks remain confined to the review notice.
+
+Pattern navigation note — 2026-08-15: `/library/patterns/` is now a navigation-only review hub. The eight primary Home pattern families render on separate category routes, and the full component registry has its own route. The hub also records the current coverage gap: Products, Capabilities, About, and Contact have base compositions but still need broader page-specific patterns derived from non-Home reference captures.
+
+Audit hierarchy note — 2026-08-15: the hub now separates available Home-section UI, missing inner-page UI, and management/composition tools into three explicit levels. It also records that a complete finished-product detail content model, component set, composition, and dynamic detail route do not exist yet; the current single-product spotlight remains only a promotional entry pattern.
+
 ## Phase 8.1 — Shared SEO, content-source, and inquiry infrastructure
 
 - [x] Add typed page SEO, canonical, robots, language-alternate, social, and JSON-LD contracts
