@@ -110,8 +110,8 @@ const shared = { contentEvidence: "来自 Phase 7 的可读示例内容模型；
 
     {family === "inquiry" && (
       <>
-        <PatternReview patternId="InquiryCTA-001" name="深色询盘行动区" suitableFor="页面末端的强收口" {...shared} originalTreatment="深色集中式行动区。"><InquiryCTA {...productsPage.inquiry} id="demo-inquiry-dark" /></PatternReview>
-        <PatternReview patternId="SplitInquiry-001" name="分栏询盘准备区" suitableFor="需要同时说明准备材料与行动" {...shared} originalTreatment="标题与询盘准备项分栏。"><SplitInquiry {...productsPage.inquiry} id="demo-inquiry-split" /></PatternReview>
+        <PatternReview patternId="InquiryCTA-001" name="深色询盘行动区" suitableFor="页面末端的强收口" {...shared} originalTreatment="深色集中式行动区。"><InquiryCTA {...homePage.inquiry} id="demo-inquiry-dark" /></PatternReview>
+        <PatternReview patternId="SplitInquiry-001" name="分栏询盘准备区" suitableFor="需要同时说明准备材料与行动" {...shared} originalTreatment="标题与询盘准备项分栏。"><SplitInquiry {...homePage.inquiry} id="demo-inquiry-split" /></PatternReview>
         <PatternReview patternId="InquiryForm-001" name="安全项目询盘表单" suitableFor="需要直接收集项目范围、市场、产品兴趣和隐私同意" contentEvidence="字段来自 Phase 8 的 B2B 项目询盘和发布安全要求。" uiEvidence="双栏表单用于信息密度较高的项目简报；移动端改为单栏。" originalTreatment="原创表单层级、焦点、错误、同意与审核禁用状态；不携带客户联系信息。"><InquiryForm config={procurementEvidenceClient.inquiry} id="demo-secure-inquiry" title="Tell us about your project" description="Review the full project-inquiry form before delivery and client privacy settings are activated." /></PatternReview>
       </>
     )}

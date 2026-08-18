@@ -20,8 +20,9 @@ const mediaSources = (config: ClientSiteConfig) => [
   config.homepage.evidence.media.src,
   config.homepage.facility.media.src,
   ...config.homepage.products.families.flatMap((family) => family.media?.src ? [family.media.src] : []),
-  config.pages.products.evidence.media.src,
   ...config.pages.products.products.families.flatMap((family) => family.media?.src ? [family.media.src] : []),
+  ...config.catalog.categories.map((category) => category.media.src),
+  ...config.catalog.products.map((product) => product.media.src),
   config.pages.about.facility.media.src,
   config.pages.about.evidence.media.src,
 ];
@@ -60,6 +61,14 @@ export const validateClientSiteConfig = (config: ClientSiteConfig): readonly Con
   }
   for (const [routeName, route] of Object.entries(config.routes)) {
     if (!route.startsWith("/")) issues.push({ path: `routes.${routeName}`, message: "Client page routes must be root-relative.", severity: "error" });
+  }
+
+  const categorySlugs = new Set(config.catalog.categories.map((category) => category.slug));
+  if (categorySlugs.size !== config.catalog.categories.length) issues.push({ path: "catalog.categories", message: "Product category slugs must be unique.", severity: "error" });
+  const productKeys = config.catalog.products.map((product) => `${product.categorySlug}/${product.slug}`);
+  if (new Set(productKeys).size !== productKeys.length) issues.push({ path: "catalog.products", message: "Product slugs must be unique within each category.", severity: "error" });
+  for (const product of config.catalog.products) {
+    if (!categorySlugs.has(product.categorySlug)) issues.push({ path: `catalog.products.${product.slug}`, message: `Unknown category slug: ${product.categorySlug}`, severity: "error" });
   }
 
   const recognitionHeroSelected = config.patterns.hero === "RecognitionBackdropHero-001";

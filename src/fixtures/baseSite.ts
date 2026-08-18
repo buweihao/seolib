@@ -202,28 +202,6 @@ export const productsPage = {
       { name: "Brand-ready sets", description: "Curated routine concepts that connect product roles, packaging families, and launch priorities.", media: { src: "/review-assets/launch-daily.svg", alt: "Abstract coordinated skincare set", width: 800, height: 600 }, action: { href: baseSitePaths.contact, label: "Discuss a starter range" } },
     ],
   },
-  evidence: {
-    id: "product-evidence",
-    eyebrow: "Before selecting a product",
-    title: "Compare more than the product name.",
-    description: "A useful product discussion covers user, format, sensory target, packaging, claims, and market requirements.",
-    points: [
-      { title: "Formula direction", description: "Define desired texture, use experience, priorities, and ingredients to avoid or investigate." },
-      { title: "Packaging compatibility", description: "Confirm how the product and packaging will be evaluated together." },
-      { title: "Claims and evidence", description: "Separate marketing goals from claims that require documentation or testing." },
-    ],
-    media: { src: "/review-assets/premium-evidence.svg", alt: "Abstract formula, packaging, and documentation layers", width: 1200, height: 900, aspect: "landscape" },
-    action: { href: baseSitePaths.capabilities, label: "Review manufacturing capabilities" },
-  },
-  inquiry: {
-    id: "products-inquiry",
-    eyebrow: "Product inquiry",
-    title: "Share the product range you want to create.",
-    description: "You do not need a finished specification, but the supplier needs enough context to recommend a route.",
-    preparationItems: ["Product type and routine role", "Target customer and market", "Texture or reference product", "Packaging preference"],
-    primaryAction: { href: baseSitePaths.contact, label: "Start a product inquiry" },
-    secondaryAction: { href: baseSitePaths.capabilities, label: "See the development process" },
-  },
 } satisfies ComponentProps<typeof ProductsPage>;
 
 export const capabilitiesPage = {

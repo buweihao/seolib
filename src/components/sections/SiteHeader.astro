@@ -39,6 +39,11 @@ const normalizePath = (path: string) => {
 };
 
 const normalizedCurrentPath = normalizePath(currentPath);
+const normalizedHomePath = normalizePath(homeHref);
+const isCurrentRoute = (href: string) => {
+  const normalizedHref = normalizePath(href);
+  return normalizedHref === normalizedCurrentPath || (normalizedHref !== normalizedHomePath && normalizedCurrentPath.startsWith(normalizedHref));
+};
 ---
 
 <header class:list={["site-header", className]}>
@@ -53,7 +58,7 @@ const normalizedCurrentPath = normalizePath(currentPath);
             <li>
               <a
                 href={item.href}
-                aria-current={normalizePath(item.href) === normalizedCurrentPath ? "page" : undefined}
+                aria-current={isCurrentRoute(item.href) ? "page" : undefined}
               >
                 {item.label}
               </a>
@@ -83,7 +88,7 @@ const normalizedCurrentPath = normalizePath(currentPath);
               <li>
                 <a
                   href={item.href}
-                  aria-current={normalizePath(item.href) === normalizedCurrentPath ? "page" : undefined}
+                  aria-current={isCurrentRoute(item.href) ? "page" : undefined}
                 >
                   {item.label}
                 </a>

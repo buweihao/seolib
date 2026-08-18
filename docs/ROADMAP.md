@@ -169,6 +169,8 @@ Pattern navigation note — 2026-08-15: `/library/patterns/` is now a navigation
 
 Audit hierarchy note — 2026-08-15: the hub now separates available Home-section UI, missing inner-page UI, and management/composition tools into three explicit levels. It also records that a complete finished-product detail content model, component set, composition, and dynamic detail route do not exist yet; the current single-product spotlight remains only a promotional entry pattern.
 
+Product catalogue note — 2026-08-18: Phase 8.2 adds the previously missing category-led catalogue flow. The Products page is now a focused `ProductFamilies-001` category entry; typed client catalogue data generates four category routes and twelve neutral product-detail routes through `CategoryProductGrid-001`, `ProductDetailProfile-001`, and their page compositions. Availability, ingredients, claims, testing, packaging compatibility, minimums, and timing remain explicit client-verification inputs.
+
 ## Phase 8.1 — Shared SEO, content-source, and inquiry infrastructure
 
 - [x] Add typed page SEO, canonical, robots, language-alternate, social, and JSON-LD contracts

@@ -8,7 +8,7 @@ export const compositionContent = {
   evidence: homePage.evidence satisfies EvidenceContent,
   process: capabilitiesPage.process satisfies ProcessContent,
   pathways: homePage.pathways satisfies PathwaysContent,
-  inquiry: productsPage.inquiry satisfies InquiryContent,
+  inquiry: homePage.inquiry satisfies InquiryContent,
 };
 
 export const brandLedPatterns = {

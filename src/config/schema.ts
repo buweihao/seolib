@@ -7,6 +7,7 @@ import type {
   PathwaysContent,
   ProcessContent,
   ProductFamiliesContent,
+  ProductCatalogContent,
   QualityContent,
   RecognitionHeroContent,
   ResourceHubContent,
@@ -162,6 +163,7 @@ export interface ClientSiteConfig {
   routes: ClientSiteRoutes;
   homepage: ClientHomepageContent;
   pages: ClientInnerPagesContent;
+  catalog: ProductCatalogContent;
   optionalContent: OptionalPatternContent;
   media: readonly ClientMediaAsset[];
   evidence: readonly ClientEvidenceRecord[];

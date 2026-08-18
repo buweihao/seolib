@@ -15,6 +15,33 @@ const paths = {
   inquiry: procurementEvidencePaths.contact,
 } as const;
 
+export const procurementEvidenceCatalog = {
+  reviewNote: "Illustrative catalogue content for interface review. Availability, formula scope, ingredients, claims, testing, packaging compatibility, minimums, and timing require client verification.",
+  categories: [
+    { slug: "facial-skincare", name: "Facial skincare", description: "Daily cleansing, hydration, moisturizing, and routine-support directions for face-care ranges.", media: { src: "/review-assets/product-daily.svg", alt: "Abstract facial skincare packaging", width: 900, height: 700, aspect: "landscape" } },
+    { slug: "targeted-treatments", name: "Targeted treatments", description: "Serum, essence, and mask directions organized around a defined sensory and positioning brief.", media: { src: "/review-assets/product-targeted.svg", alt: "Abstract targeted treatment packaging", width: 900, height: 700, aspect: "landscape" } },
+    { slug: "body-care", name: "Body care", description: "Cleansing, moisturizing, exfoliating, and routine-extension directions for body-care collections.", media: { src: "/review-assets/manufacturing-body.svg", alt: "Abstract body-care packaging", width: 1200, height: 900, aspect: "landscape" } },
+    { slug: "hair-scalp-care", name: "Hair & scalp care", description: "Rinse-off and leave-on directions for daily cleansing, conditioning, and scalp-care routines.", media: { src: "/review-assets/manufacturing-leave-on.svg", alt: "Abstract hair and scalp-care packaging", width: 1200, height: 900, aspect: "landscape" } },
+  ],
+  products: [
+    { slug: "gentle-gel-cleanser", categorySlug: "facial-skincare", name: "Gentle Gel Cleanser", summary: "A light-rinsing facial cleanser direction for straightforward morning and evening routines.", media: { src: "/review-assets/product-daily.svg", alt: "Abstract packaging for a gentle gel cleanser", width: 900, height: 700, aspect: "square" }, format: "Gel cleanser", routineRole: "Cleanse", highlights: ["Low-foam or soft-foam sensory direction", "Fragrance-free or fragranced brief options", "Everyday-routine positioning"], customizationOptions: ["Texture and foam profile", "Fragrance direction", "Ingredient preference and exclusion brief"], packagingOptions: ["Pump bottle", "Squeeze tube", "Refill discussion where feasible"], evaluationItems: ["Cleansing and rinse feel", "Formula and pack compatibility", "Market-specific claim and label review"] },
+    { slug: "hydration-serum", categorySlug: "facial-skincare", name: "Daily Hydration Serum", summary: "A lightweight serum direction intended to layer within a simple daily skincare routine.", media: { src: "/review-assets/product-targeted.svg", alt: "Abstract packaging for a hydration serum", width: 900, height: 700, aspect: "square" }, format: "Water-based serum", routineRole: "Layer", highlights: ["Lightweight sensory target", "Fast-spreading application", "Routine-compatible finish"], customizationOptions: ["Viscosity and slip", "Ingredient direction", "Fragrance-free brief"], packagingOptions: ["Dropper bottle", "Airless pump", "Standard pump bottle"], evaluationItems: ["Appearance and sensory review", "Stability plan", "Packaging compatibility"] },
+    { slug: "barrier-comfort-cream", categorySlug: "facial-skincare", name: "Barrier Comfort Cream", summary: "A medium-rich moisturizer direction for day, night, or climate-focused collection planning.", media: { src: "/review-assets/product-ritual.svg", alt: "Abstract packaging for a comfort cream", width: 900, height: 700, aspect: "square" }, format: "Face cream", routineRole: "Moisturize", highlights: ["Medium-rich texture direction", "Comforting after-feel", "Day or night positioning"], customizationOptions: ["Richness and absorption profile", "Finish and fragrance", "Ingredient preference brief"], packagingOptions: ["Jar", "Airless jar", "Pump bottle"], evaluationItems: ["Sensory panel criteria", "Stability plan", "Formula and pack compatibility"] },
+    { slug: "clarifying-serum", categorySlug: "targeted-treatments", name: "Clarifying Serum", summary: "A focused serum concept whose ingredients, claims, and evidence route are defined by the destination market.", media: { src: "/review-assets/product-targeted.svg", alt: "Abstract packaging for a clarifying serum", width: 900, height: 700, aspect: "square" }, format: "Targeted serum", routineRole: "Treat", highlights: ["Light, quick-layering direction", "Target-user brief required", "Claim language subject to evidence review"], customizationOptions: ["Active-direction discussion", "Texture and finish", "Fragrance and color brief"], packagingOptions: ["Dropper bottle", "Airless pump", "Treatment pump"], evaluationItems: ["Ingredient and market review", "Stability and compatibility plan", "Claim substantiation requirements"] },
+    { slug: "radiance-essence", categorySlug: "targeted-treatments", name: "Radiance Essence", summary: "A fluid treatment-step concept for brands planning a layered radiance-positioned routine.", media: { src: "/review-assets/launch-focused.svg", alt: "Abstract packaging for a radiance essence", width: 800, height: 600, aspect: "square" }, format: "Fluid essence", routineRole: "Prepare", highlights: ["Fluid, fast-spreading texture", "Layered-routine positioning", "Finish adjustable by brief"], customizationOptions: ["Viscosity and skin feel", "Ingredient direction", "Fragrance-free option discussion"], packagingOptions: ["Treatment bottle", "Pump bottle", "Controlled-dose closure"], evaluationItems: ["Sensory and appearance review", "Claim and label review", "Packaging compatibility"] },
+    { slug: "overnight-mask", categorySlug: "targeted-treatments", name: "Overnight Treatment Mask", summary: "A leave-on mask direction designed around texture, sleeping-routine fit, and an agreed evaluation plan.", media: { src: "/review-assets/product-ritual.svg", alt: "Abstract packaging for an overnight mask", width: 900, height: 700, aspect: "square" }, format: "Leave-on mask", routineRole: "Finish", highlights: ["Cushioned overnight texture", "Non-rinse routine role", "Jar or tube presentation"], customizationOptions: ["Richness and occlusivity direction", "Fragrance direction", "Ingredient preference brief"], packagingOptions: ["Jar", "Squeeze tube", "Airless pack"], evaluationItems: ["Overnight sensory criteria", "Stability plan", "Pack compatibility"] },
+    { slug: "daily-body-wash", categorySlug: "body-care", name: "Daily Body Wash", summary: "A rinse-off body cleanser direction that can anchor a coordinated bath and body range.", media: { src: "/review-assets/manufacturing-rinse.svg", alt: "Abstract packaging for a daily body wash", width: 1200, height: 900, aspect: "square" }, format: "Body wash", routineRole: "Cleanse", highlights: ["Gel or cream-gel direction", "Foam and rinse profile", "Collection-ready fragrance brief"], customizationOptions: ["Foam profile", "Color and fragrance", "Ingredient preference brief"], packagingOptions: ["Pump bottle", "Disc-top bottle", "Refill discussion where feasible"], evaluationItems: ["Foam and rinse evaluation", "Stability plan", "Pack compatibility"] },
+    { slug: "body-lotion", categorySlug: "body-care", name: "Everyday Body Lotion", summary: "A spreadable lotion direction for daily body-care routines and coordinated fragrance collections.", media: { src: "/review-assets/launch-body.svg", alt: "Abstract packaging for an everyday body lotion", width: 800, height: 600, aspect: "square" }, format: "Body lotion", routineRole: "Moisturize", highlights: ["Easy-spread texture", "Adjustable absorption profile", "Coordinated range potential"], customizationOptions: ["Richness and finish", "Fragrance direction", "Visual appearance"], packagingOptions: ["Pump bottle", "Squeeze bottle", "Tube"], evaluationItems: ["Spread and after-feel", "Stability plan", "Packaging compatibility"] },
+    { slug: "polishing-body-scrub", categorySlug: "body-care", name: "Polishing Body Scrub", summary: "A rinse-off exfoliating concept with particle, texture, and use-frequency choices defined during review.", media: { src: "/review-assets/manufacturing-body.svg", alt: "Abstract packaging for a body scrub", width: 1200, height: 900, aspect: "square" }, format: "Rinse-off scrub", routineRole: "Exfoliate", highlights: ["Gel, cream, or oil-based direction", "Particle selection requires review", "Rinse profile adjustable by brief"], customizationOptions: ["Base texture", "Particle type and level", "Fragrance direction"], packagingOptions: ["Jar", "Wide-neck tube", "Squeeze tube where suitable"], evaluationItems: ["Application and rinse evaluation", "Particle and market review", "Pack compatibility"] },
+    { slug: "daily-shampoo", categorySlug: "hair-scalp-care", name: "Daily Shampoo", summary: "A routine shampoo direction built around hair type, foam preference, fragrance, and rinse feel.", media: { src: "/review-assets/manufacturing-rinse.svg", alt: "Abstract packaging for a daily shampoo", width: 1200, height: 900, aspect: "square" }, format: "Shampoo", routineRole: "Cleanse", highlights: ["Daily-use positioning", "Adjustable foam profile", "Hair-type brief required"], customizationOptions: ["Cleansing and foam direction", "Conditioning feel", "Fragrance brief"], packagingOptions: ["Disc-top bottle", "Pump bottle", "Refill discussion where feasible"], evaluationItems: ["Wet use and rinse evaluation", "Hair-feel criteria", "Stability and packaging compatibility"] },
+    { slug: "conditioning-mask", categorySlug: "hair-scalp-care", name: "Conditioning Hair Mask", summary: "A richer rinse-off conditioning direction for weekly or intensive care positioning.", media: { src: "/review-assets/manufacturing-leave-on.svg", alt: "Abstract packaging for a conditioning hair mask", width: 1200, height: 900, aspect: "square" }, format: "Hair mask", routineRole: "Condition", highlights: ["Rich rinse-off texture", "Slip and after-feel targets", "Weekly-routine positioning"], customizationOptions: ["Richness and slip", "Fragrance direction", "Hair-type brief"], packagingOptions: ["Jar", "Wide-neck tube", "Squeeze tube"], evaluationItems: ["Application and rinse feel", "Wet and dry hair evaluation", "Pack compatibility"] },
+    { slug: "scalp-serum", categorySlug: "hair-scalp-care", name: "Leave-on Scalp Serum", summary: "A precision-application scalp-care concept whose positioning and claims require market-specific review.", media: { src: "/review-assets/launch-evidence.svg", alt: "Abstract packaging for a scalp serum", width: 1200, height: 900, aspect: "square" }, format: "Scalp serum", routineRole: "Leave on", highlights: ["Lightweight leave-on direction", "Precision application", "Claim route must be defined"], customizationOptions: ["Viscosity and residue target", "Cooling or neutral sensory direction", "Ingredient preference brief"], packagingOptions: ["Nozzle bottle", "Dropper bottle", "Precision applicator"], evaluationItems: ["Application and residue evaluation", "Ingredient and claim review", "Stability and pack compatibility"] },
+  ],
+} as const;
+
+export const productCategoryHref = (categorySlug: string) => `${procurementEvidencePaths.products}${categorySlug}/`;
+export const productDetailHref = (categorySlug: string, productSlug: string) => `${productCategoryHref(categorySlug)}${productSlug}/`;
+
 export const procurementEvidenceClient = {
   schemaVersion: "1.0",
   siteId: "procurement-evidence-client",
@@ -94,6 +121,7 @@ export const procurementEvidenceClient = {
     testimonials: { pattern: "VerifiedTestimonialCards-001", status: "excluded" },
   },
   routes: procurementEvidencePaths,
+  catalog: procurementEvidenceCatalog,
   homepage: {
     hero: {
       eyebrow: "Skincare OEM · ODM · Private label",
@@ -264,7 +292,6 @@ export const procurementEvidenceClient = {
         eyebrow: "Product scope — verification preview",
         title: "Review product directions against your brand brief.",
         description: "This page demonstrates how a skincare manufacturer can organize product families. Formula availability, customization, claims, minimums, and commercial terms remain client inputs.",
-        primaryAction: { href: paths.contact, label: "Discuss a product programme" },
         breadcrumbs: [{ label: "Home", href: paths.home }, { label: "Products" }],
       },
       products: {
@@ -272,34 +299,12 @@ export const procurementEvidenceClient = {
         eyebrow: "Product families",
         title: "Start with the categories your project requires.",
         description: "The review categories show information structure only and do not represent available stock formulas.",
-        families: [
-          { name: "Facial skincare", description: "Cleansers, toners, serums, moisturizers, masks, and other routine-led directions.", media: { src: "/review-assets/product-daily.svg", alt: "Abstract facial skincare packaging", width: 900, height: 700 }, action: { href: paths.contact, label: "Discuss facial skincare" } },
-          { name: "Targeted treatments", description: "Directions shaped by a defined user need, sensory target, claim strategy, and evidence plan.", media: { src: "/review-assets/product-targeted.svg", alt: "Abstract targeted skincare treatment packaging", width: 900, height: 700 }, action: { href: paths.contact, label: "Discuss targeted treatments" } },
-          { name: "Body care", description: "Body cleansers, lotions, creams, scrubs, oils, and targeted body-care directions.", media: { src: "/review-assets/manufacturing-body.svg", alt: "Abstract body-care packaging", width: 1200, height: 900 }, action: { href: paths.contact, label: "Discuss body care" } },
-          { name: "Hair & scalp care", description: "Shampoo, conditioner, masks, scalp serums, and leave-on treatment directions.", media: { src: "/review-assets/manufacturing-leave-on.svg", alt: "Abstract hair and scalp-care packaging", width: 1200, height: 900 }, action: { href: paths.contact, label: "Discuss hair care" } },
-        ],
-      },
-      evidence: {
-        id: "product-evidence",
-        eyebrow: "Product evaluation",
-        title: "Compare more than a category name.",
-        description: "A useful supplier discussion connects formula direction, packaging, destination market, claims, evidence, and purchasing assumptions.",
-        points: [
-          { title: "Formula and sensory direction", description: "Define format, target user, experience, priorities, and exclusions." },
-          { title: "Packaging and compatibility", description: "Confirm pack status, sourcing responsibility, decoration, and evaluation needs." },
-          { title: "Claims and market evidence", description: "Separate positioning goals from claims requiring documents or testing." },
-        ],
-        media: { src: "/review-assets/launch-evidence.svg", alt: "Abstract product evaluation and evidence records", width: 1200, height: 900, aspect: "landscape" },
-        action: { href: paths.capabilities, label: "Review manufacturing capabilities" },
-      },
-      inquiry: {
-        id: "products-inquiry",
-        eyebrow: "Product inquiry",
-        title: "Share the product range you want to assess.",
-        description: "The manufacturer needs enough context to identify a suitable development route and the next verification questions.",
-        preparationItems: ["Product type and target user", "Destination market", "Packaging status", "Quantity range and launch window"],
-        primaryAction: { href: paths.contact, label: "Prepare a product inquiry" },
-        secondaryAction: { href: paths.capabilities, label: "Review the process first" },
+        families: procurementEvidenceCatalog.categories.map((category) => ({
+          name: category.name,
+          description: category.description,
+          media: category.media,
+          action: { href: productCategoryHref(category.slug), label: `Explore ${category.name.toLowerCase()}` },
+        })),
       },
     },
     capabilities: {
@@ -446,6 +451,10 @@ export const procurementEvidenceClient = {
     { id: "treatment-review", src: "/review-assets/product-targeted.svg", alt: "Abstract targeted skincare treatment packaging", rightsStatus: "verified", source: "Original repository review asset" },
     { id: "body-review", src: "/review-assets/manufacturing-body.svg", alt: "Abstract body-care packaging", rightsStatus: "verified", source: "Original repository review asset" },
     { id: "hair-review", src: "/review-assets/manufacturing-leave-on.svg", alt: "Abstract hair and scalp-care packaging", rightsStatus: "verified", source: "Original repository review asset" },
+    { id: "ritual-review", src: "/review-assets/product-ritual.svg", alt: "Abstract cream and mask packaging", rightsStatus: "verified", source: "Original repository review asset" },
+    { id: "focused-review", src: "/review-assets/launch-focused.svg", alt: "Abstract focused treatment packaging", rightsStatus: "verified", source: "Original repository review asset" },
+    { id: "rinse-review", src: "/review-assets/manufacturing-rinse.svg", alt: "Abstract rinse-off product packaging", rightsStatus: "verified", source: "Original repository review asset" },
+    { id: "launch-body-review", src: "/review-assets/launch-body.svg", alt: "Abstract body lotion packaging", rightsStatus: "verified", source: "Original repository review asset" },
   ],
   evidence: [
     { id: "identity", label: "Company identity and legal entity", status: "pending", note: "Required before publication." },

@@ -39,6 +39,33 @@ export interface ProductFamiliesContent extends SectionIntroContent {
   families: readonly ProductFamilyContent[];
 }
 
+export interface CatalogProductContent {
+  slug: string;
+  categorySlug: string;
+  name: string;
+  summary: string;
+  media: MediaContent;
+  format: string;
+  routineRole: string;
+  highlights: readonly string[];
+  customizationOptions: readonly string[];
+  packagingOptions: readonly string[];
+  evaluationItems: readonly string[];
+}
+
+export interface ProductCatalogCategoryContent {
+  slug: string;
+  name: string;
+  description: string;
+  media: MediaContent;
+}
+
+export interface ProductCatalogContent {
+  categories: readonly ProductCatalogCategoryContent[];
+  products: readonly CatalogProductContent[];
+  reviewNote: string;
+}
+
 export interface EvidencePointContent {
   title: string;
   description?: string;

@@ -38,6 +38,8 @@ export const componentRegistry = [
   { id: "ProductCategoryList-001", name: "Product Category List", kind: "pattern", family: "Products", status: "Approved", source: "src/components/patterns/products/ProductCategoryList.astro", reviewHref: `${products}#ProductCategoryList-001`, reviewMode: "isolated" },
   { id: "ProductCutoutShelf-001", name: "Product Cutout Shelf", kind: "pattern", family: "Products", status: "Review", source: "src/components/patterns/products/ProductCutoutShelf.astro", reviewHref: `${png}#ProductCutoutShelf-001`, reviewMode: "isolated" },
   { id: "GatedProductSpotlight-001", name: "Gated Product Spotlight", kind: "pattern", family: "Products", status: "Review", source: "src/components/patterns/products/GatedProductSpotlight.astro", reviewHref: `${png}#GatedProductSpotlight-001`, reviewMode: "isolated" },
+  { id: "CategoryProductGrid-001", name: "Category Product Grid", kind: "section", family: "Products", status: "Review", source: "src/components/sections/CategoryProductGrid.astro", reviewHref: "/library/client-previews/procurement-evidence/products/facial-skincare/", reviewMode: "in-context" },
+  { id: "ProductDetailProfile-001", name: "Product Detail Profile", kind: "section", family: "Products", status: "Review", source: "src/components/sections/ProductDetailProfile.astro", reviewHref: "/library/client-previews/procurement-evidence/products/facial-skincare/gentle-gel-cleanser/", reviewMode: "in-context" },
 
   { id: "EvidenceFeature-001", name: "Evidence Feature", kind: "section", family: "Evidence", status: "Approved", source: "src/components/sections/EvidenceFeature.astro", reviewHref: `${evidence}#EvidenceFeature-001`, reviewMode: "isolated" },
   { id: "ProofColumns-001", name: "Proof Columns", kind: "pattern", family: "Evidence", status: "Approved", source: "src/components/patterns/evidence/ProofColumns.astro", reviewHref: `${evidence}#ProofColumns-001`, reviewMode: "isolated" },
@@ -86,6 +88,8 @@ export const componentRegistry = [
   { id: "FlexibleHomepage-001", name: "Flexible Homepage", kind: "composition", family: "Compositions", status: "Review", source: "src/components/compositions/FlexibleHomepage.astro", reviewHref: "/library/patterns/compositions/", reviewMode: "in-context" },
   { id: "ClientHomepage-001", name: "Client Homepage", kind: "composition", family: "Compositions", status: "Review", source: "src/components/compositions/ClientHomepage.astro", reviewHref: "/library/client-previews/procurement-evidence/", reviewMode: "in-context" },
   { id: "ProductsPage-001", name: "Products Page", kind: "composition", family: "Compositions", status: "Review", source: "src/components/compositions/ProductsPage.astro", reviewHref: "/library/base-site/products/", reviewMode: "in-context" },
+  { id: "CategoryProductsPage-001", name: "Category Products Page", kind: "composition", family: "Compositions", status: "Review", source: "src/components/compositions/CategoryProductsPage.astro", reviewHref: "/library/client-previews/procurement-evidence/products/facial-skincare/", reviewMode: "in-context" },
+  { id: "ProductDetailPage-001", name: "Product Detail Page", kind: "composition", family: "Compositions", status: "Review", source: "src/components/compositions/ProductDetailPage.astro", reviewHref: "/library/client-previews/procurement-evidence/products/facial-skincare/gentle-gel-cleanser/", reviewMode: "in-context" },
   { id: "CapabilitiesPage-001", name: "Capabilities Page", kind: "composition", family: "Compositions", status: "Review", source: "src/components/compositions/CapabilitiesPage.astro", reviewHref: "/library/base-site/capabilities/", reviewMode: "in-context" },
   { id: "AboutPage-001", name: "About Page", kind: "composition", family: "Compositions", status: "Review", source: "src/components/compositions/AboutPage.astro", reviewHref: "/library/base-site/about/", reviewMode: "in-context" },
   { id: "ContactPage-001", name: "Contact Page", kind: "composition", family: "Compositions", status: "Review", source: "src/components/compositions/ContactPage.astro", reviewHref: "/library/base-site/contact/", reviewMode: "in-context" },
@@ -96,7 +100,7 @@ export type ComponentId = typeof componentRegistry[number]["id"];
 export const componentChineseNames: Record<ComponentId, string> = {
   "Container-001": "内容容器", "ActionLink-001": "行动链接", "SectionHeading-001": "章节标题", "MediaFrame-001": "媒体框架",
   "StatementHero-001": "主张式双栏首屏", "CenteredProofHero-001": "居中证明首屏", "ArcFactoryHero-001": "弧形工厂全景首屏", "RecognitionBackdropHero-001": "认可证据拼贴首屏",
-  "ProductFamilies-001": "等权产品分类卡", "ProductMosaic-001": "产品图片拼贴", "ProductCategoryList-001": "产品分类目录", "ProductCutoutShelf-001": "产品剪影货架", "GatedProductSpotlight-001": "受控产品聚焦展示",
+  "ProductFamilies-001": "等权产品分类卡", "ProductMosaic-001": "产品图片拼贴", "ProductCategoryList-001": "产品分类目录", "ProductCutoutShelf-001": "产品剪影货架", "GatedProductSpotlight-001": "受控产品聚焦展示", "CategoryProductGrid-001": "分类产品网格", "ProductDetailProfile-001": "产品详情资料区",
   "EvidenceFeature-001": "媒体分栏证据", "ProofColumns-001": "证明信息列", "VerifiedTestimonialCards-001": "已核验客户评价卡", "ProofStrip-001": "证明摘要条",
   "ProcessSteps-001": "纵向责任流程", "HorizontalProcess-001": "横向时间流程", "ProcessCards-001": "流程阶段卡片",
   "BuyerPathways-001": "合作路线卡片", "SplitPathways-001": "分区合作路线", "BuyerTypeMatrix-001": "买家类型矩阵",
@@ -109,7 +113,7 @@ export const componentChineseNames: Record<ComponentId, string> = {
   "PrinciplesLedger-001": "企业原则台账", "CompanyTimeline-001": "公司发展时间线", "AuditProofHub-001": "审核证明中心", "ResourceConversionPanel-001": "资源转化面板",
   "SiteHeader-001": "网站页眉", "SiteFooter-001": "网站页脚", "PageIntro-001": "内页引导区",
   "PremiumHomepage-001": "高端品牌首页组合", "ManufacturingHomepage-001": "制造能力首页组合", "LaunchHomepage-001": "新品启动首页组合", "FlexibleHomepage-001": "灵活模式首页组合", "ClientHomepage-001": "客户配置首页组合",
-  "ProductsPage-001": "产品内页组合", "CapabilitiesPage-001": "能力内页组合", "AboutPage-001": "关于我们内页组合", "ContactPage-001": "联系内页组合",
+  "ProductsPage-001": "产品分类入口页组合", "CategoryProductsPage-001": "分类产品列表页组合", "ProductDetailPage-001": "产品详情页组合", "CapabilitiesPage-001": "能力内页组合", "AboutPage-001": "关于我们内页组合", "ContactPage-001": "联系内页组合",
 };
 
 export const componentRegistrationById = new Map<ComponentId, typeof componentRegistry[number]>(

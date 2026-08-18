@@ -1,19 +1,16 @@
 ---
 import type { ComponentProps } from "astro/types";
-
+import CategoryProductGrid from "../sections/CategoryProductGrid.astro";
 import PageIntro from "../sections/PageIntro.astro";
-import ProductFamilies from "../sections/ProductFamilies.astro";
 
 interface Props {
   intro: ComponentProps<typeof PageIntro>;
-  products: ComponentProps<typeof ProductFamilies>;
+  products: ComponentProps<typeof CategoryProductGrid>;
   class?: string;
 }
-
 const { intro, products, class: className } = Astro.props;
 ---
-
-<div class:list={["products-page", className]}>
+<div class:list={["category-products-page", className]}>
   <PageIntro {...intro} />
-  <ProductFamilies {...products} />
+  <CategoryProductGrid {...products} />
 </div>

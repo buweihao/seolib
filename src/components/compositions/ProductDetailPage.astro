@@ -1,0 +1,27 @@
+---
+import type { ComponentProps } from "astro/types";
+import PageIntro from "../sections/PageIntro.astro";
+import ProductDetailProfile from "../sections/ProductDetailProfile.astro";
+
+interface Props {
+  breadcrumbs: ComponentProps<typeof PageIntro>["breadcrumbs"];
+  profile: ComponentProps<typeof ProductDetailProfile>;
+  class?: string;
+}
+const { breadcrumbs = [], profile, class: className } = Astro.props;
+---
+<div class:list={["product-detail-page", className]}>
+  <nav class="product-detail-page__breadcrumbs" aria-label="Breadcrumb">
+    <ol>
+      {breadcrumbs.map((item, index) => <li>{item.href && index < breadcrumbs.length - 1 ? <a href={item.href}>{item.label}</a> : <span aria-current="page">{item.label}</span>}</li>)}
+    </ol>
+  </nav>
+  <ProductDetailProfile {...profile} />
+</div>
+
+<style>
+  .product-detail-page__breadcrumbs { width: min(calc(100% - 2 * var(--ds-page-gutter)), var(--ds-container-wide)); margin: 0 auto; padding-top: var(--ds-space-6); }
+  ol { display: flex; flex-wrap: wrap; gap: var(--ds-space-2); margin: 0; padding: 0; color: var(--ds-color-muted); font-size: .8125rem; list-style: none; }
+  li:not(:last-child)::after { margin-left: var(--ds-space-2); color: var(--ds-color-border); content: "/"; }
+  a { padding-block: var(--ds-space-2); text-underline-offset: .2em; }
+</style>

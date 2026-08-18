@@ -1,0 +1,20 @@
+---
+import ProductDetailPage from "../../../../../../components/compositions/ProductDetailPage.astro";
+import { procurementEvidenceCatalog, procurementEvidenceClient, productCategoryHref, productDetailHref } from "../../../../../../config/clients/procurement-evidence";
+import ClientPageShell from "../../../../../../layouts/ClientPageShell.astro";
+
+export function getStaticPaths() {
+  return procurementEvidenceCatalog.products.map((product) => ({ params: { category: product.categorySlug, product: product.slug }, props: { product } }));
+}
+
+const { product } = Astro.props;
+const category = procurementEvidenceCatalog.categories.find((item) => item.slug === product.categorySlug)!;
+const currentPath = productDetailHref(category.slug, product.slug);
+---
+
+<ClientPageShell config={procurementEvidenceClient} {currentPath} title={`${product.name} | Procurement evidence client preview`} description={product.summary}>
+  <ProductDetailPage
+    breadcrumbs={[{ label: "Home", href: procurementEvidenceClient.routes.home }, { label: "Products", href: procurementEvidenceClient.routes.products }, { label: category.name, href: productCategoryHref(category.slug) }, { label: product.name }]}
+    profile={{ id: `${product.slug}-detail`, product, inquiryHref: `${procurementEvidenceClient.routes.contact}?product=${product.slug}#secure-inquiry`, reviewNote: procurementEvidenceCatalog.reviewNote }}
+  />
+</ClientPageShell>
