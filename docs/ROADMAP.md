@@ -171,6 +171,8 @@ Audit hierarchy note — 2026-08-15: the hub now separates available Home-sectio
 
 Product catalogue note — 2026-08-18: Phase 8.2 adds the previously missing category-led catalogue flow. The Products page is now a focused `ProductFamilies-001` category entry; typed client catalogue data generates four category routes and twelve neutral product-detail routes through `CategoryProductGrid-001`, `ProductDetailProfile-001`, and their page compositions. Availability, ingredients, claims, testing, packaging compatibility, minimums, and timing remain explicit client-verification inputs.
 
+Laeyo page evidence note — 2026-08-20: additional Laeyo product-listing, product-detail, manufacturing, About, and Contact captures are now stored under `references/laeyo/source/` and `references/laeyo/screenshots/`. The next implementation increment adds `ProductInquiryPanel-001`, `PageResourceRail-001`, `CompanyFactMatrix-001`, and `SamplingWorkflowCards-001`; each is a neutral, typed relationship rather than copied client content.
+
 ## Phase 8.1 — Shared SEO, content-source, and inquiry infrastructure
 
 - [x] Add typed page SEO, canonical, robots, language-alternate, social, and JSON-LD contracts

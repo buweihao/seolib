@@ -15,6 +15,6 @@ const currentPath = productCategoryHref(category.slug);
 <ClientPageShell config={procurementEvidenceClient} {currentPath} title={`${category.name} products | Procurement evidence client preview`} description={category.description}>
   <CategoryProductsPage
     intro={{ id: `${category.slug}-intro`, eyebrow: "Product family", title: category.name, description: category.description, breadcrumbs: [{ label: "Home", href: procurementEvidenceClient.routes.home }, { label: "Products", href: procurementEvidenceClient.routes.products }, { label: category.name }] }}
-    products={{ id: `${category.slug}-products`, products, reviewNote: procurementEvidenceCatalog.reviewNote, productHref: (product) => productDetailHref(category.slug, product.slug) }}
+    products={{ id: `${category.slug}-products`, products, reviewNote: procurementEvidenceCatalog.reviewNote, productHref: (product) => productDetailHref(category.slug, product.slug), inquiryHref: procurementEvidenceClient.routes.contact }}
   />
 </ClientPageShell>

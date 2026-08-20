@@ -16,5 +16,6 @@ const currentPath = productDetailHref(category.slug, product.slug);
   <ProductDetailPage
     breadcrumbs={[{ label: "Home", href: procurementEvidenceClient.routes.home }, { label: "Products", href: procurementEvidenceClient.routes.products }, { label: category.name, href: productCategoryHref(category.slug) }, { label: product.name }]}
     profile={{ id: `${product.slug}-detail`, product, inquiryHref: `${procurementEvidenceClient.routes.contact}?product=${product.slug}#secure-inquiry`, reviewNote: procurementEvidenceCatalog.reviewNote }}
+    inquiry={{ id: `${product.slug}-inquiry`, title: "Ready to review this product direction?", description: "Share the target market, packaging direction, quantity range, and any formula or sensory priorities. The next route remains subject to client review.", primaryAction: { href: `${procurementEvidenceClient.routes.contact}?product=${product.slug}#secure-inquiry`, label: "Start a project inquiry" }, secondaryAction: { href: productCategoryHref(category.slug), label: "Back to this category" }, note: procurementEvidenceCatalog.reviewNote }}
   />
 </ClientPageShell>

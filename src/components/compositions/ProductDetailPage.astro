@@ -1,14 +1,16 @@
 ---
 import type { ComponentProps } from "astro/types";
 import PageIntro from "../sections/PageIntro.astro";
+import ProductInquiryPanel from "../sections/ProductInquiryPanel.astro";
 import ProductDetailProfile from "../sections/ProductDetailProfile.astro";
 
 interface Props {
   breadcrumbs: ComponentProps<typeof PageIntro>["breadcrumbs"];
   profile: ComponentProps<typeof ProductDetailProfile>;
+  inquiry: ComponentProps<typeof ProductInquiryPanel>;
   class?: string;
 }
-const { breadcrumbs = [], profile, class: className } = Astro.props;
+const { breadcrumbs = [], profile, inquiry, class: className } = Astro.props;
 ---
 <div class:list={["product-detail-page", className]}>
   <nav class="product-detail-page__breadcrumbs" aria-label="Breadcrumb">
@@ -17,6 +19,7 @@ const { breadcrumbs = [], profile, class: className } = Astro.props;
     </ol>
   </nav>
   <ProductDetailProfile {...profile} />
+  <ProductInquiryPanel {...inquiry} />
 </div>
 
 <style>

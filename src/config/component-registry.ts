@@ -40,6 +40,10 @@ export const componentRegistry = [
   { id: "GatedProductSpotlight-001", name: "Gated Product Spotlight", kind: "pattern", family: "Products", status: "Review", source: "src/components/patterns/products/GatedProductSpotlight.astro", reviewHref: `${png}#GatedProductSpotlight-001`, reviewMode: "isolated" },
   { id: "CategoryProductGrid-001", name: "Category Product Grid", kind: "section", family: "Products", status: "Review", source: "src/components/sections/CategoryProductGrid.astro", reviewHref: "/library/client-previews/procurement-evidence/products/facial-skincare/", reviewMode: "in-context" },
   { id: "ProductDetailProfile-001", name: "Product Detail Profile", kind: "section", family: "Products", status: "Review", source: "src/components/sections/ProductDetailProfile.astro", reviewHref: "/library/client-previews/procurement-evidence/products/facial-skincare/gentle-gel-cleanser/", reviewMode: "in-context" },
+  { id: "ProductInquiryPanel-001", name: "Product Inquiry Panel", kind: "section", family: "Inquiry", status: "Review", source: "src/components/sections/ProductInquiryPanel.astro", reviewHref: "/library/client-previews/procurement-evidence/products/facial-skincare/gentle-gel-cleanser/", reviewMode: "in-context" },
+  { id: "PageResourceRail-001", name: "Page Resource Rail", kind: "section", family: "Resources", status: "Review", source: "src/components/sections/PageResourceRail.astro", reviewHref: "/library/client-previews/procurement-evidence/capabilities/", reviewMode: "in-context" },
+  { id: "CompanyFactMatrix-001", name: "Company Fact Matrix", kind: "section", family: "About", status: "Review", source: "src/components/sections/CompanyFactMatrix.astro", reviewHref: "/library/client-previews/procurement-evidence/about/", reviewMode: "in-context" },
+  { id: "SamplingWorkflowCards-001", name: "Sampling Workflow Cards", kind: "section", family: "Process", status: "Review", source: "src/components/sections/SamplingWorkflowCards.astro", reviewHref: "/library/client-previews/procurement-evidence/capabilities/", reviewMode: "in-context" },
 
   { id: "EvidenceFeature-001", name: "Evidence Feature", kind: "section", family: "Evidence", status: "Approved", source: "src/components/sections/EvidenceFeature.astro", reviewHref: `${evidence}#EvidenceFeature-001`, reviewMode: "isolated" },
   { id: "ProofColumns-001", name: "Proof Columns", kind: "pattern", family: "Evidence", status: "Approved", source: "src/components/patterns/evidence/ProofColumns.astro", reviewHref: `${evidence}#ProofColumns-001`, reviewMode: "isolated" },
@@ -100,8 +104,9 @@ export type ComponentId = typeof componentRegistry[number]["id"];
 export const componentChineseNames: Record<ComponentId, string> = {
   "Container-001": "内容容器", "ActionLink-001": "行动链接", "SectionHeading-001": "章节标题", "MediaFrame-001": "媒体框架",
   "StatementHero-001": "主张式双栏首屏", "CenteredProofHero-001": "居中证明首屏", "ArcFactoryHero-001": "弧形工厂全景首屏", "RecognitionBackdropHero-001": "认可证据拼贴首屏",
-  "ProductFamilies-001": "等权产品分类卡", "ProductMosaic-001": "产品图片拼贴", "ProductCategoryList-001": "产品分类目录", "ProductCutoutShelf-001": "产品剪影货架", "GatedProductSpotlight-001": "受控产品聚焦展示", "CategoryProductGrid-001": "分类产品网格", "ProductDetailProfile-001": "产品详情资料区",
+  "ProductFamilies-001": "等权产品分类卡", "ProductMosaic-001": "产品图片拼贴", "ProductCategoryList-001": "产品分类目录", "ProductCutoutShelf-001": "产品剪影货架", "GatedProductSpotlight-001": "受控产品聚焦展示", "CategoryProductGrid-001": "分类产品网格", "ProductDetailProfile-001": "产品详情资料区", "ProductInquiryPanel-001": "产品询盘行动区", "PageResourceRail-001": "页面资源路线栏",
   "EvidenceFeature-001": "媒体分栏证据", "ProofColumns-001": "证明信息列", "VerifiedTestimonialCards-001": "已核验客户评价卡", "ProofStrip-001": "证明摘要条",
+  "CompanyFactMatrix-001": "公司事实矩阵", "SamplingWorkflowCards-001": "采样评估流程卡",
   "ProcessSteps-001": "纵向责任流程", "HorizontalProcess-001": "横向时间流程", "ProcessCards-001": "流程阶段卡片",
   "BuyerPathways-001": "合作路线卡片", "SplitPathways-001": "分区合作路线", "BuyerTypeMatrix-001": "买家类型矩阵",
   "FacilityOverview-001": "工厂设施总览", "FacilityGallery-001": "工厂设施图库",
