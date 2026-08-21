@@ -1,7 +1,9 @@
 ---
 import ProductsPage from "../../../../components/compositions/ProductsPage.astro";
-import { procurementEvidenceClient } from "../../../../config/clients/procurement-evidence";
+import { loadProcurementEvidenceClient } from "../../../../config/clients/procurement-evidence-cms";
 import ClientPageShell from "../../../../layouts/ClientPageShell.astro";
+
+const procurementEvidenceClient = await loadProcurementEvidenceClient();
 ---
 
 <ClientPageShell

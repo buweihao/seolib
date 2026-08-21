@@ -26,6 +26,9 @@ export interface ProductRecord extends ContentRecord {
   summary: string;
   categoryId: string;
   media: readonly MediaContent[];
+  format?: string;
+  routineRole?: string;
+  highlights?: readonly string[];
   formats?: readonly string[];
   customizationScope?: readonly string[];
   packagingOptions?: readonly string[];

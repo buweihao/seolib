@@ -143,11 +143,13 @@ Exit note: Home, Products, Capabilities, About, and Contact now exist as five co
 - [x] Build a typed flexible homepage and two same-content composition examples
 - [x] Pass type and production build checks
 - [x] Establish a typed single component registry and complete UI-review index
-- [ ] Complete human visual, responsive, and selection review
+- [x] Complete human visual, responsive, and selection review
 
-Status: In review — 2026-08-12
+Status: Complete — 2026-08-21
 
 Exit note: reusable content models sit independently from UI patterns. After the user-approved PNG re-audit and successive non-homogeneous expansion batches, the library exposes 35 independent reviewable patterns across `/library/patterns/` and `/library/patterns/png-derived/`. A typed registry now indexes every user-facing component, links each entry to an isolated or in-context review, and fails tests when a new Astro component is not registered. `InquiryForm-001` now has an isolated review example. `FlexibleHomepage-001` selects six section patterns by typed IDs, and its brand-led and procurement-led routes prove that identical content can create different structures.
+
+Human review note — 2026-08-21: the user confirmed the visual review had no blocking issues after the complete test, type-check, and production-build workflow passed.
 
 ## Phase 8 — Client Configuration System
 
@@ -172,6 +174,31 @@ Audit hierarchy note — 2026-08-15: the hub now separates available Home-sectio
 Product catalogue note — 2026-08-18: Phase 8.2 adds the previously missing category-led catalogue flow. The Products page is now a focused `ProductFamilies-001` category entry; typed client catalogue data generates four category routes and twelve neutral product-detail routes through `CategoryProductGrid-001`, `ProductDetailProfile-001`, and their page compositions. Availability, ingredients, claims, testing, packaging compatibility, minimums, and timing remain explicit client-verification inputs.
 
 Laeyo page evidence note — 2026-08-20: additional Laeyo product-listing, product-detail, manufacturing, About, and Contact captures are now stored under `references/laeyo/source/` and `references/laeyo/screenshots/`. The next implementation increment adds `ProductInquiryPanel-001`, `PageResourceRail-001`, `CompanyFactMatrix-001`, and `SamplingWorkflowCards-001`; each is a neutral, typed relationship rather than copied client content.
+
+## Phase 8.3 — Sanity Product Editing
+
+- [x] Add a client-owned product category and product schema
+- [x] Embed Sanity Studio at `/admin` when project variables are configured
+- [x] Add a CMS-neutral Sanity adapter with null-safe normalization
+- [x] Make catalogue routes prefer published Sanity content with local review fallback
+- [x] Fail publish-mode builds when Sanity or required catalogue content is missing
+- [x] Document CORS, editor access, Cloudflare variables, and rebuild webhook setup
+- [ ] Create the real client Sanity project, invite editors, migrate verified products, and connect the production rebuild webhook
+
+Status: Shared implementation complete; client-owned Sanity activation pending — 2026-08-21
+
+## Phase 8.4 — First Client Environment Provisioning
+
+- [x] Create the independent Cloudflare Pages project `zhiyan-buweihao`
+- [x] Attach `zhiyan.weihaobu.cn` as the Pages custom domain
+- [x] Configure public Sanity and canonical-site variables for preview and production
+- [x] Add the target-domain CNAME from the Cloudflare zone that owns `weihaobu.cn`
+- [x] Create the first preview deployment, including the embedded Sanity Studio at `/admin/`
+- [x] Verify the local Sanity CORS origin for the embedded Studio
+- [ ] Configure a production rebuild path when remote deployment is approved
+- [ ] Publish verified client content and promote a production deployment
+
+Status: Local Sanity editing is ready; remote rebuild automation is intentionally deferred — 2026-08-21
 
 ## Phase 8.1 — Shared SEO, content-source, and inquiry infrastructure
 

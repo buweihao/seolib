@@ -49,9 +49,11 @@ The endpoint intentionally fails closed when any secret, origin allowlist, or ra
 
 ## Content and Sanity boundary
 
-Public pages consume the CMS-neutral `ContentSource` interface. A future Sanity adapter will query and normalize published documents into those records; shared components must never contain GROQ queries or import a Sanity client.
+Public pages consume the CMS-neutral `ContentSource` interface. The implemented Sanity adapter queries and normalizes published product categories and products into those records; shared components never contain GROQ queries or import a Sanity client.
 
-Sanity installation is client/project setup, not shared-library rebuilding. It begins only after the project ID, dataset, schemas, localization, migration plan, editorial ownership, and rebuild webhook are approved. Static pages remain build-time output.
+The embedded Studio is mounted at `/admin` when the public Sanity project variables exist. Product schemas, null-safe normalization, review fallback, and publish-mode failure rules are shared. Creating the client-owned Sanity project, inviting editors, adding CORS origins, migrating verified products, and connecting the Cloudflare rebuild webhook remain per-client setup. Static pages remain build-time output.
+
+Detailed setup is recorded in `docs/SANITY_PRODUCT_CATALOG.md`.
 
 ## Verification
 

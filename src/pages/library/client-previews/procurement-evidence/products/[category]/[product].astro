@@ -1,21 +1,27 @@
 ---
 import ProductDetailPage from "../../../../../../components/compositions/ProductDetailPage.astro";
-import { procurementEvidenceCatalog, procurementEvidenceClient, productCategoryHref, productDetailHref } from "../../../../../../config/clients/procurement-evidence";
+import { loadProcurementEvidenceCatalog } from "../../../../../../config/clients/procurement-evidence-cms";
+import { procurementEvidenceClient, productCategoryHref, productDetailHref } from "../../../../../../config/clients/procurement-evidence";
 import ClientPageShell from "../../../../../../layouts/ClientPageShell.astro";
 
-export function getStaticPaths() {
-  return procurementEvidenceCatalog.products.map((product) => ({ params: { category: product.categorySlug, product: product.slug }, props: { product } }));
+export async function getStaticPaths() {
+  const catalog = await loadProcurementEvidenceCatalog();
+  return catalog.products.flatMap((product) => {
+    const category = catalog.categories.find((item) => item.slug === product.categorySlug);
+    return category
+      ? [{ params: { category: product.categorySlug, product: product.slug }, props: { product, category, reviewNote: catalog.reviewNote } }]
+      : [];
+  });
 }
 
-const { product } = Astro.props;
-const category = procurementEvidenceCatalog.categories.find((item) => item.slug === product.categorySlug)!;
+const { product, category, reviewNote } = Astro.props;
 const currentPath = productDetailHref(category.slug, product.slug);
 ---
 
 <ClientPageShell config={procurementEvidenceClient} {currentPath} title={`${product.name} | Procurement evidence client preview`} description={product.summary}>
   <ProductDetailPage
     breadcrumbs={[{ label: "Home", href: procurementEvidenceClient.routes.home }, { label: "Products", href: procurementEvidenceClient.routes.products }, { label: category.name, href: productCategoryHref(category.slug) }, { label: product.name }]}
-    profile={{ id: `${product.slug}-detail`, product, inquiryHref: `${procurementEvidenceClient.routes.contact}?product=${product.slug}#secure-inquiry`, reviewNote: procurementEvidenceCatalog.reviewNote }}
-    inquiry={{ id: `${product.slug}-inquiry`, title: "Ready to review this product direction?", description: "Share the target market, packaging direction, quantity range, and any formula or sensory priorities. The next route remains subject to client review.", primaryAction: { href: `${procurementEvidenceClient.routes.contact}?product=${product.slug}#secure-inquiry`, label: "Start a project inquiry" }, secondaryAction: { href: productCategoryHref(category.slug), label: "Back to this category" }, note: procurementEvidenceCatalog.reviewNote }}
+    profile={{ id: `${product.slug}-detail`, product, inquiryHref: `${procurementEvidenceClient.routes.contact}?product=${product.slug}#secure-inquiry`, reviewNote }}
+    inquiry={{ id: `${product.slug}-inquiry`, title: "Ready to review this product direction?", description: "Share the target market, packaging direction, quantity range, and any formula or sensory priorities. The next route remains subject to client review.", primaryAction: { href: `${procurementEvidenceClient.routes.contact}?product=${product.slug}#secure-inquiry`, label: "Start a project inquiry" }, secondaryAction: { href: productCategoryHref(category.slug), label: "Back to this category" }, note: reviewNote }}
   />
 </ClientPageShell>

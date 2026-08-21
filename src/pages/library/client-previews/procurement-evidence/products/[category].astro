@@ -1,20 +1,28 @@
 ---
 import CategoryProductsPage from "../../../../../components/compositions/CategoryProductsPage.astro";
-import { procurementEvidenceCatalog, procurementEvidenceClient, productCategoryHref, productDetailHref } from "../../../../../config/clients/procurement-evidence";
+import { loadProcurementEvidenceCatalog } from "../../../../../config/clients/procurement-evidence-cms";
+import { procurementEvidenceClient, productCategoryHref, productDetailHref } from "../../../../../config/clients/procurement-evidence";
 import ClientPageShell from "../../../../../layouts/ClientPageShell.astro";
 
-export function getStaticPaths() {
-  return procurementEvidenceCatalog.categories.map((category) => ({ params: { category: category.slug }, props: { category } }));
+export async function getStaticPaths() {
+  const catalog = await loadProcurementEvidenceCatalog();
+  return catalog.categories.map((category) => ({
+    params: { category: category.slug },
+    props: {
+      category,
+      products: catalog.products.filter((product) => product.categorySlug === category.slug),
+      reviewNote: catalog.reviewNote,
+    },
+  }));
 }
 
-const { category } = Astro.props;
-const products = procurementEvidenceCatalog.products.filter((product) => product.categorySlug === category.slug);
+const { category, products, reviewNote } = Astro.props;
 const currentPath = productCategoryHref(category.slug);
 ---
 
 <ClientPageShell config={procurementEvidenceClient} {currentPath} title={`${category.name} products | Procurement evidence client preview`} description={category.description}>
   <CategoryProductsPage
     intro={{ id: `${category.slug}-intro`, eyebrow: "Product family", title: category.name, description: category.description, breadcrumbs: [{ label: "Home", href: procurementEvidenceClient.routes.home }, { label: "Products", href: procurementEvidenceClient.routes.products }, { label: category.name }] }}
-    products={{ id: `${category.slug}-products`, products, reviewNote: procurementEvidenceCatalog.reviewNote, productHref: (product) => productDetailHref(category.slug, product.slug), inquiryHref: procurementEvidenceClient.routes.contact }}
+    products={{ id: `${category.slug}-products`, products, reviewNote, productHref: (product) => productDetailHref(category.slug, product.slug), inquiryHref: procurementEvidenceClient.routes.contact }}
   />
 </ClientPageShell>

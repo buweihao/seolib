@@ -1,7 +1,9 @@
 ---
 import ClientHomepage from "../../../components/compositions/ClientHomepage.astro";
-import { procurementEvidenceClient } from "../../../config/clients/procurement-evidence";
+import { loadProcurementEvidenceClient } from "../../../config/clients/procurement-evidence-cms";
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+const procurementEvidenceClient = await loadProcurementEvidenceClient();
 ---
 
 <BaseLayout
