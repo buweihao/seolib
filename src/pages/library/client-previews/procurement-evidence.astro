@@ -8,11 +8,11 @@ const procurementEvidenceClient = await loadProcurementEvidenceClient();
 
 <BaseLayout
   seo={{
-    title: "Aurevia Skin Labs Demo | Skincare OEM, ODM & Private Label",
-    description: "Illustrative skincare manufacturing website for facial care, body care, private label, formula adaptation, and custom development.",
+    title: `${procurementEvidenceClient.identity.displayName.value} | Skincare OEM, ODM & Private Label`,
+    description: "Explore facial care, body care, private label, formula adaptation, and custom skincare development.",
     noindex: true,
     nofollow: true,
-    siteName: "B2B Skincare Website Library",
+    siteName: procurementEvidenceClient.identity.displayName.value,
     locale: "en",
   }}
 >

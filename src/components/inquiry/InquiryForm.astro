@@ -31,6 +31,7 @@ const deliveryDisabled = !config.enabled || config.delivery === "disabled";
     data-inquiry-form
     data-endpoint={config.endpoint}
     data-delivery-disabled={String(deliveryDisabled)}
+    data-attribution-enabled={String(config.attributionEnabled)}
   >
     <input type="hidden" name="inquiryType" value={config.formType} />
     <input type="hidden" name="privacyPolicyVersion" value={config.privacyPolicyVersion} />
@@ -94,102 +95,7 @@ const deliveryDisabled = !config.enabled || config.delivery === "disabled";
 </section>
 
 <script>
-  const STORAGE_KEY = "seolib_inquiry_attribution_v1";
-  const utmKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"] as const;
-
-  const currentTouchpoint = () => {
-    const url = new URL(window.location.href);
-    return {
-      landingPage: `${url.pathname}${url.search}`.slice(0, 700),
-      referrer: document.referrer.slice(0, 700),
-      capturedAt: new Date().toISOString(),
-      utm: Object.fromEntries(utmKeys.map((key) => [key, url.searchParams.get(key)?.slice(0, 200) || ""])),
-    };
-  };
-
-  const readAttribution = () => {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "null"); } catch { return null; }
-  };
-
-  const updateAttribution = () => {
-    const touchpoint = currentTouchpoint();
-    const existing = readAttribution();
-    const value = existing ? { ...existing, last: touchpoint } : { first: touchpoint, last: touchpoint };
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(value)); } catch { /* Optional when storage is unavailable. */ }
-    return value;
-  };
-
-  const attributionPayload = () => {
-    const state = readAttribution();
-    if (!state) return {};
-    return {
-      firstLandingPage: state.first?.landingPage || "",
-      firstReferrer: state.first?.referrer || "",
-      firstTouchAt: state.first?.capturedAt || "",
-      lastLandingPage: state.last?.landingPage || "",
-      lastReferrer: state.last?.referrer || "",
-      lastTouchAt: state.last?.capturedAt || "",
-      utmSource: state.last?.utm?.utm_source || state.first?.utm?.utm_source || "",
-      utmMedium: state.last?.utm?.utm_medium || state.first?.utm?.utm_medium || "",
-      utmCampaign: state.last?.utm?.utm_campaign || state.first?.utm?.utm_campaign || "",
-      utmContent: state.last?.utm?.utm_content || state.first?.utm?.utm_content || "",
-      utmTerm: state.last?.utm?.utm_term || state.first?.utm?.utm_term || "",
-    };
-  };
-
-  function initializeInquiryForms() {
-    updateAttribution();
-    document.querySelectorAll<HTMLFormElement>("[data-inquiry-form]").forEach((form) => {
-      if (form.dataset.ready === "true") return;
-      form.dataset.ready = "true";
-      form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        if (form.dataset.deliveryDisabled === "true") return;
-        const status = form.querySelector<HTMLElement>("[data-inquiry-status]");
-        const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
-        form.querySelectorAll<HTMLElement>("[data-error-for]").forEach((node) => { node.textContent = ""; });
-        form.querySelectorAll<HTMLElement>("[aria-invalid='true']").forEach((node) => { node.removeAttribute("aria-invalid"); });
-        const formData = new FormData(form);
-        const payload = {
-          ...Object.fromEntries(formData.entries()),
-          privacyAccepted: formData.get("privacyAccepted") === "on",
-          sourceUrl: window.location.href.slice(0, 700),
-          locale: document.documentElement.lang,
-          submittedAt: new Date().toISOString(),
-          ...attributionPayload(),
-        };
-        if (status) status.textContent = "Sending your inquiry…";
-        if (button) button.disabled = true;
-        try {
-          const response = await fetch(form.dataset.endpoint || form.action, {
-            method: "POST",
-            headers: { "Content-Type": "application/json", "Accept": "application/json" },
-            body: JSON.stringify(payload),
-          });
-          const result = await response.json();
-          if (!response.ok || !result.ok) {
-            Object.entries(result.fieldErrors || {}).forEach(([field, message]) => {
-              const error = form.querySelector<HTMLElement>(`[data-error-for="${field}"]`);
-              const control = form.elements.namedItem(field);
-              if (error) error.textContent = String(message);
-              if (control instanceof HTMLElement) {
-                control.setAttribute("aria-invalid", "true");
-              }
-            });
-            form.querySelector<HTMLElement>("[aria-invalid='true']")?.focus();
-            throw new Error(result.error || "Please review the form and try again.");
-          }
-          form.reset();
-          if (status) status.textContent = `Inquiry sent. Reference: ${result.inquiryId}`;
-        } catch (error) {
-          if (status) status.textContent = error instanceof Error ? error.message : "Unable to send the inquiry.";
-        } finally {
-          if (button) button.disabled = false;
-        }
-      });
-    });
-  }
-
+  import { initializeInquiryForms } from "../../inquiry/client";
   initializeInquiryForms();
   document.addEventListener("astro:page-load", initializeInquiryForms);
 </script>

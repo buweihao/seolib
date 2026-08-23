@@ -14,7 +14,7 @@ const CardHeadingTag=headingLevel === "h2" ? "h3" : "h4";
   </header>
   <ul role="list">
     {products.map(product=><li>
-      <figure><img src={product.media.src} alt={product.media.alt} width={product.media.width} height={product.media.height} loading="lazy" /></figure>
+      <figure><img src={product.media.src} srcset={product.media.srcset} sizes={product.media.sizes} alt={product.media.alt} width={product.media.width} height={product.media.height} loading="lazy" decoding="async" /></figure>
       {product.category&&<p>{product.category}</p>}
       <CardHeadingTag>{product.name}</CardHeadingTag>
       {product.detail&&<span>{product.detail}</span>}

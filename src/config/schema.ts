@@ -4,6 +4,7 @@ import type {
   FacilityContent,
   HeroContent,
   InquiryContent,
+  MediaContent,
   PathwaysContent,
   ProcessContent,
   ProductFamiliesContent,
@@ -34,6 +35,9 @@ export type QualityPatternId = "QualityFramework-001" | "QualityEvidenceMatrix-0
 export type ProcessPatternId = "ProcessSteps-001" | "HorizontalProcess-001" | "ProcessCards-001";
 export type FacilityPatternId = "FacilityOverview-001" | "FacilityGallery-001";
 export type InquiryPatternId = "InquiryCTA-001" | "SplitInquiry-001";
+export type NavigationPatternId = "NavigationDropdown-001";
+export type ContactPatternId = "ContactWorkspace-001";
+export type FloatingContactPatternId = "FloatingContactBar-001";
 
 export interface RequiredPatternSelection {
   hero: HeroPatternId;
@@ -44,6 +48,9 @@ export interface RequiredPatternSelection {
   process: ProcessPatternId;
   facility: FacilityPatternId;
   inquiry: InquiryPatternId;
+  navigation: NavigationPatternId;
+  contact: ContactPatternId;
+  floatingContact: FloatingContactPatternId;
 }
 
 export interface OptionalPatternSelection {
@@ -62,6 +69,7 @@ export interface VerifiedValue<T> {
 
 export interface ClientIdentityConfig {
   displayName: VerifiedValue<string>;
+  logo?: MediaContent;
   legalName?: VerifiedValue<string>;
   summary: VerifiedValue<string>;
 }

@@ -45,7 +45,6 @@ test("delivery environment validation fails closed", () => {
     "INQUIRY_TO_EMAIL",
     "INQUIRY_FROM_EMAIL",
     "INQUIRY_ALLOWED_ORIGINS",
-    "INQUIRY_RATE_LIMITER",
   ]);
   assert.deepEqual(validateInquiryEnvironment({
     RESEND_API_KEY: "re_test",
@@ -54,6 +53,18 @@ test("delivery environment validation fails closed", () => {
     INQUIRY_ALLOWED_ORIGINS: "https://example.com",
     INQUIRY_RATE_LIMITER: { limit: async () => ({ success: true }) },
   }), []);
+});
+
+test("inquiry fields retain product and cooperation context", () => {
+  const result = validateInquiryPayload({
+    ...validInput,
+    productInterest: "Barrier serum",
+    productCategory: "facial-care",
+    cooperation: "odm",
+  });
+  assert.equal(result.payload.productInterest, "Barrier serum");
+  assert.equal(result.payload.productCategory, "facial-care");
+  assert.equal(result.payload.cooperationModel, "odm");
 });
 
 test("email content escapes visitor-controlled HTML", () => {

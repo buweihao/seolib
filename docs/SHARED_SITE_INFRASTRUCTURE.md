@@ -8,8 +8,8 @@ This is the one-time Phase 8.1 foundation reused by future client sites. A new c
 - `src/seo/` contains CMS-neutral SEO types and Organization, Breadcrumb, and Article schema builders.
 - `@astrojs/sitemap` generates public sitemap output and excludes all `/library/` review routes.
 - `robots.txt.ts` blocks review routes and points crawlers to the sitemap.
-- `InquiryForm-001` provides an accessible, progressively enhanced form with field errors, privacy consent, a honeypot, and first/last-touch attribution.
-- `/api/inquiry` validates input again on the server, enforces exact origins and a Cloudflare rate-limit binding, escapes email content, and sends through Resend.
+- `InquiryForm-001` and `ConfigurableForm-001` share accessible Resend submission behavior with field errors, privacy consent, a honeypot, query-string product prefill, and optional first/last-touch attribution.
+- `/api/inquiry` validates input again on the server, enforces exact origins, escapes email content, and sends through Resend. A Worker rate-limit binding is supported when available; Pages deployments use an edge rate-limiting rule.
 - `src/content-sources/` prevents components from depending directly on Sanity or another CMS.
 
 ## Per-client inputs
@@ -20,32 +20,22 @@ Every client must still provide and approve:
 2. verified organization facts and page-specific schema data;
 3. a published privacy policy and version identifier;
 4. receiving mailbox ownership and a Resend-verified sending domain;
-5. exact production/preview origins and Cloudflare binding values;
+5. exact production/preview origins and a Cloudflare rate-limiting rule;
 6. real content, media rights, evidence status, and CMS ownership if a CMS is used.
 
 Review pages stay `noindex` and the inquiry form stays disabled until those inputs pass `validateClientSiteConfig` in publish mode.
 
 ## Cloudflare Pages and Resend activation
 
-The static site uses `public/_routes.json` so only `/api/*` invokes Pages Functions. Add the values shown in `.env.example` to the Cloudflare project; never commit real secrets.
+The static site uses `public/_routes.json` so only `/api/*` invokes Pages Functions. Add the values shown in `.env.example` to both the preview and production environments of the Cloudflare project; never commit real secrets.
 
-Create a Cloudflare Rate Limiting binding named `INQUIRY_RATE_LIMITER`. The namespace ID must be unique within the Cloudflare account. A deployment configuration can use a policy similar to this, with limits approved for the specific client:
+The four `PUBLIC_INQUIRY_*` values are build-time settings. They enable the form, provide its published privacy-policy link/version, and mirror the origins used by configuration validation. `RESEND_API_KEY`, `INQUIRY_TO_EMAIL`, `INQUIRY_FROM_EMAIL`, and `INQUIRY_ALLOWED_ORIGINS` are runtime Function values. Rebuild after changing any `PUBLIC_*` value.
 
-```json
-{
-  "ratelimits": [
-    {
-      "name": "INQUIRY_RATE_LIMITER",
-      "namespace_id": "1001",
-      "simple": { "limit": 5, "period": 60 }
-    }
-  ]
-}
-```
+Cloudflare Pages Functions do not expose the Workers Rate Limiting binding. For a Pages deployment, create a Cloudflare rate-limiting rule that matches the production hostname, `POST`, and URI path `/api/inquiry`; choose the threshold and mitigation period with the client. The endpoint also accepts an optional `INQUIRY_RATE_LIMITER` binding if it is later reused inside a Worker.
 
 In Resend, verify the sending domain, create the API key, and set `INQUIRY_FROM_EMAIL` to that domain. Set `INQUIRY_TO_EMAIL` to the client-owned mailbox and test reply-to behavior with a real controlled submission after deployment.
 
-The endpoint intentionally fails closed when any secret, origin allowlist, or rate-limit binding is missing. Provider/network failures return a generic error and never expose environment data.
+The endpoint intentionally fails closed when any Resend value or the origin allowlist is missing. Provider/network failures return a generic error and never expose environment data.
 
 ## Content and Sanity boundary
 
@@ -63,4 +53,4 @@ Run the complete reusable check before a client launch:
 npm run verify
 ```
 
-Then review desktop and mobile output, inspect canonical/robots/schema on public pages, confirm `/library/` is absent from sitemap output, and perform a controlled end-to-end inquiry delivery test in the deployed environment.
+Then review desktop and mobile output, inspect canonical/robots/schema on public pages, confirm `/library/` is absent from sitemap output, and perform a controlled end-to-end inquiry delivery test in the deployed environment. Verify that the email contains the product/category context, that Reply targets the buyer's address, and that the Cloudflare rate-limiting rule returns `429` after its threshold.

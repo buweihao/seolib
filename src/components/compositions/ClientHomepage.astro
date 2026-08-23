@@ -5,6 +5,7 @@ import ArcFactoryHero from "../patterns/hero/ArcFactoryHero.astro";
 import CenteredProofHero from "../patterns/hero/CenteredProofHero.astro";
 import RecognitionBackdropHero from "../patterns/hero/RecognitionBackdropHero.astro";
 import ProductCategoryList from "../patterns/products/ProductCategoryList.astro";
+import ProductCutoutShelf from "../patterns/products/ProductCutoutShelf.astro";
 import ProductMosaic from "../patterns/products/ProductMosaic.astro";
 import ProofColumns from "../patterns/evidence/ProofColumns.astro";
 import HorizontalProcess from "../patterns/process/HorizontalProcess.astro";
@@ -24,6 +25,8 @@ import FacilityOverview from "../sections/FacilityOverview.astro";
 import InquiryCTA from "../sections/InquiryCTA.astro";
 import SiteHeader from "../sections/SiteHeader.astro";
 import SiteFooter from "../sections/SiteFooter.astro";
+import FloatingContactBar from "../patterns/inquiry/FloatingContactBar.astro";
+import { buildClientNavigation, buildFloatingContactItems } from "../../lib/client-navigation";
 
 interface Props { config: ClientSiteConfig; }
 
@@ -79,37 +82,28 @@ const ProcessPattern = processPatterns[config.patterns.process];
 const FacilityPattern = facilityPatterns[config.patterns.facility];
 const InquiryPattern = inquiryPatterns[config.patterns.inquiry];
 const trustEnabled = config.optionalPatterns.floatingTrustBar.status === "enabled" && config.optionalContent.floatingTrustBar;
-const navigation = [
-  { href: config.routes.home, label: "Home" },
-  { href: config.routes.products, label: "Products" },
-  { href: config.routes.capabilities, label: "Capabilities" },
-  { href: config.routes.about, label: "About" },
-  { href: config.routes.contact, label: "Contact" },
-] as const;
-const patternSummary = Object.values(config.patterns);
-const warningCount = issues.filter((issue) => issue.severity === "warning").length;
+const navigation = buildClientNavigation(config);
+const floatingContactItems = buildFloatingContactItems(config);
 const { colors } = config.theme;
+const hotProducts = config.catalog.products.filter((product) => product.isHot).slice(0, 4).map((product) => ({
+  name: product.name,
+  media: product.media,
+  category: config.catalog.categories.find((category) => category.slug === product.categorySlug)?.name,
+  detail: product.format,
+  action: {
+    href: `${config.routes.products}${product.categorySlug}/${product.slug}/`,
+    label: "View product",
+    ariaLabel: `View details for ${product.name}`,
+  },
+}));
 ---
 
 <div class="client-site">
   <a class="skip-link" href="#main-content">Skip to main content</a>
-  {config.mode === "review" && (
-    <aside class="configuration-review" aria-label="Client configuration review status">
-      <div>
-        <p><strong>护肤品客户网站示例，仅供 UI 与内容结构审核</strong> · {warningCount} 项客户事实待核验</p>
-        <details>
-          <summary>查看审核信息</summary>
-          <div class="configuration-review__details">
-            <div><h2>当前使用的 UI 零件</h2><ul>{patternSummary.map((pattern) => <li>{pattern}</li>)}</ul></div>
-            <div><h2>正式上线前待客户核验</h2><ul>{issues.map((issue) => <li><strong>{issue.path}</strong>: {issue.message}</li>)}</ul></div>
-          </div>
-        </details>
-      </div>
-    </aside>
-  )}
 
   <SiteHeader
     brand={config.identity.displayName.value}
+    brandLogo={config.identity.logo}
     homeHref={config.routes.home}
     {navigation}
     currentPath={config.routes.home}
@@ -121,9 +115,17 @@ const { colors } = config.theme;
     {"slides" in config.homepage.hero
       ? <RecognitionBackdropHero {...config.homepage.hero} id="hero" />
       : <HeroPattern {...config.homepage.hero} id="hero" />}
+    {hotProducts.length > 0 && <ProductCutoutShelf
+      id="hot-products"
+      eyebrow="Featured selection"
+      title="Hot products"
+      description="Explore the product directions currently highlighted by our team."
+      products={hotProducts}
+      action={{ href: config.routes.products, label: "View all products" }}
+    />}
+    <div id="products"><ProductPattern {...config.homepage.products} id="products-pattern" /></div>
     {trustEnabled && <FloatingTrustBar {...config.optionalContent.floatingTrustBar!} id="trust" />}
     <PathwayPattern {...config.homepage.pathways} id="pathways" />
-    <div id="products"><ProductPattern {...config.homepage.products} id="products-pattern" /></div>
     <div id="evidence"><EvidencePattern {...config.homepage.evidence} id="evidence-pattern" /></div>
     <div id="quality"><QualityPattern {...config.homepage.quality} id="quality-pattern" /></div>
     <div id="process"><ProcessPattern {...config.homepage.process} id="process-pattern" /></div>
@@ -136,8 +138,9 @@ const { colors } = config.theme;
     description={config.identity.summary.value}
     linkGroups={[{ title: "Explore", links: navigation }]}
     contactActions={[{ href: config.routes.contact, label: config.contact.inquiryLabel }]}
-    copyrightLabel="Illustrative skincare manufacturer website. Replace all demo identity, capability, evidence, and contact data before publication."
+    copyrightLabel="Skincare product development, packaging coordination, and manufacturing support."
   />
+  <FloatingContactBar id="client-floating-contact" label="Contact shortcuts" items={floatingContactItems} scrollTargetId="main-content" />
 </div>
 
 <style define:vars={{
@@ -172,15 +175,8 @@ const { colors } = config.theme;
     background: var(--clientCanvas);
     color: var(--clientInk);
   }
-  .configuration-review { padding: .75rem var(--ds-page-gutter); background: #fff4c7; color: #2d2500; font-size: .875rem; }
-  .configuration-review > div { width: min(100%, var(--ds-container-wide)); margin-inline: auto; }
-  .configuration-review p { margin: 0; }
-  .configuration-review summary { width: fit-content; margin-top: .35rem; font-weight: 700; cursor: pointer; }
-  .configuration-review__details { display: grid; gap: 1rem 2rem; margin-top: 1rem; border-top: 1px solid rgb(45 37 0 / .2); padding-top: 1rem; }
-  .configuration-review h2 { margin: 0; font-size: .875rem; }
-  .configuration-review ul { margin: .5rem 0 0; padding-left: 1.25rem; }
   .skip-link { position: fixed; z-index: 100; top: .5rem; left: .5rem; padding: .75rem 1rem; background: var(--clientInk); color: var(--clientCanvas); transform: translateY(-200%); }
   .skip-link:focus { transform: translateY(0); }
   main > div { scroll-margin-top: 1rem; }
-  @media (min-width: 48rem) { .configuration-review__details { grid-template-columns: .7fr 1.3fr; } }
+  @media (max-width: 47.99rem) { .client-site { padding-bottom: 4.4rem; } }
 </style>

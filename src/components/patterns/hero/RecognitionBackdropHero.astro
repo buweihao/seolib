@@ -1,92 +1,45 @@
 ---
 import type { RecognitionHeroContent } from "../../../content-models/sections";
-import ActionLink from "../../primitives/ActionLink.astro";
 
-interface Props extends RecognitionHeroContent {
-  id?: string;
-  headingLevel?: "h1" | "h2" | "h3";
-}
-
-const {
-  id,
-  headingLevel = "h1",
-  eyebrow,
-  slides,
-  autoplayMs = 6000,
-} = Astro.props;
-const carouselId = id ?? `recognition-carousel-${Math.random().toString(36).slice(2)}`;
+interface Props extends RecognitionHeroContent { id?: string; headingLevel?: "h1" | "h2" | "h3"; }
+const { id, headingLevel = "h1", slides, autoplayMs = 6000 } = Astro.props;
+const carouselId = id ?? `image-carousel-${Math.random().toString(36).slice(2)}`;
+const firstTitle = slides[0]?.title?.trim();
 ---
 
-<section
-  id={carouselId}
-  class="recognition-collage"
-  aria-roledescription="carousel"
-  aria-label="Recognition highlights"
-  aria-labelledby={`${carouselId}-title`}
-  data-recognition-carousel
-  data-autoplay-ms={autoplayMs}
->
-  <div class="recognition-collage__viewport" aria-live="off">
+<section id={carouselId} class="image-carousel" aria-roledescription="carousel" aria-label="Homepage highlights" data-image-carousel data-autoplay-ms={autoplayMs}>
+  {!firstTitle && headingLevel === "h1" && <h1 class="visually-hidden">Homepage</h1>}
+  <div class="image-carousel__viewport" aria-live="off">
     {slides.map((slide, slideIndex) => {
       const SlideHeadingTag = slideIndex === 0 ? headingLevel : headingLevel === "h1" ? "h2" : headingLevel;
+      const clickLabel = slide.title || slide.action?.label || slide.media.alt;
+      const image = <img src={slide.media.src} srcset={slide.media.srcset} sizes={slide.media.sizes} alt={slide.media.alt} width={slide.media.width} height={slide.media.height} loading={slideIndex === 0 ? "eager" : "lazy"} fetchpriority={slideIndex === 0 ? "high" : "auto"} decoding="async" />;
       return (
-      <article
-        class="recognition-collage__slide"
-        data-slide
-        data-active={slideIndex === 0 ? "true" : "false"}
-        aria-hidden={slideIndex === 0 ? "false" : "true"}
-        aria-label={`${slideIndex + 1} of ${slides.length}`}
-        aria-roledescription="slide"
-      >
-        <div class="recognition-collage__stage">
-          <div class="recognition-collage__swoop" aria-hidden="true"></div>
-          <div class="recognition-collage__evidence" aria-label="Client recognition evidence collage">
-            {slide.evidenceMedia.map((item, index) => (
-              <figure class:list={["recognition-collage__card", `recognition-collage__card--${index + 1}`]}>
-                <img src={item.src} alt={item.alt} width={item.width} height={item.height} loading={slideIndex === 0 && index === 0 ? "eager" : "lazy"} decoding="async" />
-                <figcaption>{index === 0 ? "Product feature" : index === 1 ? "Company profile" : "Brand outcome"}</figcaption>
-              </figure>
-            ))}
-          </div>
-          {slide.badges && slide.badges.length > 0 && (
-            <ul class="recognition-collage__badges" role="list" aria-label="Recognition labels">
-              {slide.badges.map((badge, index) => (
-                <li class:list={[`recognition-collage__badge--${index + 1}`, `is-${badge.tone ?? "teal"}`]}>
-                  <strong>{badge.label}</strong>{badge.detail && <span>{badge.detail}</span>}
-                </li>
-              ))}
-            </ul>
-          )}
-          <div class="recognition-collage__message">
-            {eyebrow && <p>{eyebrow}</p>}
-            <SlideHeadingTag id={slideIndex === 0 ? `${carouselId}-title` : undefined}>{slide.title}</SlideHeadingTag>
-            {slide.action && <ActionLink {...slide.action} variant="primary" />}
-          </div>
-        </div>
-        <p class="recognition-collage__statement">{slide.supportingStatement}</p>
-      </article>
+        <article class="image-carousel__slide" data-slide data-active={slideIndex === 0 ? "true" : "false"} aria-hidden={slideIndex === 0 ? "false" : "true"} aria-label={`${slideIndex + 1} of ${slides.length}`} aria-roledescription="slide">
+          {slide.href ? <a class="image-carousel__image-link" href={slide.href} aria-label={clickLabel}>{image}</a> : <div class="image-carousel__image-link">{image}</div>}
+          {(slide.title || slide.action) && <div class="image-carousel__message" aria-hidden={slide.href ? "true" : undefined}>
+            {slide.title && <SlideHeadingTag>{slide.title}</SlideHeadingTag>}
+            {slide.action && <span class="image-carousel__button">{slide.action.label}<span aria-hidden="true">→</span></span>}
+          </div>}
+        </article>
       );
     })}
-    {slides.length > 1 && (
-      <>
-        <button class="recognition-collage__arrow recognition-collage__arrow--previous" type="button" data-previous aria-label="Previous recognition slide"><span aria-hidden="true">←</span></button>
-        <button class="recognition-collage__arrow recognition-collage__arrow--next" type="button" data-next aria-label="Next recognition slide"><span aria-hidden="true">→</span></button>
-      </>
-    )}
-  </div>
-  {slides.length > 1 && (
-    <div class="recognition-collage__controls">
-      <div class="recognition-collage__dots" role="group" aria-label="Choose recognition slide">
-        {slides.map((slide, index) => <button type="button" data-dot={index} aria-label={`Show slide ${index + 1}: ${slide.title}`} aria-current={index === 0 ? "true" : "false"}></button>)}
+    {slides.length > 1 && <>
+      <button class="image-carousel__arrow image-carousel__arrow--previous" type="button" data-previous aria-label="Previous slide"><span aria-hidden="true">←</span></button>
+      <button class="image-carousel__arrow image-carousel__arrow--next" type="button" data-next aria-label="Next slide"><span aria-hidden="true">→</span></button>
+      <div class="image-carousel__controls">
+        <div class="image-carousel__dots" role="group" aria-label="Choose slide">
+          {slides.map((slide, index) => <button type="button" data-dot={index} aria-label={`Show slide ${index + 1}${slide.title ? `: ${slide.title}` : ""}`} aria-current={index === 0 ? "true" : "false"}></button>)}
+        </div>
+        <button class="image-carousel__toggle" type="button" data-toggle aria-label="Pause automatic rotation"><span data-pause aria-hidden="true">Ⅱ</span><span data-play aria-hidden="true" hidden>▶</span></button>
       </div>
-      <button type="button" data-toggle aria-label="Pause automatic rotation"><span data-pause aria-hidden="true">Ⅱ</span><span data-play aria-hidden="true" hidden>▶</span></button>
-    </div>
-  )}
-  <p class="recognition-collage__status" data-status aria-live="polite"></p>
+    </>}
+  </div>
+  <p class="visually-hidden" data-status aria-live="polite"></p>
 </section>
 
 <script>
-  const setupRecognitionCarousel = (root: HTMLElement) => {
+  const setupImageCarousel = (root: HTMLElement) => {
     if (root.dataset.ready === "true") return;
     root.dataset.ready = "true";
     const slides = [...root.querySelectorAll<HTMLElement>("[data-slide]")];
@@ -98,103 +51,30 @@ const carouselId = id ?? `recognition-carousel-${Math.random().toString(36).slic
     let current = 0;
     let timer: number | undefined;
     let paused = reducedMotion;
-
     const show = (next: number, announce = true) => {
       current = (next + slides.length) % slides.length;
-      slides.forEach((slide, index) => {
-        const active = index === current;
-        slide.dataset.active = String(active);
-        slide.setAttribute("aria-hidden", String(!active));
-      });
+      slides.forEach((slide, index) => { const active = index === current; slide.dataset.active = String(active); slide.setAttribute("aria-hidden", String(!active)); });
       dots.forEach((dot, index) => dot.setAttribute("aria-current", String(index === current)));
-      if (announce && status) status.textContent = `Showing recognition slide ${current + 1} of ${slides.length}`;
+      if (announce && status) status.textContent = `Showing slide ${current + 1} of ${slides.length}`;
     };
     const stop = () => { if (timer) window.clearInterval(timer); timer = undefined; };
     const start = () => { stop(); if (!paused && slides.length > 1) timer = window.setInterval(() => show(current + 1, false), delay); };
-    const renderToggle = () => {
-      if (!toggle) return;
-      toggle.setAttribute("aria-label", paused ? "Start automatic rotation" : "Pause automatic rotation");
-      toggle.querySelector<HTMLElement>("[data-pause]")!.hidden = paused;
-      toggle.querySelector<HTMLElement>("[data-play]")!.hidden = !paused;
-    };
+    const renderToggle = () => { if (!toggle) return; toggle.setAttribute("aria-label", paused ? "Start automatic rotation" : "Pause automatic rotation"); toggle.querySelector<HTMLElement>("[data-pause]")!.hidden = paused; toggle.querySelector<HTMLElement>("[data-play]")!.hidden = !paused; };
     root.querySelector("[data-previous]")?.addEventListener("click", () => { show(current - 1); start(); });
     root.querySelector("[data-next]")?.addEventListener("click", () => { show(current + 1); start(); });
     dots.forEach((dot, index) => dot.addEventListener("click", () => { show(index); start(); }));
     toggle?.addEventListener("click", () => { paused = !paused; renderToggle(); start(); });
-    root.addEventListener("mouseenter", stop);
-    root.addEventListener("mouseleave", start);
-    root.addEventListener("focusin", stop);
+    root.addEventListener("mouseenter", stop); root.addEventListener("mouseleave", start); root.addEventListener("focusin", stop);
     root.addEventListener("focusout", (event) => { if (!root.contains((event as FocusEvent).relatedTarget as Node | null)) start(); });
-    root.addEventListener("keydown", (event) => {
-      if (event.key === "ArrowLeft") { event.preventDefault(); show(current - 1); }
-      if (event.key === "ArrowRight") { event.preventDefault(); show(current + 1); }
-    });
-    renderToggle();
-    start();
+    root.addEventListener("keydown", (event) => { if (event.key === "ArrowLeft") { event.preventDefault(); show(current - 1); } if (event.key === "ArrowRight") { event.preventDefault(); show(current + 1); } });
+    renderToggle(); start();
   };
-  document.querySelectorAll<HTMLElement>("[data-recognition-carousel]").forEach(setupRecognitionCarousel);
-  document.addEventListener("astro:page-load", () => document.querySelectorAll<HTMLElement>("[data-recognition-carousel]").forEach(setupRecognitionCarousel));
+  document.querySelectorAll<HTMLElement>("[data-image-carousel]").forEach(setupImageCarousel);
+  document.addEventListener("astro:page-load", () => document.querySelectorAll<HTMLElement>("[data-image-carousel]").forEach(setupImageCarousel));
 </script>
 
 <style>
-  .recognition-collage { background: #606060; color: white; }
-  .recognition-collage__viewport { position: relative; display: grid; }
-  .recognition-collage__slide { grid-area: 1 / 1; min-width: 0; transition: opacity .45s ease; }
-  .recognition-collage__slide[data-active="false"] { visibility: hidden; opacity: 0; pointer-events: none; }
-  .recognition-collage__slide[data-active="true"] { visibility: visible; opacity: 1; }
-  .recognition-collage__stage { position: relative; min-height: clamp(33rem, 48vw, 46rem); overflow: hidden; background: linear-gradient(135deg, #f4f6f5, #d6dcda 55%, #eef1ef); isolation: isolate; }
-  .recognition-collage__swoop { position: absolute; z-index: -1; inset: -26% 49% -34% -14%; border-radius: 50%; background: white; transform: rotate(-14deg); box-shadow: 2rem 0 3rem rgb(0 0 0 / .08); }
-  .recognition-collage__evidence { position: absolute; inset: 2rem 9% 2rem 19%; }
-  figure { margin: 0; }
-  .recognition-collage__card { position: absolute; overflow: hidden; border: .55rem solid white; background: white; box-shadow: 0 1.2rem 2.5rem rgb(0 0 0 / .24); }
-  .recognition-collage__card img { display: block; width: 100%; height: calc(100% - 2rem); object-fit: cover; }
-  .recognition-collage__card figcaption { height: 2rem; padding: .35rem .65rem; color: #26302d; font-size: .72rem; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
-  .recognition-collage__card--1 { z-index: 1; left: 4%; top: 12%; width: 36%; height: 67%; transform: rotate(-8deg); }
-  .recognition-collage__card--2 { z-index: 2; left: 36%; top: 1%; width: 38%; height: 52%; transform: rotate(7deg); }
-  .recognition-collage__card--3 { z-index: 3; right: 0; bottom: 7%; width: 39%; height: 58%; transform: rotate(11deg); }
-  .recognition-collage__badges { position: absolute; z-index: 5; inset: 0; margin: 0; padding: 0; list-style: none; pointer-events: none; }
-  .recognition-collage__badges li { position: absolute; display: grid; place-content: center; width: clamp(4.2rem, 8vw, 7rem); aspect-ratio: 1; padding: .45rem; border: .25rem solid rgb(255 255 255 / .85); border-radius: 50%; color: white; text-align: center; box-shadow: 0 .5rem 1.2rem rgb(0 0 0 / .2); transform: rotate(-8deg); }
-  .recognition-collage__badges strong, .recognition-collage__badges span { display: block; line-height: 1.05; }
-  .recognition-collage__badges strong { font-size: clamp(.72rem, 1.5vw, 1rem); text-transform: uppercase; }
-  .recognition-collage__badges span { margin-top: .2rem; font-size: clamp(.48rem, 1vw, .68rem); }
-  .is-teal { background: #188b82; } .is-orange { background: #e86f27; } .is-violet { background: #75408f; } .is-blue { background: #1283ae; }
-  .recognition-collage__badge--1 { left: 4%; bottom: 18%; }
-  .recognition-collage__badge--2 { left: 12%; bottom: 6%; transform: rotate(5deg) !important; }
-  .recognition-collage__badge--3 { right: 8%; top: 12%; transform: rotate(8deg) !important; }
-  .recognition-collage__badge--4 { right: 3%; top: 28%; transform: rotate(-5deg) !important; }
-  .recognition-collage__message { position: absolute; z-index: 7; left: 50%; top: 50%; width: min(75%, 58rem); transform: translate(-50%, -50%); text-align: center; }
-  .recognition-collage__message > p { margin: 0 0 .5rem; color: #26302d; font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
-  .recognition-collage :is(h1,h2,h3) { margin: 0; padding: .18em .42em; background: rgb(75 75 75 / .78); color: white; font-size: clamp(2rem, 4.3vw, 4rem); font-weight: 400; line-height: 1.08; }
-  .recognition-collage__message :global(.action-link) { margin-top: var(--ds-space-4); box-shadow: 0 .5rem 1rem rgb(0 0 0 / .22); }
-  .recognition-collage__statement { margin: 0; padding: clamp(1.45rem, 3vw, 2.5rem) var(--ds-page-gutter); border-bottom: 2px solid #27a7bf; text-align: center; font-size: clamp(.9rem, 2.2vw, 1.45rem); font-weight: 400; letter-spacing: .12em; text-transform: uppercase; }
-  .recognition-collage__arrow { position: absolute; z-index: 12; top: clamp(16.5rem, 24vw, 23rem); display: grid; width: clamp(3rem, 4vw, 4rem); aspect-ratio: 1; place-items: center; border: 1px solid rgb(255 255 255 / .68); border-radius: 50%; background: rgb(38 48 45 / .72); color: white; font-size: clamp(1.1rem, 2vw, 1.5rem); opacity: 0; pointer-events: none; translate: 0 -50%; transition: opacity .18s ease, background-color .18s ease, scale .18s ease; backdrop-filter: blur(.45rem); cursor: pointer; }
-  .recognition-collage__arrow--previous { left: clamp(.75rem, 2.5vw, 2.5rem); }
-  .recognition-collage__arrow--next { right: clamp(.75rem, 2.5vw, 2.5rem); }
-  .recognition-collage__viewport:hover .recognition-collage__arrow,
-  .recognition-collage__viewport:focus-within .recognition-collage__arrow,
-  .recognition-collage__arrow:focus-visible { opacity: 1; pointer-events: auto; }
-  .recognition-collage__arrow:hover { background: rgb(38 48 45 / .92); scale: 1.06; }
-  .recognition-collage__controls { display: flex; align-items: center; justify-content: center; gap: .65rem; padding: .8rem var(--ds-page-gutter); background: #4f4f4f; }
-  .recognition-collage__controls button { display: grid; min-width: 2.75rem; min-height: 2.75rem; place-items: center; border: 1px solid rgb(255 255 255 / .55); border-radius: 50%; background: transparent; color: white; cursor: pointer; }
-  .recognition-collage__controls button:hover { background: rgb(255 255 255 / .12); }
-  .recognition-collage__dots { display: flex; gap: .5rem; }
-  .recognition-collage__dots button { min-width: .75rem; min-height: .75rem; width: .75rem; height: .75rem; border: 0; background: rgb(255 255 255 / .38); }
-  .recognition-collage__dots button[aria-current="true"] { background: white; transform: scale(1.25); }
-  .recognition-collage__status { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); }
-  @media (max-width: 47.99rem) {
-    .recognition-collage__stage { min-height: 39rem; }
-    .recognition-collage__evidence { inset: 2rem 3% 8rem 8%; }
-    .recognition-collage__card--1 { left: 0; width: 47%; height: 55%; }
-    .recognition-collage__card--2 { left: 38%; width: 50%; height: 43%; }
-    .recognition-collage__card--3 { right: 0; bottom: 0; width: 55%; height: 45%; }
-    .recognition-collage__badge--1 { left: 3%; bottom: 17%; }
-    .recognition-collage__badge--2 { left: 19%; bottom: 5%; }
-    .recognition-collage__badge--3 { right: 2%; top: 4%; }
-    .recognition-collage__badge--4 { display: none !important; }
-    .recognition-collage__message { top: 54%; width: 88%; }
-    .recognition-collage__message > p { color: white; text-shadow: 0 1px 3px rgb(0 0 0 / .8); }
-    .recognition-collage__arrow { top: 19.5rem; width: 3rem; }
-  }
-  @media (hover: none) { .recognition-collage__arrow { opacity: 1; pointer-events: auto; } }
-  @media (prefers-reduced-motion: reduce) { .recognition-collage__slide, .recognition-collage__arrow { transition: none; } }
+  .image-carousel{position:relative;overflow:hidden;background:var(--ds-color-ink);color:#fff}.image-carousel__viewport{position:relative;display:grid;min-height:clamp(32rem,56vw,50rem)}.image-carousel__slide{position:relative;grid-area:1/1;min-width:0;min-height:inherit;opacity:1;transition:opacity .45s ease}.image-carousel__slide[data-active=false]{visibility:hidden;opacity:0;pointer-events:none}.image-carousel__image-link{position:absolute;inset:0;display:block;background:var(--ds-color-ink)}.image-carousel__image-link:after{position:absolute;inset:0;background:linear-gradient(90deg,rgb(0 0 0/.18),transparent 35%,transparent 65%,rgb(0 0 0/.18));content:"";pointer-events:none}.image-carousel__image-link img{display:block;width:100%;height:100%;object-fit:cover}.image-carousel__message{position:absolute;z-index:3;left:50%;top:50%;display:grid;width:min(90%,66rem);justify-items:center;gap:1.25rem;transform:translate(-50%,-50%);text-align:center;pointer-events:none}.image-carousel__message :is(h1,h2,h3){max-width:20ch;margin:0;padding:.2em .45em;background:rgb(25 30 31/.68);color:#fff;font-size:clamp(2.1rem,5vw,4.8rem);font-weight:450;line-height:1.04;text-wrap:balance;backdrop-filter:blur(.2rem)}.image-carousel__button{display:inline-flex;min-height:3rem;align-items:center;gap:.65rem;border:1px solid rgb(255 255 255/.78);border-radius:var(--ds-radius-control);padding:.7rem 1.15rem;background:var(--ds-color-accent);color:var(--ds-color-accent-contrast);font-weight:700;box-shadow:0 .6rem 1.5rem rgb(0 0 0/.22)}
+  .image-carousel__arrow{position:absolute;z-index:5;top:50%;display:grid;width:3.25rem;aspect-ratio:1;place-items:center;border:1px solid rgb(255 255 255/.68);border-radius:50%;background:rgb(20 25 25/.55);color:#fff;font-size:1.2rem;transform:translateY(-50%);backdrop-filter:blur(.35rem);cursor:pointer}.image-carousel__arrow--previous{left:clamp(.75rem,2.5vw,2.5rem)}.image-carousel__arrow--next{right:clamp(.75rem,2.5vw,2.5rem)}.image-carousel__controls{position:absolute;z-index:5;left:50%;bottom:1rem;display:flex;align-items:center;gap:.7rem;transform:translateX(-50%)}.image-carousel__dots{display:flex;gap:.5rem}.image-carousel__dots button,.image-carousel__toggle{display:grid;min-width:2.75rem;min-height:2.75rem;place-items:center;border:1px solid rgb(255 255 255/.58);border-radius:999px;background:rgb(20 25 25/.52);color:#fff;cursor:pointer;backdrop-filter:blur(.35rem)}.image-carousel__dots button:after{width:.55rem;height:.55rem;border-radius:50%;background:rgb(255 255 255/.5);content:""}.image-carousel__dots button[aria-current=true]:after{background:#fff;transform:scale(1.35)}.image-carousel__arrow:hover,.image-carousel__dots button:hover,.image-carousel__toggle:hover{background:rgb(20 25 25/.82)}.image-carousel__image-link:focus-visible{outline:.25rem solid #fff;outline-offset:-.35rem}.visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  @media(max-width:40rem){.image-carousel__viewport{min-height:35rem}.image-carousel__message{width:82%}.image-carousel__message :is(h1,h2,h3){font-size:clamp(2rem,10vw,3.2rem)}.image-carousel__arrow{top:auto;bottom:1rem;width:2.75rem;transform:none}.image-carousel__arrow--previous{left:.75rem}.image-carousel__arrow--next{right:.75rem}}@media(prefers-reduced-motion:reduce){.image-carousel__slide{transition:none}}
 </style>

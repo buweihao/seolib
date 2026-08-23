@@ -1,6 +1,8 @@
 ---
 interface Props {
   src: string;
+  srcset?: string;
+  sizes?: string;
   alt: string;
   width: number;
   height: number;
@@ -11,6 +13,8 @@ interface Props {
 
 const {
   src,
+  srcset,
+  sizes,
   alt,
   width,
   height,
@@ -23,6 +27,8 @@ const {
 <div class:list={["media-frame", className]} data-aspect={aspect}>
   <img
     src={src}
+    srcset={srcset}
+    sizes={sizes}
     alt={alt}
     width={width}
     height={height}

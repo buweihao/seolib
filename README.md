@@ -6,6 +6,8 @@ A static-first Astro foundation for building original English B2B websites for s
 
 Phase 7, Phase 7.5, and the first Phase 8 client composition are in review. The shared Phase 8.1 SEO, CMS-boundary, and inquiry infrastructure is implemented; real client domains, content, privacy ownership, Resend/Cloudflare activation, public routes, and deployment remain client launch work.
 
+The selected client contact workspace is connected to `/api/inquiry` and Resend. It stays disabled by default and can be activated without source edits using the documented `PUBLIC_INQUIRY_*` build settings plus the runtime Resend values in `.env.example`; see `docs/SHARED_SITE_INFRASTRUCTURE.md`.
+
 ## Requirements
 
 - Node.js `>=22.12.0 <25`

@@ -8,6 +8,8 @@ export interface InquiryPayload {
   company?: string;
   phone?: string;
   productInterest?: string;
+  productCategory?: string;
+  cooperationModel?: string;
   destinationMarket?: string;
   quantityRange?: string;
   message: string;

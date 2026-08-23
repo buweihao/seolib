@@ -6,6 +6,8 @@ export interface ActionContent {
 
 export interface MediaContent {
   src: string;
+  srcset?: string;
+  sizes?: string;
   alt: string;
   width: number;
   height: number;
@@ -51,6 +53,7 @@ export interface CatalogProductContent {
   customizationOptions: readonly string[];
   packagingOptions: readonly string[];
   evaluationItems: readonly string[];
+  isHot?: boolean;
 }
 
 export interface ProductCatalogCategoryContent {
@@ -138,14 +141,9 @@ export interface InquiryContent extends SectionIntroContent {
 }
 
 export interface RecognitionHeroSlideContent {
-  title: string;
-  evidenceMedia: readonly MediaContent[];
-  supportingStatement: string;
-  badges?: readonly {
-    label: string;
-    detail?: string;
-    tone?: "teal" | "orange" | "violet" | "blue";
-  }[];
+  title?: string;
+  media: MediaContent;
+  href?: string;
   action?: ActionContent;
 }
 

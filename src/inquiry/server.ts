@@ -40,7 +40,6 @@ export const validateInquiryEnvironment = (env: InquiryEnvironment) => {
   if (!env.INQUIRY_TO_EMAIL?.trim() || !emailPattern.test(env.INQUIRY_TO_EMAIL.trim())) missing.push("INQUIRY_TO_EMAIL");
   if (!env.INQUIRY_FROM_EMAIL?.trim() || !env.INQUIRY_FROM_EMAIL.includes("@")) missing.push("INQUIRY_FROM_EMAIL");
   if (parseAllowedOrigins(env.INQUIRY_ALLOWED_ORIGINS).size === 0) missing.push("INQUIRY_ALLOWED_ORIGINS");
-  if (!env.INQUIRY_RATE_LIMITER) missing.push("INQUIRY_RATE_LIMITER");
   return missing;
 };
 
@@ -52,6 +51,8 @@ const rowEntries = (payload: InquiryPayload, inquiryId: string, receivedAt: stri
   ["Company", payload.company],
   ["Phone", payload.phone],
   ["Product interest", payload.productInterest],
+  ["Product category", payload.productCategory],
+  ["Cooperation model", payload.cooperationModel],
   ["Destination market", payload.destinationMarket],
   ["Quantity range", payload.quantityRange],
   ["Source page", payload.sourceUrl],

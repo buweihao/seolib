@@ -11,7 +11,7 @@ const isBlank = (value: string) => value.trim().length === 0;
 const heroMediaSources = (config: ClientSiteConfig) => {
   const { hero } = config.homepage;
   return "slides" in hero
-    ? hero.slides.flatMap((slide) => slide.evidenceMedia.map((media) => media.src))
+    ? hero.slides.map((slide) => slide.media.src)
     : [hero.media.src];
 };
 

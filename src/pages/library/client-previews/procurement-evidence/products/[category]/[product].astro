@@ -1,27 +1,29 @@
 ---
 import ProductDetailPage from "../../../../../../components/compositions/ProductDetailPage.astro";
-import { loadProcurementEvidenceCatalog } from "../../../../../../config/clients/procurement-evidence-cms";
-import { procurementEvidenceClient, productCategoryHref, productDetailHref } from "../../../../../../config/clients/procurement-evidence";
+import { loadProcurementEvidenceClient } from "../../../../../../config/clients/procurement-evidence-cms";
+import { productCategoryHref, productDetailHref } from "../../../../../../config/clients/procurement-evidence";
 import ClientPageShell from "../../../../../../layouts/ClientPageShell.astro";
 
 export async function getStaticPaths() {
-  const catalog = await loadProcurementEvidenceCatalog();
+  const config = await loadProcurementEvidenceClient();
+  const catalog = config.catalog;
   return catalog.products.flatMap((product) => {
     const category = catalog.categories.find((item) => item.slug === product.categorySlug);
     return category
-      ? [{ params: { category: product.categorySlug, product: product.slug }, props: { product, category, reviewNote: catalog.reviewNote } }]
+      ? [{ params: { category: product.categorySlug, product: product.slug }, props: { product, category, config, reviewNote: catalog.reviewNote } }]
       : [];
   });
 }
 
-const { product, category, reviewNote } = Astro.props;
+const { product, category, config, reviewNote } = Astro.props;
 const currentPath = productDetailHref(category.slug, product.slug);
+const inquiryHref = `${config.routes.contact}?productInterest=${encodeURIComponent(product.name)}&productCategory=${encodeURIComponent(category.slug)}#contact-workspace-form`;
 ---
 
-<ClientPageShell config={procurementEvidenceClient} {currentPath} title={`${product.name} | Procurement evidence client preview`} description={product.summary}>
+<ClientPageShell {config} {currentPath} title={`${product.name} | Aurevia Skincare`} description={product.summary}>
   <ProductDetailPage
-    breadcrumbs={[{ label: "Home", href: procurementEvidenceClient.routes.home }, { label: "Products", href: procurementEvidenceClient.routes.products }, { label: category.name, href: productCategoryHref(category.slug) }, { label: product.name }]}
-    profile={{ id: `${product.slug}-detail`, product, inquiryHref: `${procurementEvidenceClient.routes.contact}?product=${product.slug}#secure-inquiry`, reviewNote }}
-    inquiry={{ id: `${product.slug}-inquiry`, title: "Ready to review this product direction?", description: "Share the target market, packaging direction, quantity range, and any formula or sensory priorities. The next route remains subject to client review.", primaryAction: { href: `${procurementEvidenceClient.routes.contact}?product=${product.slug}#secure-inquiry`, label: "Start a project inquiry" }, secondaryAction: { href: productCategoryHref(category.slug), label: "Back to this category" }, note: reviewNote }}
+    breadcrumbs={[{ label: "Home", href: config.routes.home }, { label: "Products", href: config.routes.products }, { label: category.name, href: productCategoryHref(category.slug) }, { label: product.name }]}
+    profile={{ id: `${product.slug}-detail`, product, inquiryHref, reviewNote }}
+    inquiry={{ id: `${product.slug}-inquiry`, title: "Interested in this product direction?", description: "Share your target market, packaging direction, quantity range, and formula or sensory priorities.", primaryAction: { href: inquiryHref, label: "Start a skincare inquiry" }, secondaryAction: { href: productCategoryHref(category.slug), label: "Back to this category" }, note: reviewNote }}
   />
 </ClientPageShell>

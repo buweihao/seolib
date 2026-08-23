@@ -1,0 +1,108 @@
+---
+export type FloatingContactItem = {
+  label: string;
+  icon: "whatsapp" | "email" | "message" | "share";
+  href?: string;
+};
+
+interface Props {
+  id: string;
+  label: string;
+  items: FloatingContactItem[];
+  topLabel?: string;
+  scrollTargetId?: string;
+  shareSuccessLabel?: string;
+  preview?: boolean;
+}
+
+const {
+  id,
+  label,
+  items,
+  topLabel = "Top",
+  scrollTargetId,
+  shareSuccessLabel = "Page link copied",
+  preview = false,
+} = Astro.props;
+---
+
+<aside id={id} class:list={["floating-contact-bar", { "floating-contact-bar--preview": preview }]} aria-label={label} data-floating-contact-bar data-scroll-target={scrollTargetId} data-share-success={shareSuccessLabel}>
+  <nav aria-label={label}>
+    <ul role="list">
+      {items.map((item) => (
+        <li>
+          {item.icon === "share" ? (
+            <button type="button" data-contact-share>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.25" /><circle cx="6" cy="12" r="2.25" /><circle cx="18" cy="19" r="2.25" /><path d="m8 11 8-5M8 13l8 5" /></svg>
+              <span>{item.label}</span>
+            </button>
+          ) : (
+            <a href={item.href ?? "#"}>
+              {item.icon === "whatsapp" && <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.6a8 8 0 0 1-11.8 7L4 20l1.4-4A8 8 0 1 1 20 11.6Z" /><path d="M9 8.3c.5 2.4 2.3 4.2 4.7 4.8l1-1.1c.2-.2.5-.3.8-.1l2 .9c.3.1.4.4.4.7-.1 1-.7 1.8-1.7 2.1-1.1.3-2.8-.1-4.6-1.1a11.3 11.3 0 0 1-4.1-4.1C6.5 8.6 6.1 7 6.4 5.8c.3-1 .9-1.5 1.8-1.7.3 0 .6.1.7.4l.9 2c.1.3.1.6-.1.8L9 8.3Z" /></svg>}
+              {item.icon === "email" && <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="1" /><path d="m4.5 7 7.5 6 7.5-6" /></svg>}
+              {item.icon === "message" && <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h16v11H8l-4 3v-14Z" /><path d="M8 10h.01M12 10h.01M16 10h.01" /></svg>}
+              <span>{item.label}</span>
+            </a>
+          )}
+        </li>
+      ))}
+      <li class="floating-contact-bar__top">
+        <button type="button" data-contact-top>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 14 7-7 7 7" /></svg>
+          <span>{topLabel}</span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+  <p class="floating-contact-bar__status" role="status" aria-live="polite" data-contact-status></p>
+</aside>
+
+<script>
+  function initializeFloatingContactBars() {
+    document.querySelectorAll<HTMLElement>("[data-floating-contact-bar]").forEach((root) => {
+      if (root.dataset.ready === "true") return;
+      root.dataset.ready = "true";
+      const status = root.querySelector<HTMLElement>("[data-contact-status]");
+      root.querySelector<HTMLButtonElement>("[data-contact-share]")?.addEventListener("click", async () => {
+        try {
+          if (navigator.share) await navigator.share({ title: document.title, url: window.location.href });
+          else await navigator.clipboard.writeText(window.location.href);
+          if (status) status.textContent = root.dataset.shareSuccess ?? "";
+        } catch (error) {
+          if (error instanceof DOMException && error.name === "AbortError") return;
+          if (status) status.textContent = "Copy the address from your browser to share this page.";
+        }
+      });
+      root.querySelector<HTMLButtonElement>("[data-contact-top]")?.addEventListener("click", () => {
+        const target = root.dataset.scrollTarget ? document.getElementById(root.dataset.scrollTarget) : null;
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+        else window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
+  }
+
+  initializeFloatingContactBars();
+  document.addEventListener("astro:page-load", initializeFloatingContactBars);
+</script>
+
+<style>
+  .floating-contact-bar { position: fixed; z-index: 55; top: 50%; right: 0; transform: translateY(-50%); font-family: var(--ds-font-sans); }
+  .floating-contact-bar--preview { position: absolute; }
+  nav { overflow: hidden; border: 1px solid var(--ds-color-border); border-right: 0; border-radius: .65rem 0 0 .65rem; background: var(--ds-color-surface); box-shadow: 0 .6rem 1.8rem rgb(10 16 35 / .14); }
+  ul { display: grid; width: 5.25rem; margin: 0; padding: 0; list-style: none; }
+  li + li { border-top: 1px solid var(--ds-color-border); }
+  a, button { display: flex; width: 100%; min-height: 4.8rem; flex-direction: column; align-items: center; justify-content: center; gap: .35rem; border: 0; padding: .55rem .3rem; background: transparent; color: var(--ds-color-ink); font: inherit; font-size: .8rem; line-height: 1.2; text-align: center; text-decoration: none; cursor: pointer; }
+  a:hover, button:hover { background: color-mix(in oklch, var(--ds-color-canvas), var(--ds-color-accent) 7%); }
+  svg { width: 1.65rem; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.6; }
+  .floating-contact-bar__top button { min-height: 4.4rem; background: var(--ds-color-accent); color: var(--ds-color-accent-contrast); }
+  .floating-contact-bar__top button:hover { background: color-mix(in oklch, var(--ds-color-accent), black 12%); }
+  .floating-contact-bar__status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  @media (max-width: 47.99rem) {
+    .floating-contact-bar { inset: auto 0 0; transform: none; }
+    .floating-contact-bar--preview { position: absolute; }
+    nav { border-right: 1px solid var(--ds-color-border); border-bottom: 0; border-left: 0; border-radius: 0; }
+    ul { grid-auto-columns: minmax(0, 1fr); grid-auto-flow: column; width: 100%; }
+    li + li { border-top: 0; border-left: 1px solid var(--ds-color-border); }
+    a, button, .floating-contact-bar__top button { min-height: 4.4rem; }
+  }
+</style>

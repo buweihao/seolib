@@ -187,6 +187,24 @@ Laeyo page evidence note — 2026-08-20: additional Laeyo product-listing, produ
 
 Status: Shared implementation complete; client-owned Sanity activation pending — 2026-08-21
 
+Homepage CMS extension note — 2026-08-23: the embedded Studio now exposes a Chinese-first singleton “首页设置” document for large-image Hero slides. Each slide supports an uploaded image, optional center text, optional button text, and optional whole-image destination; the former fixed category strapline is removed. Products include a Chinese `Hot 产品` switch, and selected published products feed the existing `ProductCutoutShelf-001` directly below the Hero. Sanity CDN delivery now applies responsive widths, automatic modern formats, and bounded quality instead of serving uploaded masters.
+
+Company identity and homepage ordering note — 2026-08-24: the singleton is now labelled “网站设置” and also owns the company name and optional Logo. The same loaded client configuration supplies identity to Home, Products, category, product detail, Capabilities, About, and Contact routes; the Header renders the Logo before the name. Homepage order is Hero → Hot Products → Skincare Categories before cooperation pathways and the remaining evidence sections.
+
+Floating contact patterns note — 2026-08-24: `FloatingInquiryPanel-001` and `FloatingContactBar-001` are implemented and registered in Review with typed client inputs, accessible native controls, desktop/mobile layouts, and isolated library previews. The supplied Laeyo crop is normalized under `references/laeyo/screenshots/`; live inquiry delivery and real contact destinations remain intentionally unconfigured.
+
+Contact-page reference expansion — 2026-08-24: six newly supplied contact screenshots are normalized under their site packages (or `references/supplied-ui/` when no source was provided). Shared patterns now cover context-plus-form workspaces, high-density support/quote forms, guided RFQ entry, office/resource routing, and contact FAQs. All review forms fail closed without an endpoint; third-party identities, contact facts, maps, photography, copy, promises, and CAPTCHA/file policies remain reference-only.
+
+Navigation dropdown expansion — 2026-08-24: Vitelle, Romano, and RainShadow desktop dropdown captures are normalized under each site's `screenshots/` directory. `NavigationDropdown-001` is registered in Review with compact and feature-panel modes, typed routes, native disclosure semantics, keyboard/click access, and an original mobile document-flow adaptation pending source mobile evidence.
+
+Current client preview selection — 2026-08-24: the procurement-evidence preview now selects `NavigationDropdown-001`, `ContactWorkspace-001`, and `FloatingContactBar-001` through typed client configuration. The dropdown is integrated into the shared desktop/mobile header, the workspace replaces the previous contact-options plus duplicate inquiry-form stack, and the floating bar is present across the homepage and inner-page shell. Desktop and mobile checks confirmed native disclosure access, no horizontal overflow, no form/rail overlap, and safe bottom spacing; real contact channels and form delivery remain disabled until verified.
+
+Resend inquiry integration note — 2026-08-24: `ContactWorkspace-001` now passes the client inquiry configuration into `ConfigurableForm-001`, so the selected contact page uses the existing `/api/inquiry` and Resend delivery path rather than a presentation-only form. Shared browser behavior covers structured field errors, privacy consent, honeypot handling, source/UTM attribution, product-detail prefill, pending/success/error states, and duplicate-listener protection. Product category and cooperation route are preserved in the inquiry email. Build-time `PUBLIC_INQUIRY_*` values activate delivery only after the real privacy notice and origins exist; Pages uses an edge rate-limiting rule because its Functions runtime does not support the Workers Rate Limiting binding.
+
+Visitor-copy and dropdown refinement — 2026-08-24: desktop navigation dropdowns now keep a 350ms pointer-exit buffer so users can cross the trigger-to-panel gap and click submenu links reliably. The current client preview no longer exposes internal configuration warnings, placeholder instructions, or publication-review language; all visitor-facing local fallbacks, page metadata, contact copy, product notes, and supporting sections now use neutral skincare content, while verification state remains internal to validation and publishing controls.
+
+Dropdown single-open coordination — 2026-08-24: opening an embedded navigation dropdown by pointer, click, or keyboard now closes every other embedded dropdown immediately. The 350ms trigger-to-panel buffer remains active for the current menu without allowing adjacent Products, Capabilities, or About panels to overlap.
+
 ## Phase 8.4 — First Client Environment Provisioning
 
 - [x] Create the independent Cloudflare Pages project `zhiyan-buweihao`
@@ -206,14 +224,14 @@ Status: Local Sanity editing is ready; remote rebuild automation is intentionall
 - [x] Generate sitemap and robots output while excluding internal review routes
 - [x] Define a CMS-neutral content source so shared components do not depend on Sanity
 - [x] Add an accessible reusable inquiry form with attribution and privacy consent
-- [x] Add server-side validation, exact-origin enforcement, rate limiting, and Resend delivery
+- [x] Add server-side validation, exact-origin enforcement, optional Worker/Pages edge rate limiting, and Resend delivery
 - [x] Add automated unit/endpoint tests and a full `verify` command
 - [x] Document per-client deployment, privacy, DNS, CMS, and launch responsibilities
-- [ ] Activate a real domain, Resend sender, mailbox, privacy policy, and Cloudflare bindings for the first client
+- [ ] Activate a real domain, Resend sender, mailbox, privacy policy, and Cloudflare rate-limiting rule for the first client
 
 Status: Shared foundation complete; first-client activation pending — 2026-08-12
 
-Exit note: SEO rendering, schema builders, crawler output, CMS boundaries, inquiry UI, attribution, server validation, Resend delivery, origin checks, and a required Cloudflare rate limiter are now reusable library infrastructure. New clients configure and validate these capabilities rather than rebuilding them. Live delivery remains intentionally disabled in review until client-owned domain, mailbox, privacy, environment, and rate-limit values exist.
+Exit note: SEO rendering, schema builders, crawler output, CMS boundaries, inquiry UI, attribution, server validation, Resend delivery, origin checks, and Cloudflare edge protection are now reusable library infrastructure. New clients configure and validate these capabilities rather than rebuilding them. Live delivery remains intentionally disabled in review until client-owned domain, mailbox, privacy, environment, and rate-limit values exist.
 
 ## Phase 9 — SEO Landing Page Expansion
 

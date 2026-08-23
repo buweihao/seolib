@@ -38,6 +38,26 @@ test("endpoint returns structured validation errors", async () => {
   assert.equal(body.fieldErrors?.email, "Enter a valid email address.");
 });
 
+test("endpoint can deliver on Pages without a Worker-only rate-limit binding", async () => {
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => new Response(JSON.stringify({ id: "email-1" }), { status: 200 });
+  try {
+    const { INQUIRY_RATE_LIMITER: _unused, ...pagesEnv } = env;
+    const response = await onRequestPost({ request: request(validBody), env: pagesEnv });
+    assert.equal(response.status, 200);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+test("endpoint honors an optional rate-limit binding", async () => {
+  const response = await onRequestPost({
+    request: request(validBody),
+    env: { ...env, INQUIRY_RATE_LIMITER: { limit: async () => ({ success: false }) } },
+  });
+  assert.equal(response.status, 429);
+});
+
 test("endpoint sends a sanitized Resend request", async () => {
   const originalFetch = globalThis.fetch;
   let captured: Record<string, unknown> | undefined;
@@ -46,7 +66,12 @@ test("endpoint sends a sanitized Resend request", async () => {
     return new Response(JSON.stringify({ id: "email-1" }), { status: 200 });
   };
   try {
-    const response = await onRequestPost({ request: request({ ...validBody, message: "<b>Project</b>" }), env });
+    const response = await onRequestPost({ request: request({
+      ...validBody,
+      message: "<b>Project</b>",
+      productCategory: "facial-skincare",
+      cooperationModel: "odm",
+    }), env });
     const body = await response.json() as { ok: boolean; inquiryId?: string };
     assert.equal(response.status, 200);
     assert.equal(body.ok, true);
@@ -54,6 +79,8 @@ test("endpoint sends a sanitized Resend request", async () => {
     assert.equal(captured?.reply_to, "buyer@example.com");
     assert.equal(String(captured?.html).includes("<b>Project</b>"), false);
     assert.equal(String(captured?.html).includes("&lt;b&gt;Project&lt;/b&gt;"), true);
+    assert.equal(String(captured?.html).includes("facial-skincare"), true);
+    assert.equal(String(captured?.html).includes("odm"), true);
   } finally {
     globalThis.fetch = originalFetch;
   }

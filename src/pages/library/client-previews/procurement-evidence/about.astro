@@ -2,37 +2,39 @@
 import AboutPage from "../../../../components/compositions/AboutPage.astro";
 import CompanyFactMatrix from "../../../../components/sections/CompanyFactMatrix.astro";
 import PageResourceRail from "../../../../components/sections/PageResourceRail.astro";
-import { procurementEvidenceClient } from "../../../../config/clients/procurement-evidence";
+import { loadProcurementEvidenceClient } from "../../../../config/clients/procurement-evidence-cms";
 import ClientPageShell from "../../../../layouts/ClientPageShell.astro";
+
+const procurementEvidenceClient = await loadProcurementEvidenceClient();
 ---
 
 <ClientPageShell
   config={procurementEvidenceClient}
   currentPath={procurementEvidenceClient.routes.about}
-  title="About and facility evidence | Procurement evidence client preview"
-  description="Review-only company, facility, and evidence page for the typed skincare manufacturer client configuration."
+  title="About our skincare workflow | Aurevia Skincare"
+  description="Explore the teams, production stages, and quality responsibilities behind a skincare collection."
 >
   <AboutPage {...procurementEvidenceClient.pages.about} />
   <CompanyFactMatrix
     id="about-facts"
-    eyebrow="Verification frame"
-    title="Start with the facts that still need an owner"
-    description="This neutral matrix keeps company, facility, and market information configurable until the client supplies records for review."
+    eyebrow="Skincare focus"
+    title="Support built around your collection"
+    description="Bring product direction, packaging, production planning, and destination-market needs into one coordinated workflow."
     facts={[
-      { label: "Evidence status", value: "Pending client verification", detail: "Attach the source record before publication." },
-      { label: "R&D scope", value: "Configure from verified records", detail: "Separate capability language from unverified claims." },
-      { label: "Manufacturing scope", value: "Set by project brief", detail: "Confirm the relevant process and responsibility." },
-      { label: "Markets", value: "Configure by destination", detail: "Keep regulatory and language needs explicit." },
+      { label: "Product focus", value: "Skincare and personal care", detail: "Facial care, targeted treatments, body care, and hair and scalp directions." },
+      { label: "Development routes", value: "Private label · OEM · ODM", detail: "Choose a route based on your desired level of customization." },
+      { label: "Packaging formats", value: "Bottles · jars · tubes · pumps", detail: "Coordinate format, decoration, artwork, and compatibility needs." },
+      { label: "Market planning", value: "Built around your destination", detail: "Keep language, claims, documentation, and launch needs visible." },
     ]}
   />
   <PageResourceRail
     id="about-resources"
-    title="Continue the evidence review"
-    description="Move from company context to the specific product, capability, and inquiry questions that still need verification."
+    title="Continue exploring Aurevia Skincare"
+    description="Browse product directions, understand development capabilities, or start a conversation with the skincare team."
     resources={[
-      { label: "Product catalogue", href: procurementEvidenceClient.routes.products, detail: "Review category and detail routes" },
-      { label: "Capability scope", href: procurementEvidenceClient.routes.capabilities, detail: "Review responsibilities and process" },
-      { label: "Start an inquiry", href: procurementEvidenceClient.routes.contact, detail: "Prepare the next project brief" },
+      { label: "Product catalogue", href: procurementEvidenceClient.routes.products, detail: "Explore skincare categories and formats" },
+      { label: "Development capabilities", href: procurementEvidenceClient.routes.capabilities, detail: "Follow the path from brief to production" },
+      { label: "Start an inquiry", href: procurementEvidenceClient.routes.contact, detail: "Share your skincare goals" },
     ]}
   />
 </ClientPageShell>

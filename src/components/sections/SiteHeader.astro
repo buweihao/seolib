@@ -1,11 +1,9 @@
 ---
 import ActionLink from "../primitives/ActionLink.astro";
 import Container from "../primitives/Container.astro";
-
-interface NavigationItem {
-  href: string;
-  label: string;
-}
+import type { MediaContent } from "../../content-models/sections";
+import type { SiteNavigationItem } from "../../lib/client-navigation";
+import NavigationDropdown from "../patterns/navigation/NavigationDropdown.astro";
 
 interface HeaderAction {
   href: string;
@@ -15,8 +13,9 @@ interface HeaderAction {
 
 interface Props {
   brand: string;
+  brandLogo?: MediaContent;
   homeHref: string;
-  navigation: readonly NavigationItem[];
+  navigation: readonly SiteNavigationItem[];
   currentPath: string;
   inquiryAction?: HeaderAction;
   utilityText?: string;
@@ -25,6 +24,7 @@ interface Props {
 
 const {
   brand,
+  brandLogo,
   homeHref,
   navigation,
   currentPath,
@@ -49,19 +49,17 @@ const isCurrentRoute = (href: string) => {
 <header class:list={["site-header", className]}>
   {utilityText && <p class="site-header__utility">{utilityText}</p>}
   <Container size="wide" class="site-header__container">
-    <a class="site-header__brand" href={homeHref} aria-label={`${brand} home`}>{brand}</a>
+    <a class="site-header__brand" href={homeHref} aria-label={`${brand} home`}>
+      {brandLogo && <img src={brandLogo.src} srcset={brandLogo.srcset} sizes={brandLogo.sizes} alt="" width={brandLogo.width} height={brandLogo.height} decoding="async" />}
+      <span>{brand}</span>
+    </a>
 
     <div class="site-header__desktop">
       <nav aria-label="Primary navigation">
         <ul>
           {navigation.map((item) => (
-            <li>
-              <a
-                href={item.href}
-                aria-current={isCurrentRoute(item.href) ? "page" : undefined}
-              >
-                {item.label}
-              </a>
+            <li class:list={{ "site-header__dropdown-item": Boolean(item.dropdown) }}>
+              {item.dropdown ? <NavigationDropdown id={`desktop-nav-${item.label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`} label={item.label} items={item.dropdown.items} introTitle={item.dropdown.introTitle} introDescription={item.dropdown.introDescription} variant={item.dropdown.variant} align={item.dropdown.align} current={isCurrentRoute(item.href)} embedded /> : <a href={item.href} aria-current={isCurrentRoute(item.href) ? "page" : undefined}>{item.label}</a>}
             </li>
           ))}
         </ul>
@@ -85,13 +83,8 @@ const isCurrentRoute = (href: string) => {
         <nav aria-label="Primary navigation">
           <ul>
             {navigation.map((item) => (
-              <li>
-                <a
-                  href={item.href}
-                  aria-current={isCurrentRoute(item.href) ? "page" : undefined}
-                >
-                  {item.label}
-                </a>
+              <li class:list={{ "site-header__dropdown-item": Boolean(item.dropdown) }}>
+                {item.dropdown ? <NavigationDropdown id={`mobile-nav-${item.label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`} label={item.label} items={item.dropdown.items} introTitle={item.dropdown.introTitle} introDescription={item.dropdown.introDescription} variant={item.dropdown.variant} align={item.dropdown.align} current={isCurrentRoute(item.href)} embedded /> : <a href={item.href} aria-current={isCurrentRoute(item.href) ? "page" : undefined}>{item.label}</a>}
               </li>
             ))}
           </ul>
@@ -137,13 +130,33 @@ const isCurrentRoute = (href: string) => {
   }
 
   .site-header__brand {
+    display: inline-flex;
+    min-width: 0;
     max-width: 18rem;
+    flex: 0 1 18rem;
+    align-items: center;
+    gap: var(--ds-space-3);
     padding-block: var(--ds-space-3);
     font-family: var(--ds-font-display);
     font-size: clamp(1rem, 2vw, 1.25rem);
     font-weight: 750;
     line-height: 1.2;
     text-decoration: none;
+  }
+
+  .site-header__brand img {
+    width: clamp(2rem, 4vw, 3rem);
+    height: clamp(2rem, 4vw, 3rem);
+    flex: 0 0 auto;
+    border-radius: .35rem;
+    object-fit: contain;
+  }
+
+  .site-header__brand span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .site-header__desktop {
@@ -193,7 +206,7 @@ const isCurrentRoute = (href: string) => {
     box-shadow: 0 1rem 2rem color-mix(in oklch, var(--ds-color-ink), transparent 90%);
   }
 
-  .site-header nav ul {
+  .site-header nav > ul {
     display: grid;
     gap: var(--ds-space-1);
     margin: 0;
@@ -201,7 +214,7 @@ const isCurrentRoute = (href: string) => {
     list-style: none;
   }
 
-  .site-header nav a {
+  .site-header nav > ul > li > a {
     display: flex;
     min-height: 2.75rem;
     align-items: center;
@@ -210,14 +223,14 @@ const isCurrentRoute = (href: string) => {
     text-decoration: none;
   }
 
-  .site-header nav a[aria-current="page"] {
+  .site-header nav > ul > li > a[aria-current="page"] {
     color: var(--ds-color-accent);
     text-decoration: underline;
     text-decoration-thickness: 0.125rem;
     text-underline-offset: 0.35rem;
   }
 
-  .site-header nav a:hover {
+  .site-header nav > ul > li > a:hover {
     color: var(--ds-color-accent);
   }
 
@@ -239,16 +252,17 @@ const isCurrentRoute = (href: string) => {
       display: none;
     }
 
-    .site-header nav ul {
+    .site-header nav > ul {
       display: flex;
       align-items: center;
       gap: clamp(0.25rem, 1.5vw, 1.25rem);
     }
 
-    .site-header nav a {
+    .site-header nav > ul > li > a {
       border: 0;
       padding-inline: var(--ds-space-2);
       font-size: 0.9375rem;
     }
+    .site-header__dropdown-item { position: relative; }
   }
 </style>

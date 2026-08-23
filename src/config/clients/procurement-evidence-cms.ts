@@ -4,7 +4,7 @@ import type {
   ProductCatalogContent,
 } from "../../content-models/sections";
 import { createSanityContentSource } from "../../content-sources/sanity";
-import type { ProductCategoryRecord, ProductRecord } from "../../content-sources/types";
+import type { HomepageSettingsRecord, ProductCategoryRecord, ProductRecord } from "../../content-sources/types";
 import { createPublishedSanityClient, readSanityRuntimeConfig } from "../../lib/sanity";
 import type { ClientMediaAsset, ClientSiteConfig, SiteMode } from "../schema";
 import {
@@ -16,7 +16,7 @@ import {
 const fallbackCatalog: ProductCatalogContent = procurementEvidenceCatalog;
 const defaultMedia: MediaContent = {
   src: "/review-assets/product-daily.svg",
-  alt: "Illustrative product packaging placeholder",
+  alt: "Skincare product packaging",
   width: 900,
   height: 700,
   aspect: "square",
@@ -43,7 +43,7 @@ const catalogueFromRecords = (
     return {
       slug: record.slug,
       name: record.name,
-      description: record.description || fallback?.description || "Product category description pending.",
+      description: record.description || fallback?.description || "Explore skincare formats and routine roles within this category.",
       media: record.media || fallback?.media || defaultMedia,
     };
   });
@@ -57,12 +57,12 @@ const catalogueFromRecords = (
 
     const fallback = fallbackProducts.get(record.slug);
     const media = record.media[0] || fallback?.media || defaultMedia;
-    const format = record.format || fallback?.format || "Format pending";
-    const routineRole = record.routineRole || fallback?.routineRole || "Routine role pending";
-    const highlights = firstOrFallback(record.highlights, fallback?.highlights || ["Product highlight pending"]);
-    const customizationOptions = firstOrFallback(record.customizationScope, fallback?.customizationOptions || ["Customization scope pending"]);
-    const packagingOptions = firstOrFallback(record.packagingOptions, fallback?.packagingOptions || ["Packaging options pending"]);
-    const evaluationItems = firstOrFallback(record.evidenceToVerify, fallback?.evaluationItems || ["Evaluation requirements pending"]);
+    const format = record.format || fallback?.format || "Skincare format";
+    const routineRole = record.routineRole || fallback?.routineRole || "Daily care";
+    const highlights = firstOrFallback(record.highlights, fallback?.highlights || ["Texture and sensory direction"]);
+    const customizationOptions = firstOrFallback(record.customizationScope, fallback?.customizationOptions || ["Formula and sensory preferences"]);
+    const packagingOptions = firstOrFallback(record.packagingOptions, fallback?.packagingOptions || ["Bottle, jar, tube, or pump options"]);
+    const evaluationItems = firstOrFallback(record.evidenceToVerify, fallback?.evaluationItems || ["Formula, packaging, and market requirements"]);
 
     if (record.media.length === 0) errors.push(`Product ${record.slug} is missing an image or image alt text.`);
     if (!record.summary) errors.push(`Product ${record.slug} is missing a summary.`);
@@ -75,7 +75,7 @@ const catalogueFromRecords = (
       slug: record.slug,
       categorySlug,
       name: record.name,
-      summary: record.summary || fallback?.summary || "Product summary pending.",
+      summary: record.summary || fallback?.summary || "A skincare product direction that can be shaped around the brand, routine, and packaging brief.",
       media,
       format,
       routineRole,
@@ -83,6 +83,7 @@ const catalogueFromRecords = (
       customizationOptions,
       packagingOptions,
       evaluationItems,
+      isHot: record.isHot,
     }];
   });
 
@@ -93,9 +94,7 @@ const catalogueFromRecords = (
   return {
     categories,
     products,
-    reviewNote: mode === "review"
-      ? "Product catalogue content is loaded from published Sanity documents when configured. Missing review fields use clearly marked local placeholders."
-      : "Product details are maintained in the client-owned product catalogue.",
+    reviewNote: "Product formats, ingredients, packaging options, and development scope are tailored to each brand brief.",
   };
 };
 
@@ -131,6 +130,7 @@ export const loadProcurementEvidenceCatalog = async (
 export const applyCatalogToClient = (
   config: ClientSiteConfig,
   catalog: ProductCatalogContent,
+  homepageSettings?: HomepageSettingsRecord,
 ): ClientSiteConfig => {
   const cmsMedia: ClientMediaAsset[] = [
     ...catalog.categories.map((category) => ({
@@ -147,6 +147,20 @@ export const applyCatalogToClient = (
       rightsStatus: "pending" as const,
       source: "Sanity production dataset",
     })),
+    ...(homepageSettings?.heroSlides ?? []).map((slide, index) => ({
+      id: `sanity-hero-${index + 1}`,
+      src: slide.media.src,
+      alt: slide.media.alt,
+      rightsStatus: "pending" as const,
+      source: "Sanity production dataset",
+    })),
+    ...(homepageSettings?.logo ? [{
+      id: "sanity-company-logo",
+      src: homepageSettings.logo.src,
+      alt: homepageSettings.logo.alt,
+      rightsStatus: "pending" as const,
+      source: "Sanity production dataset",
+    }] : []),
   ];
   const registeredSources = new Set(config.media.map((asset) => asset.src));
   const media = [
@@ -162,10 +176,36 @@ export const applyCatalogToClient = (
 
   return {
     ...config,
+    identity: {
+      ...config.identity,
+      displayName: homepageSettings?.companyName ? {
+        ...config.identity.displayName,
+        value: homepageSettings.companyName,
+        source: "Sanity 网站设置",
+      } : config.identity.displayName,
+      logo: homepageSettings?.logo ?? config.identity.logo,
+    },
+    seo: {
+      ...config.seo,
+      siteName: homepageSettings?.companyName ? {
+        ...config.seo.siteName,
+        value: homepageSettings.companyName,
+        source: "Sanity 网站设置",
+      } : config.seo.siteName,
+    },
     media,
     catalog,
     homepage: {
       ...config.homepage,
+      hero: homepageSettings?.heroSlides.length ? {
+        autoplayMs: "slides" in config.homepage.hero ? config.homepage.hero.autoplayMs : 7000,
+        slides: homepageSettings.heroSlides.map((slide) => ({
+          title: slide.title,
+          media: slide.media,
+          href: slide.href,
+          action: slide.buttonLabel && slide.href ? { label: slide.buttonLabel, href: slide.href } : undefined,
+        })),
+      } : config.homepage.hero,
       products: { ...config.homepage.products, families },
     },
     pages: {
@@ -178,5 +218,13 @@ export const applyCatalogToClient = (
   };
 };
 
-export const loadProcurementEvidenceClient = async () =>
-  applyCatalogToClient(procurementEvidenceClient, await loadProcurementEvidenceCatalog());
+export const loadProcurementEvidenceClient = async () => {
+  const runtime = readSanityRuntimeConfig();
+  if (!runtime) return applyCatalogToClient(procurementEvidenceClient, await loadProcurementEvidenceCatalog());
+  const source = createSanityContentSource(createPublishedSanityClient(runtime));
+  const [catalog, homepageSettings] = await Promise.all([
+    loadProcurementEvidenceCatalog(),
+    source.getHomepageSettings().catch(() => undefined),
+  ]);
+  return applyCatalogToClient(procurementEvidenceClient, catalog, homepageSettings);
+};

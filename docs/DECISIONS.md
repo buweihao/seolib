@@ -176,7 +176,7 @@ Important architecture decisions use a compact ADR-style record. New records are
 
 **Reason:** The mechanics are common to every manufacturer site, while the identity, legal consent, claims, and delivery ownership are client facts that cannot be safely inferred or copied.
 
-**Consequences:** New client projects run configuration and activation rather than rebuilding Phase 8.1. Review routes remain excluded from indexing. Inquiry delivery fails closed until exact origins, a verified Resend sender, a client mailbox, and a Cloudflare rate-limit binding are present. Live delivery must receive a controlled post-deployment test.
+**Consequences:** New client projects run configuration and activation rather than rebuilding Phase 8.1. Review routes remain excluded from indexing. Inquiry delivery fails closed until exact origins, a verified Resend sender, and a client mailbox are present. Pages projects protect the endpoint with an edge rate-limiting rule; an `INQUIRY_RATE_LIMITER` binding remains an optional enhancement if the endpoint is reused in a Worker. Live delivery must receive a controlled post-deployment test.
 
 ## 2026-08-12 — Isolate CMS adapters behind a content-source contract
 

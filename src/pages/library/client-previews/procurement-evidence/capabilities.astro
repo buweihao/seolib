@@ -2,36 +2,38 @@
 import CapabilitiesPage from "../../../../components/compositions/CapabilitiesPage.astro";
 import PageResourceRail from "../../../../components/sections/PageResourceRail.astro";
 import SamplingWorkflowCards from "../../../../components/sections/SamplingWorkflowCards.astro";
-import { procurementEvidenceClient } from "../../../../config/clients/procurement-evidence";
+import { loadProcurementEvidenceClient } from "../../../../config/clients/procurement-evidence-cms";
 import ClientPageShell from "../../../../layouts/ClientPageShell.astro";
+
+const procurementEvidenceClient = await loadProcurementEvidenceClient();
 ---
 
 <ClientPageShell
   config={procurementEvidenceClient}
   currentPath={procurementEvidenceClient.routes.capabilities}
-  title="Capabilities | Procurement evidence client preview"
-  description="Review-only capability, quality, and process page for the typed skincare manufacturer client configuration."
+  title="Skincare development capabilities | Aurevia Skincare"
+  description="Explore formula development, packaging coordination, sampling, quality planning, and production preparation."
 >
   <CapabilitiesPage {...procurementEvidenceClient.pages.capabilities} />
   <SamplingWorkflowCards
     id="sampling-workflow"
     eyebrow="Evaluation path"
     title="A clear path from brief to sample review"
-    description="Use the same checkpoints across projects so inputs, decisions, and evidence stay visible to both sides."
+    description="Use consistent checkpoints so product inputs, decisions, and next steps stay visible to both teams."
     steps={[
-      { title: "Share the brief", description: "Align on category, market, format, and packaging direction.", action: "Buyer input: project requirements" },
-      { title: "Confirm fit", description: "Review the relevant capability, quality, and documentation questions.", action: "Joint review: scope and evidence" },
-      { title: "Develop a sample", description: "Translate the agreed direction into a sample plan with open decisions recorded.", action: "Supplier output: sample plan" },
+      { title: "Share the brief", description: "Align on category, market, format, and packaging direction.", action: "Brand input: skincare requirements" },
+      { title: "Confirm direction", description: "Align the relevant development, quality, and documentation needs.", action: "Joint step: agree the scope" },
+      { title: "Develop a sample", description: "Translate the agreed direction into a sample plan with open decisions recorded.", action: "Development output: sample plan" },
       { title: "Review and refine", description: "Capture feedback, approvals, and next actions before a commercial proposal.", action: "Next step: approved direction" },
     ]}
   />
   <PageResourceRail
     id="capability-resources"
-    title="Continue the capability review"
-    description="Use these neutral routes to organize the next evidence questions for a real supplier configuration."
+    title="Explore more skincare support"
+    description="Continue from product categories to quality planning or share your collection requirements."
     resources={[
-      { label: "Category directory", href: procurementEvidenceClient.routes.products, detail: "Review product families and formats" },
-      { label: "Quality evidence", href: `${procurementEvidenceClient.routes.about}#about-quality`, detail: "Connect controls to records" },
+      { label: "Category directory", href: procurementEvidenceClient.routes.products, detail: "Explore product families and formats" },
+      { label: "Quality planning", href: `${procurementEvidenceClient.routes.about}#about-quality`, detail: "Follow quality responsibilities" },
       { label: "Prepare an inquiry", href: procurementEvidenceClient.routes.contact, detail: "Share market and packaging inputs" },
     ]}
   />

@@ -1,0 +1,66 @@
+---
+import ConfigurableForm from "../../inquiry/ConfigurableForm.astro";
+import type { ConfigurableFormField } from "../../../inquiry/form-ui";
+import type { ClientInquiryConfig } from "../../../inquiry/types";
+
+interface ContextItem { label: string; value: string; href?: string; icon?: "message" | "location" | "phone" | "email"; }
+interface Media { src: string; alt: string; }
+interface Props {
+  id: string;
+  eyebrow?: string;
+  title: string;
+  description: string;
+  contextTitle?: string;
+  contextItems?: ContextItem[];
+  media?: Media;
+  asidePosition?: "left" | "right";
+  fields: ConfigurableFormField[];
+  submitLabel: string;
+  formAction?: string;
+  inquiryConfig?: ClientInquiryConfig;
+  deliveryNote?: string;
+  note?: string;
+}
+const { id, eyebrow, title, description, contextTitle, contextItems = [], media, asidePosition = "left", fields, submitLabel, formAction, inquiryConfig, deliveryNote, note } = Astro.props;
+---
+
+<section id={id} class:list={["contact-workspace", `contact-workspace--${asidePosition}`]} aria-labelledby={`${id}-title`}>
+  <header>
+    {eyebrow && <p>{eyebrow}</p>}
+    <h2 id={`${id}-title`}>{title}</h2>
+  </header>
+  <div class="contact-workspace__grid">
+    <aside>
+      {media && <img src={media.src} alt={media.alt} loading="lazy" />}
+      <p class="contact-workspace__description">{description}</p>
+      {contextTitle && <h3>{contextTitle}</h3>}
+      {contextItems.length > 0 && <ul role="list">{contextItems.map((item) => <li><span aria-hidden="true">{item.icon === "location" ? "⌖" : item.icon === "phone" ? "↗" : item.icon === "email" ? "@" : "○"}</span><div><strong>{item.label}</strong>{item.href ? <a href={item.href}>{item.value}</a> : <small>{item.value}</small>}</div></li>)}</ul>}
+      {note && <p class="contact-workspace__note">{note}</p>}
+    </aside>
+    <div class="contact-workspace__form"><ConfigurableForm id={`${id}-form`} {fields} {submitLabel} {formAction} {inquiryConfig} {deliveryNote} /></div>
+  </div>
+</section>
+
+<style>
+  .contact-workspace { padding: clamp(2rem, 6vw, 5rem); background: var(--ds-color-surface); }
+  header { margin-bottom: clamp(2rem, 5vw, 4rem); text-align: center; }
+  header p { margin: 0; color: var(--ds-color-accent); font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+  h2 { margin: .5rem 0 0; font-size: clamp(2rem, 5vw, 4rem); line-height: 1; text-transform: uppercase; }
+  .contact-workspace__grid { display: grid; width: min(100%, 72rem); margin-inline: auto; gap: clamp(2rem, 7vw, 6rem); }
+  aside { min-width: 0; }
+  aside img { width: 100%; max-height: 22rem; border-radius: var(--ds-radius-media); object-fit: cover; }
+  .contact-workspace__description { max-width: 29rem; margin: 0 0 2rem; font-size: clamp(1.15rem, 2.1vw, 1.6rem); font-weight: 650; line-height: 1.55; }
+  aside img + .contact-workspace__description { margin-top: 1.5rem; font-size: 1rem; font-weight: 500; }
+  h3 { margin: 1.5rem 0 1rem; font-size: 1rem; }
+  ul { display: grid; gap: 1rem; margin: 0; padding: 0; list-style: none; }
+  li { display: grid; grid-template-columns: 2.5rem 1fr; gap: .75rem; align-items: center; }
+  li > span { display: grid; width: 2.5rem; height: 2.5rem; place-items: center; border-radius: 999px; background: color-mix(in oklch, var(--ds-color-accent), white 90%); color: var(--ds-color-accent); font-weight: 800; }
+  li strong, li small, li a { display: block; }
+  li small, li a { color: var(--ds-color-muted); font-size: .9rem; }
+  .contact-workspace__note { margin: 1.5rem 0 0; color: var(--ds-color-muted); font-size: .85rem; }
+  @media (min-width: 52rem) {
+    .contact-workspace__grid { grid-template-columns: minmax(15rem, .8fr) minmax(0, 1.5fr); }
+    .contact-workspace--right .contact-workspace__grid { grid-template-columns: minmax(0, 1.3fr) minmax(16rem, .9fr); }
+    .contact-workspace--right aside { order: 2; }
+  }
+</style>

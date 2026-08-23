@@ -57,4 +57,44 @@ test("Sanity content source normalizes partial published catalogue documents saf
   assert.deepEqual(products[0]?.media, []);
   assert.deepEqual(products[0]?.highlights, []);
   assert.deepEqual(products[0]?.packagingOptions, []);
+  assert.equal(products[0]?.isHot, false);
+});
+
+test("Sanity homepage settings keep optional Hero copy blank and optimize responsive images", async () => {
+  const source = createSanityContentSource({
+    async fetch<T>(): Promise<T> {
+      return {
+        companyName: "Example Skincare Lab",
+        logo: {
+          src: "https://cdn.sanity.io/images/project/production/logo.png",
+          alt: "Example Skincare Lab logo",
+          width: 600,
+          height: 600,
+        },
+        heroSlides: [{
+          title: "  ",
+          buttonLabel: "View products",
+          href: "/products/",
+          media: {
+            src: "https://cdn.sanity.io/images/project/production/hero.jpg",
+            alt: "Skincare collection",
+            width: 2400,
+            height: 1200,
+          },
+        }],
+      } as T;
+    },
+  });
+
+  const homepage = await source.getHomepageSettings();
+  assert.equal(homepage?.companyName, "Example Skincare Lab");
+  assert.equal(homepage?.logo?.width, 240);
+  assert.equal(homepage?.logo?.sizes, "3rem");
+  assert.equal(homepage?.heroSlides[0]?.title, undefined);
+  assert.equal(homepage?.heroSlides[0]?.buttonLabel, "View products");
+  assert.equal(homepage?.heroSlides[0]?.href, "/products/");
+  assert.equal(homepage?.heroSlides[0]?.media.width, 1920);
+  assert.match(homepage?.heroSlides[0]?.media.src ?? "", /auto=format/);
+  assert.match(homepage?.heroSlides[0]?.media.srcset ?? "", /640w/);
+  assert.equal(homepage?.heroSlides[0]?.media.sizes, "100vw");
 });

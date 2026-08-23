@@ -50,10 +50,12 @@ export const onRequestPost = async ({ request, env }: FunctionContext) => {
     return json({ ok: false, error: "Inquiry delivery is not configured." }, 503, origin);
   }
 
-  const ip = request.headers.get("CF-Connecting-IP") ?? "unknown";
-  const userAgent = (request.headers.get("User-Agent") ?? "unknown").slice(0, 120);
-  const rate = await env.INQUIRY_RATE_LIMITER!.limit({ key: `${ip}|${userAgent}` });
-  if (!rate.success) return json({ ok: false, error: "Too many requests. Please try again later." }, 429, origin);
+  if (env.INQUIRY_RATE_LIMITER) {
+    const ip = request.headers.get("CF-Connecting-IP") ?? "unknown";
+    const userAgent = (request.headers.get("User-Agent") ?? "unknown").slice(0, 120);
+    const rate = await env.INQUIRY_RATE_LIMITER.limit({ key: `${ip}|${userAgent}` });
+    if (!rate.success) return json({ ok: false, error: "Too many requests. Please try again later." }, 429, origin);
+  }
 
   let input: Record<string, unknown>;
   try {
