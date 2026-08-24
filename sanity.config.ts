@@ -16,6 +16,7 @@ export default defineConfig({
   dataset,
   plugins: [structureTool({
     structure: (S) => S.list()
+      .id("content-management")
       .title("内容管理")
       .items([
         S.listItem()
