@@ -26,7 +26,7 @@ const {
 } = Astro.props;
 ---
 
-<aside id={id} class:list={["floating-contact-bar", { "floating-contact-bar--preview": preview }]} aria-label={label} data-floating-contact-bar data-scroll-target={scrollTargetId} data-share-success={shareSuccessLabel}>
+<aside id={id} class:list={["floating-contact-bar", { "floating-contact-bar--preview": preview }]} aria-label={label} data-floating-contact-bar data-scroll-target={scrollTargetId} data-share-success={shareSuccessLabel} data-visible="false">
   <nav aria-label={label}>
     <ul role="list">
       {items.map((item) => (
@@ -62,6 +62,18 @@ const {
     document.querySelectorAll<HTMLElement>("[data-floating-contact-bar]").forEach((root) => {
       if (root.dataset.ready === "true") return;
       root.dataset.ready = "true";
+      let ticking = false;
+      const updateVisibility = () => {
+        root.dataset.visible = window.scrollY > 24 ? "true" : "false";
+        ticking = false;
+      };
+      window.addEventListener("scroll", () => {
+        if (!ticking) {
+          window.requestAnimationFrame(updateVisibility);
+          ticking = true;
+        }
+      }, { passive: true });
+      updateVisibility();
       const status = root.querySelector<HTMLElement>("[data-contact-status]");
       root.querySelector<HTMLButtonElement>("[data-contact-share]")?.addEventListener("click", async () => {
         try {
@@ -86,7 +98,8 @@ const {
 </script>
 
 <style>
-  .floating-contact-bar { position: fixed; z-index: 55; top: 50%; right: 0; transform: translateY(-50%); font-family: var(--ds-font-sans); }
+  .floating-contact-bar { position: fixed; z-index: 55; top: 50%; right: 0; transform: translate(110%, -50%); opacity: 0; visibility: hidden; pointer-events: none; transition: transform .28s ease, opacity .2s ease, visibility 0s linear .28s; font-family: var(--ds-font-sans); }
+  .floating-contact-bar[data-visible="true"] { transform: translateY(-50%); opacity: 1; visibility: visible; pointer-events: auto; transition-delay: 0s; }
   .floating-contact-bar--preview { position: absolute; }
   nav { overflow: hidden; border: 1px solid var(--ds-color-border); border-right: 0; border-radius: .65rem 0 0 .65rem; background: var(--ds-color-surface); box-shadow: 0 .6rem 1.8rem rgb(10 16 35 / .14); }
   ul { display: grid; width: 5.25rem; margin: 0; padding: 0; list-style: none; }
@@ -98,7 +111,8 @@ const {
   .floating-contact-bar__top button:hover { background: color-mix(in oklch, var(--ds-color-accent), black 12%); }
   .floating-contact-bar__status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   @media (max-width: 47.99rem) {
-    .floating-contact-bar { inset: auto 0 0; transform: none; }
+    .floating-contact-bar { inset: auto 0 0; transform: translateY(110%); }
+    .floating-contact-bar[data-visible="true"] { transform: translateY(0); }
     .floating-contact-bar--preview { position: absolute; }
     nav { border-right: 1px solid var(--ds-color-border); border-bottom: 0; border-left: 0; border-radius: 0; }
     ul { grid-auto-columns: minmax(0, 1fr); grid-auto-flow: column; width: 100%; }

@@ -231,6 +231,14 @@ Status: Local Sanity editing is ready; remote rebuild automation is intentionall
 
 Status: Shared foundation complete; first-client activation pending — 2026-08-12
 
+UI refinement note — 2026-08-25: the shared floating contact bar now stays retracted at the page top and appears after scrolling; the image-led homepage Hero preserves each source image's full aspect ratio instead of cropping it into a fixed-height stage.
+
+Sanity Studio development note — 2026-08-25: embedded Studio development now serves uncached modules, preventing stale lazy-loaded Releases chunk URLs after Vite dependency regeneration.
+
+Product Families layout note — 2026-08-25: equal-weight category cards now normalize source images into a shared 4:3 media stage and reserve two title lines so mixed image dimensions and label lengths do not shift card content.
+
+Hot Products media note — 2026-08-25: featured product images now scale to fit their responsive media stage without cropping or the former beige gradient panel.
+
 Exit note: SEO rendering, schema builders, crawler output, CMS boundaries, inquiry UI, attribution, server validation, Resend delivery, origin checks, and Cloudflare edge protection are now reusable library infrastructure. New clients configure and validate these capabilities rather than rebuilding them. Live delivery remains intentionally disabled in review until client-owned domain, mailbox, privacy, environment, and rate-limit values exist.
 
 ## Phase 9 — SEO Landing Page Expansion

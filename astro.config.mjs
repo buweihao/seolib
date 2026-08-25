@@ -63,6 +63,11 @@ export default defineConfig({
   ],
   vite: {
     plugins: [tailwindcss(), sanityDevEntryAlias],
+    server: {
+      headers: {
+        "Cache-Control": "no-store",
+      },
+    },
     optimizeDeps: {
       include: [
         "react/compiler-runtime",

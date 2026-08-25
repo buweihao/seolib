@@ -41,7 +41,7 @@ const headingId = `${id}-title`;
                 alt={family.media.alt}
                 width={family.media.width}
                 height={family.media.height}
-                aspect={family.media.aspect ?? "landscape"}
+                aspect="landscape"
               />
             )}
             <div class="product-families__content">
@@ -101,6 +101,7 @@ const headingId = `${id}-title`;
   }
 
   .product-families__content h3 {
+    min-block-size: 2.4em;
     font-size: clamp(1.35rem, 2vw, 1.75rem);
     font-weight: 550;
     line-height: 1.2;
