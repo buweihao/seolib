@@ -5,7 +5,7 @@ import PageIntro from "../sections/PageIntro.astro";
 import ProductFamilies from "../sections/ProductFamilies.astro";
 
 interface Props {
-  intro: ComponentProps<typeof PageIntro>;
+  intro?: ComponentProps<typeof PageIntro>;
   products: ComponentProps<typeof ProductFamilies>;
   class?: string;
 }
@@ -14,6 +14,6 @@ const { intro, products, class: className } = Astro.props;
 ---
 
 <div class:list={["products-page", className]}>
-  <PageIntro {...intro} />
-  <ProductFamilies {...products} />
+  {intro && <PageIntro {...intro} />}
+  <ProductFamilies {...products} headingLevel="h1" />
 </div>

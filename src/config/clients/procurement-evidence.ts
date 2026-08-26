@@ -279,13 +279,6 @@ export const procurementEvidenceClient = {
   },
   pages: {
     products: {
-      intro: {
-        id: "products-intro",
-        eyebrow: "Skincare product range",
-        title: "Explore product directions for your brand.",
-        description: "Browse facial care, targeted treatments, body care, and hair and scalp formats for a coordinated collection.",
-        breadcrumbs: [{ label: "Home", href: paths.home }, { label: "Products" }],
-      },
       products: {
         id: "product-families",
         eyebrow: "Product families",
