@@ -1,8 +1,10 @@
 ---
 export type FloatingContactItem = {
   label: string;
-  icon: "whatsapp" | "email" | "message" | "share";
+  icon: "phone" | "whatsapp" | "email" | "message" | "share";
   href?: string;
+  value?: string;
+  featured?: boolean;
 };
 
 interface Props {
@@ -12,6 +14,8 @@ interface Props {
   topLabel?: string;
   scrollTargetId?: string;
   shareSuccessLabel?: string;
+  showAfterScroll?: boolean;
+  showTop?: boolean;
   preview?: boolean;
 }
 
@@ -22,36 +26,58 @@ const {
   topLabel = "Top",
   scrollTargetId,
   shareSuccessLabel = "Page link copied",
+  showAfterScroll = false,
+  showTop = false,
   preview = false,
 } = Astro.props;
+
+const initiallyVisible = preview || !showAfterScroll;
 ---
 
-<aside id={id} class:list={["floating-contact-bar", { "floating-contact-bar--preview": preview }]} aria-label={label} data-floating-contact-bar data-scroll-target={scrollTargetId} data-share-success={shareSuccessLabel} data-visible="false">
+<aside
+  id={id}
+  class:list={["floating-contact-bar", { "floating-contact-bar--preview": preview }]}
+  aria-label={label}
+  data-floating-contact-bar
+  data-scroll-target={scrollTargetId}
+  data-share-success={shareSuccessLabel}
+  data-show-after-scroll={showAfterScroll ? "true" : "false"}
+  data-visible={initiallyVisible ? "true" : "false"}
+>
   <nav aria-label={label}>
     <ul role="list">
       {items.map((item) => (
-        <li>
-          {item.icon === "share" ? (
-            <button type="button" data-contact-share>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.25" /><circle cx="6" cy="12" r="2.25" /><circle cx="18" cy="19" r="2.25" /><path d="m8 11 8-5M8 13l8 5" /></svg>
+        <li class:list={{ "floating-contact-bar__item": true, "floating-contact-bar__item--featured": item.featured }}>
+          {item.value && (
+            <span class="floating-contact-bar__detail" aria-hidden="true">
               <span>{item.label}</span>
+              <strong>{item.value}</strong>
+            </span>
+          )}
+          {item.icon === "share" ? (
+            <button type="button" aria-label={item.label} data-contact-share>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.25" /><circle cx="6" cy="12" r="2.25" /><circle cx="18" cy="19" r="2.25" /><path d="m8 11 8-5M8 13l8 5" /></svg>
+              <span class="floating-contact-bar__label">{item.label}</span>
             </button>
           ) : (
-            <a href={item.href ?? "#"}>
+            <a href={item.href ?? "#"} aria-label={item.value ? `${item.label}: ${item.value}` : item.label}>
+              {item.icon === "phone" && <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.1 4.5 9.5 4l1.7 4-1.8 1.6a13.3 13.3 0 0 0 5 5l1.6-1.8 4 .1-.5 2.4c-.2 1-1 1.7-2 1.8-5.7.3-10.8-4.8-10.5-10.5.1-1 .8-1.8 1.8-2.1Z" /></svg>}
               {item.icon === "whatsapp" && <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.6a8 8 0 0 1-11.8 7L4 20l1.4-4A8 8 0 1 1 20 11.6Z" /><path d="M9 8.3c.5 2.4 2.3 4.2 4.7 4.8l1-1.1c.2-.2.5-.3.8-.1l2 .9c.3.1.4.4.4.7-.1 1-.7 1.8-1.7 2.1-1.1.3-2.8-.1-4.6-1.1a11.3 11.3 0 0 1-4.1-4.1C6.5 8.6 6.1 7 6.4 5.8c.3-1 .9-1.5 1.8-1.7.3 0 .6.1.7.4l.9 2c.1.3.1.6-.1.8L9 8.3Z" /></svg>}
               {item.icon === "email" && <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="1" /><path d="m4.5 7 7.5 6 7.5-6" /></svg>}
               {item.icon === "message" && <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h16v11H8l-4 3v-14Z" /><path d="M8 10h.01M12 10h.01M16 10h.01" /></svg>}
-              <span>{item.label}</span>
+              <span class="floating-contact-bar__label">{item.label}</span>
             </a>
           )}
         </li>
       ))}
-      <li class="floating-contact-bar__top">
-        <button type="button" data-contact-top>
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 14 7-7 7 7" /></svg>
-          <span>{topLabel}</span>
-        </button>
-      </li>
+      {showTop && (
+        <li class="floating-contact-bar__top">
+          <button type="button" aria-label={topLabel} data-contact-top>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 14 7-7 7 7" /></svg>
+            <span class="floating-contact-bar__label">{topLabel}</span>
+          </button>
+        </li>
+      )}
     </ul>
   </nav>
   <p class="floating-contact-bar__status" role="status" aria-live="polite" data-contact-status></p>
@@ -64,15 +90,21 @@ const {
       root.dataset.ready = "true";
       let ticking = false;
       const updateVisibility = () => {
-        root.dataset.visible = window.scrollY > 24 ? "true" : "false";
+        if (root.dataset.showAfterScroll !== "true") {
+          root.dataset.visible = "true";
+        } else {
+          root.dataset.visible = window.scrollY > 24 ? "true" : "false";
+        }
         ticking = false;
       };
-      window.addEventListener("scroll", () => {
-        if (!ticking) {
-          window.requestAnimationFrame(updateVisibility);
-          ticking = true;
-        }
-      }, { passive: true });
+      if (root.dataset.showAfterScroll === "true") {
+        window.addEventListener("scroll", () => {
+          if (!ticking) {
+            window.requestAnimationFrame(updateVisibility);
+            ticking = true;
+          }
+        }, { passive: true });
+      }
       updateVisibility();
       const status = root.querySelector<HTMLElement>("[data-contact-status]");
       root.querySelector<HTMLButtonElement>("[data-contact-share]")?.addEventListener("click", async () => {
@@ -98,25 +130,232 @@ const {
 </script>
 
 <style>
-  .floating-contact-bar { position: fixed; z-index: 55; top: 50%; right: 0; transform: translate(110%, -50%); opacity: 0; visibility: hidden; pointer-events: none; transition: transform .28s ease, opacity .2s ease, visibility 0s linear .28s; font-family: var(--ds-font-sans); }
-  .floating-contact-bar[data-visible="true"] { transform: translateY(-50%); opacity: 1; visibility: visible; pointer-events: auto; transition-delay: 0s; }
-  .floating-contact-bar--preview { position: absolute; }
-  nav { overflow: hidden; border: 1px solid var(--ds-color-border); border-right: 0; border-radius: .65rem 0 0 .65rem; background: var(--ds-color-surface); box-shadow: 0 .6rem 1.8rem rgb(10 16 35 / .14); }
-  ul { display: grid; width: 5.25rem; margin: 0; padding: 0; list-style: none; }
-  li + li { border-top: 1px solid var(--ds-color-border); }
-  a, button { display: flex; width: 100%; min-height: 4.8rem; flex-direction: column; align-items: center; justify-content: center; gap: .35rem; border: 0; padding: .55rem .3rem; background: transparent; color: var(--ds-color-ink); font: inherit; font-size: .8rem; line-height: 1.2; text-align: center; text-decoration: none; cursor: pointer; }
-  a:hover, button:hover { background: color-mix(in oklch, var(--ds-color-canvas), var(--ds-color-accent) 7%); }
-  svg { width: 1.65rem; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.6; }
-  .floating-contact-bar__top button { min-height: 4.4rem; background: var(--ds-color-accent); color: var(--ds-color-accent-contrast); }
-  .floating-contact-bar__top button:hover { background: color-mix(in oklch, var(--ds-color-accent), black 12%); }
-  .floating-contact-bar__status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .floating-contact-bar {
+    position: fixed;
+    z-index: 55;
+    right: clamp(.75rem, 2.5vw, 1.5rem);
+    bottom: clamp(.75rem, 3vw, 1.75rem);
+    transform: translateX(110%);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform .28s ease, opacity .2s ease, visibility 0s linear .28s;
+    font-family: var(--ds-font-sans);
+  }
+
+  .floating-contact-bar[data-visible="true"] {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: 0s;
+  }
+
+  .floating-contact-bar--preview {
+    position: absolute;
+  }
+
+  nav {
+    overflow: visible;
+    border: 1px solid color-mix(in oklch, var(--ds-color-ink), transparent 12%);
+    border-radius: 2.9rem;
+    background: var(--ds-color-ink);
+    box-shadow: 0 1rem 2.5rem rgb(10 16 35 / .2);
+  }
+
+  ul {
+    display: grid;
+    width: 5.25rem;
+    gap: .2rem;
+    margin: 0;
+    padding: .6rem;
+    list-style: none;
+  }
+
+  .floating-contact-bar__item {
+    position: relative;
+  }
+
+  .floating-contact-bar a,
+  .floating-contact-bar button {
+    position: relative;
+    display: grid;
+    width: 100%;
+    min-height: 4rem;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    padding: .55rem;
+    background: transparent;
+    color: var(--ds-color-canvas);
+    font: inherit;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color .2s ease, color .2s ease, transform .2s ease;
+  }
+
+  .floating-contact-bar a:hover,
+  .floating-contact-bar a:focus-visible,
+  .floating-contact-bar button:hover,
+  .floating-contact-bar button:focus-visible {
+    background: color-mix(in oklch, var(--ds-color-canvas), transparent 88%);
+  }
+
+  .floating-contact-bar__item--featured a,
+  .floating-contact-bar__item--featured button {
+    background: var(--ds-color-accent);
+    color: var(--ds-color-accent-contrast);
+  }
+
+  .floating-contact-bar__item--featured a:hover,
+  .floating-contact-bar__item--featured a:focus-visible,
+  .floating-contact-bar__item--featured button:hover,
+  .floating-contact-bar__item--featured button:focus-visible {
+    background: color-mix(in oklch, var(--ds-color-accent), white 12%);
+    transform: scale(1.03);
+  }
+
+  .floating-contact-bar a:focus-visible,
+  .floating-contact-bar button:focus-visible {
+    outline: 3px solid var(--ds-color-canvas);
+    outline-offset: 3px;
+  }
+
+  .floating-contact-bar svg {
+    width: 1.7rem;
+    height: 1.7rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.7;
+  }
+
+  .floating-contact-bar__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .floating-contact-bar__detail {
+    position: absolute;
+    right: calc(100% + .8rem);
+    top: 50%;
+    display: grid;
+    width: max-content;
+    min-width: 0;
+    max-width: min(23rem, calc(100vw - 6rem));
+    gap: .15rem;
+    transform: translateY(-50%) translateX(.6rem);
+    border-radius: 1rem;
+    padding: .8rem 1.1rem;
+    background: var(--ds-color-ink);
+    box-shadow: 0 .7rem 1.8rem rgb(10 16 35 / .16);
+    color: var(--ds-color-canvas);
+    font-size: .78rem;
+    line-height: 1.25;
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    transition: transform .2s ease, opacity .2s ease, visibility 0s linear .2s;
+  }
+
+  .floating-contact-bar__detail::after {
+    position: absolute;
+    right: -.35rem;
+    top: 50%;
+    width: .7rem;
+    height: .7rem;
+    transform: translateY(-50%) rotate(45deg);
+    background: var(--ds-color-ink);
+    content: "";
+  }
+
+  .floating-contact-bar__detail span {
+    color: color-mix(in oklch, var(--ds-color-canvas), transparent 35%);
+    font-size: .68rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .floating-contact-bar__detail strong {
+    overflow-wrap: anywhere;
+    font-size: .95rem;
+    font-weight: 800;
+  }
+
+  .floating-contact-bar__item:hover .floating-contact-bar__detail,
+  .floating-contact-bar__item:focus-within .floating-contact-bar__detail,
+  .floating-contact-bar__item--featured .floating-contact-bar__detail {
+    transform: translateY(-50%) translateX(0);
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
+  .floating-contact-bar__top {
+    border-top: 1px solid color-mix(in oklch, var(--ds-color-canvas), transparent 82%);
+    padding-top: .2rem;
+  }
+
+  .floating-contact-bar__top button {
+    min-height: 3.4rem;
+  }
+
+  .floating-contact-bar__status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
   @media (max-width: 47.99rem) {
-    .floating-contact-bar { inset: auto 0 0; transform: translateY(110%); }
-    .floating-contact-bar[data-visible="true"] { transform: translateY(0); }
-    .floating-contact-bar--preview { position: absolute; }
-    nav { border-right: 1px solid var(--ds-color-border); border-bottom: 0; border-left: 0; border-radius: 0; }
-    ul { grid-auto-columns: minmax(0, 1fr); grid-auto-flow: column; width: 100%; }
-    li + li { border-top: 0; border-left: 1px solid var(--ds-color-border); }
-    a, button, .floating-contact-bar__top button { min-height: 4.4rem; }
+    .floating-contact-bar {
+      right: .65rem;
+      bottom: max(.75rem, env(safe-area-inset-bottom));
+    }
+
+    ul {
+      width: 4.5rem;
+      padding: .45rem;
+    }
+
+    .floating-contact-bar a,
+    .floating-contact-bar button {
+      min-height: 3.5rem;
+    }
+
+    .floating-contact-bar svg {
+      width: 1.45rem;
+      height: 1.45rem;
+    }
+
+    .floating-contact-bar__item--featured .floating-contact-bar__detail {
+      transform: translateY(-50%) translateX(.6rem);
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .floating-contact-bar__item:hover .floating-contact-bar__detail,
+    .floating-contact-bar__item:focus-within .floating-contact-bar__detail {
+      transform: translateY(-50%) translateX(0);
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .floating-contact-bar,
+    .floating-contact-bar a,
+    .floating-contact-bar button,
+    .floating-contact-bar__detail {
+      transition: none;
+    }
   }
 </style>

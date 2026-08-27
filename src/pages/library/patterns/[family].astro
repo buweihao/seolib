@@ -30,7 +30,7 @@ import QualityFramework from "../../../components/sections/QualityFramework.astr
 import StatementHero from "../../../components/sections/StatementHero.astro";
 import InquiryForm from "../../../components/inquiry/InquiryForm.astro";
 import { procurementEvidenceClient } from "../../../config/clients/procurement-evidence";
-import { aboutPage, capabilitiesPage, homePage, productsPage } from "../../../fixtures/baseSite";
+import { aboutFacility, capabilitiesPage, homePage, productsPage } from "../../../fixtures/baseSite";
 import { arcFactoryHero, recognitionHero } from "../../../fixtures/referencePatterns";
 import { advisorInquiryFields, contactFaqItems, detailedQuoteFields, guidedInquiryFields, splitContactFields, supportRequestFields } from "../../../fixtures/contactPatterns";
 import PatternLibraryLayout from "../../../layouts/PatternLibraryLayout.astro";
@@ -68,10 +68,10 @@ const floatingInquiryFields = [
   { name: "message", label: "Project brief", placeholder: "Product direction, market, quantity range, and target timing", rows: 5, required: true },
 ];
 const floatingContactItems = [
-  { label: "WhatsApp", icon: "whatsapp" as const, href: "#demo-floating-inquiry" },
-  { label: "E-mail", icon: "email" as const, href: "mailto:inquiry@example.invalid" },
+  { label: "Phone", icon: "phone" as const, value: "+00 000 000 000", href: "tel:+000000000", featured: true },
+  { label: "Email", icon: "email" as const, value: "inquiry@example.invalid", href: "mailto:inquiry@example.invalid" },
+  { label: "WhatsApp", icon: "whatsapp" as const, value: "Chat on WhatsApp", href: "#demo-floating-inquiry" },
   { label: "Contact", icon: "message" as const, href: "#demo-secure-inquiry" },
-  { label: "Share", icon: "share" as const },
 ];
 ---
 
@@ -120,8 +120,8 @@ const floatingContactItems = [
 
     {family === "facility" && (
       <>
-        <PatternReview patternId="FacilityOverview-001" name="工厂设施总览" suitableFor="一张总览图配清单" {...shared} originalTreatment="总览媒体与核验说明并列。"><FacilityOverview {...aboutPage.facility} id="demo-facility-overview" /></PatternReview>
-        <PatternReview patternId="FacilityGallery-001" name="工厂设施图库" suitableFor="工厂视觉较强、区域需要模块化说明" {...shared} originalTreatment="大幅总览媒体后接区域信息墙。"><FacilityGallery {...aboutPage.facility} id="demo-facility-gallery" /></PatternReview>
+        <PatternReview patternId="FacilityOverview-001" name="工厂设施总览" suitableFor="一张总览图配清单" {...shared} originalTreatment="总览媒体与核验说明并列。"><FacilityOverview {...aboutFacility} id="demo-facility-overview" /></PatternReview>
+        <PatternReview patternId="FacilityGallery-001" name="工厂设施图库" suitableFor="工厂视觉较强、区域需要模块化说明" {...shared} originalTreatment="大幅总览媒体后接区域信息墙。"><FacilityGallery {...aboutFacility} id="demo-facility-gallery" /></PatternReview>
       </>
     )}
 
@@ -137,7 +137,7 @@ const floatingContactItems = [
         <PatternReview patternId="InquiryCTA-001" name="深色询盘行动区" suitableFor="页面末端的强收口" {...shared} originalTreatment="深色集中式行动区。"><InquiryCTA {...homePage.inquiry} id="demo-inquiry-dark" /></PatternReview>
         <PatternReview patternId="SplitInquiry-001" name="分栏询盘准备区" suitableFor="需要同时说明准备材料与行动" {...shared} originalTreatment="标题与询盘准备项分栏。"><SplitInquiry {...homePage.inquiry} id="demo-inquiry-split" /></PatternReview>
         <PatternReview patternId="FloatingInquiryPanel-001" name="悬浮询盘面板" suitableFor="长页面中需要持续可见、但可主动关闭的项目询盘入口" contentEvidence="字段、必填状态、提交端点和提示文案均由客户配置；审核示例不启用提交。" uiEvidence="用户提供的移动端参考图：底部胶囊触发器连接可滚动的浮层表单。" originalTreatment="原创主题令牌、紧凑表单节奏、非模态 dialog、Escape 关闭、焦点返回与移动端安全边距。"><div class="floating-demo floating-demo--panel" id="demo-floating-inquiry"><FloatingInquiryPanel id="demo-floating-inquiry-panel" title="Leave a message" description="Share the essentials of your project and the supplier can review fit before the next conversation." triggerLabel="Leave a message" fields={floatingInquiryFields} submitLabel="Send inquiry" defaultOpen preview /></div></PatternReview>
-        <PatternReview patternId="FloatingContactBar-001" name="悬浮联系栏" suitableFor="需要把少量已验证的联系渠道和返回顶部入口固定在页面边缘" contentEvidence="渠道标签、链接与可用性由客户配置；没有默认公司联系方式。" uiEvidence="Laeyo 桌面参考截图中的页面右侧纵向快捷联系关系。" originalTreatment="使用原创线性图标、主题颜色和触控尺寸；桌面为右侧竖栏，移动端重排为底部横栏，并提供分享回退提示。"><div class="floating-demo floating-demo--bar"><FloatingContactBar id="demo-floating-contact-bar" label="Example contact shortcuts" items={floatingContactItems} scrollTargetId="demo-floating-inquiry" preview /></div></PatternReview>
+        <PatternReview patternId="FloatingContactBar-001" name="悬浮联系栏" suitableFor="需要把电话、WhatsApp、邮箱和询盘入口固定在页面右下角" contentEvidence="渠道标签、号码、邮箱和链接均由客户配置并核验；审核示例使用中性占位值。" uiEvidence="用户提供的右下角深色竖向联系栏参考图，以及 Laeyo 桌面参考截图中的纵向快捷联系关系。" originalTreatment="使用原创线性图标、主题颜色、左侧联系信息气泡和触控尺寸；桌面与移动端均保持右下角悬浮布局，支持键盘焦点和 reduced-motion。"><div class="floating-demo floating-demo--bar"><FloatingContactBar id="demo-floating-contact-bar" label="Example contact shortcuts" items={floatingContactItems} scrollTargetId="demo-floating-inquiry" preview /></div></PatternReview>
         <PatternReview patternId="ContactWorkspace-001" name="联系信息与表单工作区" suitableFor="需要把联系渠道或顾问背景与项目表单并列呈现" contentEvidence="联系渠道、顾问资料、媒体和表单字段均由客户配置并核验。" uiEvidence="用户提供的双栏联系截图与 Laeyo 顾问询盘截图：上下文面板和表单形成明确的左右关系。" originalTreatment="同一 typed 组件支持左右侧栏；使用原创图标、审核插图、字段节奏和移动端内容优先重排。"><div class="variant-stack"><ContactWorkspace id="demo-contact-channels" eyebrow="Contact routes" title="Get in touch" description="Share the essentials of your project, or use a verified channel when a direct conversation is more suitable." contextTitle="Verified contact options" contextItems={[{ label: "Messaging", value: "Destination pending", icon: "message" }, { label: "Visit", value: "Location pending", icon: "location" }, { label: "Call", value: "Number pending", icon: "phone" }, { label: "Email", value: "Mailbox pending", icon: "email" }]} fields={splitContactFields} submitLabel="Send message" /><ContactWorkspace id="demo-advisor-inquiry" eyebrow="Project review" title="Speak with an advisor" description="Introduce the responsible advisor only when their identity, role, image, and response expectations are approved for publication." media={{ src: "/review-assets/manufacturing-facility.svg", alt: "Original review artwork representing a project-advisor conversation" }} asidePosition="right" fields={advisorInquiryFields} submitLabel="Send project brief" note="Replace this review artwork with client-approved media." /></div></PatternReview>
         <PatternReview patternId="StructuredRequestForm-001" name="结构化请求表单" suitableFor="客户支持或复杂报价需要比普通联系表单更多的可配置字段" contentEvidence="字段集合必须匹配真实支持流程、数据政策和接收团队。" uiEvidence="YG Labs 支持表单与 Créer 详细联系表单：宽表单网格或居中长表单承载多类输入。" originalTreatment="共享字段渲染器、原创安静/编辑式视觉、响应式单双栏、审核禁用提交及文件安全提示。"><div class="variant-stack"><StructuredRequestForm id="demo-support-request" eyebrow="Support request" title="How can the team help?" description="Use reference fields only when the client operates a real support workflow." fields={supportRequestFields} submitLabel="Submit request" /><StructuredRequestForm id="demo-detailed-quote" eyebrow="Project brief" title="Tell us what you want to build." description="A detailed brief can qualify a complex project before the first working session." fields={detailedQuoteFields} submitLabel="Submit project brief" tone="editorial" /></div></PatternReview>
         <PatternReview patternId="GuidedProjectInquiry-001" name="分步项目询盘" suitableFor="复杂询盘需要先收集最低限度信息，再逐步展开项目范围" contentEvidence="步骤、字段、联系信息和后续动作由客户流程决定。" uiEvidence="Romano Contact：简短第一步表单与联系/参观上下文并列。" originalTreatment="原创编号进度条、语义有序列表、单列首步表单和响应式侧栏；不复制地图、地址或承诺。"><GuidedProjectInquiry id="demo-guided-inquiry" title="Tell us about your project" description="Start with the minimum information needed to choose the next useful questions." steps={["Contact", "Project fit", "Review"]} fields={guidedInquiryFields} submitLabel="Next step" contextTitle="Contact context" contextItems={[{ label: "Location", value: "Verified address pending" }, { label: "Phone", value: "Verified number pending" }, { label: "Availability", value: "Working hours pending" }]} secondaryTitle="Verification route" secondaryDescription="Offer a tour or audit route only when it is genuinely available." secondaryAction={{ label: "Review visit options", href: "#" }} /></PatternReview>

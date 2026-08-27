@@ -16,9 +16,23 @@ export interface SiteNavigationItem {
 
 export interface SiteFloatingContactItem {
   label: string;
-  icon: "email" | "message" | "share";
+  icon: "phone" | "whatsapp" | "email" | "message" | "share";
   href?: string;
+  value?: string;
+  featured?: boolean;
 }
+
+const phoneHref = (value: string) => {
+  const digits = value.replace(/[^+\d]/g, "");
+  return digits ? `tel:${digits}` : undefined;
+};
+
+const whatsappHref = (value: string) => {
+  const trimmed = value.trim();
+  if (trimmed.startsWith("https://wa.me/")) return trimmed;
+  const digits = trimmed.replace(/\D/g, "");
+  return digits.length >= 5 ? `https://wa.me/${digits}` : undefined;
+};
 
 export const buildClientNavigation = (config: ClientSiteConfig): SiteNavigationItem[] => [
   { href: config.routes.home, label: "Home" },
@@ -51,27 +65,19 @@ export const buildClientNavigation = (config: ClientSiteConfig): SiteNavigationI
   {
     href: config.routes.about,
     label: "About",
-    dropdown: {
-      variant: "feature",
-      align: "end",
-      introTitle: "Company and capabilities",
-      introDescription: "Explore the development workflow, facility areas, quality responsibilities, and contact routes behind a skincare collection.",
-      items: [
-        { label: "Company overview", href: config.routes.about },
-        { label: "Facility areas", href: `${config.routes.about}#about-facility` },
-        { label: "Development expertise", href: `${config.routes.about}#about-evidence` },
-        { label: "Quality ownership", href: `${config.routes.about}#about-quality` },
-        { label: "Contact", href: config.routes.contact },
-      ],
-    },
   },
   { href: config.routes.contact, label: "Contact" },
 ];
 
 export const buildFloatingContactItems = (config: ClientSiteConfig): SiteFloatingContactItem[] => [
-  { label: "Inquiry", icon: "message", href: config.routes.contact },
-  ...(config.contact.email?.status === "verified"
-    ? [{ label: "Email", icon: "email" as const, href: `mailto:${config.contact.email.value}` }]
+  ...(config.contact.phone?.status === "verified" && config.contact.phone.value.trim()
+    ? [{ label: "Phone", icon: "phone" as const, value: config.contact.phone.value, href: phoneHref(config.contact.phone.value), featured: true }]
     : []),
-  { label: "Share", icon: "share" },
+  ...(config.contact.email?.status === "verified"
+    ? [{ label: "Email", icon: "email" as const, value: config.contact.email.value, href: `mailto:${config.contact.email.value}` }]
+    : []),
+  ...(config.contact.whatsapp?.status === "verified" && config.contact.whatsapp.value.trim() && whatsappHref(config.contact.whatsapp.value)
+    ? [{ label: "WhatsApp", icon: "whatsapp" as const, value: config.contact.whatsapp.value, href: whatsappHref(config.contact.whatsapp.value) }]
+    : []),
+  { label: "Inquiry", icon: "message", href: config.routes.contact },
 ];

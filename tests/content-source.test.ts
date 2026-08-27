@@ -98,3 +98,66 @@ test("Sanity homepage settings keep optional Hero copy blank and optimize respon
   assert.match(homepage?.heroSlides[0]?.media.srcset ?? "", /640w/);
   assert.equal(homepage?.heroSlides[0]?.media.sizes, "100vw");
 });
+
+test("Sanity About content maps the four reference sections into responsive media records", async () => {
+  const source = createSanityContentSource({
+    async fetch<T>(query: string): Promise<T> {
+      assert.match(query, /companyDescription/);
+      assert.match(query, /"text": coalesce\(text, textI18n\.en, ""\)/);
+      assert.match(query, /"subtitle": coalesce\(subtitle, subtitleI18n\.en, ""\)/);
+      assert.doesNotMatch(query, /\.zh/);
+      return {
+        company: {
+          companyVideoUrl: "https://cdn.sanity.io/files/project/production/company.mp4",
+          companyDescription: "A structured company story.",
+          companyImages: [{
+            src: "https://cdn.sanity.io/images/project/production/company.jpg",
+            alt: "",
+            width: 2400,
+            height: 1600,
+          }],
+        },
+        recommendation: {
+          items: [{
+            media: {
+              src: "https://cdn.sanity.io/images/project/production/recommendation.jpg",
+              alt: "",
+              width: 1200,
+              height: 900,
+            },
+            text: "Recommended direction",
+          }],
+        },
+        gallery: {
+          images: [{
+            src: "https://cdn.sanity.io/images/project/production/gallery.jpg",
+            alt: "Gallery image",
+            width: 1600,
+            height: 900,
+          }],
+        },
+        carousel: {
+          subtitle: "A closer look at the company.",
+          images: [{
+            src: "https://cdn.sanity.io/images/project/production/carousel.jpg",
+            alt: "Company showcase",
+            width: 1000,
+            height: 750,
+          }],
+        },
+      } as T;
+    },
+  });
+
+  const about = await source.getAboutContent();
+  assert.equal(about?.companyVideoUrl, "https://cdn.sanity.io/files/project/production/company.mp4");
+  assert.equal(about?.companyDescription, "A structured company story.");
+  assert.equal(about?.companyImages[0]?.alt, "Company image 1");
+  assert.equal(about?.companyImages[0]?.width, 1600);
+  assert.match(about?.companyImages[0]?.src ?? "", /fit=max/);
+  assert.equal(about?.recommendationItems[0]?.text, "Recommended direction");
+  assert.equal(about?.recommendationItems[0]?.media.alt, "Recommendation image 1");
+  assert.equal(about?.galleryImages.length, 1);
+  assert.equal(about?.carouselSubtitle, "A closer look at the company.");
+  assert.equal(about?.carouselImages.length, 1);
+});

@@ -225,3 +225,11 @@ Important architecture decisions use a compact ADR-style record. New records are
 **Reason:** Homepage anchors demonstrate section patterns but do not constitute a complete client website. The reusable five-page compositions already exist and should consume client configuration instead of separate fixture-only content or copied page implementations.
 
 **Consequences:** The procurement-evidence preview now exposes five connected noindex routes with shared identity, theme, navigation, footer, validation, and media registration. Screenshots are only needed for genuine component gaps; client facts and claims still require structured verified inputs.
+
+## 2026-08-27 — Use a CMS-neutral About composition for the selected reference UI
+
+**Decision:** Replace the old About page sections with a shared company-first composition that mirrors the selected reference structure: company information, recommendation content, advantages, optional image gallery, and company carousel. Map four fixed Sanity singleton documents through `ContentSource.getAboutContent()` and merge them into the client fallback configuration.
+
+**Reason:** The reference page establishes a clearer visual sequence for a manufacturer About page, while this library must keep client facts, media, and copy configurable and remain usable before Sanity content is published.
+
+**Consequences:** The implementation uses original Astro/CSS/SVG code and native scroll controls, with no copied reference assets or additional carousel dependency. About documents use direct English text fields rather than bilingual inputs; Sanity media is normalized with responsive CDN URLs and safe Alt fallbacks, including recommendation images with blank editor-provided Alt text. Incomplete CMS records continue to render the local review-safe content.

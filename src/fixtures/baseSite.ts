@@ -5,6 +5,7 @@ import CapabilitiesPage from "../components/compositions/CapabilitiesPage.astro"
 import ContactPage from "../components/compositions/ContactPage.astro";
 import LaunchHomepage from "../components/compositions/LaunchHomepage.astro";
 import ProductsPage from "../components/compositions/ProductsPage.astro";
+import type FacilityOverview from "../components/sections/FacilityOverview.astro";
 import type SiteFooter from "../components/sections/SiteFooter.astro";
 import type SiteHeader from "../components/sections/SiteHeader.astro";
 
@@ -261,17 +262,7 @@ export const capabilitiesPage = {
   },
 } satisfies ComponentProps<typeof CapabilitiesPage>;
 
-export const aboutPage = {
-  intro: {
-    id: "about-intro",
-    eyebrow: "About the manufacturer — example",
-    title: "Meet the team and systems behind your skincare products.",
-    description:
-      "This page demonstrates how company, facility, quality, and verification information can build trust. It contains no real company history or certification claim.",
-    primaryAction: { href: baseSitePaths.contact, label: "Ask about the factory" },
-    breadcrumbs: [{ label: "Home", href: baseSitePaths.home }, { label: "About" }],
-  },
-  facility: {
+export const aboutFacility = {
     id: "about-facility",
     eyebrow: "Example facility areas",
     title: "Show buyers where their project is supported.",
@@ -284,39 +275,67 @@ export const aboutPage = {
     ],
     verificationNote: "Do not publish facility size, capacity, cleanroom level, certifications, or equipment counts without supporting records.",
     primaryAction: { href: baseSitePaths.contact, label: "Request relevant factory information" },
-  },
-  evidence: {
-    id: "about-method",
-    eyebrow: "How the company works",
-    title: "Turn company values into visible working practices.",
-    description: "Instead of generic claims, explain how the team handles briefs, changes, approvals, quality, and communication.",
-    points: [
-      { title: "Clear project ownership", description: "Name who coordinates commercial, technical, packaging, quality, and delivery questions." },
-      { title: "Documented approvals", description: "Keep product, packaging, artwork, and production decisions visible." },
-      { title: "Evidence-led communication", description: "Support important facility, quality, and certification statements with current records." },
-    ],
-    media: { src: "/review-assets/manufacturing-body.svg", alt: "Abstract connected teams and manufacturing stages", width: 1200, height: 900, aspect: "landscape" },
-    mediaPosition: "end",
-    action: { href: baseSitePaths.capabilities, label: "See the example capabilities" },
-  },
-  quality: {
-    id: "about-quality",
-    eyebrow: "What buyers can verify",
-    title: "Make trust claims specific and checkable.",
-    checkpoints: [
-      { stage: "Company identity", controlPurpose: "Confirm legal entity, operating address, ownership of published facts, and contact routes.", evidenceType: "Client-provided company records" },
-      { stage: "Facility & certification", controlPurpose: "Confirm facility scope and any certificate owner, issuer, scope, and validity.", evidenceType: "Current documents and client-approved media" },
-      { stage: "Product & quality scope", controlPurpose: "Confirm which products, processes, tests, and records the supplier can support.", evidenceType: "Capability and quality documentation" },
-    ],
-  },
-  inquiry: {
-    id: "about-inquiry",
-    eyebrow: "Factory verification",
-    title: "Request evidence relevant to your product and market.",
-    description: "The goal is not to collect every document, but to verify the facts that affect supplier selection and project risk.",
-    preparationItems: ["Product categories", "Destination market", "Required certifications or records", "Audit or visit expectations"],
-    primaryAction: { href: baseSitePaths.contact, label: "Prepare a verification request" },
-    secondaryAction: { href: baseSitePaths.products, label: "Review product categories" },
+} satisfies ComponentProps<typeof FacilityOverview>;
+
+export const aboutPage = {
+  content: {
+    company: {
+      eyebrow: "Company information",
+      title: "Company Information",
+      videoAlt: "Abstract skincare manufacturing workflow",
+      description: "This review page uses a company-first layout to show how a supplier can introduce its people, production context, and working environment. Replace the example content with client-owned copy, a verified company video, and rights-cleared photography before publication.",
+      stats: [
+        { value: "10,000+", unit: "m²", lines: ["Example factory footprint"] },
+        { value: "100,000+", unit: "pieces", lines: ["Example daily production reference", "Confirm scope and capacity with records"] },
+        { value: "200+", unit: "people", lines: ["Example production team reference", "Replace with verified company data"] },
+      ],
+      images: [
+        { src: "/review-assets/manufacturing-facility.svg", alt: "Abstract manufacturing facility plan", width: 1200, height: 900, aspect: "landscape" },
+        { src: "/review-assets/manufacturing-body.svg", alt: "Abstract body-care production illustration", width: 1200, height: 900, aspect: "landscape" },
+        { src: "/review-assets/launch-evidence.svg", alt: "Abstract quality and development records", width: 1200, height: 900, aspect: "landscape" },
+        { src: "/review-assets/manufacturing-leave-on.svg", alt: "Abstract skincare production packaging", width: 800, height: 600, aspect: "landscape" },
+      ],
+    },
+    recommendation: {
+      eyebrow: "Main recommendation",
+      title: "Main Recommendation",
+      items: [
+        { media: { src: "/review-assets/product-daily.svg", alt: "Abstract daily skincare products", width: 800, height: 600, aspect: "landscape" }, text: "Build a clear product direction around the brand brief." },
+        { media: { src: "/review-assets/product-targeted.svg", alt: "Abstract targeted skincare products", width: 800, height: 600, aspect: "landscape" }, text: "Shape formulas and sensory goals with the right evidence." },
+        { media: { src: "/review-assets/product-ritual.svg", alt: "Abstract skincare ritual products", width: 800, height: 600, aspect: "landscape" }, text: "Coordinate product roles into a coherent collection." },
+        { media: { src: "/review-assets/launch-body.svg", alt: "Abstract body-care products", width: 800, height: 600, aspect: "landscape" } },
+        { media: { src: "/review-assets/manufacturing-rinse.svg", alt: "Abstract rinse-off product packaging", width: 800, height: 600, aspect: "landscape" }, text: "Keep packaging and production decisions visible." },
+        { media: { src: "/review-assets/launch-focused.svg", alt: "Abstract focused treatment packaging", width: 800, height: 600, aspect: "landscape" } },
+      ],
+    },
+    advantages: {
+    eyebrow: "Why choose us",
+    title: "Why Choose Us",
+    items: [
+        { icon: "certification", title: "International certification system", description: "US GMPC certified, with EU ISO 9001 and ISO 22716 dual-system certification and 17 national utility model patents." },
+        { icon: "production", title: "Intelligent production line", description: "Six production lines with daily capacity above 100,000 pieces, supporting new formulations such as freeze-dried powder and single-use masks." },
+        { icon: "research", title: "R&D innovation center", description: "A team of 20+ senior engineers, 10,000+ mature formulas, customized OEM/ODM solutions, and four core technologies." },
+        { icon: "service", title: "Customer service commitment", description: "Rapid response, samples in as little as 3 working days, and complete batch delivery in as little as 7 working days." },
+        { icon: "sustainability", title: "Green manufacturing standards", description: "Full-process traceability, zero addition of disqualified ingredients, and testing support for customized products." },
+      ],
+    },
+    gallery: {
+      images: [
+        { src: "/review-assets/manufacturing-hero.svg", alt: "Abstract skincare manufacturing overview", width: 1600, height: 1000, aspect: "landscape" },
+        { src: "/review-assets/premium-evidence.svg", alt: "Abstract product development evidence", width: 1200, height: 900, aspect: "landscape" },
+      ],
+    },
+    carousel: {
+      eyebrow: "Our company",
+      title: "Our Company",
+      subtitle: "A flexible image carousel lets a supplier share more of its working environment without changing the page structure.",
+      images: [
+        { src: "/review-assets/manufacturing-facility.svg", alt: "Abstract manufacturing facility plan", width: 1200, height: 900, aspect: "landscape" },
+        { src: "/review-assets/manufacturing-body.svg", alt: "Abstract body-care production illustration", width: 1200, height: 900, aspect: "landscape" },
+        { src: "/review-assets/launch-evidence.svg", alt: "Abstract quality and development records", width: 1200, height: 900, aspect: "landscape" },
+        { src: "/review-assets/manufacturing-leave-on.svg", alt: "Abstract skincare production packaging", width: 800, height: 600, aspect: "landscape" },
+      ],
+    },
   },
 } satisfies ComponentProps<typeof AboutPage>;
 

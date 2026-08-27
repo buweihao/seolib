@@ -1,6 +1,7 @@
 import type { MediaContent } from "../../content-models/sections";
 import type { SeoPageConfig } from "../../seo/types";
 import type {
+  AboutContentRecord,
   ContentQuery,
   ContentSource,
   HomepageSettingsRecord,
@@ -57,6 +58,37 @@ interface RawHomepageSettings {
   heroSlides?: unknown;
 }
 
+interface RawAboutDocument {
+  companyVideoUrl?: unknown;
+  companyDescription?: unknown;
+  companyImages?: unknown;
+}
+
+interface RawRecommendationItem {
+  media?: RawMedia | null;
+  text?: unknown;
+}
+
+interface RawRecommendationDocument {
+  items?: unknown;
+}
+
+interface RawImageGalleryDocument {
+  images?: unknown;
+}
+
+interface RawCompanyCarouselDocument {
+  subtitle?: unknown;
+  images?: unknown;
+}
+
+interface RawAboutContent {
+  company?: RawAboutDocument | null;
+  recommendation?: RawRecommendationDocument | null;
+  gallery?: RawImageGalleryDocument | null;
+  carousel?: RawCompanyCarouselDocument | null;
+}
+
 const homepageSettingsQuery = `
   *[_type == "homepageSettings" && !(_id in path("drafts.**"))][0] {
     "companyName": coalesce(companyName, ""),
@@ -76,6 +108,49 @@ const homepageSettingsQuery = `
         "width": image.asset->metadata.dimensions.width,
         "height": image.asset->metadata.dimensions.height
       })
+    }
+  }
+`;
+
+const aboutContentQuery = `
+  {
+    "company": *[_type == "aboutPage" && _id == "aboutPage" && !(_id in path("drafts.**"))][0] {
+      "companyVideoUrl": coalesce(companyVideo.asset->url, ""),
+      "companyDescription": coalesce(companyDescription, companyDescriptionI18n.en, ""),
+      "companyImages": coalesce(companyImages, [])[] {
+        "src": asset->url,
+        "alt": coalesce(alt, ""),
+        "width": asset->metadata.dimensions.width,
+        "height": asset->metadata.dimensions.height
+      }
+    },
+    "recommendation": *[_type == "aboutRecommendation" && _id == "aboutRecommendation" && !(_id in path("drafts.**"))][0] {
+      "items": coalesce(items, [])[] {
+        "media": select(defined(image.asset) => {
+          "src": image.asset->url,
+          "alt": coalesce(image.alt, ""),
+          "width": image.asset->metadata.dimensions.width,
+          "height": image.asset->metadata.dimensions.height
+        }),
+        "text": coalesce(text, textI18n.en, "")
+      }
+    },
+    "gallery": *[_type == "aboutImageGallery" && _id == "aboutImageGallery" && !(_id in path("drafts.**"))][0] {
+      "images": coalesce(images, [])[] {
+        "src": asset->url,
+        "alt": coalesce(alt, ""),
+        "width": asset->metadata.dimensions.width,
+        "height": asset->metadata.dimensions.height
+      }
+    },
+    "carousel": *[_type == "aboutCompanyCarousel" && _id == "aboutCompanyCarousel" && !(_id in path("drafts.**"))][0] {
+      "subtitle": coalesce(subtitle, subtitleI18n.en, ""),
+      "images": coalesce(images, [])[] {
+        "src": asset->url,
+        "alt": coalesce(alt, ""),
+        "width": asset->metadata.dimensions.width,
+        "height": asset->metadata.dimensions.height
+      }
     }
   }
 `;
@@ -187,6 +262,14 @@ const asMedia = (value: RawMedia | null | undefined, options: MediaOptions = {})
   };
 };
 
+const asMediaList = (value: unknown, fallbackAlt: string, options: MediaOptions = {}) =>
+  (Array.isArray(value) ? value : [])
+    .map((item, index) => {
+      const raw = item as RawMedia;
+      return asMedia({ ...raw, alt: asString(raw.alt) || `${fallbackAlt} ${index + 1}` }, options);
+    })
+    .filter((media): media is MediaContent => Boolean(media));
+
 const asSeo = (raw: RawCategory, fallbackTitle: string, fallbackDescription: string): SeoPageConfig => ({
   title: asString(raw.seoTitle) || fallbackTitle,
   description: asString(raw.seoDescription) || fallbackDescription,
@@ -213,6 +296,54 @@ export const createSanityContentSource = (client: SanityQueryClient): ContentSou
     const logo = asMedia(raw.logo, { maxWidth: 240, widths: [64, 128, 240], sizes: "3rem" });
     return companyName || logo || heroSlides.length > 0
       ? { companyName, logo, heroSlides } satisfies HomepageSettingsRecord
+      : undefined;
+  },
+
+  async getAboutContent() {
+    const raw = await client.fetch<RawAboutContent | null>(aboutContentQuery);
+    if (!raw) return undefined;
+
+    const companyImages = asMediaList(raw.company?.companyImages, "Company image", {
+      maxWidth: 1600,
+      widths: [480, 800, 1200, 1600],
+      sizes: "(max-width: 48rem) 100vw, 66vw",
+    });
+    const recommendationItems = (Array.isArray(raw.recommendation?.items) ? raw.recommendation.items as RawRecommendationItem[] : [])
+      .flatMap((item, index) => {
+        const media = asMedia({
+          ...item.media,
+          alt: asString(item.media?.alt) || `Recommendation image ${index + 1}`,
+        }, {
+          maxWidth: 1200,
+          widths: [360, 600, 900, 1200],
+          sizes: "(max-width: 48rem) 100vw, 33vw",
+        });
+        return media ? [{ media, text: asString(item.text) || undefined }] : [];
+      });
+    const galleryImages = asMediaList(raw.gallery?.images, "Additional About image", {
+      maxWidth: 1600,
+      widths: [480, 800, 1200, 1600],
+      sizes: "100vw",
+    });
+    const carouselImages = asMediaList(raw.carousel?.images, "Company showcase image", {
+      maxWidth: 1000,
+      widths: [360, 640, 1000],
+      sizes: "(max-width: 40rem) 88vw, (max-width: 64rem) 50vw, 25vw",
+    });
+    const companyVideoUrl = asString(raw.company?.companyVideoUrl) || undefined;
+    const companyDescription = asString(raw.company?.companyDescription) || undefined;
+    const carouselSubtitle = asString(raw.carousel?.subtitle) || undefined;
+
+    return companyVideoUrl || companyDescription || companyImages.length || recommendationItems.length || galleryImages.length || carouselImages.length
+      ? {
+          companyVideoUrl,
+          companyDescription,
+          companyImages,
+          recommendationItems,
+          galleryImages,
+          carouselSubtitle,
+          carouselImages,
+        } satisfies AboutContentRecord
       : undefined;
   },
 

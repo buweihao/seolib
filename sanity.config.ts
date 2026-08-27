@@ -24,6 +24,23 @@ export default defineConfig({
           .id("homepageSettings")
           .child(S.document().schemaType("homepageSettings").documentId("homepageSettings")),
         S.divider(),
+        S.listItem()
+          .title("关于我们 — 公司信息")
+          .id("aboutPage")
+          .child(S.document().schemaType("aboutPage").documentId("aboutPage")),
+        S.listItem()
+          .title("关于我们 — 主推内容")
+          .id("aboutRecommendation")
+          .child(S.document().schemaType("aboutRecommendation").documentId("aboutRecommendation")),
+        S.listItem()
+          .title("关于我们 — 附加图片")
+          .id("aboutImageGallery")
+          .child(S.document().schemaType("aboutImageGallery").documentId("aboutImageGallery")),
+        S.listItem()
+          .title("关于我们 — 公司轮播")
+          .id("aboutCompanyCarousel")
+          .child(S.document().schemaType("aboutCompanyCarousel").documentId("aboutCompanyCarousel")),
+        S.divider(),
         S.documentTypeListItem("product").title("产品"),
         S.documentTypeListItem("productCategory").title("产品分类"),
       ]),

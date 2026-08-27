@@ -193,6 +193,8 @@ Company identity and homepage ordering note — 2026-08-24: the singleton is now
 
 Floating contact patterns note — 2026-08-24: `FloatingInquiryPanel-001` and `FloatingContactBar-001` are implemented and registered in Review with typed client inputs, accessible native controls, desktop/mobile layouts, and isolated library previews. The supplied Laeyo crop is normalized under `references/laeyo/screenshots/`; live inquiry delivery and real contact destinations remain intentionally unconfigured.
 
+Floating contact refinement note — 2026-08-27: `FloatingContactBar-001` now supports an always-visible lower-right dark rail styled around the supplied contact crop, including featured phone treatment, left-side value bubbles, phone/WhatsApp/email channels, keyboard focus, reduced-motion support, and optional scroll/top variants. Real channel values remain verification-gated in client configuration.
+
 Contact-page reference expansion — 2026-08-24: six newly supplied contact screenshots are normalized under their site packages (or `references/supplied-ui/` when no source was provided). Shared patterns now cover context-plus-form workspaces, high-density support/quote forms, guided RFQ entry, office/resource routing, and contact FAQs. All review forms fail closed without an endpoint; third-party identities, contact facts, maps, photography, copy, promises, and CAPTCHA/file policies remain reference-only.
 
 Navigation dropdown expansion — 2026-08-24: Vitelle, Romano, and RainShadow desktop dropdown captures are normalized under each site's `screenshots/` directory. `NavigationDropdown-001` is registered in Review with compact and feature-panel modes, typed routes, native disclosure semantics, keyboard/click access, and an original mobile document-flow adaptation pending source mobile evidence.
@@ -233,6 +235,8 @@ Status: Shared foundation complete; first-client activation pending — 2026-08-
 
 UI refinement note — 2026-08-25: the shared floating contact bar now stays retracted at the page top and appears after scrolling; the image-led homepage Hero preserves each source image's full aspect ratio instead of cropping it into a fixed-height stage.
 
+Homepage inquiry panel note — 2026-08-27: `FloatingInquiryPanel-001` is now mounted on the client homepage as a persistent “Leave A Message” entry. It reuses `ConfigurableForm-001` for the screenshot-aligned name, email, phone, company, and message fields, privacy consent, validation, attribution, and delivery state; the mobile position reserves space above the existing bottom contact bar.
+
 Sanity Studio development note — 2026-08-25: embedded Studio development now serves uncached modules, preventing stale lazy-loaded Releases chunk URLs after Vite dependency regeneration.
 
 Product Families layout note — 2026-08-25: equal-weight category cards now normalize source images into a shared 4:3 media stage and reserve two title lines so mixed image dimensions and label lengths do not shift card content.
@@ -250,3 +254,5 @@ Exit note: SEO rendering, schema builders, crawler output, CMS boundaries, inqui
 - [ ] Validate content uniqueness, performance, and build scale
 
 Status: Not started
+
+About page reference implementation note — 2026-08-27: the About composition now follows the selected `weihao` information hierarchy — Company Information, Main Recommendation, Why Choose Us, optional Additional Images, and Company Carousel — with original shared components and responsive behavior. The four fixed Sanity singleton documents use English-only About fields, normalize empty image Alt values into safe English fallbacks, and retain local client configuration when About content is unpublished or incomplete.

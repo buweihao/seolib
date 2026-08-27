@@ -26,6 +26,7 @@ import InquiryCTA from "../sections/InquiryCTA.astro";
 import SiteHeader from "../sections/SiteHeader.astro";
 import SiteFooter from "../sections/SiteFooter.astro";
 import FloatingContactBar from "../patterns/inquiry/FloatingContactBar.astro";
+import FloatingInquiryPanel from "../patterns/inquiry/FloatingInquiryPanel.astro";
 import { buildClientNavigation, buildFloatingContactItems } from "../../lib/client-navigation";
 
 interface Props { config: ClientSiteConfig; }
@@ -84,6 +85,14 @@ const InquiryPattern = inquiryPatterns[config.patterns.inquiry];
 const trustEnabled = config.optionalPatterns.floatingTrustBar.status === "enabled" && config.optionalContent.floatingTrustBar;
 const navigation = buildClientNavigation(config);
 const floatingContactItems = buildFloatingContactItems(config);
+const floatingInquiryFields = [
+  { name: "firstName", label: "First name", placeholder: "First name", autocomplete: "given-name", required: true },
+  { name: "lastName", label: "Last name", placeholder: "Last name", autocomplete: "family-name" },
+  { name: "email", label: "Email", placeholder: "you@example.com", type: "email" as const, autocomplete: "email", required: true },
+  { name: "phone", label: "Phone", placeholder: "Tel / WhatsApp", type: "tel" as const, autocomplete: "tel" },
+  { name: "company", label: "Company", placeholder: "Company name", autocomplete: "organization" },
+  { name: "message", label: "Message", placeholder: "Write your inquiry here...", rows: 5, required: true },
+];
 const { colors } = config.theme;
 const hotProducts = config.catalog.products.filter((product) => product.isHot).slice(0, 4).map((product) => ({
   name: product.name,
@@ -141,6 +150,16 @@ const hotProducts = config.catalog.products.filter((product) => product.isHot).s
     copyrightLabel="Skincare product development, packaging coordination, and manufacturing support."
   />
   <FloatingContactBar id="client-floating-contact" label="Contact shortcuts" items={floatingContactItems} scrollTargetId="main-content" />
+  <FloatingInquiryPanel
+    id="client-floating-inquiry"
+    title="Leave A Message"
+    description="If you are interested in our products, leave your requirements here and our team will review them before the next conversation."
+    triggerLabel="Leave A Message"
+    fields={floatingInquiryFields}
+    submitLabel="Send Inquiry"
+    inquiryConfig={config.inquiry}
+    deliveryNote="Inquiry delivery is being configured for this review site."
+  />
 </div>
 
 <style define:vars={{
@@ -178,5 +197,12 @@ const hotProducts = config.catalog.products.filter((product) => product.isHot).s
   .skip-link { position: fixed; z-index: 100; top: .5rem; left: .5rem; padding: .75rem 1rem; background: var(--clientInk); color: var(--clientCanvas); transform: translateY(-200%); }
   .skip-link:focus { transform: translateY(0); }
   main > div { scroll-margin-top: 1rem; }
+  @media (max-width: 47.99rem) {
+    :global(.client-site .floating-inquiry) { --floating-inquiry-mobile-offset: 4.4rem; }
+  }
+  @media (min-width: 48rem) {
+    :global(.client-site .floating-inquiry) { right: 8rem; }
+    :global(.review-hub-link) { right: max(12rem, calc(env(safe-area-inset-right) + 11rem)) !important; }
+  }
   @media (max-width: 47.99rem) { .client-site { padding-bottom: 4.4rem; } }
 </style>

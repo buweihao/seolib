@@ -1,5 +1,6 @@
 import type {
   ArticleRecord,
+  AboutContentRecord,
   ContentQuery,
   ContentRecord,
   ContentSource,
@@ -11,6 +12,7 @@ import type {
 
 export interface LocalContentData {
   homepageSettings?: HomepageSettingsRecord;
+  aboutContent?: AboutContentRecord;
   productCategories?: readonly ProductCategoryRecord[];
   products?: readonly ProductRecord[];
   articles?: readonly ArticleRecord[];
@@ -25,6 +27,7 @@ const filterRecords = <T extends ContentRecord>(records: readonly T[], query: Co
 
 export const createLocalContentSource = (data: LocalContentData): ContentSource => ({
   getHomepageSettings: async () => data.homepageSettings,
+  getAboutContent: async () => data.aboutContent,
   getProductCategories: async (query) => filterRecords(data.productCategories ?? [], query),
   getProducts: async (query) => filterRecords(data.products ?? [], query),
   getArticles: async (query) => filterRecords(data.articles ?? [], query),

@@ -1,3 +1,4 @@
+import type { AboutPageContent } from "../../content-models/sections";
 import type { ClientSiteConfig } from "../schema";
 
 export const procurementEvidencePaths = {
@@ -10,7 +11,7 @@ export const procurementEvidencePaths = {
 
 const paths = {
   ...procurementEvidencePaths,
-  facility: `${procurementEvidencePaths.about}#about-facility`,
+  facility: `${procurementEvidencePaths.about}#about-company`,
   process: `${procurementEvidencePaths.capabilities}#capability-process`,
   inquiry: procurementEvidencePaths.contact,
 } as const;
@@ -48,6 +49,66 @@ export const procurementEvidenceCatalog = {
 
 export const productCategoryHref = (categorySlug: string) => `${procurementEvidencePaths.products}${categorySlug}/`;
 export const productDetailHref = (categorySlug: string, productSlug: string) => `${productCategoryHref(categorySlug)}${productSlug}/`;
+
+export const procurementEvidenceAbout: AboutPageContent = {
+  company: {
+    eyebrow: "Company information",
+    title: "Company Information",
+    videoAlt: "Skincare manufacturing workflow",
+    description: "Learn how product development, manufacturing, quality review, and packaging coordination connect around a skincare collection.",
+    stats: [
+      { value: "10,000+", unit: "m²", lines: ["The factory covers more than 10,000 square meters"] },
+      { value: "100,000+", unit: "pieces", lines: ["Six professional production lines", "Daily output up to 100,000 pieces"] },
+      { value: "200+", unit: "employees", lines: ["Nearly 200 skilled production staff", "6,000 m² GMPC clean workshop"] },
+    ],
+    images: [
+      { src: "/review-assets/manufacturing-facility.svg", alt: "Skincare manufacturing workflow", width: 1600, height: 1000, aspect: "landscape" },
+      { src: "/review-assets/manufacturing-body.svg", alt: "Body-care manufacturing illustration", width: 1200, height: 900, aspect: "landscape" },
+      { src: "/review-assets/launch-evidence.svg", alt: "Skincare development and quality records", width: 1200, height: 900, aspect: "landscape" },
+      { src: "/review-assets/manufacturing-leave-on.svg", alt: "Leave-on skincare production illustration", width: 1200, height: 900, aspect: "landscape" },
+    ],
+  },
+  recommendation: {
+    eyebrow: "Main recommendation",
+    title: "Main Recommendation",
+    items: [
+      { media: { src: "/review-assets/product-daily.svg", alt: "Facial skincare product direction", width: 900, height: 700, aspect: "landscape" }, text: "Start with a clear product and market brief." },
+      { media: { src: "/review-assets/product-targeted.svg", alt: "Targeted treatment product direction", width: 900, height: 700, aspect: "landscape" }, text: "Define sensory, formula, and claim priorities." },
+      { media: { src: "/review-assets/product-ritual.svg", alt: "Skincare ritual product direction", width: 900, height: 700, aspect: "landscape" }, text: "Build a coherent routine around your range." },
+      { media: { src: "/review-assets/launch-body.svg", alt: "Body-care product direction", width: 800, height: 600, aspect: "landscape" } },
+      { media: { src: "/review-assets/manufacturing-rinse.svg", alt: "Rinse-off product direction", width: 1200, height: 900, aspect: "landscape" }, text: "Keep packaging and production choices visible." },
+      { media: { src: "/review-assets/launch-focused.svg", alt: "Focused treatment product direction", width: 800, height: 600, aspect: "landscape" } },
+    ],
+  },
+  advantages: {
+    eyebrow: "Why choose us",
+    title: "Why Choose Us",
+    items: [
+      { icon: "certification", title: "International certification system", description: "US GMPC certified, with EU ISO 9001 and ISO 22716 dual-system certification and 17 national utility model patents." },
+      { icon: "production", title: "Intelligent production line", description: "Six production lines with daily capacity above 100,000 pieces, supporting new formulations such as freeze-dried powder and single-use masks." },
+      { icon: "research", title: "R&D innovation center", description: "A team of 20+ senior engineers, 10,000+ mature formulas, customized OEM/ODM solutions, and four core technologies." },
+      { icon: "service", title: "Customer service commitment", description: "Rapid response, samples in as little as 3 working days, and complete batch delivery in as little as 7 working days." },
+      { icon: "sustainability", title: "Green manufacturing standards", description: "Full-process traceability, zero addition of disqualified ingredients, and testing support for customized products." },
+    ],
+  },
+  gallery: {
+    images: [
+      { src: "/review-assets/manufacturing-hero.svg", alt: "Skincare manufacturing overview", width: 1600, height: 1000, aspect: "landscape" },
+      { src: "/review-assets/launch-evidence.svg", alt: "Product development evidence overview", width: 1200, height: 900, aspect: "landscape" },
+    ],
+  },
+  carousel: {
+    eyebrow: "Our company",
+    title: "Our Company",
+    subtitle: "Share more of the working environment through a simple, responsive image carousel.",
+    images: [
+      { src: "/review-assets/manufacturing-facility.svg", alt: "Skincare manufacturing workflow", width: 1600, height: 1000, aspect: "landscape" },
+      { src: "/review-assets/manufacturing-body.svg", alt: "Body-care manufacturing illustration", width: 1200, height: 900, aspect: "landscape" },
+      { src: "/review-assets/launch-evidence.svg", alt: "Skincare development and quality records", width: 1200, height: 900, aspect: "landscape" },
+      { src: "/review-assets/manufacturing-leave-on.svg", alt: "Leave-on skincare production illustration", width: 1200, height: 900, aspect: "landscape" },
+    ],
+  },
+};
 
 export const procurementEvidenceClient = {
   schemaVersion: "1.0",
@@ -348,62 +409,7 @@ export const procurementEvidenceClient = {
         secondaryAction: { href: paths.about, label: "Explore company information" },
       },
     },
-    about: {
-      intro: {
-        id: "about-intro",
-        eyebrow: "Company and facility",
-        title: "Discover the workflow behind a skincare collection.",
-        description: "Explore how product development, material handling, manufacturing, filling, quality review, and release connect.",
-        primaryAction: { href: paths.contact, label: "Contact our skincare team" },
-        breadcrumbs: [{ label: "Home", href: paths.home }, { label: "About" }],
-      },
-      facility: {
-        id: "about-facility",
-        eyebrow: "Facility areas",
-        title: "Follow the path from materials to finished products.",
-        description: "Each area supports a clear flow for ingredients, packaging, bulk product, filling, inspection, and release.",
-        media: { src: "/review-assets/manufacturing-facility.svg", alt: "Skincare manufacturing and filling workflow", width: 1600, height: 1000, aspect: "landscape" },
-        areas: [
-          { name: "Material control", description: "Ingredients and packaging move through receipt, identification, storage, and release steps.", evidenceNote: "Supports organized material status and handling." },
-          { name: "Manufacturing and filling", description: "Bulk preparation, transfer, filling, and line clearance follow the approved product and pack plan.", evidenceNote: "Connects formula and packaging requirements." },
-          { name: "Quality and release", description: "Inspection, testing, record review, and release decisions complete the production flow.", evidenceNote: "Supports finished-product consistency and traceability." },
-        ],
-        verificationNote: "Facility information can be discussed according to the product and cooperation route you are considering.",
-        primaryAction: { href: paths.contact, label: "Ask about manufacturing support" },
-      },
-      evidence: {
-        id: "about-evidence",
-        eyebrow: "Connected expertise",
-        title: "Bring product, packaging, and quality teams together.",
-        description: "A coordinated development path keeps product direction, manufacturing requirements, quality responsibilities, and market needs aligned.",
-        points: [
-          { title: "Product development", description: "Translate skincare concepts into clear format, texture, ingredient, and routine directions." },
-          { title: "Manufacturing coordination", description: "Connect bulk production, filling, packaging, artwork, and delivery requirements." },
-          { title: "Quality planning", description: "Define the checks, specifications, records, and market needs relevant to the product." },
-        ],
-        media: { src: "/review-assets/launch-evidence.svg", alt: "Skincare development and quality planning documents", width: 1200, height: 900, aspect: "landscape" },
-        action: { href: paths.capabilities, label: "Explore development capabilities" },
-      },
-      quality: {
-        id: "about-quality",
-        eyebrow: "Quality responsibilities",
-        title: "Keep quality needs visible from brief to release.",
-        checkpoints: [
-          { stage: "Product requirements", controlPurpose: "Align format, sensory direction, packaging, market, and quality priorities.", evidenceType: "Product brief and agreed specifications" },
-          { stage: "Production controls", controlPurpose: "Coordinate material, manufacturing, filling, and inspection requirements.", evidenceType: "Batch and process records" },
-          { stage: "Finished-product release", controlPurpose: "Review the agreed product, packaging, labeling, and release criteria.", evidenceType: "Inspection, testing, and release records" },
-        ],
-      },
-      inquiry: {
-        id: "about-inquiry",
-        eyebrow: "Start a conversation",
-        title: "Discuss the skincare support your brand needs.",
-        description: "Share your preferred product categories, destination market, packaging direction, and quality priorities.",
-        preparationItems: ["Product categories", "Destination market", "Packaging direction", "Quality and documentation needs"],
-        primaryAction: { href: paths.contact, label: "Contact our skincare team" },
-        secondaryAction: { href: paths.products, label: "Explore product directions" },
-      },
-    },
+    about: { content: procurementEvidenceAbout },
     contact: {
       intro: {
         id: "contact-intro",

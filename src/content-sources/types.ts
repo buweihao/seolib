@@ -49,6 +49,19 @@ export interface HomepageSettingsRecord {
   }[];
 }
 
+export interface AboutContentRecord {
+  companyVideoUrl?: string;
+  companyDescription?: string;
+  companyImages: readonly MediaContent[];
+  recommendationItems: readonly {
+    media: MediaContent;
+    text?: string;
+  }[];
+  galleryImages: readonly MediaContent[];
+  carouselSubtitle?: string;
+  carouselImages: readonly MediaContent[];
+}
+
 export interface ArticleRecord extends ContentRecord {
   kind: "article";
   title: string;
@@ -78,6 +91,7 @@ export interface ContentQuery {
 
 export interface ContentSource {
   getHomepageSettings(): Promise<HomepageSettingsRecord | undefined>;
+  getAboutContent(): Promise<AboutContentRecord | undefined>;
   getProductCategories(query?: ContentQuery): Promise<readonly ProductCategoryRecord[]>;
   getProducts(query?: ContentQuery): Promise<readonly ProductRecord[]>;
   getArticles(query?: ContentQuery): Promise<readonly ArticleRecord[]>;

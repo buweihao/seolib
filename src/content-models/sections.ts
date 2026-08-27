@@ -291,3 +291,60 @@ export interface TestimonialsContent extends SectionIntroContent {
   }[];
   note?: string;
 }
+
+export interface AboutStatContent {
+  value: string;
+  unit?: string;
+  lines: readonly string[];
+}
+
+export interface AboutCompanyInformationContent extends SectionIntroContent {
+  videoUrl?: string;
+  videoAlt: string;
+  description: string;
+  stats: readonly AboutStatContent[];
+  images: readonly MediaContent[];
+}
+
+export interface AboutRecommendationItemContent {
+  media: MediaContent;
+  text?: string;
+}
+
+export interface AboutRecommendationContent extends SectionIntroContent {
+  items: readonly AboutRecommendationItemContent[];
+}
+
+export type AboutAdvantageIcon =
+  | "certification"
+  | "production"
+  | "research"
+  | "service"
+  | "sustainability";
+
+export interface AboutAdvantageContent {
+  title: string;
+  description: string;
+  icon: AboutAdvantageIcon;
+}
+
+export interface AboutAdvantagesSectionContent extends SectionIntroContent {
+  items: readonly AboutAdvantageContent[];
+}
+
+export interface AboutImageGalleryContent {
+  images: readonly MediaContent[];
+}
+
+export interface AboutCompanyCarouselContent extends SectionIntroContent {
+  subtitle?: string;
+  images: readonly MediaContent[];
+}
+
+export interface AboutPageContent {
+  company: AboutCompanyInformationContent;
+  recommendation: AboutRecommendationContent;
+  advantages: AboutAdvantagesSectionContent;
+  gallery: AboutImageGalleryContent;
+  carousel: AboutCompanyCarouselContent;
+}

@@ -1,14 +1,16 @@
 import type {
+  AboutPageContent,
   CatalogProductContent,
   MediaContent,
   ProductCatalogContent,
 } from "../../content-models/sections";
 import { createSanityContentSource } from "../../content-sources/sanity";
-import type { HomepageSettingsRecord, ProductCategoryRecord, ProductRecord } from "../../content-sources/types";
+import type { AboutContentRecord, HomepageSettingsRecord, ProductCategoryRecord, ProductRecord } from "../../content-sources/types";
 import { createPublishedSanityClient, readSanityRuntimeConfig } from "../../lib/sanity";
 import type { ClientMediaAsset, ClientSiteConfig, SiteMode } from "../schema";
 import {
   procurementEvidenceCatalog,
+  procurementEvidenceAbout,
   procurementEvidenceClient,
   productCategoryHref,
 } from "./procurement-evidence";
@@ -131,7 +133,16 @@ export const applyCatalogToClient = (
   config: ClientSiteConfig,
   catalog: ProductCatalogContent,
   homepageSettings?: HomepageSettingsRecord,
+  aboutContent?: AboutContentRecord,
 ): ClientSiteConfig => {
+  const aboutMedia = aboutContent
+    ? [
+        ...aboutContent.companyImages,
+        ...aboutContent.recommendationItems.map((item) => item.media),
+        ...aboutContent.galleryImages,
+        ...aboutContent.carouselImages,
+      ]
+    : [];
   const cmsMedia: ClientMediaAsset[] = [
     ...catalog.categories.map((category) => ({
       id: `sanity-category-${category.slug}`,
@@ -161,6 +172,13 @@ export const applyCatalogToClient = (
       rightsStatus: "pending" as const,
       source: "Sanity production dataset",
     }] : []),
+    ...aboutMedia.map((asset, index) => ({
+      id: "sanity-about-" + (index + 1),
+      src: asset.src,
+      alt: asset.alt,
+      rightsStatus: "pending" as const,
+      source: "Sanity production dataset",
+    })),
   ];
   const registeredSources = new Set(config.media.map((asset) => asset.src));
   const media = [
@@ -173,6 +191,27 @@ export const applyCatalogToClient = (
     media: category.media,
     action: { href: productCategoryHref(category.slug), label: `Explore ${category.name.toLowerCase()}` },
   }));
+  const resolvedAbout: AboutPageContent = aboutContent ? {
+    ...procurementEvidenceAbout,
+    company: {
+      ...procurementEvidenceAbout.company,
+      videoUrl: aboutContent.companyVideoUrl,
+      description: aboutContent.companyDescription || procurementEvidenceAbout.company.description,
+      images: aboutContent.companyImages,
+    },
+    recommendation: {
+      ...procurementEvidenceAbout.recommendation,
+      items: aboutContent.recommendationItems,
+    },
+    gallery: {
+      images: aboutContent.galleryImages,
+    },
+    carousel: {
+      ...procurementEvidenceAbout.carousel,
+      subtitle: aboutContent.carouselSubtitle || procurementEvidenceAbout.carousel.subtitle,
+      images: aboutContent.carouselImages,
+    },
+  } : procurementEvidenceAbout;
 
   return {
     ...config,
@@ -214,6 +253,7 @@ export const applyCatalogToClient = (
         ...config.pages.products,
         products: { ...config.pages.products.products, families },
       },
+      about: { content: resolvedAbout },
     },
   };
 };
@@ -222,9 +262,10 @@ export const loadProcurementEvidenceClient = async () => {
   const runtime = readSanityRuntimeConfig();
   if (!runtime) return applyCatalogToClient(procurementEvidenceClient, await loadProcurementEvidenceCatalog());
   const source = createSanityContentSource(createPublishedSanityClient(runtime));
-  const [catalog, homepageSettings] = await Promise.all([
+  const [catalog, homepageSettings, aboutContent] = await Promise.all([
     loadProcurementEvidenceCatalog(),
     source.getHomepageSettings().catch(() => undefined),
+    source.getAboutContent().catch(() => undefined),
   ]);
-  return applyCatalogToClient(procurementEvidenceClient, catalog, homepageSettings);
+  return applyCatalogToClient(procurementEvidenceClient, catalog, homepageSettings, aboutContent);
 };

@@ -95,5 +95,9 @@ const jsonLd = seo?.jsonLd ? serializeJsonLd(seo.jsonLd) : undefined;
     text-decoration: none;
     backdrop-filter: blur(.5rem);
   }
+  body:has(.floating-contact-bar) .review-hub-link { right: max(12rem, calc(env(safe-area-inset-right) + 11rem)); }
   .review-hub-link:hover { background: var(--ds-color-accent); color: var(--ds-color-accent-contrast); }
+  @media (max-width: 47.99rem) {
+    body:has(.floating-contact-bar) .review-hub-link { right: max(6.5rem, calc(env(safe-area-inset-right) + 5.5rem)); }
+  }
 </style>

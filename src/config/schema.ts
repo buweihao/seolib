@@ -79,6 +79,7 @@ export interface ClientContactConfig {
   inquiryLabel: string;
   email?: VerifiedValue<string>;
   phone?: VerifiedValue<string>;
+  whatsapp?: VerifiedValue<string>;
   location?: VerifiedValue<string>;
 }
 

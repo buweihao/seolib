@@ -23,8 +23,10 @@ const mediaSources = (config: ClientSiteConfig) => [
   ...config.pages.products.products.families.flatMap((family) => family.media?.src ? [family.media.src] : []),
   ...config.catalog.categories.map((category) => category.media.src),
   ...config.catalog.products.map((product) => product.media.src),
-  config.pages.about.facility.media.src,
-  config.pages.about.evidence.media.src,
+  ...config.pages.about.content.company.images.map((image) => image.src),
+  ...config.pages.about.content.recommendation.items.map((item) => item.media.src),
+  ...config.pages.about.content.gallery.images.map((image) => image.src),
+  ...config.pages.about.content.carousel.images.map((image) => image.src),
 ];
 
 const addPendingIssue = (
@@ -85,6 +87,7 @@ export const validateClientSiteConfig = (config: ClientSiteConfig): readonly Con
   if (config.identity.legalName) addPendingIssue(issues, "identity.legalName", config.identity.legalName.status, publishMode);
   if (config.contact.email) addPendingIssue(issues, "contact.email", config.contact.email.status, publishMode);
   if (config.contact.phone) addPendingIssue(issues, "contact.phone", config.contact.phone.status, publishMode);
+  if (config.contact.whatsapp) addPendingIssue(issues, "contact.whatsapp", config.contact.whatsapp.status, publishMode);
   if (config.contact.location) addPendingIssue(issues, "contact.location", config.contact.location.status, publishMode);
   addPendingIssue(issues, "seo.siteUrl", config.seo.siteUrl.status, publishMode);
   addPendingIssue(issues, "seo.siteName", config.seo.siteName.status, publishMode);
