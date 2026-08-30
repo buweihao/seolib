@@ -26,8 +26,8 @@ const {
   topLabel = "Top",
   scrollTargetId,
   shareSuccessLabel = "Page link copied",
-  showAfterScroll = false,
-  showTop = false,
+  showAfterScroll = true,
+  showTop = true,
   preview = false,
 } = Astro.props;
 
@@ -93,7 +93,7 @@ const initiallyVisible = preview || !showAfterScroll;
         if (root.dataset.showAfterScroll !== "true") {
           root.dataset.visible = "true";
         } else {
-          root.dataset.visible = window.scrollY > 24 ? "true" : "false";
+          root.dataset.visible = window.scrollY > 80 ? "true" : "false";
         }
         ticking = false;
       };
@@ -289,8 +289,7 @@ const initiallyVisible = preview || !showAfterScroll;
   }
 
   .floating-contact-bar__item:hover .floating-contact-bar__detail,
-  .floating-contact-bar__item:focus-within .floating-contact-bar__detail,
-  .floating-contact-bar__item--featured .floating-contact-bar__detail {
+  .floating-contact-bar__item:focus-within .floating-contact-bar__detail {
     transform: translateY(-50%) translateX(0);
     opacity: 1;
     visibility: visible;
@@ -334,12 +333,6 @@ const initiallyVisible = preview || !showAfterScroll;
     .floating-contact-bar svg {
       width: 1.45rem;
       height: 1.45rem;
-    }
-
-    .floating-contact-bar__item--featured .floating-contact-bar__detail {
-      transform: translateY(-50%) translateX(.6rem);
-      opacity: 0;
-      visibility: hidden;
     }
 
     .floating-contact-bar__item:hover .floating-contact-bar__detail,
