@@ -18,9 +18,16 @@ export const homepageSettings = defineType({
   ],
   fields: [
     defineField({
+      name: "shortName",
+      title: "公司简称 / 品牌名称 (左上角展示)",
+      description: "显示在页面左上角 Logo 旁边。建议填写简短的品牌名称或简称（例如“Aurevia”），避免因全称过长导致导航栏拥挤。留空时默认使用公司全称。",
+      type: "string",
+      group: "identity",
+    }),
+    defineField({
       name: "companyName",
-      title: "公司名称",
-      description: "全站 Header、Footer 和页面配置统一使用此名称。",
+      title: "公司全称 / 官方名称",
+      description: "公司的完整官方/法定名称（例如“Guangzhou Aurevia Biotechnology Co., Ltd.”），用于页脚版权、SEO 与正式资料展示。",
       type: "string",
       group: "identity",
       validation: (rule) => rule.required(),

@@ -40,6 +40,7 @@ export interface ProductRecord extends ContentRecord {
 
 export interface HomepageSettingsRecord {
   companyName?: string;
+  shortName?: string;
   logo?: MediaContent;
   contactEmail?: string;
   contactPhone?: string;

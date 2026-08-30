@@ -224,11 +224,17 @@ export const applyCatalogToClient = (
     ...config,
     identity: {
       ...config.identity,
-      displayName: homepageSettings?.companyName ? {
+      displayName: (homepageSettings?.shortName || homepageSettings?.companyName) ? {
         ...config.identity.displayName,
-        value: homepageSettings.companyName,
+        value: homepageSettings.shortName || homepageSettings.companyName!,
         source: "Sanity 网站设置",
       } : config.identity.displayName,
+      legalName: homepageSettings?.companyName ? {
+        ...(config.identity.legalName ?? { status: "verified" as const }),
+        value: homepageSettings.companyName,
+        status: "verified" as const,
+        source: "Sanity 网站设置",
+      } : config.identity.legalName,
       logo: homepageSettings?.logo ?? config.identity.logo,
     },
     contact: {
@@ -264,9 +270,9 @@ export const applyCatalogToClient = (
     },
     seo: {
       ...config.seo,
-      siteName: homepageSettings?.companyName ? {
+      siteName: (homepageSettings?.companyName || homepageSettings?.shortName) ? {
         ...config.seo.siteName,
-        value: homepageSettings.companyName,
+        value: homepageSettings.companyName || homepageSettings.shortName!,
         source: "Sanity 网站设置",
       } : config.seo.siteName,
     },
