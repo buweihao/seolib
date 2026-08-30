@@ -49,10 +49,30 @@ const initiallyVisible = preview || !showAfterScroll;
       {items.map((item) => (
         <li class:list={{ "floating-contact-bar__item": true, "floating-contact-bar__item--featured": item.featured }}>
           {item.value && (
-            <span class="floating-contact-bar__detail" aria-hidden="true">
-              <span>{item.label}</span>
-              <strong>{item.value}</strong>
-            </span>
+            <div class="floating-contact-bar__detail">
+              <button
+                type="button"
+                class="floating-contact-bar__copy-btn"
+                data-copy-text={item.value}
+                aria-label={`Copy ${item.label}: ${item.value}`}
+                title="Click to copy"
+              >
+                <span class="floating-contact-bar__detail-header">
+                  <span>{item.label}</span>
+                  <span class="floating-contact-bar__copy-badge" data-copy-badge>
+                    <svg class="icon-copy" viewBox="0 0 24 24" aria-hidden="true">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                    </svg>
+                    <svg class="icon-check" viewBox="0 0 24 24" aria-hidden="true">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                    <span class="copy-text">Copy</span>
+                  </span>
+                </span>
+                <strong>{item.value}</strong>
+              </button>
+            </div>
           )}
           {item.icon === "share" ? (
             <button type="button" aria-label={item.label} data-contact-share>
@@ -107,6 +127,27 @@ const initiallyVisible = preview || !showAfterScroll;
       }
       updateVisibility();
       const status = root.querySelector<HTMLElement>("[data-contact-status]");
+      root.querySelectorAll<HTMLButtonElement>("[data-copy-text]").forEach((btn) => {
+        btn.addEventListener("click", async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const val = btn.dataset.copyText;
+          if (!val) return;
+          try {
+            await navigator.clipboard.writeText(val);
+            btn.classList.add("floating-contact-bar__copy-btn--copied");
+            const textEl = btn.querySelector<HTMLElement>(".copy-text");
+            if (textEl) textEl.textContent = "Copied!";
+            setTimeout(() => {
+              btn.classList.remove("floating-contact-bar__copy-btn--copied");
+              if (textEl) textEl.textContent = "Copy";
+            }, 2000);
+            if (status) status.textContent = `${val} copied to clipboard`;
+          } catch {
+            if (status) status.textContent = `Please select and copy: ${val}`;
+          }
+        });
+      });
       root.querySelector<HTMLButtonElement>("[data-contact-share]")?.addEventListener("click", async () => {
         try {
           if (navigator.share) await navigator.share({ title: document.title, url: window.location.href });
@@ -247,11 +288,9 @@ const initiallyVisible = preview || !showAfterScroll;
     display: grid;
     width: max-content;
     min-width: 0;
-    max-width: min(23rem, calc(100vw - 6rem));
-    gap: .15rem;
+    max-width: min(24rem, calc(100vw - 6rem));
     transform: translateY(-50%) translateX(.6rem);
     border-radius: 1rem;
-    padding: .8rem 1.1rem;
     background: var(--ds-color-ink);
     box-shadow: 0 .7rem 1.8rem rgb(10 16 35 / .16);
     color: var(--ds-color-canvas);
@@ -261,6 +300,15 @@ const initiallyVisible = preview || !showAfterScroll;
     pointer-events: none;
     visibility: hidden;
     transition: transform .2s ease, opacity .2s ease, visibility 0s linear .2s;
+  }
+
+  .floating-contact-bar__detail::before {
+    position: absolute;
+    top: -10px;
+    bottom: -10px;
+    right: -1.2rem;
+    width: 1.4rem;
+    content: "";
   }
 
   .floating-contact-bar__detail::after {
@@ -274,7 +322,47 @@ const initiallyVisible = preview || !showAfterScroll;
     content: "";
   }
 
-  .floating-contact-bar__detail span {
+  .floating-contact-bar__item:hover .floating-contact-bar__detail,
+  .floating-contact-bar__item:focus-within .floating-contact-bar__detail {
+    transform: translateY(-50%) translateX(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: 0s;
+  }
+
+  .floating-contact-bar__copy-btn {
+    display: grid;
+    gap: .35rem;
+    width: 100%;
+    padding: .8rem 1.1rem;
+    border: 0;
+    border-radius: 1rem;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color .15s ease;
+  }
+
+  .floating-contact-bar__copy-btn:hover {
+    background: color-mix(in oklch, var(--ds-color-canvas), transparent 90%);
+  }
+
+  .floating-contact-bar__copy-btn:focus-visible {
+    outline: 2px solid var(--ds-color-accent);
+    outline-offset: -2px;
+  }
+
+  .floating-contact-bar__detail-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .floating-contact-bar__detail-header span:first-child {
     color: color-mix(in oklch, var(--ds-color-canvas), transparent 35%);
     font-size: .68rem;
     font-weight: 700;
@@ -282,18 +370,53 @@ const initiallyVisible = preview || !showAfterScroll;
     text-transform: uppercase;
   }
 
+  .floating-contact-bar__copy-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    padding: .15rem .45rem;
+    border-radius: 999px;
+    background: color-mix(in oklch, var(--ds-color-canvas), transparent 82%);
+    color: var(--ds-color-canvas);
+    font-size: .65rem;
+    font-weight: 600;
+    letter-spacing: normal;
+    text-transform: none;
+    transition: background-color .2s ease, color .2s ease;
+  }
+
+  .floating-contact-bar__copy-btn:hover .floating-contact-bar__copy-badge {
+    background: color-mix(in oklch, var(--ds-color-canvas), transparent 70%);
+  }
+
+  .floating-contact-bar__copy-badge svg {
+    width: .85rem;
+    height: .85rem;
+    stroke-width: 2;
+  }
+
+  .floating-contact-bar__copy-badge .icon-check {
+    display: none;
+  }
+
+  .floating-contact-bar__copy-btn--copied .floating-contact-bar__copy-badge {
+    background: var(--ds-color-accent, #10b981);
+    color: var(--ds-color-accent-contrast, #fff);
+  }
+
+  .floating-contact-bar__copy-btn--copied .icon-copy {
+    display: none;
+  }
+
+  .floating-contact-bar__copy-btn--copied .icon-check {
+    display: inline-block;
+  }
+
   .floating-contact-bar__detail strong {
     overflow-wrap: anywhere;
     font-size: .95rem;
     font-weight: 800;
-  }
-
-  .floating-contact-bar__item:hover .floating-contact-bar__detail,
-  .floating-contact-bar__item:focus-within .floating-contact-bar__detail {
-    transform: translateY(-50%) translateX(0);
-    opacity: 1;
-    visibility: visible;
-    transition-delay: 0s;
+    user-select: all;
   }
 
   .floating-contact-bar__top {
