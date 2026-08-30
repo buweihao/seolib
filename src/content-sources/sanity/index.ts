@@ -55,6 +55,10 @@ interface RawHeroSlide {
 interface RawHomepageSettings {
   companyName?: unknown;
   logo?: RawMedia | null;
+  contactEmail?: unknown;
+  contactPhone?: unknown;
+  contactWhatsapp?: unknown;
+  contactLocation?: unknown;
   heroSlides?: unknown;
 }
 
@@ -98,6 +102,10 @@ const homepageSettingsQuery = `
       "width": logo.asset->metadata.dimensions.width,
       "height": logo.asset->metadata.dimensions.height
     }),
+    "contactEmail": coalesce(contactEmail, ""),
+    "contactPhone": coalesce(contactPhone, ""),
+    "contactWhatsapp": coalesce(contactWhatsapp, ""),
+    "contactLocation": coalesce(contactLocation, ""),
     "heroSlides": coalesce(heroSlides, [])[] {
       "title": coalesce(title, ""),
       "buttonLabel": coalesce(buttonLabel, ""),
@@ -294,8 +302,20 @@ export const createSanityContentSource = (client: SanityQueryClient): ContentSou
     });
     const companyName = asString(raw.companyName) || undefined;
     const logo = asMedia(raw.logo, { maxWidth: 240, widths: [64, 128, 240], sizes: "3rem" });
-    return companyName || logo || heroSlides.length > 0
-      ? { companyName, logo, heroSlides } satisfies HomepageSettingsRecord
+    const contactEmail = asString(raw.contactEmail) || undefined;
+    const contactPhone = asString(raw.contactPhone) || undefined;
+    const contactWhatsapp = asString(raw.contactWhatsapp) || undefined;
+    const contactLocation = asString(raw.contactLocation) || undefined;
+    return companyName || logo || contactEmail || contactPhone || contactWhatsapp || contactLocation || heroSlides.length > 0
+      ? {
+          companyName,
+          logo,
+          contactEmail,
+          contactPhone,
+          contactWhatsapp,
+          contactLocation,
+          heroSlides,
+        } satisfies HomepageSettingsRecord
       : undefined;
   },
 

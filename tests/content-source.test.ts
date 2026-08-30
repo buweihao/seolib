@@ -65,6 +65,10 @@ test("Sanity homepage settings keep optional Hero copy blank and optimize respon
     async fetch<T>(): Promise<T> {
       return {
         companyName: "Example Skincare Lab",
+        contactEmail: "contact@example.com",
+        contactPhone: "+86 20 8888 8888",
+        contactWhatsapp: "+86 138 0000 0000",
+        contactLocation: "Guangzhou, China",
         logo: {
           src: "https://cdn.sanity.io/images/project/production/logo.png",
           alt: "Example Skincare Lab logo",
@@ -88,6 +92,10 @@ test("Sanity homepage settings keep optional Hero copy blank and optimize respon
 
   const homepage = await source.getHomepageSettings();
   assert.equal(homepage?.companyName, "Example Skincare Lab");
+  assert.equal(homepage?.contactEmail, "contact@example.com");
+  assert.equal(homepage?.contactPhone, "+86 20 8888 8888");
+  assert.equal(homepage?.contactWhatsapp, "+86 138 0000 0000");
+  assert.equal(homepage?.contactLocation, "Guangzhou, China");
   assert.equal(homepage?.logo?.width, 240);
   assert.equal(homepage?.logo?.sizes, "3rem");
   assert.equal(homepage?.heroSlides[0]?.title, undefined);

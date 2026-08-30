@@ -13,6 +13,7 @@ export const homepageSettings = defineType({
   type: "document",
   groups: [
     { name: "identity", title: "公司信息", default: true },
+    { name: "contact", title: "全站联系方式" },
     { name: "homepage", title: "首页 Hero" },
   ],
   fields: [
@@ -23,6 +24,34 @@ export const homepageSettings = defineType({
       type: "string",
       group: "identity",
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "contactEmail",
+      title: "业务邮箱 (Email)",
+      description: "显示在全站悬浮联系栏、联系页及页脚。填写后自动激活邮箱联系快捷入口。",
+      type: "string",
+      group: "contact",
+    }),
+    defineField({
+      name: "contactPhone",
+      title: "联系电话 (Phone)",
+      description: "例如 +86 20 8888 8888。填写后自动激活悬浮电话快捷入口。",
+      type: "string",
+      group: "contact",
+    }),
+    defineField({
+      name: "contactWhatsapp",
+      title: "WhatsApp",
+      description: "例如 +86 138 0000 0000 或 WhatsApp 链接 https://wa.me/...。填写后自动激活 WhatsApp 快捷入口。",
+      type: "string",
+      group: "contact",
+    }),
+    defineField({
+      name: "contactLocation",
+      title: "公司 / 工厂地址 (Location)",
+      description: "用于联系页与页脚公司所在地展示。",
+      type: "string",
+      group: "contact",
     }),
     defineField({
       name: "logo",

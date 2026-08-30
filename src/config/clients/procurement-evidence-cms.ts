@@ -213,6 +213,13 @@ export const applyCatalogToClient = (
     },
   } : procurementEvidenceAbout;
 
+  const contactContextItems = [
+    ...(homepageSettings?.contactEmail ? [{ label: "Email", value: homepageSettings.contactEmail, href: `mailto:${homepageSettings.contactEmail}`, icon: "email" as const }] : []),
+    ...(homepageSettings?.contactPhone ? [{ label: "Phone", value: homepageSettings.contactPhone, href: `tel:${homepageSettings.contactPhone.replace(/[^+\d]/g, "")}`, icon: "phone" as const }] : []),
+    ...(homepageSettings?.contactWhatsapp ? [{ label: "WhatsApp", value: homepageSettings.contactWhatsapp, href: homepageSettings.contactWhatsapp.startsWith("https://") ? homepageSettings.contactWhatsapp : `https://wa.me/${homepageSettings.contactWhatsapp.replace(/\D/g, "")}`, icon: "message" as const }] : []),
+    ...(homepageSettings?.contactLocation ? [{ label: "Location", value: homepageSettings.contactLocation, icon: "location" as const }] : []),
+  ];
+
   return {
     ...config,
     identity: {
@@ -223,6 +230,37 @@ export const applyCatalogToClient = (
         source: "Sanity 网站设置",
       } : config.identity.displayName,
       logo: homepageSettings?.logo ?? config.identity.logo,
+    },
+    contact: {
+      ...config.contact,
+      ...(homepageSettings?.contactEmail ? {
+        email: {
+          value: homepageSettings.contactEmail,
+          status: "verified" as const,
+          source: "Sanity 网站设置",
+        },
+      } : {}),
+      ...(homepageSettings?.contactPhone ? {
+        phone: {
+          value: homepageSettings.contactPhone,
+          status: "verified" as const,
+          source: "Sanity 网站设置",
+        },
+      } : {}),
+      ...(homepageSettings?.contactWhatsapp ? {
+        whatsapp: {
+          value: homepageSettings.contactWhatsapp,
+          status: "verified" as const,
+          source: "Sanity 网站设置",
+        },
+      } : {}),
+      ...(homepageSettings?.contactLocation ? {
+        location: {
+          value: homepageSettings.contactLocation,
+          status: "verified" as const,
+          source: "Sanity 网站设置",
+        },
+      } : {}),
     },
     seo: {
       ...config.seo,
@@ -254,6 +292,16 @@ export const applyCatalogToClient = (
         products: { ...config.pages.products.products, families },
       },
       about: { content: resolvedAbout },
+      contact: {
+        ...config.pages.contact,
+        contact: "fields" in config.pages.contact.contact ? {
+          ...config.pages.contact.contact,
+          ...(contactContextItems.length > 0 ? {
+            contextTitle: "Direct contact routes",
+            contextItems: contactContextItems,
+          } : {}),
+        } : config.pages.contact.contact,
+      },
     },
   };
 };
