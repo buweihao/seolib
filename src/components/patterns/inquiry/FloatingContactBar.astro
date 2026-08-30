@@ -49,38 +49,24 @@ const initiallyVisible = preview || !showAfterScroll;
       {items.map((item) => (
         <li class:list={{ "floating-contact-bar__item": true, "floating-contact-bar__item--featured": item.featured }}>
           {item.value && (
-            <div class="floating-contact-bar__detail">
-              <button
-                type="button"
-                class="floating-contact-bar__copy-btn"
-                data-copy-text={item.value}
-                aria-label={`Copy ${item.label}: ${item.value}`}
-                title="Click to copy"
-              >
-                <span class="floating-contact-bar__detail-header">
-                  <span>{item.label}</span>
-                  <span class="floating-contact-bar__copy-badge" data-copy-badge>
-                    <svg class="icon-copy" viewBox="0 0 24 24" aria-hidden="true">
-                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                    </svg>
-                    <svg class="icon-check" viewBox="0 0 24 24" aria-hidden="true">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                    <span class="copy-text">Copy</span>
-                  </span>
-                </span>
-                <strong>{item.value}</strong>
-              </button>
-            </div>
+            <button
+              type="button"
+              class="floating-contact-bar__detail"
+              data-copy-value={item.value}
+              aria-label={`Copy ${item.label}: ${item.value}`}
+              title={`Click to copy ${item.label}`}
+            >
+              <span class="floating-contact-bar__detail-label" data-label={item.label}>{item.label}</span>
+              <strong class="floating-contact-bar__detail-value">{item.value}</strong>
+            </button>
           )}
           {item.icon === "share" ? (
-            <button type="button" aria-label={item.label} data-contact-share>
+            <button type="button" class="floating-contact-bar__action" aria-label={item.label} data-contact-share>
               <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.25" /><circle cx="6" cy="12" r="2.25" /><circle cx="18" cy="19" r="2.25" /><path d="m8 11 8-5M8 13l8 5" /></svg>
               <span class="floating-contact-bar__label">{item.label}</span>
             </button>
           ) : (
-            <a href={item.href ?? "#"} aria-label={item.value ? `${item.label}: ${item.value}` : item.label}>
+            <a href={item.href ?? "#"} class="floating-contact-bar__action" aria-label={item.value ? `${item.label}: ${item.value}` : item.label}>
               {item.icon === "phone" && <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.1 4.5 9.5 4l1.7 4-1.8 1.6a13.3 13.3 0 0 0 5 5l1.6-1.8 4 .1-.5 2.4c-.2 1-1 1.7-2 1.8-5.7.3-10.8-4.8-10.5-10.5.1-1 .8-1.8 1.8-2.1Z" /></svg>}
               {item.icon === "whatsapp" && <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.6a8 8 0 0 1-11.8 7L4 20l1.4-4A8 8 0 1 1 20 11.6Z" /><path d="M9 8.3c.5 2.4 2.3 4.2 4.7 4.8l1-1.1c.2-.2.5-.3.8-.1l2 .9c.3.1.4.4.4.7-.1 1-.7 1.8-1.7 2.1-1.1.3-2.8-.1-4.6-1.1a11.3 11.3 0 0 1-4.1-4.1C6.5 8.6 6.1 7 6.4 5.8c.3-1 .9-1.5 1.8-1.7.3 0 .6.1.7.4l.9 2c.1.3.1.6-.1.8L9 8.3Z" /></svg>}
               {item.icon === "email" && <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="1" /><path d="m4.5 7 7.5 6 7.5-6" /></svg>}
@@ -92,7 +78,7 @@ const initiallyVisible = preview || !showAfterScroll;
       ))}
       {showTop && (
         <li class="floating-contact-bar__top">
-          <button type="button" aria-label={topLabel} data-contact-top>
+          <button type="button" class="floating-contact-bar__action" aria-label={topLabel} data-contact-top>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 14 7-7 7 7" /></svg>
             <span class="floating-contact-bar__label">{topLabel}</span>
           </button>
@@ -127,24 +113,25 @@ const initiallyVisible = preview || !showAfterScroll;
       }
       updateVisibility();
       const status = root.querySelector<HTMLElement>("[data-contact-status]");
-      root.querySelectorAll<HTMLButtonElement>("[data-copy-text]").forEach((btn) => {
+      root.querySelectorAll<HTMLButtonElement>("[data-copy-value]").forEach((btn) => {
         btn.addEventListener("click", async (e) => {
           e.preventDefault();
           e.stopPropagation();
-          const val = btn.dataset.copyText;
+          const val = btn.dataset.copyValue;
           if (!val) return;
           try {
             await navigator.clipboard.writeText(val);
-            btn.classList.add("floating-contact-bar__copy-btn--copied");
-            const textEl = btn.querySelector<HTMLElement>(".copy-text");
-            if (textEl) textEl.textContent = "Copied!";
+            btn.classList.add("floating-contact-bar__detail--copied");
+            const labelEl = btn.querySelector<HTMLElement>(".floating-contact-bar__detail-label");
+            const originalLabel = labelEl?.dataset.label || labelEl?.textContent || "";
+            if (labelEl) labelEl.textContent = "Copied!";
             setTimeout(() => {
-              btn.classList.remove("floating-contact-bar__copy-btn--copied");
-              if (textEl) textEl.textContent = "Copy";
-            }, 2000);
+              btn.classList.remove("floating-contact-bar__detail--copied");
+              if (labelEl) labelEl.textContent = originalLabel;
+            }, 1600);
             if (status) status.textContent = `${val} copied to clipboard`;
           } catch {
-            if (status) status.textContent = `Please select and copy: ${val}`;
+            if (status) status.textContent = `Please copy: ${val}`;
           }
         });
       });
@@ -217,8 +204,7 @@ const initiallyVisible = preview || !showAfterScroll;
     position: relative;
   }
 
-  .floating-contact-bar a,
-  .floating-contact-bar button {
+  .floating-contact-bar__action {
     position: relative;
     display: grid;
     width: 100%;
@@ -235,29 +221,23 @@ const initiallyVisible = preview || !showAfterScroll;
     transition: background-color .2s ease, color .2s ease, transform .2s ease;
   }
 
-  .floating-contact-bar a:hover,
-  .floating-contact-bar a:focus-visible,
-  .floating-contact-bar button:hover,
-  .floating-contact-bar button:focus-visible {
+  .floating-contact-bar__action:hover,
+  .floating-contact-bar__action:focus-visible {
     background: color-mix(in oklch, var(--ds-color-canvas), transparent 88%);
   }
 
-  .floating-contact-bar__item--featured a,
-  .floating-contact-bar__item--featured button {
+  .floating-contact-bar__item--featured .floating-contact-bar__action {
     background: var(--ds-color-accent);
     color: var(--ds-color-accent-contrast);
   }
 
-  .floating-contact-bar__item--featured a:hover,
-  .floating-contact-bar__item--featured a:focus-visible,
-  .floating-contact-bar__item--featured button:hover,
-  .floating-contact-bar__item--featured button:focus-visible {
+  .floating-contact-bar__item--featured .floating-contact-bar__action:hover,
+  .floating-contact-bar__item--featured .floating-contact-bar__action:focus-visible {
     background: color-mix(in oklch, var(--ds-color-accent), white 12%);
     transform: scale(1.03);
   }
 
-  .floating-contact-bar a:focus-visible,
-  .floating-contact-bar button:focus-visible {
+  .floating-contact-bar__action:focus-visible {
     outline: 3px solid var(--ds-color-canvas);
     outline-offset: 3px;
   }
@@ -285,27 +265,41 @@ const initiallyVisible = preview || !showAfterScroll;
     position: absolute;
     right: calc(100% + .8rem);
     top: 50%;
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
     width: max-content;
     min-width: 0;
-    max-width: min(24rem, calc(100vw - 6rem));
+    max-width: min(22rem, calc(100vw - 6rem));
     transform: translateY(-50%) translateX(.6rem);
-    border-radius: 1rem;
+    border: 0;
+    border-radius: .85rem;
+    padding: .75rem 1.1rem;
     background: var(--ds-color-ink);
-    box-shadow: 0 .7rem 1.8rem rgb(10 16 35 / .16);
+    box-shadow: 0 .7rem 2rem rgb(10 16 35 / .24);
     color: var(--ds-color-canvas);
-    font-size: .78rem;
-    line-height: 1.25;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
     opacity: 0;
     pointer-events: none;
     visibility: hidden;
-    transition: transform .2s ease, opacity .2s ease, visibility 0s linear .2s;
+    transition: transform .2s ease, opacity .2s ease, background-color .2s ease, visibility 0s linear .2s;
+  }
+
+  .floating-contact-bar__detail:hover {
+    background: color-mix(in oklch, var(--ds-color-ink), white 8%);
+  }
+
+  .floating-contact-bar__detail:focus-visible {
+    outline: 2px solid var(--ds-color-accent);
+    outline-offset: 2px;
   }
 
   .floating-contact-bar__detail::before {
     position: absolute;
-    top: -10px;
-    bottom: -10px;
+    top: -8px;
+    bottom: -8px;
     right: -1.2rem;
     width: 1.4rem;
     content: "";
@@ -313,13 +307,14 @@ const initiallyVisible = preview || !showAfterScroll;
 
   .floating-contact-bar__detail::after {
     position: absolute;
-    right: -.35rem;
+    right: -.32rem;
     top: 50%;
-    width: .7rem;
-    height: .7rem;
+    width: .65rem;
+    height: .65rem;
     transform: translateY(-50%) rotate(45deg);
-    background: var(--ds-color-ink);
+    background: inherit;
     content: "";
+    transition: background-color .2s ease;
   }
 
   .floating-contact-bar__item:hover .floating-contact-bar__detail,
@@ -331,92 +326,26 @@ const initiallyVisible = preview || !showAfterScroll;
     transition-delay: 0s;
   }
 
-  .floating-contact-bar__copy-btn {
-    display: grid;
-    gap: .35rem;
-    width: 100%;
-    padding: .8rem 1.1rem;
-    border: 0;
-    border-radius: 1rem;
-    background: transparent;
-    color: inherit;
-    font: inherit;
-    text-align: left;
-    cursor: pointer;
-    transition: background-color .15s ease;
-  }
-
-  .floating-contact-bar__copy-btn:hover {
-    background: color-mix(in oklch, var(--ds-color-canvas), transparent 90%);
-  }
-
-  .floating-contact-bar__copy-btn:focus-visible {
-    outline: 2px solid var(--ds-color-accent);
-    outline-offset: -2px;
-  }
-
-  .floating-contact-bar__detail-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-  }
-
-  .floating-contact-bar__detail-header span:first-child {
+  .floating-contact-bar__detail-label {
     color: color-mix(in oklch, var(--ds-color-canvas), transparent 35%);
     font-size: .68rem;
     font-weight: 700;
     letter-spacing: .08em;
     text-transform: uppercase;
+    transition: color .2s ease;
   }
 
-  .floating-contact-bar__copy-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: .3rem;
-    padding: .15rem .45rem;
-    border-radius: 999px;
-    background: color-mix(in oklch, var(--ds-color-canvas), transparent 82%);
-    color: var(--ds-color-canvas);
-    font-size: .65rem;
-    font-weight: 600;
-    letter-spacing: normal;
-    text-transform: none;
-    transition: background-color .2s ease, color .2s ease;
-  }
-
-  .floating-contact-bar__copy-btn:hover .floating-contact-bar__copy-badge {
-    background: color-mix(in oklch, var(--ds-color-canvas), transparent 70%);
-  }
-
-  .floating-contact-bar__copy-badge svg {
-    width: .85rem;
-    height: .85rem;
-    stroke-width: 2;
-  }
-
-  .floating-contact-bar__copy-badge .icon-check {
-    display: none;
-  }
-
-  .floating-contact-bar__copy-btn--copied .floating-contact-bar__copy-badge {
-    background: var(--ds-color-accent, #10b981);
-    color: var(--ds-color-accent-contrast, #fff);
-  }
-
-  .floating-contact-bar__copy-btn--copied .icon-copy {
-    display: none;
-  }
-
-  .floating-contact-bar__copy-btn--copied .icon-check {
-    display: inline-block;
-  }
-
-  .floating-contact-bar__detail strong {
+  .floating-contact-bar__detail-value {
     overflow-wrap: anywhere;
     font-size: .95rem;
     font-weight: 800;
+    color: var(--ds-color-canvas);
     user-select: all;
+  }
+
+  .floating-contact-bar__detail--copied .floating-contact-bar__detail-label {
+    color: var(--ds-color-accent, #10b981);
+    font-weight: 800;
   }
 
   .floating-contact-bar__top {
@@ -424,7 +353,7 @@ const initiallyVisible = preview || !showAfterScroll;
     padding-top: .2rem;
   }
 
-  .floating-contact-bar__top button {
+  .floating-contact-bar__top .floating-contact-bar__action {
     min-height: 3.4rem;
   }
 
@@ -448,8 +377,7 @@ const initiallyVisible = preview || !showAfterScroll;
       padding: .45rem;
     }
 
-    .floating-contact-bar a,
-    .floating-contact-bar button {
+    .floating-contact-bar__action {
       min-height: 3.5rem;
     }
 
@@ -468,8 +396,7 @@ const initiallyVisible = preview || !showAfterScroll;
 
   @media (prefers-reduced-motion: reduce) {
     .floating-contact-bar,
-    .floating-contact-bar a,
-    .floating-contact-bar button,
+    .floating-contact-bar__action,
     .floating-contact-bar__detail {
       transition: none;
     }
