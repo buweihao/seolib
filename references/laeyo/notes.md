@@ -2,11 +2,35 @@
 
 ## Source
 
-- Original website/domain: TBD (not recorded in existing project documentation)
-- Accessed: 2026-08-10
+- Original website/domain: https://laeyolabs.com/?laeyo_market=global (URL re-confirmed separately; supplied screenshots did not include capture metadata)
+- Accessed: 2026-08-10 for the existing homepage package; additional screenshots received 2026-08-20
 - Evidence: desktop full-page PNG, 1905 × 8024 px
 - Mobile evidence: not provided in this batch
 - Reference purpose: Study a procurement-focused OEM/ODM homepage that answers buyer-fit, MOQ, timing, audit, workflow, and RFQ questions in unusually explicit detail.
+
+## Additional page evidence received 2026-08-20
+
+| Page evidence | File | Capture state | UI questions to extract |
+| --- | --- | --- | --- |
+| Product listing | `screenshots/product-listing-desktop.png` | Desktop viewport crop, 1866 × 854 | How do product cards expose category, description, detail action, and RFQ action? |
+| Product detail | `source/product-detail-full.png` | Desktop long capture, 1920 × 5453 | How do product facts, quote form, customization, packaging, MOQ, testing, FAQs, and sampling connect? |
+| Manufacturing / capabilities | `source/capabilities-full.png` | Desktop long capture, 1920 × 5554 | How do quick actions, capability categories, sourcing guides, and RFQ inputs coexist? |
+| About us | `source/about-full.png` | Desktop long capture, 1920 × 6285 | How do company facts, evidence links, facility proof, milestones, and quality sections build trust? |
+| Contact | `screenshots/advisor-inquiry-desktop.png` | Desktop form crop, 913 × 853 | What fields and adjacent trust message are needed for a first inquiry? |
+
+File normalization note — 2026-08-24: the same 913 × 853 contact crop is now stored as `screenshots/advisor-inquiry-desktop.png` so its name describes the captured UI relationship rather than a generic page label.
+
+The crop pairs a qualification-heavy form with an advisor photograph, short identity/context statement, and response/confidentiality note. `ContactWorkspace-001` reuses only this form-to-human-context relationship with client-supplied fields and approved media; the review implementation uses original artwork and no Laeyo identity, photograph, copy, timing promise, or confidentiality claim.
+
+## Floating contact evidence received 2026-08-24
+
+- Saved evidence: `screenshots/floating-contact-bar-desktop.png` (desktop crop, 1614 × 818).
+- Content structure: four compact actions keep verified contact and sharing routes available while the buyer reviews a long page; a separate final action returns to the page start.
+- UI pattern: a narrow fixed rail sits on the right edge at desktop widths, groups equal-height icon-and-label controls, and gives the return-to-top control a distinct accent field.
+- Responsive limitation: no Laeyo mobile capture was supplied. The library implementation therefore uses an original bottom action bar on small screens and keeps that behavior in Review.
+- Reuse decision: propose `FloatingContactBar-001`; all labels and destinations remain typed client inputs, icons are original inline SVG, and no Laeyo branding, code, copy, or contact facts are reused.
+
+These files are research evidence only. They contain third-party branding, people, factory imagery, detailed claims, contact facts, and commercial statements that must not enter production content. The screenshots are not assumed to include mobile behavior; a mobile capture is still required before responsive decisions are finalized.
 
 ## Homepage Section Map
 
@@ -68,3 +92,12 @@ The screenshot tool repeatedly captured the fixed navigation bar at roughly view
 - Review `07-moq-and-lead-time.png` through `11-rfq.png` with the source. Their semantic boundaries were visually refined, but repeated fixed navigation still obscures content inside each crop.
 - `06-product-programs.png` is intentionally tall because one semantic category program spans multiple captured viewports.
 - Component decision: none; human pattern review is required before Phase 3.
+
+## Additional page review decision
+
+- Product listing: extend the current category-first product flow with a reviewable product card variant; keep Product Families as the category entry.
+- Product detail: extend the current neutral detail template with grouped commercial/evaluation blocks and an inquiry rail; keep all facts configurable and verification-gated.
+- Manufacturing / capabilities: compose existing capability, process, quality, and inquiry patterns with a new quick-action/sidebar relationship if repeated across clients.
+- About us: compose facility, evidence, timeline, quality, and contact sections; do not create a client-specific company-history component.
+- Contact: extend the existing secure inquiry form with a configurable contact-context panel; do not copy the captured form fields or response promises verbatim.
+- Floating contact rail: retain only the persistent multi-channel relationship; use original icons, theme tokens, keyboard-accessible controls, and a mobile bottom-bar adaptation pending source evidence.

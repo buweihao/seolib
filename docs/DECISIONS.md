@@ -161,3 +161,75 @@ Important architecture decisions use a compact ADR-style record. New records are
 **Reason:** RainShadow 07 communicates a curated four-product shelf, YG Labs 05 communicates intentionally controlled catalogue access through extreme whitespace, and Romano 09 communicates peer reassurance through equal quote cards. Their information and layout relationships are materially different.
 
 **Consequences:** Product SKU data now has typed media, category, detail, and action fields without default price or availability. Gated access must be explicitly configured and warns against fictional login requirements. Testimonials require a verification-status label; attribution and rating remain client-supplied, and review fixtures are marked non-publishable. The library reaches 35 independent review patterns.
+
+## 2026-08-12 — Gate client publication through typed verification records
+
+**Decision:** Represent each client site as a typed configuration containing identity, contact, theme, pattern IDs, content models, optional-pattern states, registered media, and evidence records. Separate `review` and `publish` modes, with pending client facts allowed only in review previews.
+
+**Reason:** A pattern-selection list is sufficient to begin composition, but it does not establish whether company claims, contact destinations, media rights, certifications, or commercial terms are safe to publish. Those inputs must remain visible and enforceable outside shared components.
+
+**Consequences:** `ClientHomepage-001` resolves approved pattern IDs without copying implementations. `validateClientSiteConfig` blocks publish mode when required identity, evidence, contact, or media records remain pending. The first procurement-evidence configuration stays noindex and uses original review assets until a real client supplies verifiable facts and rights-cleared media.
+
+## 2026-08-12 — Share SEO and inquiry mechanics, configure client ownership
+
+**Decision:** Keep static SEO rendering, crawler files, the inquiry form, validation, attribution, security controls, and Resend transport in the shared library. Keep domains, metadata, organization facts, privacy versions, origins, mailboxes, secrets, and rate-limit values in client configuration or deployment environment.
+
+**Reason:** The mechanics are common to every manufacturer site, while the identity, legal consent, claims, and delivery ownership are client facts that cannot be safely inferred or copied.
+
+**Consequences:** New client projects run configuration and activation rather than rebuilding Phase 8.1. Review routes remain excluded from indexing. Inquiry delivery fails closed until exact origins, a verified Resend sender, and a client mailbox are present. Pages projects protect the endpoint with an edge rate-limiting rule; an `INQUIRY_RATE_LIMITER` binding remains an optional enhancement if the endpoint is reused in a Worker. Live delivery must receive a controlled post-deployment test.
+
+## 2026-08-12 — Isolate CMS adapters behind a content-source contract
+
+**Decision:** Pages and components consume normalized CMS-neutral records. Local content, Astro collections, and a future Sanity integration implement the same `ContentSource` interface; shared components never query a CMS directly.
+
+**Reason:** Clients may differ in content ownership and CMS readiness. Binding components to Sanity would turn an optional editorial system into a global runtime dependency and make migrations harder.
+
+**Consequences:** Sanity packages, project ID, dataset, schemas, localization, and webhooks are installed only when a real client approves them. The adapter must publish only validated records and static builds remain the delivery model.
+
+## 2026-08-12 — Select Recognition Backdrop for the first client preview
+
+**Decision:** Replace `ArcFactoryHero-001` with `RecognitionBackdropHero-001` in the procurement-evidence client configuration and extend the client schema, renderer, and media validation to accept its per-slide content model.
+
+**Reason:** The client direction now calls for an evidence-collage carousel rather than a facility-led split opening. The review configuration must exercise the selected pattern without presenting placeholder material as real recognition.
+
+**Consequences:** The preview uses only registered original review assets, labels all evidence-oriented badges as pending/review actions, retains one document-level h1, and requires real rights-cleared recognition or outcome evidence before publish mode can be considered.
+
+## 2026-08-12 — Use Product Families in the first client preview
+
+**Decision:** Replace `ProductCategoryList-001` with the approved `ProductFamilies-001` in the procurement-evidence client configuration.
+
+**Reason:** The client preview now calls for equal-weight, media-led product-family cards rather than a dense numbered category directory.
+
+**Consequences:** Existing typed product-family content and registered review media are reused without component duplication. Product names, scope, actions, and media remain client-configured and require verification before publication.
+
+## 2026-08-12 — Remove the floating trust bar from the first client preview
+
+**Decision:** Set `FloatingTrustBar-001` to `excluded` and remove its optional content from the procurement-evidence client configuration.
+
+**Reason:** Its overlapping hero-to-content bridge is not part of the selected client composition.
+
+**Consequences:** The shared component remains available in the library, but the client preview no longer renders it or carries unused trust-bar content.
+
+## 2026-08-12 — Make one typed registry the component-review index
+
+**Decision:** Register every user-facing Astro component once in `src/config/component-registry.ts`, including its stable ID, family, kind, status, source file, and isolated or in-context review destination.
+
+**Reason:** The two manually assembled Phase 7.5 review pages did not expose later infrastructure components consistently. `FloatingTrustBar-001` was discoverable only on the PNG-derived page, while `InquiryForm-001` had no visual review entry.
+
+**Consequences:** The main UI review console renders a complete registry index, `PatternReview` reads status from the registry, the secure inquiry form receives an isolated review example, and automated tests fail for duplicate IDs, missing sources, undocumented IDs, or unregistered user-facing Astro components.
+
+## 2026-08-13 — Configure five client pages from one schema
+
+**Decision:** Extend `ClientSiteConfig` with five root-relative routes and typed Products, Capabilities, About, and Contact page content, then render the four inner pages with the existing approved/review compositions and one shared client-page shell.
+
+**Reason:** Homepage anchors demonstrate section patterns but do not constitute a complete client website. The reusable five-page compositions already exist and should consume client configuration instead of separate fixture-only content or copied page implementations.
+
+**Consequences:** The procurement-evidence preview now exposes five connected noindex routes with shared identity, theme, navigation, footer, validation, and media registration. Screenshots are only needed for genuine component gaps; client facts and claims still require structured verified inputs.
+
+## 2026-08-27 — Use a CMS-neutral About composition for the selected reference UI
+
+**Decision:** Replace the old About page sections with a shared company-first composition that mirrors the selected reference structure: company information, recommendation content, advantages, optional image gallery, and company carousel. Map four fixed Sanity singleton documents through `ContentSource.getAboutContent()` and merge them into the client fallback configuration.
+
+**Reason:** The reference page establishes a clearer visual sequence for a manufacturer About page, while this library must keep client facts, media, and copy configurable and remain usable before Sanity content is published.
+
+**Consequences:** The implementation uses original Astro/CSS/SVG code and native scroll controls, with no copied reference assets or additional carousel dependency. About documents use direct English text fields rather than bilingual inputs; Sanity media is normalized with responsive CDN URLs and safe Alt fallbacks, including recommendation images with blank editor-provided Alt text. Incomplete CMS records continue to render the local review-safe content.

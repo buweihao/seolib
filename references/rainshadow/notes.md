@@ -61,3 +61,10 @@ The evidence is desktop-only. Some narrow headings and small controls would need
 - `03-trust-bar.png` and `04-service-paths.png` were visually checked as a pair; the overlap belongs to the captured layout and each crop retains a complete semantic block.
 - Mobile behavior remains unknown.
 - Component decision: none; human pattern review is required before Phase 3.
+
+## Navigation dropdown evidence received 2026-08-24
+
+- Saved evidence: `screenshots/how-it-works-navigation-dropdown-desktop.png` (desktop browser crop); source domain visible as `https://www.rainshadowlabs.com/`.
+- UI relationship: the How it works trigger opens a restrained vertical list of related buying, manufacturing, ingredient, and FAQ routes.
+- Reuse decision: the compact mode of `NavigationDropdown-001` supports simple items by omitting optional markers and descriptions. The implementation does not reuse the source logo, offer strip, wording, styles, or account controls.
+- Mobile behavior: not supplied; the menu uses click/keyboard-driven native disclosure rather than hover-only behavior.

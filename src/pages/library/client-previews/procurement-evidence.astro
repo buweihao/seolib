@@ -1,0 +1,20 @@
+---
+import ClientHomepage from "../../../components/compositions/ClientHomepage.astro";
+import { loadProcurementEvidenceClient } from "../../../config/clients/procurement-evidence-cms";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+const procurementEvidenceClient = await loadProcurementEvidenceClient();
+---
+
+<BaseLayout
+  seo={{
+    title: `${procurementEvidenceClient.identity.displayName.value} | Skincare OEM, ODM & Private Label`,
+    description: "Explore facial care, body care, private label, formula adaptation, and custom skincare development.",
+    noindex: true,
+    nofollow: true,
+    siteName: procurementEvidenceClient.identity.displayName.value,
+    locale: "en",
+  }}
+>
+  <ClientHomepage config={procurementEvidenceClient} />
+</BaseLayout>

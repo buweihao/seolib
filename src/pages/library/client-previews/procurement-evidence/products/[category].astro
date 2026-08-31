@@ -1,0 +1,30 @@
+---
+import CategoryProductsPage from "../../../../../components/compositions/CategoryProductsPage.astro";
+import { loadProcurementEvidenceClient } from "../../../../../config/clients/procurement-evidence-cms";
+import { productCategoryHref, productDetailHref } from "../../../../../config/clients/procurement-evidence";
+import ClientPageShell from "../../../../../layouts/ClientPageShell.astro";
+
+export async function getStaticPaths() {
+  const config = await loadProcurementEvidenceClient();
+  const catalog = config.catalog;
+  return catalog.categories.map((category) => ({
+    params: { category: category.slug },
+    props: {
+      category,
+      config,
+      products: catalog.products.filter((product) => product.categorySlug === category.slug),
+      reviewNote: catalog.reviewNote,
+    },
+  }));
+}
+
+const { category, config, products, reviewNote } = Astro.props;
+const currentPath = productCategoryHref(category.slug);
+---
+
+<ClientPageShell {config} {currentPath} title={`${category.name} products | Aurevia Skincare`} description={category.description}>
+  <CategoryProductsPage
+    intro={{ id: `${category.slug}-intro`, eyebrow: "Product family", title: category.name, description: category.description, breadcrumbs: [{ label: "Home", href: config.routes.home }, { label: "Products", href: config.routes.products }, { label: category.name }] }}
+    products={{ id: `${category.slug}-products`, products, reviewNote, productHref: (product) => productDetailHref(category.slug, product.slug), inquiryHref: config.routes.contact }}
+  />
+</ClientPageShell>

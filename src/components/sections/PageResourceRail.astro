@@ -1,0 +1,35 @@
+---
+import Container from "../primitives/Container.astro";
+
+interface Resource { label: string; href: string; detail?: string; }
+interface Props { id: string; title: string; description?: string; resources: readonly Resource[]; class?: string; }
+const { id, title, description, resources, class: className } = Astro.props;
+---
+
+<section id={id} class:list={["page-resource-rail", className]} aria-labelledby={`${id}-title`}>
+  <Container size="wide">
+    <div class="page-resource-rail__header">
+      <h2 id={`${id}-title`}>{title}</h2>
+      {description && <p>{description}</p>}
+    </div>
+    <ul role="list">
+      {resources.map((resource) => <li><a href={resource.href}><span><strong>{resource.label}</strong>{resource.detail && <small>{resource.detail}</small>}</span><span aria-hidden="true">→</span></a></li>)}
+    </ul>
+  </Container>
+</section>
+
+<style>
+  .page-resource-rail { padding-block: 0 var(--ds-section-standard); }
+  .page-resource-rail__header { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--ds-space-4); align-items: end; }
+  h2, p { margin: 0; }
+  h2 { font-size: clamp(1.7rem, 3vw, 2.7rem); }
+  .page-resource-rail__header p { max-width: 50ch; color: var(--ds-color-muted); }
+  ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--ds-space-3); margin: var(--ds-space-8) 0 0; padding: 0; list-style: none; }
+  a { display: flex; min-height: 5rem; align-items: center; justify-content: space-between; gap: var(--ds-space-4); border: 1px solid var(--ds-color-border); border-radius: var(--ds-radius-card); background: var(--ds-color-surface); padding: var(--ds-space-4) var(--ds-space-6); text-decoration: none; }
+  a:hover { border-color: var(--ds-color-accent); }
+  strong, small { display: block; }
+  small { margin-top: var(--ds-space-2); color: var(--ds-color-muted); }
+  a > span:last-child { color: var(--ds-color-accent); font-size: 1.3rem; }
+  @media (max-width: 48rem) { ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 34rem) { ul { grid-template-columns: 1fr; } }
+</style>

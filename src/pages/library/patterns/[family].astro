@@ -1,0 +1,163 @@
+---
+import PatternReview from "../../../components/patterns/PatternReview.astro";
+import CenteredProofHero from "../../../components/patterns/hero/CenteredProofHero.astro";
+import RecognitionBackdropHero from "../../../components/patterns/hero/RecognitionBackdropHero.astro";
+import ArcFactoryHero from "../../../components/patterns/hero/ArcFactoryHero.astro";
+import ProductCategoryList from "../../../components/patterns/products/ProductCategoryList.astro";
+import ProductMosaic from "../../../components/patterns/products/ProductMosaic.astro";
+import ProofColumns from "../../../components/patterns/evidence/ProofColumns.astro";
+import HorizontalProcess from "../../../components/patterns/process/HorizontalProcess.astro";
+import ProcessCards from "../../../components/patterns/process/ProcessCards.astro";
+import SplitPathways from "../../../components/patterns/pathways/SplitPathways.astro";
+import FacilityGallery from "../../../components/patterns/facility/FacilityGallery.astro";
+import QualityEvidenceMatrix from "../../../components/patterns/quality/QualityEvidenceMatrix.astro";
+import SplitInquiry from "../../../components/patterns/inquiry/SplitInquiry.astro";
+import FloatingInquiryPanel from "../../../components/patterns/inquiry/FloatingInquiryPanel.astro";
+import FloatingContactBar from "../../../components/patterns/inquiry/FloatingContactBar.astro";
+import ContactWorkspace from "../../../components/patterns/inquiry/ContactWorkspace.astro";
+import StructuredRequestForm from "../../../components/patterns/inquiry/StructuredRequestForm.astro";
+import GuidedProjectInquiry from "../../../components/patterns/inquiry/GuidedProjectInquiry.astro";
+import OfficeResourceContact from "../../../components/patterns/inquiry/OfficeResourceContact.astro";
+import ContactFAQ from "../../../components/patterns/inquiry/ContactFAQ.astro";
+import NavigationDropdown from "../../../components/patterns/navigation/NavigationDropdown.astro";
+import BuyerPathways from "../../../components/sections/BuyerPathways.astro";
+import EvidenceFeature from "../../../components/sections/EvidenceFeature.astro";
+import FacilityOverview from "../../../components/sections/FacilityOverview.astro";
+import InquiryCTA from "../../../components/sections/InquiryCTA.astro";
+import ProcessSteps from "../../../components/sections/ProcessSteps.astro";
+import ProductFamilies from "../../../components/sections/ProductFamilies.astro";
+import QualityFramework from "../../../components/sections/QualityFramework.astro";
+import StatementHero from "../../../components/sections/StatementHero.astro";
+import InquiryForm from "../../../components/inquiry/InquiryForm.astro";
+import { procurementEvidenceClient } from "../../../config/clients/procurement-evidence";
+import { aboutFacility, capabilitiesPage, homePage, productsPage } from "../../../fixtures/baseSite";
+import { arcFactoryHero, recognitionHero } from "../../../fixtures/referencePatterns";
+import { advisorInquiryFields, contactFaqItems, detailedQuoteFields, guidedInquiryFields, splitContactFields, supportRequestFields } from "../../../fixtures/contactPatterns";
+import PatternLibraryLayout from "../../../layouts/PatternLibraryLayout.astro";
+
+const familyMeta = {
+  hero: { title: "首屏 Hero 模式", description: "比较四种结构差异明确的首页开场方式。" },
+  products: { title: "产品展示模式", description: "用同一组护肤品分类比较卡片、拼贴和目录结构。" },
+  evidence: { title: "证据展示模式", description: "比较以媒体叙事或信息列呈现供应商证据。" },
+  process: { title: "合作流程模式", description: "比较纵向责任、横向时间和阶段卡片三种流程表达。" },
+  pathways: { title: "合作路线模式", description: "比较多路线并列与核心路线强对比。" },
+  facility: { title: "工厂设施模式", description: "比较设施总览与区域图库两种工厂表达。" },
+  quality: { title: "质量展示模式", description: "比较循序检查点与采购扫描矩阵。" },
+  inquiry: { title: "询盘与联系模式", description: "比较强 CTA、准备区和完整项目表单。" },
+  navigation: { title: "导航下拉模式", description: "比较紧凑服务菜单与带简介的宽幅导航面板。" },
+} as const;
+
+type Family = keyof typeof familyMeta;
+
+export function getStaticPaths() {
+  return ["hero", "products", "evidence", "process", "pathways", "facility", "quality", "inquiry", "navigation"].map(
+    (family) => ({ params: { family } }),
+  );
+}
+
+const family = Astro.params.family as Family;
+const meta = familyMeta[family];
+const hero = { ...homePage.hero, proofItems: homePage.proof.items.map((item) => item.title) };
+const shared = { contentEvidence: "来自 Phase 7 的可读示例内容模型；内容本身不由参考网站决定。", uiEvidence: "通用网页布局规律，经多个参考案例交叉验证；不复制任何单站品牌或成品设计。" };
+const floatingInquiryFields = [
+  { name: "firstName", label: "First name", placeholder: "First name", autocomplete: "given-name", required: true },
+  { name: "lastName", label: "Last name", placeholder: "Last name", autocomplete: "family-name" },
+  { name: "email", label: "Work email", placeholder: "you@company.com", type: "email" as const, autocomplete: "email", required: true },
+  { name: "phone", label: "Phone / WhatsApp", placeholder: "+00 000 000 000", type: "tel" as const, autocomplete: "tel" },
+  { name: "company", label: "Company", placeholder: "Company name", autocomplete: "organization" },
+  { name: "message", label: "Project brief", placeholder: "Product direction, market, quantity range, and target timing", rows: 5, required: true },
+];
+const floatingContactItems = [
+  { label: "Phone", icon: "phone" as const, value: "+00 000 000 000", href: "tel:+000000000", featured: true },
+  { label: "Email", icon: "email" as const, value: "inquiry@example.invalid", href: "mailto:inquiry@example.invalid" },
+  { label: "WhatsApp", icon: "whatsapp" as const, value: "Chat on WhatsApp", href: "#demo-floating-inquiry" },
+  { label: "Contact", icon: "message" as const, href: "#demo-secure-inquiry" },
+];
+---
+
+<PatternLibraryLayout title={meta.title} description={meta.description}>
+  <div class="family-page">
+    <a class="back-link" href="/library/patterns/">← 返回 UI 模式审核导航</a>
+
+    {family === "hero" && (
+      <>
+        <PatternReview patternId="StatementHero-001" name="主张式双栏首屏" suitableFor="品牌主张清楚、需要文案与主视觉并重的首页" {...shared} originalTreatment="克制的双栏结构、原创间距与按钮层级。"><StatementHero {...hero} id="demo-hero-statement" headingLevel="h3" /></PatternReview>
+        <PatternReview patternId="CenteredProofHero-001" name="居中证明首屏" suitableFor="需要在首屏快速建立信任的供应商" {...shared} originalTreatment="居中叙事后连接证明条，不采用特定站点外观。"><CenteredProofHero {...hero} id="demo-hero-centered" headingLevel="h3" /></PatternReview>
+        <PatternReview patternId="ArcFactoryHero-001" name="弧形工厂全景首屏" suitableFor="需要用工厂全景和采购主张共同开场的制造商" contentEvidence="工厂媒体及所有商业、质量表述均须由客户提供并核验。" uiEvidence="Laeyo 02 Hero：宽阔文案区、工厂全景，以及连接两者的大型弧形切口。" originalTreatment="使用原创弧形几何、配色、响应式重排、文案和审核素材，不复用来源图片或标识。"><ArcFactoryHero {...arcFactoryHero} id="demo-hero-arc-factory" headingLevel="h3" /></PatternReview>
+        <PatternReview patternId="RecognitionBackdropHero-001" name="全幅大图轮播首屏" suitableFor="拥有成熟品牌主视觉、需要多张图片入口的企业" contentEvidence="每张背景图、替代文字、可选标题、可选按钮和跳转链接均由客户提供。" uiEvidence="通用全幅轮播的信息层级；不复制第三方品牌视觉。" originalTreatment="单张大图覆盖画布，原创遮罩、控制器、响应式裁切、键盘操作与减弱动态支持。"><RecognitionBackdropHero {...recognitionHero} id="demo-hero-recognition" headingLevel="h3" /></PatternReview>
+      </>
+    )}
+
+    {family === "products" && (
+      <>
+        <PatternReview patternId="ProductFamilies-001" name="等权产品分类卡" suitableFor="分类权重相近、需要快速浏览" {...shared} originalTreatment="等权卡片网格。"><ProductFamilies {...productsPage.products} id="demo-products-cards" /></PatternReview>
+        <PatternReview patternId="ProductMosaic-001" name="产品图片拼贴" suitableFor="图片成熟、希望强化产品氛围" {...shared} originalTreatment="用原创拼贴节奏区分重点分类。"><ProductMosaic {...productsPage.products} id="demo-products-mosaic" /></PatternReview>
+        <PatternReview patternId="ProductCategoryList-001" name="产品分类目录" suitableFor="分类较多、采购者需要高效扫描" {...shared} originalTreatment="编号目录配小图，强调信息效率。"><ProductCategoryList {...productsPage.products} id="demo-products-list" /></PatternReview>
+      </>
+    )}
+
+    {family === "evidence" && (
+      <>
+        <PatternReview patternId="EvidenceFeature-001" name="媒体分栏证据" suitableFor="需要用一张主图解释证明体系" {...shared} originalTreatment="媒体与证据清单并列。"><EvidenceFeature {...homePage.evidence} id="demo-evidence-media" /></PatternReview>
+        <PatternReview patternId="ProofColumns-001" name="证明信息列" suitableFor="没有合适主图、希望直接比较证据点" {...shared} originalTreatment="以编号证据列替代装饰图。"><ProofColumns {...homePage.evidence} id="demo-evidence-columns" /></PatternReview>
+      </>
+    )}
+
+    {family === "process" && (
+      <>
+        <PatternReview patternId="ProcessSteps-001" name="纵向责任流程" suitableFor="步骤复杂、需要写清双方责任" {...shared} originalTreatment="纵向步骤兼容责任说明。"><ProcessSteps {...capabilitiesPage.process} id="demo-process-vertical" /></PatternReview>
+        <PatternReview patternId="HorizontalProcess-001" name="横向时间流程" suitableFor="步骤少且顺序明确" {...shared} originalTreatment="桌面横向、移动端纵向的语义有序列表。"><HorizontalProcess {...capabilitiesPage.process} id="demo-process-horizontal" /></PatternReview>
+        <PatternReview patternId="ProcessCards-001" name="流程阶段卡片" suitableFor="每个阶段需独立解释" {...shared} originalTreatment="深色模块化阶段卡片。"><ProcessCards {...capabilitiesPage.process} id="demo-process-cards" /></PatternReview>
+      </>
+    )}
+
+    {family === "pathways" && (
+      <>
+        <PatternReview patternId="BuyerPathways-001" name="合作路线卡片" suitableFor="三种以上合作模式并列比较" {...shared} originalTreatment="等权决策卡。"><BuyerPathways {...homePage.pathways} id="demo-pathways-cards" /></PatternReview>
+        <PatternReview patternId="SplitPathways-001" name="分区合作路线" suitableFor="两种核心方向需要强对比" {...shared} originalTreatment="交替明暗分区形成决策对照。"><SplitPathways {...homePage.pathways} id="demo-pathways-split" /></PatternReview>
+      </>
+    )}
+
+    {family === "facility" && (
+      <>
+        <PatternReview patternId="FacilityOverview-001" name="工厂设施总览" suitableFor="一张总览图配清单" {...shared} originalTreatment="总览媒体与核验说明并列。"><FacilityOverview {...aboutFacility} id="demo-facility-overview" /></PatternReview>
+        <PatternReview patternId="FacilityGallery-001" name="工厂设施图库" suitableFor="工厂视觉较强、区域需要模块化说明" {...shared} originalTreatment="大幅总览媒体后接区域信息墙。"><FacilityGallery {...aboutFacility} id="demo-facility-gallery" /></PatternReview>
+      </>
+    )}
+
+    {family === "quality" && (
+      <>
+        <PatternReview patternId="QualityFramework-001" name="质量检查点" suitableFor="循序解释质量节点" {...shared} originalTreatment="检查点与证据类型成组。"><QualityFramework {...capabilitiesPage.quality} id="demo-quality-checkpoints" /></PatternReview>
+        <PatternReview patternId="QualityEvidenceMatrix-001" name="质量证据矩阵" suitableFor="采购人员需要快速核验" {...shared} originalTreatment="表格式扫描结构但保留语义文章元素。"><QualityEvidenceMatrix {...capabilitiesPage.quality} id="demo-quality-matrix" /></PatternReview>
+      </>
+    )}
+
+    {family === "inquiry" && (
+      <>
+        <PatternReview patternId="InquiryCTA-001" name="深色询盘行动区" suitableFor="页面末端的强收口" {...shared} originalTreatment="深色集中式行动区。"><InquiryCTA {...homePage.inquiry} id="demo-inquiry-dark" /></PatternReview>
+        <PatternReview patternId="SplitInquiry-001" name="分栏询盘准备区" suitableFor="需要同时说明准备材料与行动" {...shared} originalTreatment="标题与询盘准备项分栏。"><SplitInquiry {...homePage.inquiry} id="demo-inquiry-split" /></PatternReview>
+        <PatternReview patternId="FloatingInquiryPanel-001" name="悬浮询盘面板" suitableFor="长页面中需要持续可见、但可主动关闭的项目询盘入口" contentEvidence="字段、必填状态、提交端点和提示文案均由客户配置；审核示例不启用提交。" uiEvidence="用户提供的移动端参考图：底部胶囊触发器连接可滚动的浮层表单。" originalTreatment="原创主题令牌、紧凑表单节奏、非模态 dialog、Escape 关闭、焦点返回与移动端安全边距。"><div class="floating-demo floating-demo--panel" id="demo-floating-inquiry"><FloatingInquiryPanel id="demo-floating-inquiry-panel" title="Leave a message" description="Share the essentials of your project and the supplier can review fit before the next conversation." triggerLabel="Leave a message" fields={floatingInquiryFields} submitLabel="Send inquiry" defaultOpen preview /></div></PatternReview>
+        <PatternReview patternId="FloatingContactBar-001" name="悬浮联系栏" suitableFor="需要把电话、WhatsApp、邮箱和询盘入口固定在页面右下角" contentEvidence="渠道标签、号码、邮箱和链接均由客户配置并核验；审核示例使用中性占位值。" uiEvidence="用户提供的右下角深色竖向联系栏参考图，以及 Laeyo 桌面参考截图中的纵向快捷联系关系。" originalTreatment="使用原创线性图标、主题颜色、左侧联系信息气泡和触控尺寸；桌面与移动端均保持右下角悬浮布局，支持键盘焦点和 reduced-motion。"><div class="floating-demo floating-demo--bar"><FloatingContactBar id="demo-floating-contact-bar" label="Example contact shortcuts" items={floatingContactItems} scrollTargetId="demo-floating-inquiry" preview /></div></PatternReview>
+        <PatternReview patternId="ContactWorkspace-001" name="联系信息与表单工作区" suitableFor="需要把联系渠道或顾问背景与项目表单并列呈现" contentEvidence="联系渠道、顾问资料、媒体和表单字段均由客户配置并核验。" uiEvidence="用户提供的双栏联系截图与 Laeyo 顾问询盘截图：上下文面板和表单形成明确的左右关系。" originalTreatment="同一 typed 组件支持左右侧栏；使用原创图标、审核插图、字段节奏和移动端内容优先重排。"><div class="variant-stack"><ContactWorkspace id="demo-contact-channels" eyebrow="Contact routes" title="Get in touch" description="Share the essentials of your project, or use a verified channel when a direct conversation is more suitable." contextTitle="Verified contact options" contextItems={[{ label: "Messaging", value: "Destination pending", icon: "message" }, { label: "Visit", value: "Location pending", icon: "location" }, { label: "Call", value: "Number pending", icon: "phone" }, { label: "Email", value: "Mailbox pending", icon: "email" }]} fields={splitContactFields} submitLabel="Send message" /><ContactWorkspace id="demo-advisor-inquiry" eyebrow="Project review" title="Speak with an advisor" description="Introduce the responsible advisor only when their identity, role, image, and response expectations are approved for publication." media={{ src: "/review-assets/manufacturing-facility.svg", alt: "Original review artwork representing a project-advisor conversation" }} asidePosition="right" fields={advisorInquiryFields} submitLabel="Send project brief" note="Replace this review artwork with client-approved media." /></div></PatternReview>
+        <PatternReview patternId="StructuredRequestForm-001" name="结构化请求表单" suitableFor="客户支持或复杂报价需要比普通联系表单更多的可配置字段" contentEvidence="字段集合必须匹配真实支持流程、数据政策和接收团队。" uiEvidence="YG Labs 支持表单与 Créer 详细联系表单：宽表单网格或居中长表单承载多类输入。" originalTreatment="共享字段渲染器、原创安静/编辑式视觉、响应式单双栏、审核禁用提交及文件安全提示。"><div class="variant-stack"><StructuredRequestForm id="demo-support-request" eyebrow="Support request" title="How can the team help?" description="Use reference fields only when the client operates a real support workflow." fields={supportRequestFields} submitLabel="Submit request" /><StructuredRequestForm id="demo-detailed-quote" eyebrow="Project brief" title="Tell us what you want to build." description="A detailed brief can qualify a complex project before the first working session." fields={detailedQuoteFields} submitLabel="Submit project brief" tone="editorial" /></div></PatternReview>
+        <PatternReview patternId="GuidedProjectInquiry-001" name="分步项目询盘" suitableFor="复杂询盘需要先收集最低限度信息，再逐步展开项目范围" contentEvidence="步骤、字段、联系信息和后续动作由客户流程决定。" uiEvidence="Romano Contact：简短第一步表单与联系/参观上下文并列。" originalTreatment="原创编号进度条、语义有序列表、单列首步表单和响应式侧栏；不复制地图、地址或承诺。"><GuidedProjectInquiry id="demo-guided-inquiry" title="Tell us about your project" description="Start with the minimum information needed to choose the next useful questions." steps={["Contact", "Project fit", "Review"]} fields={guidedInquiryFields} submitLabel="Next step" contextTitle="Contact context" contextItems={[{ label: "Location", value: "Verified address pending" }, { label: "Phone", value: "Verified number pending" }, { label: "Availability", value: "Working hours pending" }]} secondaryTitle="Verification route" secondaryDescription="Offer a tour or audit route only when it is genuinely available." secondaryAction={{ label: "Review visit options", href: "#" }} /></PatternReview>
+        <PatternReview patternId="OfficeResourceContact-001" name="办公室与资料联系区" suitableFor="跨地点运营并同时提供手册、样品或准备资料的制造商" contentEvidence="地点、联系方式、资源可用性和行动链接必须由客户核验。" uiEvidence="Vitelle Contact：地点信息之后连接两类可获取资料。" originalTreatment="原创编号地点卡和资源行动卡；不复用来源产品图、地址、手册或样品承诺。"><OfficeResourceContact id="demo-office-resources" eyebrow="Contact and preparation" title="Choose the right starting point" description="Separate operating locations from the resources a buyer can request before a project review." locations={[{ title: "Primary office", details: ["Address pending", "Direct contact pending"] }, { title: "Regional operations", details: ["Location pending", "Availability pending"] }]} resources={[{ title: "Project preparation guide", description: "Explain what information helps the team assess a brief.", action: { label: "Review the guide", href: "#" } }, { title: "Evaluation route", description: "Describe verified sample or consultation options without implying availability.", action: { label: "Review options", href: "#" } }]} /></PatternReview>
+        <PatternReview patternId="ContactFAQ-001" name="联系页常见问题" suitableFor="提交前需要消除 MOQ、样品、时间和准备材料等重复疑问" contentEvidence="每个答案必须由客户验证，并与报价和政策保持一致。" uiEvidence="Créer Contact：详细联系表单之后使用双栏折叠问答降低剩余疑虑。" originalTreatment="原生 details/summary、原创双栏节奏、清晰焦点与减弱动态支持；无来源问题或答案复用。"><ContactFAQ id="demo-contact-faq" title="Questions before you inquire" items={contactFaqItems} /></PatternReview>
+        <PatternReview patternId="InquiryForm-001" name="安全项目询盘表单" suitableFor="需要直接收集项目范围、市场、产品兴趣和隐私同意" contentEvidence="字段来自 Phase 8 的 B2B 项目询盘和发布安全要求。" uiEvidence="双栏表单用于信息密度较高的项目简报；移动端改为单栏。" originalTreatment="原创表单层级、焦点、错误、同意与审核禁用状态；不携带客户联系信息。"><InquiryForm config={procurementEvidenceClient.inquiry} id="demo-secure-inquiry" title="Tell us about your project" description="Review the full project-inquiry form before delivery and client privacy settings are activated." /></PatternReview>
+      </>
+    )}
+
+    {family === "navigation" && (
+      <PatternReview patternId="NavigationDropdown-001" name="导航下拉面板" suitableFor="主导航需要解释服务范围、公司资源或采购入口" contentEvidence="菜单标签、说明和目的地由站点信息架构与客户服务范围决定。" uiEvidence="Vitelle About 宽面板、Romano Services 图标菜单与 RainShadow How it works 简洁列表三张补充截图。" originalTreatment="一个 typed details 组件覆盖紧凑/介绍式变体；原创布局、标记和主题，支持键盘、点击、移动端文档流，不复用来源品牌或文案。"><div class="variant-stack"><NavigationDropdown id="demo-navigation-compact" label="Services" open items={[{ label: "Private label", description: "Begin from an evaluated product direction", href: "#", marker: "01" }, { label: "Custom development", description: "Define a controlled development brief", href: "#", marker: "02" }, { label: "Contract manufacturing", description: "Review scale-up and transfer requirements", href: "#", marker: "03" }]} /><NavigationDropdown id="demo-navigation-feature" label="About and evidence" open variant="feature" align="end" introTitle="About the supplier" introDescription="Use verified company context to help buyers choose the right evidence route." items={[{ label: "Company overview", href: "#" }, { label: "Facility evidence", href: "#" }, { label: "Quality framework", href: "#" }, { label: "Resource center", href: "#" }, { label: "Contact", href: "#" }]} /></div></PatternReview>
+    )}
+  </div>
+</PatternLibraryLayout>
+
+<style>
+  .family-page { width: min(100% - 2 * var(--ds-page-gutter), 100rem); margin: 0 auto; padding-bottom: var(--ds-section-feature); }
+  .back-link { display: inline-block; margin-bottom: var(--ds-space-8); color: var(--ds-color-accent); font-weight: 750; }
+  .floating-demo { position: relative; min-height: 36rem; overflow: hidden; background: linear-gradient(145deg, color-mix(in oklch, var(--ds-color-accent), white 88%), var(--ds-color-canvas)); }
+  .floating-demo--panel { min-height: 46rem; }
+  .floating-demo--bar { min-height: 38rem; }
+  .variant-stack { display: grid; gap: 1px; background: var(--ds-color-border); }
+</style>

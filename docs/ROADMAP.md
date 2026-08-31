@@ -142,26 +142,117 @@ Exit note: Home, Products, Capabilities, About, and Contact now exist as five co
 - [x] Record content evidence, UI evidence, original treatment, and suitable use
 - [x] Build a typed flexible homepage and two same-content composition examples
 - [x] Pass type and production build checks
-- [ ] Complete human visual, responsive, and selection review
+- [x] Establish a typed single component registry and complete UI-review index
+- [x] Complete human visual, responsive, and selection review
 
-Status: In review — 2026-08-12
+Status: Complete — 2026-08-21
 
-Exit note: reusable content models sit independently from UI patterns. After the user-approved PNG re-audit and successive non-homogeneous expansion batches, the library exposes 35 independent reviewable patterns across `/library/patterns/` and `/library/patterns/png-derived/`. Twenty-seven patterns are original Phase 7.5 implementations. `FlexibleHomepage-001` selects six section patterns by typed IDs, and its brand-led and procurement-led routes prove that identical content can create different structures. Phase 8 has not started.
+Exit note: reusable content models sit independently from UI patterns. After the user-approved PNG re-audit and successive non-homogeneous expansion batches, the library exposes 35 independent reviewable patterns across `/library/patterns/` and `/library/patterns/png-derived/`. A typed registry now indexes every user-facing component, links each entry to an isolated or in-context review, and fails tests when a new Astro component is not registered. `InquiryForm-001` now has an isolated review example. `FlexibleHomepage-001` selects six section patterns by typed IDs, and its brand-led and procurement-led routes prove that identical content can create different structures.
+
+Human review note — 2026-08-21: the user confirmed the visual review had no blocking issues after the complete test, type-check, and production-build workflow passed.
 
 ## Phase 8 — Client Configuration System
 
-- [ ] Define typed client configuration and content schemas
-- [ ] Separate content, images, contact details, and theme tokens from components
-- [ ] Support composition selection without component duplication
-- [ ] Document onboarding and validation workflow
+- [x] Define typed client configuration and content schemas
+- [x] Separate content, images, contact details, and theme tokens from components
+- [x] Support composition selection without component duplication
+- [x] Document onboarding and validation workflow
+- [x] Configure a five-page client preview from one client schema
 
-Status: Not started
+Status: In review — 2026-08-12
+
+Exit note: the user-selected procurement-evidence direction now resolves eight required pattern IDs, four explicit optional-pattern states, five client routes, homepage content, and four inner-page content groups through one `ClientSiteConfig`. The selected Hero is `RecognitionBackdropHero-001`, the selected product presentation is `ProductFamilies-001`, and `FloatingTrustBar-001` is explicitly excluded. Home, Products, Capabilities, About, and Contact share client identity, theme, navigation, footer, validation, and media registration without duplicating compositions. The noindex client preview remains in `review` mode; public routing is blocked until real client identity, recognition/capability evidence, facility media, product scope, commercial terms, contact ownership, domain, and privacy/delivery settings are supplied and verified.
+
+Review navigation note — 2026-08-14: `/` is now the central review hub for the current component browsers, composition examples, five-page base routes, and the current five-page client preview. The superseded Phase 3 fixture was removed, its still-relevant component registrations now point to current review contexts, and every internal `noindex` review route exposes a persistent “总导航” return link.
+
+Homepage content review note — 2026-08-15: the procurement-evidence client homepage now presents a clearly fictional skincare-manufacturer scenario instead of exposing internal project-guidance copy as customer-facing content. The visible journey is skincare offer → cooperation route → product categories → development support → quality → process → facility → inquiry; pending identity and evidence checks remain confined to the review notice.
+
+Pattern navigation note — 2026-08-15: `/library/patterns/` is now a navigation-only review hub. The eight primary Home pattern families render on separate category routes, and the full component registry has its own route. The hub also records the current coverage gap: Products, Capabilities, About, and Contact have base compositions but still need broader page-specific patterns derived from non-Home reference captures.
+
+Audit hierarchy note — 2026-08-15: the hub now separates available Home-section UI, missing inner-page UI, and management/composition tools into three explicit levels. It also records that a complete finished-product detail content model, component set, composition, and dynamic detail route do not exist yet; the current single-product spotlight remains only a promotional entry pattern.
+
+Product catalogue note — 2026-08-18: Phase 8.2 adds the previously missing category-led catalogue flow. The Products page is now a focused `ProductFamilies-001` category entry; typed client catalogue data generates four category routes and twelve neutral product-detail routes through `CategoryProductGrid-001`, `ProductDetailProfile-001`, and their page compositions. Availability, ingredients, claims, testing, packaging compatibility, minimums, and timing remain explicit client-verification inputs.
+
+Laeyo page evidence note — 2026-08-20: additional Laeyo product-listing, product-detail, manufacturing, About, and Contact captures are now stored under `references/laeyo/source/` and `references/laeyo/screenshots/`. The next implementation increment adds `ProductInquiryPanel-001`, `PageResourceRail-001`, `CompanyFactMatrix-001`, and `SamplingWorkflowCards-001`; each is a neutral, typed relationship rather than copied client content.
+
+## Phase 8.3 — Sanity Product Editing
+
+- [x] Add a client-owned product category and product schema
+- [x] Embed Sanity Studio at `/admin` when project variables are configured
+- [x] Add a CMS-neutral Sanity adapter with null-safe normalization
+- [x] Make catalogue routes prefer published Sanity content with local review fallback
+- [x] Fail publish-mode builds when Sanity or required catalogue content is missing
+- [x] Document CORS, editor access, Cloudflare variables, and rebuild webhook setup
+- [ ] Create the real client Sanity project, invite editors, migrate verified products, and connect the production rebuild webhook
+
+Status: Shared implementation complete; client-owned Sanity activation pending — 2026-08-21
+
+Homepage CMS extension note — 2026-08-23: the embedded Studio now exposes a Chinese-first singleton “首页设置” document for large-image Hero slides. Each slide supports an uploaded image, optional center text, optional button text, and optional whole-image destination; the former fixed category strapline is removed. Products include a Chinese `Hot 产品` switch, and selected published products feed the existing `ProductCutoutShelf-001` directly below the Hero. Sanity CDN delivery now applies responsive widths, automatic modern formats, and bounded quality instead of serving uploaded masters.
+
+Company identity and homepage ordering note — 2026-08-24: the singleton is now labelled “网站设置” and also owns the company name and optional Logo. The same loaded client configuration supplies identity to Home, Products, category, product detail, Capabilities, About, and Contact routes; the Header renders the Logo before the name. Homepage order is Hero → Hot Products → Skincare Categories before cooperation pathways and the remaining evidence sections.
+
+Floating contact patterns note — 2026-08-24: `FloatingInquiryPanel-001` and `FloatingContactBar-001` are implemented and registered in Review with typed client inputs, accessible native controls, desktop/mobile layouts, and isolated library previews. The supplied Laeyo crop is normalized under `references/laeyo/screenshots/`; live inquiry delivery and real contact destinations remain intentionally unconfigured.
+
+Floating contact refinement note — 2026-08-27: `FloatingContactBar-001` now supports an always-visible lower-right dark rail styled around the supplied contact crop, including featured phone treatment, left-side value bubbles, phone/WhatsApp/email channels, keyboard focus, reduced-motion support, and optional scroll/top variants. Real channel values remain verification-gated in client configuration.
+
+Contact-page reference expansion — 2026-08-24: six newly supplied contact screenshots are normalized under their site packages (or `references/supplied-ui/` when no source was provided). Shared patterns now cover context-plus-form workspaces, high-density support/quote forms, guided RFQ entry, office/resource routing, and contact FAQs. All review forms fail closed without an endpoint; third-party identities, contact facts, maps, photography, copy, promises, and CAPTCHA/file policies remain reference-only.
+
+Navigation dropdown expansion — 2026-08-24: Vitelle, Romano, and RainShadow desktop dropdown captures are normalized under each site's `screenshots/` directory. `NavigationDropdown-001` is registered in Review with compact and feature-panel modes, typed routes, native disclosure semantics, keyboard/click access, and an original mobile document-flow adaptation pending source mobile evidence.
+
+Current client preview selection — 2026-08-24: the procurement-evidence preview now selects `NavigationDropdown-001`, `ContactWorkspace-001`, and `FloatingContactBar-001` through typed client configuration. The dropdown is integrated into the shared desktop/mobile header, the workspace replaces the previous contact-options plus duplicate inquiry-form stack, and the floating bar is present across the homepage and inner-page shell. Desktop and mobile checks confirmed native disclosure access, no horizontal overflow, no form/rail overlap, and safe bottom spacing; real contact channels and form delivery remain disabled until verified.
+
+Resend inquiry integration note — 2026-08-24: `ContactWorkspace-001` now passes the client inquiry configuration into `ConfigurableForm-001`, so the selected contact page uses the existing `/api/inquiry` and Resend delivery path rather than a presentation-only form. Shared browser behavior covers structured field errors, privacy consent, honeypot handling, source/UTM attribution, product-detail prefill, pending/success/error states, and duplicate-listener protection. Product category and cooperation route are preserved in the inquiry email. Build-time `PUBLIC_INQUIRY_*` values activate delivery only after the real privacy notice and origins exist; Pages uses an edge rate-limiting rule because its Functions runtime does not support the Workers Rate Limiting binding.
+
+Visitor-copy and dropdown refinement — 2026-08-24: desktop navigation dropdowns now keep a 350ms pointer-exit buffer so users can cross the trigger-to-panel gap and click submenu links reliably. The current client preview no longer exposes internal configuration warnings, placeholder instructions, or publication-review language; all visitor-facing local fallbacks, page metadata, contact copy, product notes, and supporting sections now use neutral skincare content, while verification state remains internal to validation and publishing controls.
+
+Dropdown single-open coordination — 2026-08-24: opening an embedded navigation dropdown by pointer, click, or keyboard now closes every other embedded dropdown immediately. The 350ms trigger-to-panel buffer remains active for the current menu without allowing adjacent Products, Capabilities, or About panels to overlap.
+
+## Phase 8.4 — First Client Environment Provisioning
+
+- [x] Create the independent Cloudflare Pages project `zhiyan-buweihao`
+- [x] Attach `zhiyan.weihaobu.cn` as the Pages custom domain
+- [x] Configure public Sanity and canonical-site variables for preview and production
+- [x] Add the target-domain CNAME from the Cloudflare zone that owns `weihaobu.cn`
+- [x] Create the first preview deployment, including the embedded Sanity Studio at `/admin/`
+- [x] Verify the local Sanity CORS origin for the embedded Studio
+- [ ] Configure a production rebuild path when remote deployment is approved
+- [ ] Publish verified client content and promote a production deployment
+
+Status: Local Sanity editing is ready; remote rebuild automation is intentionally deferred — 2026-08-21
+
+## Phase 8.1 — Shared SEO, content-source, and inquiry infrastructure
+
+- [x] Add typed page SEO, canonical, robots, language-alternate, social, and JSON-LD contracts
+- [x] Generate sitemap and robots output while excluding internal review routes
+- [x] Define a CMS-neutral content source so shared components do not depend on Sanity
+- [x] Add an accessible reusable inquiry form with attribution and privacy consent
+- [x] Add server-side validation, exact-origin enforcement, optional Worker/Pages edge rate limiting, and Resend delivery
+- [x] Add automated unit/endpoint tests and a full `verify` command
+- [x] Document per-client deployment, privacy, DNS, CMS, and launch responsibilities
+- [ ] Activate a real domain, Resend sender, mailbox, privacy policy, and Cloudflare rate-limiting rule for the first client
+
+Status: Shared foundation complete; first-client activation pending — 2026-08-12
+
+UI refinement note — 2026-08-25: the shared floating contact bar now stays retracted at the page top and appears after scrolling; the image-led homepage Hero preserves each source image's full aspect ratio instead of cropping it into a fixed-height stage.
+
+Homepage inquiry panel note — 2026-08-27: `FloatingInquiryPanel-001` is now mounted on the client homepage as a persistent “Leave A Message” entry. It reuses `ConfigurableForm-001` for the screenshot-aligned name, email, phone, company, and message fields, privacy consent, validation, attribution, and delivery state; the mobile position reserves space above the existing bottom contact bar.
+
+Sanity Studio development note — 2026-08-25: embedded Studio development now serves uncached modules, preventing stale lazy-loaded Releases chunk URLs after Vite dependency regeneration.
+
+Product Families layout note — 2026-08-25: equal-weight category cards now normalize source images into a shared 4:3 media stage and reserve two title lines so mixed image dimensions and label lengths do not shift card content.
+
+Hot Products media note — 2026-08-25: featured product images now scale to fit their responsive media stage without cropping or the former beige gradient panel.
+
+Exit note: SEO rendering, schema builders, crawler output, CMS boundaries, inquiry UI, attribution, server validation, Resend delivery, origin checks, and Cloudflare edge protection are now reusable library infrastructure. New clients configure and validate these capabilities rather than rebuilding them. Live delivery remains intentionally disabled in review until client-owned domain, mailbox, privacy, environment, and rate-limit values exist.
 
 ## Phase 9 — SEO Landing Page Expansion
 
 - [ ] Define evidence-based landing-page categories and URL conventions
 - [ ] Create reusable structured-content patterns
-- [ ] Add canonical, sitemap, schema, and internal-linking rules
+- [x] Add shared canonical, sitemap, robots, and schema infrastructure
+- [ ] Define landing-page-specific schema and internal-linking rules
 - [ ] Validate content uniqueness, performance, and build scale
 
 Status: Not started
+
+About page reference implementation note — 2026-08-27: the About composition now follows the selected `weihao` information hierarchy — Company Information, Main Recommendation, Why Choose Us, optional Additional Images, and Company Carousel — with original shared components and responsive behavior. The four fixed Sanity singleton documents use English-only About fields, normalize empty image Alt values into safe English fallbacks, and retain local client configuration when About content is unpublished or incomplete.

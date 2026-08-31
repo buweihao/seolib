@@ -1,78 +1,153 @@
 ---
-import PatternReview from "../../../components/patterns/PatternReview.astro";
-import CenteredProofHero from "../../../components/patterns/hero/CenteredProofHero.astro";
-import RecognitionBackdropHero from "../../../components/patterns/hero/RecognitionBackdropHero.astro";
-import ArcFactoryHero from "../../../components/patterns/hero/ArcFactoryHero.astro";
-import { arcFactoryHero, recognitionHero } from "../../../fixtures/referencePatterns";
-import ProductCategoryList from "../../../components/patterns/products/ProductCategoryList.astro";
-import ProductMosaic from "../../../components/patterns/products/ProductMosaic.astro";
-import ProofColumns from "../../../components/patterns/evidence/ProofColumns.astro";
-import HorizontalProcess from "../../../components/patterns/process/HorizontalProcess.astro";
-import ProcessCards from "../../../components/patterns/process/ProcessCards.astro";
-import SplitPathways from "../../../components/patterns/pathways/SplitPathways.astro";
-import FacilityGallery from "../../../components/patterns/facility/FacilityGallery.astro";
-import QualityEvidenceMatrix from "../../../components/patterns/quality/QualityEvidenceMatrix.astro";
-import SplitInquiry from "../../../components/patterns/inquiry/SplitInquiry.astro";
-import BuyerPathways from "../../../components/sections/BuyerPathways.astro";
-import EvidenceFeature from "../../../components/sections/EvidenceFeature.astro";
-import FacilityOverview from "../../../components/sections/FacilityOverview.astro";
-import InquiryCTA from "../../../components/sections/InquiryCTA.astro";
-import ProcessSteps from "../../../components/sections/ProcessSteps.astro";
-import ProductFamilies from "../../../components/sections/ProductFamilies.astro";
-import QualityFramework from "../../../components/sections/QualityFramework.astro";
-import StatementHero from "../../../components/sections/StatementHero.astro";
-import { aboutPage, capabilitiesPage, homePage, productsPage } from "../../../fixtures/baseSite";
 import PatternLibraryLayout from "../../../layouts/PatternLibraryLayout.astro";
 
-const hero = { ...homePage.hero, proofItems: homePage.proof.items.map((item) => item.title) };
-const shared = { contentEvidence: "来自 Phase 7 的可读示例内容模型；内容本身不由参考网站决定。", uiEvidence: "通用网页布局规律，经多个参考案例交叉验证；不复制任何单站品牌或成品设计。" };
+const families = [
+  { href: "/library/patterns/hero/", label: "首屏 Hero", count: 4, purpose: "建立第一印象与核心主张", includes: "主张式、居中证明、工厂全景、认可证据轮播" },
+  { href: "/library/patterns/products/", label: "产品范围展示", count: 3, purpose: "帮助采购者浏览产品方向", includes: "分类卡片、图片拼贴、采购目录" },
+  { href: "/library/patterns/evidence/", label: "信任证据", count: 2, purpose: "解释为什么值得进一步核实", includes: "媒体分栏证据、证明信息列" },
+  { href: "/library/patterns/process/", label: "合作流程", count: 3, purpose: "说明项目如何从需求走向交付", includes: "责任分工、时间线、阶段卡片" },
+  { href: "/library/patterns/pathways/", label: "合作路线", count: 2, purpose: "区分不同客户的合作起点", includes: "等权路线卡片、强对比分区" },
+  { href: "/library/patterns/facility/", label: "工厂设施", count: 2, purpose: "展示生产环境与关键区域", includes: "设施总览、区域图库" },
+  { href: "/library/patterns/quality/", label: "质量体系", count: 2, purpose: "呈现质量控制与可提供证据", includes: "质量检查点、采购证据矩阵" },
+  { href: "/library/patterns/inquiry/", label: "询盘与联系", count: 10, purpose: "引导客户准备信息并发起项目", includes: "行动区、浮动联系、联系工作区、分步询盘与完整表单" },
+  { href: "/library/patterns/navigation/", label: "导航下拉", count: 1, purpose: "在主导航中解释服务和证据路线", includes: "紧凑服务菜单、带介绍的宽幅面板" },
+] as const;
+
+const missingInnerPages = [
+  { label: "成品产品详情页", status: "尚未建立", description: "需要产品图集、核心卖点、规格参数、配方与包装选项、MOQ/交期、文件证据和询盘入口。", priority: true },
+  { label: "产品目录内页", status: "仅有基础版", description: "已有产品分类展示，但还缺筛选、搜索、系列切换和产品列表状态。", priority: false },
+  { label: "能力与质量详情页", status: "尚未建立", description: "缺少研发、打样、生产、测试、认证及文件下载等专属详情结构。", priority: false },
+  { label: "公司、工厂与联系内页", status: "仅有基础版", description: "已有通用组合，仍缺团队、历程、工厂图库、地址与联系分流等可替换模式。", priority: false },
+] as const;
+
+const supportingPages = [
+  { href: "/library/patterns/registry/", label: "全部组件注册表", description: "按层级查看每个零件的状态、源码和审核入口。" },
+  { href: "/library/patterns/png-derived/", label: "PNG 衍生零件", description: "集中审核从现有参考截图提炼出的非同质化结构。" },
+  { href: "/library/patterns/compositions/", label: "页面组合", description: "比较同一份内容如何组合为不同的客户决策流程。" },
+] as const;
 ---
 
-<PatternLibraryLayout title="UI 模式审核台" description="这里故意让同一份内容依次进入不同 UI 模式。先判断信息是否正确，再判断展示方式是否适合客户，最后才选择页面组合。">
-  <div class="pattern-stack">
-    <section class="group" id="heroes"><h2>Hero patterns</h2><p>保留经过审核、结构差异足够明显的 Hero。</p></section>
-    <PatternReview patternId="StatementHero-001" name="Statement split" suitableFor="品牌主张清楚、需要文案与主视觉并重的首页" {...shared} originalTreatment="克制的双栏结构、原创间距与按钮层级。"><StatementHero {...hero} id="demo-hero-statement" headingLevel="h3" /></PatternReview>
-    <PatternReview patternId="CenteredProofHero-001" name="Centered proof" suitableFor="需要在首屏快速建立信任的供应商" {...shared} originalTreatment="居中叙事后连接证明条，不采用特定站点外观。"><CenteredProofHero {...hero} id="demo-hero-centered" headingLevel="h3" /></PatternReview>
-    <PatternReview patternId="ArcFactoryHero-001" name="Arc factory panorama" suitableFor="需要用工厂全景和采购主张共同开场的制造商" contentEvidence="工厂媒体及所有商业、质量表述均须由客户提供并核验。" uiEvidence="Laeyo 02 Hero：宽阔文案区、工厂全景，以及连接两者的大型弧形切口。" originalTreatment="使用原创弧形几何、配色、响应式重排、文案和审核素材，不复用来源图片或标识。"><ArcFactoryHero {...arcFactoryHero} id="demo-hero-arc-factory" headingLevel="h3" /></PatternReview>
-    <PatternReview patternId="RecognitionBackdropHero-001" name="Recognition collage" suitableFor="拥有真实奖项、媒体、成果或案例证明的企业" contentEvidence="奖项、媒体、产品成果和案例由客户提供并核验。" uiEvidence="Vitelle 02 Hero 的交错证明卡、认可徽章、中央标题条和底部定位语句关系。" originalTreatment="使用原创审核图、原创拼贴角度、徽章和响应式重排。"><RecognitionBackdropHero {...recognitionHero} id="demo-hero-recognition" headingLevel="h3" /></PatternReview>
+<PatternLibraryLayout title="UI 模式审核台" description="先判断您要审核的是首页区段、内页零件，还是整页组合；再进入对应页面比较具体 UI。">
+  <div class="pattern-directory">
+    <section class="audit-overview" aria-labelledby="audit-overview-title">
+      <div>
+        <p class="section-kicker">如何使用</p>
+        <h2 id="audit-overview-title">这不是组件展示长页，而是审核入口</h2>
+      </div>
+      <ol>
+        <li><span>01</span><strong>选择内容目的</strong><small>例如产品展示、工厂证据或询盘。</small></li>
+        <li><span>02</span><strong>进入独立审核页</strong><small>只比较同一类 UI，判断保留或删除。</small></li>
+        <li><span>03</span><strong>再审核页面组合</strong><small>确认零件如何服务完整客户流程。</small></li>
+      </ol>
+    </section>
 
-    <section class="group" id="products"><h2>Product patterns</h2><p>同一产品分类内容，3 种展示方式。</p></section>
-    <PatternReview patternId="ProductFamilies-001" name="Equal cards" suitableFor="分类权重相近、需要快速浏览" {...shared} originalTreatment="等权卡片网格。"><ProductFamilies {...productsPage.products} id="demo-products-cards" /></PatternReview>
-    <PatternReview patternId="ProductMosaic-001" name="Image mosaic" suitableFor="图片成熟、希望强化产品氛围" {...shared} originalTreatment="用原创拼贴节奏区分重点分类。"><ProductMosaic {...productsPage.products} id="demo-products-mosaic" /></PatternReview>
-    <PatternReview patternId="ProductCategoryList-001" name="Category list" suitableFor="分类较多、采购者需要高效扫描" {...shared} originalTreatment="编号目录配小图，强调信息效率。"><ProductCategoryList {...productsPage.products} id="demo-products-list" /></PatternReview>
+    <section aria-labelledby="home-patterns-title">
+      <header class="directory-heading">
+        <div>
+          <p class="section-kicker">01 · 已有，可直接审核</p>
+          <h2 id="home-patterns-title">Home 首页区段 UI</h2>
+        </div>
+        <p class="section-summary">当前较完整的零件集中在首页。每张卡片代表一种内容目的，而不是一套固定网站。</p>
+      </header>
+      <div class="directory-grid">
+        {families.map((family, index) => (
+          <a class="directory-card" href={family.href}>
+            <span class="card-index">{String(index + 1).padStart(2, "0")}</span>
+            <div class="card-title-row"><h3>{family.label}</h3><span>{family.count} 种</span></div>
+            <p>{family.purpose}</p>
+            <small><b>包含：</b>{family.includes}</small>
+            <strong class="card-action">进入本类审核 <span aria-hidden="true">→</span></strong>
+          </a>
+        ))}
+      </div>
+    </section>
 
-    <section class="group" id="evidence"><h2>Evidence patterns</h2><p>同一证据内容，2 种展示方式。</p></section>
-    <PatternReview patternId="EvidenceFeature-001" name="Media split" suitableFor="需要用一张主图解释证明体系" {...shared} originalTreatment="媒体与证据清单并列。"><EvidenceFeature {...homePage.evidence} id="demo-evidence-media" /></PatternReview>
-    <PatternReview patternId="ProofColumns-001" name="Proof columns" suitableFor="没有合适主图、希望直接比较证据点" {...shared} originalTreatment="以编号证据列替代装饰图。"><ProofColumns {...homePage.evidence} id="demo-evidence-columns" /></PatternReview>
+    <section class="coverage-section" aria-labelledby="coverage-title">
+      <header class="directory-heading">
+        <div>
+          <p class="section-kicker">02 · 缺口，等待截图补建</p>
+          <h2 id="coverage-title">内页专用 UI</h2>
+        </div>
+        <p class="section-summary">这些不是首页零件的简单复制，需要从对应内页截图提取内容结构和 UI 模式。</p>
+      </header>
+      <div class="coverage-grid">
+        {missingInnerPages.map((page) => (
+          <article class:list={["coverage-card", { "coverage-card--priority": page.priority }]}>
+            <div><span>{page.status}</span>{page.priority && <b>下一批优先</b>}</div>
+            <h3>{page.label}</h3>
+            <p>{page.description}</p>
+          </article>
+        ))}
+      </div>
+      <aside class="clarification-note">
+        <strong>当前的单品展示不等于产品详情页。</strong>
+        <p><code>GatedProductSpotlight-001</code> 只负责突出一个产品和访问入口；库中还没有承载完整产品资料的详情页组件与页面组合。</p>
+      </aside>
+    </section>
 
-    <section class="group" id="process"><h2>Process patterns</h2><p>同一流程内容，3 种展示方式。</p></section>
-    <PatternReview patternId="ProcessSteps-001" name="Vertical responsibilities" suitableFor="步骤复杂、需要写清双方责任" {...shared} originalTreatment="纵向步骤兼容责任说明。"><ProcessSteps {...capabilitiesPage.process} id="demo-process-vertical" /></PatternReview>
-    <PatternReview patternId="HorizontalProcess-001" name="Horizontal timeline" suitableFor="步骤少且顺序明确" {...shared} originalTreatment="桌面横向、移动端纵向的语义有序列表。"><HorizontalProcess {...capabilitiesPage.process} id="demo-process-horizontal" /></PatternReview>
-    <PatternReview patternId="ProcessCards-001" name="Process cards" suitableFor="每个阶段需独立解释" {...shared} originalTreatment="深色模块化阶段卡片。"><ProcessCards {...capabilitiesPage.process} id="demo-process-cards" /></PatternReview>
-
-    <section class="group" id="pathways"><h2>Pathway patterns</h2><p>同一合作路线内容，2 种展示方式。</p></section>
-    <PatternReview patternId="BuyerPathways-001" name="Route cards" suitableFor="三种以上合作模式并列比较" {...shared} originalTreatment="等权决策卡。"><BuyerPathways {...homePage.pathways} id="demo-pathways-cards" /></PatternReview>
-    <PatternReview patternId="SplitPathways-001" name="Split routes" suitableFor="两种核心方向需要强对比" {...shared} originalTreatment="交替明暗分区形成决策对照。"><SplitPathways {...homePage.pathways} id="demo-pathways-split" /></PatternReview>
-
-    <section class="group" id="facility"><h2>Facility patterns</h2><p>同一设施内容，2 种展示方式。</p></section>
-    <PatternReview patternId="FacilityOverview-001" name="Facility overview" suitableFor="一张总览图配清单" {...shared} originalTreatment="总览媒体与核验说明并列。"><FacilityOverview {...aboutPage.facility} id="demo-facility-overview" /></PatternReview>
-    <PatternReview patternId="FacilityGallery-001" name="Facility gallery" suitableFor="工厂视觉较强、区域需要模块化说明" {...shared} originalTreatment="大幅总览媒体后接区域信息墙。"><FacilityGallery {...aboutPage.facility} id="demo-facility-gallery" /></PatternReview>
-
-    <section class="group" id="quality"><h2>Quality patterns</h2><p>同一质量内容，2 种展示方式。</p></section>
-    <PatternReview patternId="QualityFramework-001" name="Quality checkpoints" suitableFor="循序解释质量节点" {...shared} originalTreatment="检查点与证据类型成组。"><QualityFramework {...capabilitiesPage.quality} id="demo-quality-checkpoints" /></PatternReview>
-    <PatternReview patternId="QualityEvidenceMatrix-001" name="Evidence matrix" suitableFor="采购人员需要快速核验" {...shared} originalTreatment="表格式扫描结构但保留语义文章元素。"><QualityEvidenceMatrix {...capabilitiesPage.quality} id="demo-quality-matrix" /></PatternReview>
-
-    <section class="group" id="inquiry"><h2>Inquiry patterns</h2><p>同一询盘内容，2 种展示方式。</p></section>
-    <PatternReview patternId="InquiryCTA-001" name="Dark inquiry" suitableFor="页面末端的强收口" {...shared} originalTreatment="深色集中式行动区。"><InquiryCTA {...productsPage.inquiry} id="demo-inquiry-dark" /></PatternReview>
-    <PatternReview patternId="SplitInquiry-001" name="Split inquiry" suitableFor="需要同时说明准备材料与行动" {...shared} originalTreatment="标题与询盘准备项分栏。"><SplitInquiry {...productsPage.inquiry} id="demo-inquiry-split" /></PatternReview>
+    <section aria-labelledby="supporting-pages-title">
+      <header class="directory-heading">
+        <div>
+          <p class="section-kicker">03 · 管理与组合</p>
+          <h2 id="supporting-pages-title">其它审核工具</h2>
+        </div>
+      </header>
+      <div class="tool-grid">
+        {supportingPages.map((page) => (
+          <a class="tool-card" href={page.href}>
+            <h3>{page.label}</h3>
+            <p>{page.description}</p>
+            <strong>打开 <span aria-hidden="true">→</span></strong>
+          </a>
+        ))}
+      </div>
+    </section>
   </div>
 </PatternLibraryLayout>
 
 <style>
-  .pattern-stack { width: min(100% - 2 * var(--ds-page-gutter), 100rem); margin: 0 auto; padding-bottom: var(--ds-section-feature); }
-  .group { scroll-margin-top: 1rem; margin: var(--ds-section-feature) 0 var(--ds-space-8); }
-  .group:first-child { margin-top: 0; }
-  .group h2, .group p { margin: 0; }
-  .group h2 { font-size: clamp(2rem, 4vw, 3rem); }
-  .group p { margin-top: var(--ds-space-2); color: var(--ds-color-muted); }
+  .pattern-directory { width: min(100% - 2 * var(--ds-page-gutter), var(--ds-container-wide)); margin: 0 auto; padding-bottom: var(--ds-section-feature); }
+  .pattern-directory > section + section { margin-top: var(--ds-section-standard); }
+  .section-kicker { margin: 0; color: var(--ds-color-accent); font-size: .75rem; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
+  .audit-overview { display: grid; gap: var(--ds-space-8); padding: clamp(1.5rem, 4vw, 3rem); border: 1px solid var(--ds-color-border); border-radius: var(--ds-radius-card); background: var(--ds-color-surface-subtle); }
+  .audit-overview h2, .directory-heading h2 { margin: var(--ds-space-2) 0 0; font-size: clamp(1.65rem, 3.5vw, 2.75rem); line-height: 1.08; }
+  .audit-overview ol { display: grid; gap: var(--ds-space-5); margin: 0; padding: 0; list-style: none; }
+  .audit-overview li { display: grid; grid-template-columns: auto 1fr; gap: .15rem var(--ds-space-3); }
+  .audit-overview li > span { grid-row: span 2; color: var(--ds-color-accent); font-size: .75rem; font-weight: 800; letter-spacing: .08em; }
+  .audit-overview li strong { font-size: 1rem; }
+  .audit-overview li small { color: var(--ds-color-muted); font-size: .9rem; }
+  .directory-heading { display: grid; gap: var(--ds-space-4); align-items: end; }
+  .section-summary { max-width: 58ch; margin: 0; color: var(--ds-color-muted); }
+  .directory-grid, .coverage-grid, .tool-grid { display: grid; gap: var(--ds-space-4); margin-top: var(--ds-space-8); }
+  .directory-card, .tool-card { min-width: 0; border: 1px solid var(--ds-color-border); border-radius: var(--ds-radius-card); background: var(--ds-color-surface); text-decoration: none; transition: border-color .2s ease, transform .2s ease, background .2s ease; }
+  .directory-card { display: flex; flex-direction: column; padding: clamp(1.25rem, 3vw, 2rem); }
+  .directory-card:hover, .tool-card:hover { border-color: var(--ds-color-accent); background: color-mix(in oklch, var(--ds-color-accent), white 96%); transform: translateY(-2px); }
+  .card-index { color: var(--ds-color-accent); font-size: .72rem; font-weight: 800; letter-spacing: .1em; }
+  .card-title-row { display: flex; align-items: baseline; justify-content: space-between; gap: var(--ds-space-3); margin-top: var(--ds-space-5); }
+  .card-title-row h3, .coverage-card h3, .tool-card h3 { margin: 0; font-size: 1.25rem; line-height: 1.2; }
+  .card-title-row > span { flex: none; color: var(--ds-color-muted); font-size: .78rem; }
+  .directory-card > p, .coverage-card > p, .tool-card > p { margin: var(--ds-space-3) 0 0; color: var(--ds-color-muted); }
+  .directory-card > small { display: block; margin-top: var(--ds-space-5); padding-top: var(--ds-space-4); border-top: 1px solid var(--ds-color-border); color: var(--ds-color-muted); font-size: .85rem; }
+  .directory-card > small b { color: var(--ds-color-text); }
+  .card-action { margin-top: auto; padding-top: var(--ds-space-6); color: var(--ds-color-accent); font-size: .86rem; }
+  .coverage-section { padding: clamp(1.5rem, 4vw, 3rem); border-radius: var(--ds-radius-card); background: var(--ds-color-surface-subtle); }
+  .coverage-card { padding: clamp(1.15rem, 2.5vw, 1.75rem); border: 1px solid var(--ds-color-border); border-radius: var(--ds-radius-card); background: var(--ds-color-surface); }
+  .coverage-card--priority { border-color: var(--ds-color-accent); box-shadow: inset .25rem 0 0 var(--ds-color-accent); }
+  .coverage-card > div { display: flex; flex-wrap: wrap; gap: var(--ds-space-2); margin-bottom: var(--ds-space-5); }
+  .coverage-card > div span, .coverage-card > div b { padding: .25rem .5rem; border-radius: 99rem; background: var(--ds-color-surface-subtle); color: var(--ds-color-muted); font-size: .7rem; }
+  .coverage-card > div b { background: var(--ds-color-accent); color: white; }
+  .clarification-note { margin-top: var(--ds-space-6); padding: var(--ds-space-5); border-left: .25rem solid var(--ds-color-accent); background: var(--ds-color-surface); }
+  .clarification-note p { margin: var(--ds-space-2) 0 0; color: var(--ds-color-muted); }
+  .clarification-note code { overflow-wrap: anywhere; }
+  .tool-card { display: grid; gap: var(--ds-space-3); padding: clamp(1.25rem, 3vw, 2rem); }
+  .tool-card > p { margin: 0; }
+  .tool-card > strong { color: var(--ds-color-accent); font-size: .86rem; }
+  @media (min-width: 42rem) {
+    .audit-overview { grid-template-columns: minmax(0, .8fr) minmax(0, 1.4fr); }
+    .audit-overview ol { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .directory-grid, .coverage-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tool-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (min-width: 64rem) { .directory-heading { grid-template-columns: minmax(0, 1fr) minmax(20rem, .75fr); } }
+  @media (min-width: 72rem) { .directory-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 </style>

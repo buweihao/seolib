@@ -1,19 +1,23 @@
 ---
 import type { ComponentProps } from "astro/types";
 
+import ContactWorkspace from "../patterns/inquiry/ContactWorkspace.astro";
 import ContactOptions from "../sections/ContactOptions.astro";
 import PageIntro from "../sections/PageIntro.astro";
+import type { ClientInquiryConfig } from "../../inquiry/types";
 
 interface Props {
   intro: ComponentProps<typeof PageIntro>;
-  contact: ComponentProps<typeof ContactOptions>;
+  contact: ComponentProps<typeof ContactWorkspace> | ComponentProps<typeof ContactOptions>;
+  inquiryConfig?: ClientInquiryConfig;
   class?: string;
 }
 
-const { intro, contact, class: className } = Astro.props;
+const { intro, contact, inquiryConfig, class: className } = Astro.props;
+const usesWorkspace = "fields" in contact;
 ---
 
 <div class:list={["contact-page", className]}>
   <PageIntro {...intro} />
-  <ContactOptions {...contact} />
+  {usesWorkspace ? <ContactWorkspace {...contact} {inquiryConfig} /> : <ContactOptions {...contact} />}
 </div>

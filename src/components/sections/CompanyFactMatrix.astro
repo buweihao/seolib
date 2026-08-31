@@ -1,0 +1,52 @@
+---
+import Container from "../primitives/Container.astro";
+import SectionHeading from "../primitives/SectionHeading.astro";
+
+interface Fact {
+  label: string;
+  value: string;
+  detail?: string;
+}
+
+interface Props {
+  id: string;
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  facts: readonly Fact[];
+  class?: string;
+}
+
+const { id, eyebrow, title, description, facts, class: className } = Astro.props;
+const headingId = `${id}-title`;
+---
+
+<section id={id} class:list={["company-fact-matrix", className]} aria-labelledby={headingId}>
+  <Container size="wide">
+    <SectionHeading id={headingId} eyebrow={eyebrow} title={title} description={description} />
+    <dl class="company-fact-matrix__grid">
+      {facts.map((fact, index) => (
+        <div class="company-fact-matrix__item">
+          <dt><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>{fact.label}</dt>
+          <dd>{fact.value}</dd>
+          {fact.detail && <p>{fact.detail}</p>}
+        </div>
+      ))}
+    </dl>
+  </Container>
+</section>
+
+<style>
+  .company-fact-matrix { padding-block: var(--ds-section-standard); }
+  .company-fact-matrix__grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    gap: 1px; margin: var(--ds-space-12) 0 0; padding: 1px; background: var(--ds-color-border);
+  }
+  .company-fact-matrix__item { min-height: 12rem; padding: var(--ds-space-6); background: var(--ds-color-surface); }
+  .company-fact-matrix dt, .company-fact-matrix dd, .company-fact-matrix p { margin: 0; }
+  .company-fact-matrix dt { display: flex; gap: var(--ds-space-3); align-items: center; color: var(--ds-color-muted); font-size: .75rem; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
+  .company-fact-matrix dt span { color: var(--ds-color-accent); }
+  .company-fact-matrix dd { margin-top: var(--ds-space-6); font-size: clamp(1.25rem, 2.2vw, 1.75rem); line-height: 1.15; }
+  .company-fact-matrix p { margin-top: var(--ds-space-3); color: var(--ds-color-muted); font-size: .9375rem; }
+  @media (min-width: 64rem) { .company-fact-matrix__item { padding: var(--ds-space-8); } }
+</style>

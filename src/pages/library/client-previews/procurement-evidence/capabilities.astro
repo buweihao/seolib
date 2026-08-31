@@ -1,0 +1,40 @@
+---
+import CapabilitiesPage from "../../../../components/compositions/CapabilitiesPage.astro";
+import PageResourceRail from "../../../../components/sections/PageResourceRail.astro";
+import SamplingWorkflowCards from "../../../../components/sections/SamplingWorkflowCards.astro";
+import { loadProcurementEvidenceClient } from "../../../../config/clients/procurement-evidence-cms";
+import ClientPageShell from "../../../../layouts/ClientPageShell.astro";
+
+const procurementEvidenceClient = await loadProcurementEvidenceClient();
+---
+
+<ClientPageShell
+  config={procurementEvidenceClient}
+  currentPath={procurementEvidenceClient.routes.capabilities}
+  title="Skincare development capabilities | Aurevia Skincare"
+  description="Explore formula development, packaging coordination, sampling, quality planning, and production preparation."
+>
+  <CapabilitiesPage {...procurementEvidenceClient.pages.capabilities} />
+  <SamplingWorkflowCards
+    id="sampling-workflow"
+    eyebrow="Evaluation path"
+    title="A clear path from brief to sample review"
+    description="Use consistent checkpoints so product inputs, decisions, and next steps stay visible to both teams."
+    steps={[
+      { title: "Share the brief", description: "Align on category, market, format, and packaging direction.", action: "Brand input: skincare requirements" },
+      { title: "Confirm direction", description: "Align the relevant development, quality, and documentation needs.", action: "Joint step: agree the scope" },
+      { title: "Develop a sample", description: "Translate the agreed direction into a sample plan with open decisions recorded.", action: "Development output: sample plan" },
+      { title: "Review and refine", description: "Capture feedback, approvals, and next actions before a commercial proposal.", action: "Next step: approved direction" },
+    ]}
+  />
+  <PageResourceRail
+    id="capability-resources"
+    title="Explore more skincare support"
+    description="Continue from product categories to quality planning or share your collection requirements."
+    resources={[
+      { label: "Category directory", href: procurementEvidenceClient.routes.products, detail: "Explore product families and formats" },
+      { label: "Quality planning", href: `${procurementEvidenceClient.routes.about}#about-advantages`, detail: "Follow quality responsibilities" },
+      { label: "Prepare an inquiry", href: procurementEvidenceClient.routes.contact, detail: "Share market and packaging inputs" },
+    ]}
+  />
+</ClientPageShell>

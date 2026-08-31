@@ -1,0 +1,45 @@
+---
+import ActionLink from "../primitives/ActionLink.astro";
+import Container from "../primitives/Container.astro";
+
+interface Props {
+  id: string;
+  title: string;
+  description: string;
+  primaryAction: { href: string; label: string };
+  secondaryAction?: { href: string; label: string };
+  note?: string;
+  class?: string;
+}
+
+const { id, title, description, primaryAction, secondaryAction, note, class: className } = Astro.props;
+---
+
+<section id={id} class:list={["product-inquiry-panel", className]} aria-labelledby={`${id}-title`}>
+  <Container>
+    <div class="product-inquiry-panel__inner">
+      <div>
+        <p class="product-inquiry-panel__eyebrow">Project fit</p>
+        <h2 id={`${id}-title`}>{title}</h2>
+        <p class="product-inquiry-panel__description">{description}</p>
+        {note && <p class="product-inquiry-panel__note">{note}</p>}
+      </div>
+      <div class="product-inquiry-panel__actions">
+        <ActionLink href={primaryAction.href} label={primaryAction.label} />
+        {secondaryAction && <ActionLink href={secondaryAction.href} label={secondaryAction.label} variant="secondary" />}
+      </div>
+    </div>
+  </Container>
+</section>
+
+<style>
+  .product-inquiry-panel { padding-block: 0 var(--ds-section-standard); }
+  .product-inquiry-panel__inner { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--ds-space-8); align-items: end; border: 1px solid var(--ds-color-border); border-radius: var(--ds-radius-card); background: var(--ds-color-surface); padding: clamp(1.5rem, 4vw, 3rem); }
+  .product-inquiry-panel__eyebrow, h2, .product-inquiry-panel__description, .product-inquiry-panel__note { margin: 0; }
+  .product-inquiry-panel__eyebrow { color: var(--ds-color-accent); font-size: .75rem; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; }
+  h2 { margin-top: var(--ds-space-3); font-size: clamp(1.6rem, 3vw, 2.6rem); line-height: 1.05; }
+  .product-inquiry-panel__description { max-width: 55ch; margin-top: var(--ds-space-4); color: var(--ds-color-muted); }
+  .product-inquiry-panel__note { max-width: 65ch; margin-top: var(--ds-space-4); color: var(--ds-color-muted); font-size: .8125rem; }
+  .product-inquiry-panel__actions { display: flex; flex-wrap: wrap; gap: var(--ds-space-3); }
+  @media (max-width: 44rem) { .product-inquiry-panel__inner { grid-template-columns: 1fr; } }
+</style>

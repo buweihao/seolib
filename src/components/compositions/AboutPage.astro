@@ -1,28 +1,23 @@
 ---
-import type { ComponentProps } from "astro/types";
-
-import EvidenceFeature from "../sections/EvidenceFeature.astro";
-import FacilityOverview from "../sections/FacilityOverview.astro";
-import InquiryCTA from "../sections/InquiryCTA.astro";
-import PageIntro from "../sections/PageIntro.astro";
-import QualityFramework from "../sections/QualityFramework.astro";
+import type { AboutPageContent } from "../../content-models/sections";
+import AboutAdvantages from "../sections/AboutAdvantages.astro";
+import AboutCompanyCarousel from "../sections/AboutCompanyCarousel.astro";
+import AboutCompanyInformation from "../sections/AboutCompanyInformation.astro";
+import AboutImageGallery from "../sections/AboutImageGallery.astro";
+import AboutRecommendation from "../sections/AboutRecommendation.astro";
 
 interface Props {
-  intro: ComponentProps<typeof PageIntro>;
-  facility: ComponentProps<typeof FacilityOverview>;
-  evidence: ComponentProps<typeof EvidenceFeature>;
-  quality: ComponentProps<typeof QualityFramework>;
-  inquiry: ComponentProps<typeof InquiryCTA>;
+  content: AboutPageContent;
   class?: string;
 }
 
-const { intro, facility, evidence, quality, inquiry, class: className } = Astro.props;
+const { content, class: className } = Astro.props;
 ---
 
 <div class:list={["about-page", className]}>
-  <PageIntro {...intro} />
-  <FacilityOverview {...facility} />
-  <EvidenceFeature {...evidence} />
-  <QualityFramework {...quality} />
-  <InquiryCTA {...inquiry} />
+  <AboutCompanyInformation id="about-company" {...content.company} />
+  <AboutRecommendation id="about-recommendation" {...content.recommendation} />
+  <AboutAdvantages id="about-advantages" {...content.advantages} />
+  <AboutImageGallery id="about-gallery" {...content.gallery} />
+  <AboutCompanyCarousel id="about-carousel" {...content.carousel} />
 </div>
