@@ -216,7 +216,7 @@ export const applyCatalogToClient = (
   const contactContextItems = [
     ...(homepageSettings?.contactEmail ? [{ label: "Email", value: homepageSettings.contactEmail, href: `mailto:${homepageSettings.contactEmail}`, icon: "email" as const }] : []),
     ...(homepageSettings?.contactPhone ? [{ label: "Phone", value: homepageSettings.contactPhone, href: `tel:${homepageSettings.contactPhone.replace(/[^+\d]/g, "")}`, icon: "phone" as const }] : []),
-    ...(homepageSettings?.contactWhatsapp ? [{ label: "WhatsApp", value: homepageSettings.contactWhatsapp, href: homepageSettings.contactWhatsapp.startsWith("https://") ? homepageSettings.contactWhatsapp : `https://wa.me/${homepageSettings.contactWhatsapp.replace(/\D/g, "")}`, icon: "message" as const }] : []),
+    ...(homepageSettings?.contactWhatsapp ? [{ label: "WhatsApp", value: homepageSettings.contactWhatsapp, href: homepageSettings.contactWhatsapp.startsWith("https://") ? homepageSettings.contactWhatsapp : `https://wa.me/${homepageSettings.contactWhatsapp.replace(/\D/g, "")}`, icon: "whatsapp" as const }] : []),
     ...(homepageSettings?.contactLocation ? [{ label: "Location", value: homepageSettings.contactLocation, icon: "location" as const }] : []),
   ];
 
