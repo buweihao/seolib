@@ -7,9 +7,9 @@ credentials.
 
 ## Current external targets
 
-- Cloudflare Pages project: `zhiyan-buweihao`
+- Cloudflare Pages project: `zhiyanskincare`
 - Pages URL: `https://zhiyanskincare.pages.dev/`
-- GitHub repository currently attached to this workspace: `buweihao/seolib`
+- GitHub repository connected to Pages: `buweihao/zhiyanskincare`
 - Sanity project configured by the repository CLI config: `38v66hkz`
 - Sanity dataset: `production`
 - Sanity Studio route: `/admin/`
@@ -21,10 +21,10 @@ credentials.
 - Output directory: `dist`
 - Production branch: confirm in the Cloudflare Pages project before binding
 
-The production branch is intentionally not guessed here. The current checkout
-is `agent/multi-page-client-config`, while the live ZhiYan page is not identical
-to the current local review-hub homepage. Verify the Cloudflare source commit
-before changing the Pages Git integration.
+Cloudflare Pages is connected to `buweihao/zhiyanskincare` on `main`, with
+automatic deployments enabled. The live ZhiYan source remains in that client
+repository; this `seolib` folder is the library-side deployment and CMS record,
+not a duplicate copy of the site source.
 
 ## Sanity to Cloudflare automatic rebuild
 
@@ -49,10 +49,11 @@ chain should be:
 Never store Sanity tokens, Cloudflare API tokens, or Deploy Hook URLs in this
 directory or in Git.
 
-## Pending external setup
+## External setup status
 
-- Re-authenticate GitHub CLI before pushing.
-- Provide a valid Cloudflare API token or complete the Pages dashboard GitHub
-  connection.
-- Confirm the production branch and source commit for the live site.
-- Confirm Sanity Manage access and CORS origins for the production site.
+- Pages GitHub connection: complete (`buweihao/zhiyanskincare`, `main`).
+- Cloudflare Deploy Hook: created as `sanity-production-rebuild` for `main`.
+- Sanity CLI webhook: complete (`zhiyanskincare-cloudflare-rebuild`).
+- Cloudflare Pages production variables: complete (`SITE_URL`, `PUBLIC_SANITY_PROJECT_ID`, `PUBLIC_SANITY_DATASET`, `PUBLIC_SANITY_API_VERSION`).
+- End-to-end Deploy Hook test: complete; Cloudflare production deployment succeeded.
+- Keep Deploy Hook URLs, Sanity tokens, and Cloudflare API tokens out of Git.

@@ -210,16 +210,15 @@ Dropdown single-open coordination — 2026-08-24: opening an embedded navigation
 ## Phase 8.4 — First Client Environment Provisioning
 
 - [x] Add the client-specific deployment and CMS control point under `client/zhiyan/`
-- [x] Create the independent Cloudflare Pages project `zhiyan-buweihao`
-- [x] Attach `zhiyan.weihaobu.cn` as the Pages custom domain
-- [x] Configure public Sanity and canonical-site variables for preview and production
-- [x] Add the target-domain CNAME from the Cloudflare zone that owns `weihaobu.cn`
-- [x] Create the first preview deployment, including the embedded Sanity Studio at `/admin/`
+- [x] Connect the Cloudflare Pages project `zhiyanskincare` to `buweihao/zhiyanskincare`
+- [x] Configure public Sanity and canonical-site variables for the production Pages environment
+- [x] Verify the public Pages URL and custom-domain aliases
+- [x] Create a successful production deployment, including the embedded Sanity Studio at `/admin/`
 - [x] Verify the local Sanity CORS origin for the embedded Studio
-- [ ] Configure a production rebuild path when remote deployment is approved
+- [x] Configure Sanity CLI Webhook → Cloudflare Pages Deploy Hook rebuild automation
 - [ ] Publish verified client content and promote a production deployment
 
-Status: Local Sanity editing is ready; remote rebuild automation is intentionally deferred — 2026-08-21
+Status: GitHub-connected Pages deployment and Sanity production rebuild automation are complete; verified content publication remains pending — 2026-09-10
 
 ## Phase 8.1 — Shared SEO, content-source, and inquiry infrastructure
 
