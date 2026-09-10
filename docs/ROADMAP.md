@@ -209,6 +209,7 @@ Dropdown single-open coordination — 2026-08-24: opening an embedded navigation
 
 ## Phase 8.4 — First Client Environment Provisioning
 
+- [x] Add the client-specific deployment and CMS control point under `client/zhiyan/`
 - [x] Create the independent Cloudflare Pages project `zhiyan-buweihao`
 - [x] Attach `zhiyan.weihaobu.cn` as the Pages custom domain
 - [x] Configure public Sanity and canonical-site variables for preview and production
