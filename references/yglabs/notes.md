@@ -2,7 +2,7 @@
 
 ## Source
 
-- Original website/domain: TBD (not recorded in existing project documentation)
+- Original website/domain: https://yglabs.com/ (confirmed by the supplied contact-page capture)
 - Accessed: 2026-08-10
 - Evidence: desktop full-page PNG, 1905 × 2314 px
 - Mobile evidence: not provided in this batch
@@ -58,3 +58,11 @@ The desktop screenshot shows only one product, which may reflect login/catalog s
 - `05-best-selling-products.png` should be reviewed to decide whether the sparse state is useful evidence or merely a partial/login-dependent capture.
 - Mobile behavior remains unknown.
 - Component decision: none; human pattern review is required before Phase 3.
+
+## Contact page evidence received 2026-08-24
+
+- Saved evidence: `source/contact-full.png` (1920 × 1744 desktop full page); URL confirmed as `https://yglabs.com/` contact route by the supplied capture name.
+- Content relationship: a broad support form includes company, project/order reference, support reference, and message fields before the site-wide contact/footer routes.
+- UI relationship: a quiet centered two-column field grid expands the message to full width.
+- Reuse decision: `StructuredRequestForm-001` supports this higher-density request shape without copying ecommerce-specific fields, CAPTCHA treatment, contact facts, branding, or footer UI.
+- Mobile behavior: unknown; the original implementation collapses to one column for review.

@@ -1,0 +1,28 @@
+---
+interface Location { title: string; details: string[]; }
+interface Resource { title: string; description: string; action: { label: string; href: string }; }
+interface Props { id: string; eyebrow?: string; title: string; description: string; locations: Location[]; resources: Resource[]; }
+const { id, eyebrow, title, description, locations, resources } = Astro.props;
+---
+<section id={id} class="office-resource" aria-labelledby={`${id}-title`}>
+  <header>{eyebrow && <p>{eyebrow}</p>}<h2 id={`${id}-title`}>{title}</h2><div>{description}</div></header>
+  <div class="office-resource__locations">{locations.map((location, index) => <article><span>{String(index + 1).padStart(2, "0")}</span><h3>{location.title}</h3><ul>{location.details.map((detail) => <li>{detail}</li>)}</ul></article>)}</div>
+  <div class="office-resource__resources">{resources.map((resource) => <article><div aria-hidden="true">↗</div><h3>{resource.title}</h3><p>{resource.description}</p><a href={resource.action.href}>{resource.action.label} →</a></article>)}</div>
+</section>
+<style>
+  .office-resource { padding: clamp(2rem, 7vw, 6rem); background: var(--ds-color-surface); }
+  header { max-width: 50rem; margin: 0 auto 3rem; text-align: center; }
+  header p { margin: 0; color: var(--ds-color-accent); font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+  h2 { margin: .5rem 0; font-size: clamp(2rem, 5vw, 4rem); }
+  header div { color: var(--ds-color-muted); }
+  .office-resource__locations, .office-resource__resources { display: grid; gap: 1px; max-width: 72rem; margin: 0 auto; background: var(--ds-color-border); }
+  article { position: relative; padding: clamp(1.5rem, 4vw, 3rem); background: var(--ds-color-surface); }
+  article > span { color: var(--ds-color-accent); font-size: .75rem; font-weight: 800; }
+  h3 { margin: .75rem 0; }
+  ul { margin: 0; padding: 0; color: var(--ds-color-muted); list-style: none; }
+  .office-resource__resources { margin-top: 2rem; }
+  .office-resource__resources article > div { font-size: 2rem; }
+  .office-resource__resources p { color: var(--ds-color-muted); }
+  a { color: var(--ds-color-accent); font-weight: 800; }
+  @media (min-width: 44rem) { .office-resource__locations, .office-resource__resources { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+</style>

@@ -2,7 +2,7 @@
 
 ## Source
 
-- Original website/domain: TBD (not recorded in existing project documentation)
+- Original website/domain: https://www.creercosmetics.com/ (confirmed by the supplied contact-page capture)
 - Accessed: 2026-08-10
 - Evidence: desktop full-page PNG, 1920 × 10365 px
 - Mobile evidence: not provided in this batch
@@ -71,3 +71,11 @@ Several crops contain intentionally clipped marquee text. This is part of the ca
 - Review `14-value-marquee.png`; its clipped oversized text is the captured marquee state, not a crop error.
 - Mobile feasibility is unknown and must be tested before borrowing any extreme typography principle.
 - Component decision: none; human pattern review is required before Phase 3.
+
+## Contact page evidence received 2026-08-24
+
+- Saved evidence: `source/contact-full.png` (1920 × 4130 desktop full page); source domain confirmed by the supplied capture name.
+- Content relationship: an editorial contact introduction leads into a detailed qualification form and then an FAQ that resolves remaining service, quantity, sample, compliance, and fulfilment questions.
+- UI relationship: a narrow long form uses underline-like controls and service tags; the FAQ forms a separate two-column ruled chapter.
+- Reuse decision: the form reuses `StructuredRequestForm-001` with an editorial treatment, while `ContactFAQ-001` remains a distinct semantic component. No source wording, media, file policy, promotional offer, or brand styling is copied.
+- Mobile behavior: unknown; the library makes fields and FAQs single-column before progressively adding columns.

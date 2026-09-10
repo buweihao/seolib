@@ -2,7 +2,7 @@
 
 ## Source
 
-- Original website/domain: TBD (not recorded in existing project documentation)
+- Original website/domain: https://romanogrp.com/ (confirmed by the supplied contact-page capture)
 - Accessed: 2026-08-10
 - Evidence: desktop full-page PNG, 1920 × 10089 px
 - Mobile evidence: not provided in this batch
@@ -69,3 +69,18 @@ The supplied hero area is nearly entirely blank. It must not be treated as an in
 - `02-hero.png` needs source-level review because the expected hero content did not render in the supplied screenshot.
 - Mid-page cuts are based on strong background transitions; late funnel sections have medium confidence because whitespace is generous.
 - Component decision: none; human pattern review is required before Phase 3.
+
+## Contact page evidence received 2026-08-24
+
+- Saved evidence: `source/contact-full.png` (1920 × 1970 desktop full page); source domain confirmed by the supplied capture name.
+- Content relationship: a minimal first inquiry step sits beside contact details and a separate facility-visit route; a map follows as supporting location context.
+- UI relationship: visible progress, short form, and contextual side rail reduce the perceived cost of starting a detailed RFQ.
+- Reuse decision: `GuidedProjectInquiry-001` uses an original numbered progress model and configurable context without source addresses, map, claims, hours, or response promises.
+- Mobile behavior: unknown; the library stacks context after the current step.
+
+## Navigation dropdown evidence received 2026-08-24
+
+- Saved evidence: `screenshots/services-navigation-dropdown-desktop.png` (desktop browser crop).
+- UI relationship: the Services trigger opens a compact floating card where three routes pair a small marker with a title and one-line explanation.
+- Reuse decision: `NavigationDropdown-001` models the compact descriptive menu using original numbered markers, spacing, focus treatment, and typed destinations; no source icons, wording, claims, colors, or contact details are reused.
+- Mobile behavior: not supplied; the review component expands full width below its summary.

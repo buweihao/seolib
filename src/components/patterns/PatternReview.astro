@@ -1,6 +1,8 @@
 ---
+import { componentChineseNames, getComponentRegistration, type ComponentId } from "../../config/component-registry";
+
 interface Props {
-  patternId: string;
+  patternId: ComponentId;
   name: string;
   suitableFor: string;
   contentEvidence: string;
@@ -9,11 +11,13 @@ interface Props {
 }
 
 const { patternId, name, suitableFor, contentEvidence, uiEvidence, originalTreatment } = Astro.props;
+const registration = getComponentRegistration(patternId);
+const statusLabel = registration.status === "Approved" ? "已通过" : "审核中";
 ---
 
 <article class="pattern-review" id={patternId}>
   <header class="pattern-review__meta">
-    <div><p>{patternId} · Review</p><h2>{name}</h2></div>
+    <div><p>{patternId} · {statusLabel}</p><h2>{componentChineseNames[patternId] ?? name}</h2></div>
     <dl>
       <div><dt>适用场景</dt><dd>{suitableFor}</dd></div>
       <div><dt>内容证据</dt><dd>{contentEvidence}</dd></div>

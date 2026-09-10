@@ -1,0 +1,21 @@
+---
+import ConfigurableForm from "../../inquiry/ConfigurableForm.astro";
+import type { ConfigurableFormField } from "../../../inquiry/form-ui";
+interface Props { id: string; eyebrow?: string; title: string; description: string; fields: ConfigurableFormField[]; submitLabel: string; formAction?: string; tone?: "quiet" | "editorial"; }
+const { id, eyebrow, title, description, fields, submitLabel, formAction, tone = "quiet" } = Astro.props;
+---
+<section id={id} class:list={["structured-request", `structured-request--${tone}`]} aria-labelledby={`${id}-title`}>
+  <header>{eyebrow && <p>{eyebrow}</p>}<h2 id={`${id}-title`}>{title}</h2><div>{description}</div></header>
+  <div class="structured-request__form"><ConfigurableForm id={`${id}-form`} {fields} {submitLabel} {formAction} /></div>
+</section>
+<style>
+  .structured-request { padding: clamp(2rem, 7vw, 6rem); background: var(--ds-color-surface); }
+  header { max-width: 56rem; margin: 0 auto clamp(2rem, 5vw, 4rem); text-align: center; }
+  header p { margin: 0; color: var(--ds-color-accent); font-size: .75rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+  h2 { margin: .5rem 0; font-size: clamp(2rem, 5vw, 4.5rem); line-height: 1; }
+  header div { color: var(--ds-color-muted); }
+  .structured-request__form { max-width: 62rem; margin: 0 auto; }
+  .structured-request--editorial { border-block: 1px solid var(--ds-color-ink); background: color-mix(in oklch, var(--ds-color-canvas), #f2dfac 18%); }
+  .structured-request--editorial h2 { font-family: Georgia, serif; font-weight: 500; text-wrap: balance; }
+  .structured-request--editorial .structured-request__form { max-width: 44rem; }
+</style>

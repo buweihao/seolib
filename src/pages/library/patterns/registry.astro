@@ -1,0 +1,12 @@
+---
+import ComponentRegistryIndex from "../../../components/patterns/ComponentRegistryIndex.astro";
+import PatternLibraryLayout from "../../../layouts/PatternLibraryLayout.astro";
+---
+
+<PatternLibraryLayout title="全部组件注册表" description="这是组件状态和审核链接的单一事实来源；它只列目录，不在此页渲染全部 UI 实例。">
+  <div class="registry-page"><ComponentRegistryIndex /></div>
+</PatternLibraryLayout>
+
+<style>
+  .registry-page { width: min(100% - 2 * var(--ds-page-gutter), var(--ds-container-wide)); margin: 0 auto; padding-bottom: var(--ds-section-feature); }
+</style>

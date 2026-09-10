@@ -100,48 +100,20 @@ export const recognitionHero = {
   slides: [
     {
       title: "Recognized product development",
-      evidenceMedia: [
-        { src: "/review-assets/product-targeted.svg", alt: "Original review artwork representing an editorial product feature", width: 900, height: 700, aspect: "portrait" },
-        { src: "/review-assets/premium-evidence.svg", alt: "Original review artwork representing a company evidence profile", width: 1200, height: 900, aspect: "landscape" },
-        { src: "/review-assets/launch-daily.svg", alt: "Original review artwork representing a coordinated skincare product outcome", width: 800, height: 600, aspect: "portrait" },
-      ],
-      supportingStatement: "Inspired by market needs · developed through evidence",
-      badges: [
-        { label: "Reviewed", detail: "Product outcome", tone: "violet" },
-        { label: "Featured", detail: "Client-owned media", tone: "orange" },
-        { label: "Verified", detail: "Current evidence", tone: "teal" },
-        { label: "Approved", detail: "Publication status", tone: "blue" },
-      ],
+      media: { src: "/review-assets/product-targeted.svg", alt: "Original review artwork representing an editorial product feature", width: 900, height: 700, aspect: "landscape" },
+      href: contact.href,
       action: contact,
     },
     {
       title: "Your product story, made visible",
-      evidenceMedia: [
-        { src: "/review-assets/launch-body.svg", alt: "Original review artwork representing a body-care product program", width: 800, height: 600, aspect: "portrait" },
-        { src: "/review-assets/manufacturing-facility.svg", alt: "Original review artwork representing manufacturing evidence", width: 1200, height: 900, aspect: "landscape" },
-        { src: "/review-assets/product-ritual.svg", alt: "Original review artwork representing a coordinated product ritual", width: 900, height: 700, aspect: "portrait" },
-      ],
-      supportingStatement: "From product direction · to packaging · to production readiness",
-      badges: [
-        { label: "Factory", detail: "Evidence route", tone: "teal" },
-        { label: "Ready", detail: "Project review", tone: "blue" },
-        { label: "Original", detail: "Client program", tone: "orange" },
-      ],
+      media: { src: "/review-assets/manufacturing-facility.svg", alt: "Original review artwork representing manufacturing evidence", width: 1200, height: 900, aspect: "landscape" },
+      href: "/library/base-site/capabilities/",
       action: { href: "/library/base-site/capabilities/", label: "Review capabilities" },
     },
     {
       title: "Evidence buyers can examine",
-      evidenceMedia: [
-        { src: "/review-assets/launch-evidence.svg", alt: "Original review artwork representing verification records", width: 1200, height: 900, aspect: "portrait" },
-        { src: "/review-assets/manufacturing-body.svg", alt: "Original review artwork representing connected manufacturing teams", width: 1200, height: 900, aspect: "landscape" },
-        { src: "/review-assets/premium-evidence.svg", alt: "Original review artwork representing documented evidence", width: 1200, height: 900, aspect: "portrait" },
-      ],
-      supportingStatement: "Current records · relevant scope · verifiable ownership",
-      badges: [
-        { label: "Current", detail: "Document status", tone: "violet" },
-        { label: "Scoped", detail: "Project relevance", tone: "teal" },
-        { label: "Owned", detail: "Client evidence", tone: "blue" },
-      ],
+      media: { src: "/review-assets/launch-evidence.svg", alt: "Original review artwork representing verification records", width: 1200, height: 900, aspect: "landscape" },
+      href: "/library/base-site/about/",
       action: { href: "/library/base-site/about/", label: "Review company evidence" },
     },
   ],

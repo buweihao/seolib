@@ -1,0 +1,122 @@
+---
+import type { ClientInquiryConfig } from "../../inquiry/types";
+
+interface Props {
+  config: ClientInquiryConfig;
+  id?: string;
+  title?: string;
+  description?: string;
+}
+
+const {
+  config,
+  id = "inquiry-form",
+  title = "Tell us about your project",
+  description = "Share enough context for the supplier to assess fit and identify the next questions.",
+} = Astro.props;
+const deliveryDisabled = !config.enabled || config.delivery === "disabled";
+---
+
+<section class="inquiry-form" aria-labelledby={`${id}-title`}>
+  <div class="inquiry-form__intro">
+    <p>Secure project inquiry</p>
+    <h2 id={`${id}-title`}>{title}</h2>
+    <p>{description}</p>
+  </div>
+
+  <form
+    id={id}
+    action={config.endpoint}
+    method="post"
+    data-inquiry-form
+    data-endpoint={config.endpoint}
+    data-delivery-disabled={String(deliveryDisabled)}
+    data-attribution-enabled={String(config.attributionEnabled)}
+  >
+    <input type="hidden" name="inquiryType" value={config.formType} />
+    <input type="hidden" name="privacyPolicyVersion" value={config.privacyPolicyVersion} />
+    <input type="hidden" name="sourceUrl" value="" />
+    <input type="hidden" name="locale" value="" />
+    <input type="hidden" name="submittedAt" value="" />
+
+    <div class="inquiry-form__honeypot" aria-hidden="true">
+      <label for={`${id}-website`}>Website</label>
+      <input id={`${id}-website`} name="website" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <div class="inquiry-form__grid">
+      <label>
+        <span>Name <strong aria-hidden="true">*</strong></span>
+        <input name="name" autocomplete="name" maxlength="160" required aria-describedby={`${id}-name-error`} />
+        <small id={`${id}-name-error`} data-error-for="name"></small>
+      </label>
+      <label>
+        <span>Work email <strong aria-hidden="true">*</strong></span>
+        <input name="email" type="email" autocomplete="email" maxlength="254" required aria-describedby={`${id}-email-error`} />
+        <small id={`${id}-email-error`} data-error-for="email"></small>
+      </label>
+      <label>
+        <span>Company</span>
+        <input name="company" autocomplete="organization" maxlength="200" />
+      </label>
+      <label>
+        <span>Phone / WhatsApp</span>
+        <input name="phone" type="tel" autocomplete="tel" maxlength="80" />
+      </label>
+      <label>
+        <span>Product interest</span>
+        <input name="productInterest" maxlength="240" />
+      </label>
+      <label>
+        <span>Destination market</span>
+        <input name="destinationMarket" maxlength="160" />
+      </label>
+    </div>
+
+    <label>
+      <span>Project details <strong aria-hidden="true">*</strong></span>
+      <textarea name="message" rows="7" maxlength="4000" required aria-describedby={`${id}-message-error`}></textarea>
+      <small id={`${id}-message-error`} data-error-for="message"></small>
+    </label>
+
+    <label class="inquiry-form__consent">
+      <input name="privacyAccepted" type="checkbox" required aria-describedby={`${id}-privacy-error`} />
+      <span>I agree that my information may be used to respond to this inquiry under the <a href={config.privacyPolicyHref}>privacy policy</a>.</span>
+    </label>
+    <small id={`${id}-privacy-error`} data-error-for="privacyAccepted"></small>
+
+    <button type="submit" disabled={deliveryDisabled}>
+      {deliveryDisabled ? "Delivery disabled in review" : "Send project inquiry"}
+    </button>
+    <p class="inquiry-form__status" role="status" aria-live="polite" data-inquiry-status>
+      {deliveryDisabled ? "Configure the verified domain, privacy policy, Resend sender, recipient, and rate limit before enabling delivery." : "Required fields are marked with an asterisk."}
+    </p>
+  </form>
+</section>
+
+<script>
+  import { initializeInquiryForms } from "../../inquiry/client";
+  initializeInquiryForms();
+  document.addEventListener("astro:page-load", initializeInquiryForms);
+</script>
+
+<style>
+  .inquiry-form { display: grid; gap: clamp(2rem, 5vw, 5rem); width: min(calc(100% - 2 * var(--ds-page-gutter)), var(--ds-container-wide)); margin: 0 auto var(--ds-section-standard); padding: clamp(1.5rem, 4vw, 4rem); border: 1px solid var(--ds-color-border); background: var(--ds-color-surface); }
+  .inquiry-form__intro > p:first-child { margin: 0; color: var(--ds-color-accent); font-size: .75rem; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
+  .inquiry-form__intro h2 { max-width: 14ch; margin: .75rem 0 0; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.05; }
+  .inquiry-form__intro h2 + p { max-width: 52ch; margin: 1rem 0 0; color: var(--ds-color-muted); }
+  form, .inquiry-form__grid { display: grid; gap: 1rem; }
+  label { display: grid; gap: .4rem; font-weight: 700; }
+  input, textarea { width: 100%; border: 1px solid var(--ds-color-border); border-radius: var(--ds-radius-control); padding: .8rem .9rem; background: var(--ds-color-canvas); color: var(--ds-color-ink); font: inherit; }
+  textarea { resize: vertical; }
+  input:focus-visible, textarea:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid color-mix(in oklch, var(--ds-color-accent), white 35%); outline-offset: 2px; }
+  label > small, form > small { min-height: 1.2em; color: #a62626; font-weight: 600; }
+  .inquiry-form__consent { grid-template-columns: auto 1fr; align-items: start; font-weight: 500; }
+  .inquiry-form__consent input { width: 1.15rem; height: 1.15rem; margin-top: .15rem; }
+  button { width: fit-content; min-height: 2.75rem; border: 0; border-radius: var(--ds-radius-control); padding: .8rem 1.2rem; background: var(--ds-color-accent); color: var(--ds-color-accent-contrast); font: inherit; font-weight: 750; cursor: pointer; }
+  button:disabled { cursor: not-allowed; opacity: .55; }
+  .inquiry-form__status { margin: 0; color: var(--ds-color-muted); font-size: .875rem; }
+  .inquiry-form__honeypot { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  @media (min-width: 48rem) { .inquiry-form__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 64rem) { .inquiry-form { grid-template-columns: minmax(16rem, .75fr) minmax(0, 1.25fr); } }
+</style>

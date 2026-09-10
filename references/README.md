@@ -35,7 +35,7 @@ Only create folders that contain evidence. `source/home-full.png` is the normali
 | RainShadow Labs | Commerce-first service paths, financing, and product discovery | 9 | Desktop analyzed; trust/service overlap visually checked |
 | YG Laboratories | Compact laboratory credibility and gated product catalog | 6 | Desktop analyzed; sparse catalog state needs human review |
 
-All six packages were ingested on 2026-08-10. Mobile evidence and confirmed source URLs were not supplied and remain explicitly unresolved.
+All six homepage packages were ingested on 2026-08-10. Contact and navigation-dropdown evidence was added on 2026-08-24 where recorded in site notes. Mobile evidence remains unresolved for these supplemental captures.
 
 ## Naming rules
 

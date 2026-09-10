@@ -1,0 +1,58 @@
+---
+import type { AboutRecommendationContent } from "../../content-models/sections";
+
+interface Props extends AboutRecommendationContent {
+  id: string;
+  class?: string;
+}
+
+const { id, eyebrow, title, items, class: className } = Astro.props;
+const columns = [items.filter((_, index) => index % 3 === 0), items.filter((_, index) => index % 3 === 1), items.filter((_, index) => index % 3 === 2)];
+---
+
+<section id={id} class:list={["about-recommendation", className]} aria-labelledby={`${id}-title`}>
+  <div class="about-recommendation__container">
+    <header class="about-recommendation__header">
+      {eyebrow && <p>{eyebrow}</p>}
+      <h2 id={`${id}-title`}>{title}</h2>
+      <div class="about-recommendation__rule" aria-hidden="true">
+        <span></span><i></i><i></i><i></i><span></span>
+      </div>
+    </header>
+
+    {items.length > 0 ? (
+      <div class="about-recommendation__columns">
+        {columns.map((column) => (
+          <div>
+            {column.map((item) => (
+              <article>
+                <img src={item.media.src} srcset={item.media.srcset} sizes="(min-width: 48rem) 33vw, 100vw" alt={item.media.alt} width={item.media.width} height={item.media.height} loading="lazy" decoding="async" />
+                {item.text && <p>{item.text}</p>}
+              </article>
+            ))}
+          </div>
+        ))}
+      </div>
+    ) : (
+      <p class="about-recommendation__empty">Add recommendation content in Sanity.</p>
+    )}
+  </div>
+</section>
+
+<style>
+  .about-recommendation { background: #fff; padding: clamp(3.5rem, 7vw, 5rem) 0; }
+  .about-recommendation__container { width: min(100% - 2 * var(--ds-page-gutter), 72rem); margin-inline: auto; }
+  .about-recommendation__header { margin: 0 auto clamp(2.75rem, 6vw, 4rem); text-align: center; }
+  .about-recommendation__header p { margin: 0; color: color-mix(in oklch, var(--ds-color-accent), transparent 58%); font-size: .75rem; font-weight: 800; letter-spacing: .34em; text-transform: uppercase; }
+  .about-recommendation h2 { margin: .35rem 0 0; color: #17488d; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2.1rem, 5vw, 3.55rem); line-height: 1.05; }
+  .about-recommendation__rule { display: flex; max-width: 26rem; align-items: center; gap: .45rem; margin: 1.25rem auto 0; color: var(--ds-color-accent); }
+  .about-recommendation__rule span { height: 1px; flex: 1; background: color-mix(in oklch, var(--ds-color-accent), transparent 52%); }
+  .about-recommendation__rule i { width: .42rem; height: .42rem; border-radius: 999px; background: var(--ds-color-accent); }
+  .about-recommendation__columns { display: grid; gap: 1.25rem; }
+  .about-recommendation__columns > div { display: grid; align-content: start; gap: 1.25rem; }
+  .about-recommendation article { overflow: hidden; border: 1px solid color-mix(in oklch, var(--ds-color-accent), transparent 82%); background: #edf3fb; }
+  .about-recommendation img { display: block; width: 100%; height: auto; object-fit: contain; }
+  .about-recommendation article p { margin: 0; padding: .85rem 1rem; background: #2457a6; color: #fff; font-size: .875rem; font-weight: 700; line-height: 1.45; text-align: center; white-space: pre-line; }
+  .about-recommendation__empty { display: grid; min-height: 15rem; place-items: center; border: 1px dashed color-mix(in oklch, var(--ds-color-accent), transparent 55%); background: #edf3fb; color: color-mix(in oklch, var(--ds-color-accent), transparent 35%); font-weight: 750; text-align: center; }
+  @media (min-width: 48rem) { .about-recommendation__columns { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+</style>

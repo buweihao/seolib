@@ -1,0 +1,61 @@
+---
+import type { CatalogProductContent } from "../../content-models/sections";
+import ActionLink from "../primitives/ActionLink.astro";
+import Container from "../primitives/Container.astro";
+import MediaFrame from "../primitives/MediaFrame.astro";
+
+interface Props {
+  id: string;
+  products: readonly CatalogProductContent[];
+  productHref: (product: CatalogProductContent) => string;
+  inquiryHref: string;
+  reviewNote: string;
+  class?: string;
+}
+
+const { id, products, productHref, inquiryHref, reviewNote, class: className } = Astro.props;
+---
+
+<section id={id} class:list={["category-product-grid", className]} aria-labelledby={`${id}-title`}>
+  <Container size="wide">
+    <div class="category-product-grid__heading">
+      <h2 id={`${id}-title`}>Products in this family</h2>
+      <p>{reviewNote}</p>
+    </div>
+    <ul role="list">
+      {products.map((product) => (
+        <li>
+          <article>
+            <MediaFrame {...product.media} aspect={product.media.aspect ?? "square"} />
+            <div class="category-product-grid__body">
+              <p class="category-product-grid__meta">{product.format} · {product.routineRole}</p>
+              <h3>{product.name}</h3>
+              <p>{product.summary}</p>
+              <div class="category-product-grid__actions">
+                <ActionLink href={productHref(product)} label="View product details" ariaLabel={`View details for ${product.name}`} variant="text" />
+                <ActionLink href={`${inquiryHref}?product=${product.slug}#secure-inquiry`} label="Start inquiry" ariaLabel={`Start an inquiry for ${product.name}`} variant="secondary" />
+              </div>
+            </div>
+          </article>
+        </li>
+      ))}
+    </ul>
+  </Container>
+</section>
+
+<style>
+  .category-product-grid { padding-block: var(--ds-section-standard); }
+  .category-product-grid__heading { display: grid; grid-template-columns: minmax(0, 1fr) minmax(18rem, 34rem); gap: var(--ds-space-6); align-items: end; }
+  .category-product-grid__heading h2, .category-product-grid__heading p, .category-product-grid__body h3, .category-product-grid__body p { margin: 0; }
+  .category-product-grid__heading h2 { font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.05; }
+  .category-product-grid__heading p, .category-product-grid__body > p:not(.category-product-grid__meta) { color: var(--ds-color-muted); }
+  ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--ds-space-8) var(--ds-space-6); margin: var(--ds-space-12) 0 0; padding: 0; list-style: none; }
+  article { height: 100%; }
+  .category-product-grid__body { padding-top: var(--ds-space-6); }
+  .category-product-grid__meta { color: var(--ds-color-accent); font-size: .75rem; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; }
+  .category-product-grid__body h3 { margin-top: var(--ds-space-3); font-size: clamp(1.35rem, 2vw, 1.75rem); }
+  .category-product-grid__body h3 + p { margin-top: var(--ds-space-3); }
+  .category-product-grid__actions { display: flex; flex-wrap: wrap; gap: var(--ds-space-3); margin-top: var(--ds-space-3); }
+  @media (max-width: 56rem) { ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 40rem) { .category-product-grid__heading, ul { grid-template-columns: 1fr; } }
+</style>

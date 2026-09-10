@@ -1,0 +1,151 @@
+---
+import type { ConfigurableFormField } from "../../inquiry/form-ui";
+import type { ClientInquiryConfig } from "../../inquiry/types";
+
+interface Props {
+  id: string;
+  fields: ConfigurableFormField[];
+  submitLabel: string;
+  formAction?: string;
+  inquiryConfig?: ClientInquiryConfig;
+  deliveryNote?: string;
+  compact?: boolean;
+}
+
+const {
+  id,
+  fields,
+  submitLabel,
+  formAction,
+  inquiryConfig,
+  deliveryNote = "Online form submission is not currently available.",
+  compact = false,
+} = Astro.props;
+const resolvedAction = inquiryConfig?.endpoint ?? formAction;
+const deliveryDisabled = inquiryConfig
+  ? !inquiryConfig.enabled || inquiryConfig.delivery === "disabled"
+  : !resolvedAction;
+const errorIdFor = (field: ConfigurableFormField) => {
+  const errorName = field.name === "firstName" || field.name === "lastName" ? "name" : field.name;
+  return `${id}-${errorName}-error`;
+};
+---
+
+<form
+  id={id}
+  class:list={["configurable-form", { "configurable-form--compact": compact }]}
+  action={resolvedAction}
+  method="post"
+  enctype={fields.some((field) => field.control === "file") ? "multipart/form-data" : undefined}
+  data-inquiry-form={inquiryConfig ? "" : undefined}
+  data-endpoint={inquiryConfig?.endpoint}
+  data-delivery-disabled={inquiryConfig ? String(deliveryDisabled) : undefined}
+  data-attribution-enabled={inquiryConfig ? String(inquiryConfig.attributionEnabled) : undefined}
+>
+  {inquiryConfig && (
+    <>
+      <input type="hidden" name="inquiryType" value={inquiryConfig.formType} />
+      <input type="hidden" name="privacyPolicyVersion" value={inquiryConfig.privacyPolicyVersion} />
+      <input type="hidden" name="sourceUrl" value="" />
+      <input type="hidden" name="locale" value="" />
+      <input type="hidden" name="submittedAt" value="" />
+      <div class="configurable-form__honeypot" aria-hidden="true">
+        <label for={`${id}-website`}>Website</label>
+        <input id={`${id}-website`} name="website" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+    </>
+  )}
+  <div class="configurable-form__grid">
+    {fields.map((field, index) => {
+      const fieldId = `${id}-${field.name}-${index}`;
+      const type = field.control ?? "text";
+      if (type === "checkbox-group") return (
+        <fieldset class:list={["configurable-form__field", "configurable-form__field--full", { "configurable-form__tags": field.appearance === "tags" }]}>
+          <legend>{field.label}{field.required && <strong aria-hidden="true"> *</strong>}</legend>
+          <div>{field.options?.map((option) => <label><input type="checkbox" name={field.name} value={option.value} /><span>{option.label}</span></label>)}</div>
+          {field.help && <small>{field.help}</small>}
+        </fieldset>
+      );
+      if (type === "checkbox") return (
+        <label class="configurable-form__checkbox configurable-form__field--full" for={fieldId}>
+          <input id={fieldId} type="checkbox" name={field.name} required={field.required} />
+          <span>{field.label}</span>
+        </label>
+      );
+      return (
+        <label class:list={["configurable-form__field", { "configurable-form__field--full": field.span === "full" || type === "textarea" || type === "file" }]} for={fieldId}>
+          <span>{field.label}{field.required && <strong aria-hidden="true"> *</strong>}</span>
+          {type === "select" ? (
+            <select id={fieldId} name={field.name} required={field.required} aria-describedby={inquiryConfig ? errorIdFor(field) : undefined}>
+              <option value="">{field.placeholder ?? "Select an option"}</option>
+              {field.options?.map((option) => <option value={option.value}>{option.label}</option>)}
+            </select>
+          ) : type === "textarea" ? (
+            <textarea id={fieldId} name={field.name} rows={field.rows ?? 5} maxlength={field.maxLength} placeholder={field.placeholder} required={field.required} aria-describedby={inquiryConfig ? errorIdFor(field) : undefined}></textarea>
+          ) : type === "file" ? (
+            <input id={fieldId} name={field.name} type="file" required={field.required} />
+          ) : (
+            <input id={fieldId} name={field.name} type={type} autocomplete={field.autocomplete} maxlength={field.maxLength} placeholder={field.placeholder} required={field.required} aria-describedby={inquiryConfig ? errorIdFor(field) : undefined} />
+          )}
+          {field.help && <small>{field.help}</small>}
+          {inquiryConfig && <small id={errorIdFor(field)} data-error-for={field.name === "firstName" || field.name === "lastName" ? "name" : field.name}></small>}
+        </label>
+      );
+    })}
+  </div>
+  {inquiryConfig && (
+    <>
+      <label class="configurable-form__checkbox configurable-form__consent" for={`${id}-privacy`}>
+        <input id={`${id}-privacy`} name="privacyAccepted" type="checkbox" required aria-describedby={`${id}-privacy-error`} />
+        <span>I agree that my information may be used to respond to this inquiry under the <a href={inquiryConfig.privacyPolicyHref}>privacy policy</a>.</span>
+      </label>
+      <small id={`${id}-privacy-error`} class="configurable-form__error" data-error-for="privacyAccepted"></small>
+    </>
+  )}
+  <button type="submit" disabled={deliveryDisabled}>{submitLabel}</button>
+  {(inquiryConfig || deliveryDisabled) && (
+    <p class="configurable-form__status" role="status" aria-live="polite" data-inquiry-status={inquiryConfig ? "" : undefined}>
+      {deliveryDisabled ? deliveryNote : "Required fields are marked with an asterisk."}
+    </p>
+  )}
+</form>
+
+{inquiryConfig && (
+  <script>
+    import { initializeInquiryForms } from "../../inquiry/client";
+    initializeInquiryForms();
+    document.addEventListener("astro:page-load", initializeInquiryForms);
+  </script>
+)}
+
+<style>
+  .configurable-form { display: grid; gap: 1.1rem; }
+  .configurable-form__grid { display: grid; gap: 1rem; }
+  .configurable-form__field { display: grid; gap: .4rem; margin: 0; padding: 0; border: 0; color: var(--ds-color-ink); font-size: .83rem; font-weight: 750; }
+  .configurable-form__field strong { color: var(--ds-color-accent); }
+  input, select, textarea { width: 100%; min-height: 3rem; border: 1px solid var(--ds-color-border); border-radius: var(--ds-radius-control); padding: .75rem .9rem; background: var(--ds-color-surface); color: var(--ds-color-ink); font: inherit; font-weight: 400; }
+  textarea { resize: vertical; }
+  input[type="file"] { padding: .65rem; border-style: dashed; }
+  small { color: var(--ds-color-muted); font-weight: 500; }
+  [data-error-for] { min-height: 1.2em; color: #a62626; font-weight: 600; }
+  .configurable-form__checkbox { display: grid; grid-template-columns: auto 1fr; gap: .6rem; align-items: start; font-size: .85rem; }
+  .configurable-form__checkbox input, .configurable-form__tags input { width: 1rem; min-height: 1rem; }
+  .configurable-form__consent { align-items: start; font-weight: 500; }
+  .configurable-form__consent a { color: var(--ds-color-accent); text-underline-offset: .2em; }
+  .configurable-form__error { margin-top: -.75rem; }
+  .configurable-form__tags > div { display: flex; flex-wrap: wrap; gap: .4rem; }
+  .configurable-form__tags label { position: relative; }
+  .configurable-form__tags input { position: absolute; opacity: 0; }
+  .configurable-form__tags span { display: block; border: 1px solid var(--ds-color-border); border-radius: 999px; padding: .35rem .65rem; background: var(--ds-color-surface); cursor: pointer; }
+  .configurable-form__tags input:checked + span { border-color: var(--ds-color-accent); background: color-mix(in oklch, var(--ds-color-accent), white 88%); color: var(--ds-color-accent); }
+  .configurable-form__tags input:focus-visible + span { outline: .1875rem solid var(--ds-color-focus); outline-offset: .1875rem; }
+  button { width: fit-content; min-height: 3rem; border: 0; border-radius: var(--ds-radius-control); padding: .8rem 1.3rem; background: var(--ds-color-accent); color: var(--ds-color-accent-contrast); font: inherit; font-weight: 800; cursor: pointer; }
+  button:disabled { cursor: not-allowed; opacity: .5; }
+  .configurable-form__status { margin: -.5rem 0 0; color: var(--ds-color-muted); font-size: .78rem; }
+  .configurable-form__honeypot { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  @media (min-width: 42rem) {
+    .configurable-form__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .configurable-form__field--full { grid-column: 1 / -1; }
+    .configurable-form--compact .configurable-form__grid { grid-template-columns: 1fr; }
+  }
+</style>

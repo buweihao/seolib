@@ -1,0 +1,16 @@
+---
+import AboutPage from "../../../../components/compositions/AboutPage.astro";
+import { loadProcurementEvidenceClient } from "../../../../config/clients/procurement-evidence-cms";
+import ClientPageShell from "../../../../layouts/ClientPageShell.astro";
+
+const procurementEvidenceClient = await loadProcurementEvidenceClient();
+---
+
+<ClientPageShell
+  config={procurementEvidenceClient}
+  currentPath={procurementEvidenceClient.routes.about}
+  title="About our skincare workflow | Aurevia Skincare"
+  description="Explore the teams, production stages, and quality responsibilities behind a skincare collection."
+>
+  <AboutPage {...procurementEvidenceClient.pages.about} />
+</ClientPageShell>

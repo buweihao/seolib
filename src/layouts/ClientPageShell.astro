@@ -1,0 +1,73 @@
+---
+import type { ClientSiteConfig } from "../config/schema";
+import { hasBlockingConfigIssues, validateClientSiteConfig } from "../config/validate";
+import SiteFooter from "../components/sections/SiteFooter.astro";
+import SiteHeader from "../components/sections/SiteHeader.astro";
+import FloatingContactBar from "../components/patterns/inquiry/FloatingContactBar.astro";
+import { buildClientNavigation, buildFloatingContactItems } from "../lib/client-navigation";
+import BaseLayout from "./BaseLayout.astro";
+
+interface Props {
+  config: ClientSiteConfig;
+  currentPath: string;
+  title: string;
+  description: string;
+}
+
+const { config, currentPath, title, description } = Astro.props;
+const issues = validateClientSiteConfig(config);
+if (hasBlockingConfigIssues(issues)) {
+  throw new Error(`Invalid client configuration: ${issues.filter((issue) => issue.severity === "error").map((issue) => `${issue.path}: ${issue.message}`).join("; ")}`);
+}
+const navigation = buildClientNavigation(config);
+const floatingContactItems = buildFloatingContactItems(config);
+const { colors } = config.theme;
+---
+
+<BaseLayout {title} {description} noindex>
+  <div class="client-page-shell">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <SiteHeader
+      brand={config.identity.displayName.value}
+      brandLogo={config.identity.logo}
+      homeHref={config.routes.home}
+      {navigation}
+      {currentPath}
+      utilityText="Skincare OEM · ODM · Private label development"
+      inquiryAction={{ href: config.routes.contact, label: config.contact.inquiryLabel }}
+    />
+    <main id="main-content"><slot /></main>
+    <SiteFooter
+      brand={config.identity.displayName.value}
+      description={config.identity.summary.value}
+      linkGroups={[{ title: "Explore", links: navigation }]}
+      contactActions={[{ href: config.routes.contact, label: config.contact.inquiryLabel }]}
+      copyrightLabel="Skincare product development, packaging coordination, and manufacturing support."
+    />
+    <FloatingContactBar id="client-floating-contact" label="Contact shortcuts" items={floatingContactItems} scrollTargetId="main-content" />
+  </div>
+</BaseLayout>
+
+<style define:vars={{
+  clientCanvas: colors.canvas,
+  clientSurface: colors.surface,
+  clientSurfaceSubtle: colors.surfaceSubtle,
+  clientInk: colors.ink,
+  clientMuted: colors.muted,
+  clientAccent: colors.accent,
+  clientAccentContrast: colors.accentContrast,
+  clientBorder: colors.border,
+}}>
+  .client-page-shell {
+    --ds-color-canvas: var(--clientCanvas); --ds-color-surface: var(--clientSurface); --ds-color-ink: var(--clientInk);
+    --ds-color-muted: var(--clientMuted); --ds-color-accent: var(--clientAccent); --ds-color-accent-contrast: var(--clientAccentContrast);
+    --ds-color-border: var(--clientBorder); --color-canvas: var(--clientCanvas); --color-surface: var(--clientSurface);
+    --color-surface-subtle: var(--clientSurfaceSubtle); --color-ink: var(--clientInk); --color-text-muted: var(--clientMuted);
+    --color-accent: var(--clientAccent); --color-on-accent: var(--clientAccentContrast); --color-on-ink: var(--clientCanvas);
+    --color-border: var(--clientBorder); --color-border-strong: color-mix(in oklch, var(--clientBorder), var(--clientInk) 20%);
+    min-height: 100vh; background: var(--clientCanvas); color: var(--clientInk);
+  }
+  .skip-link { position: fixed; z-index: 100; top: .5rem; left: .5rem; padding: .75rem 1rem; background: var(--clientInk); color: var(--clientCanvas); transform: translateY(-200%); }
+  .skip-link:focus { transform: translateY(0); }
+  @media (max-width: 47.99rem) { .client-page-shell { padding-bottom: 4.4rem; } }
+</style>

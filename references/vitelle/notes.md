@@ -2,7 +2,7 @@
 
 ## Source
 
-- Original website/domain: TBD (not recorded in existing project documentation)
+- Original website/domain: https://www.vitellelab.com/ (confirmed by the supplied contact-page capture)
 - Accessed: 2026-08-10
 - Evidence: desktop full-page PNG, 1905 × 7088 px
 - Mobile evidence: not provided in this batch
@@ -63,3 +63,18 @@ The source is desktop-only, so responsive behavior cannot be assessed. The priva
 - `09-private-label-process.png` was visually checked; the decorative product banner is an intentional lead-in within the same process block.
 - Mobile behavior remains unknown.
 - Component decision: none; human pattern review is required before Phase 3.
+
+## Contact page evidence received 2026-08-24
+
+- Saved evidence: `source/contact-full.png` (1920 × 2147 desktop full page); source domain confirmed by the supplied capture name.
+- Content relationship: operating locations are followed by two preparation/resource routes, separating where the company operates from what a buyer can request.
+- UI relationship: paired location columns lead into paired media-led resource actions.
+- Reuse decision: `OfficeResourceContact-001` preserves the location-to-resource sequence with original numbered cards and no source images, addresses, brochure, sample, or availability claims.
+- Mobile behavior: unknown; the library stacks locations and resources at small widths.
+
+## Navigation dropdown evidence received 2026-08-24
+
+- Saved evidence: `screenshots/about-navigation-dropdown-desktop.png` (desktop browser crop).
+- UI relationship: an About trigger opens a wide, dark, media-backed panel with a short company introduction and a grouped list of deeper company/brand routes.
+- Reuse decision: `NavigationDropdown-001` retains only the trigger-to-feature-panel relationship. The library uses a neutral surface, client-supplied text links, native details/summary behavior, and no source image, description, logo, or brand list.
+- Mobile behavior: not supplied; the review panel enters normal document flow on small screens.

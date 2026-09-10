@@ -6,6 +6,8 @@ export interface ActionContent {
 
 export interface MediaContent {
   src: string;
+  srcset?: string;
+  sizes?: string;
   alt: string;
   width: number;
   height: number;
@@ -37,6 +39,34 @@ export interface ProductFamilyContent {
 
 export interface ProductFamiliesContent extends SectionIntroContent {
   families: readonly ProductFamilyContent[];
+}
+
+export interface CatalogProductContent {
+  slug: string;
+  categorySlug: string;
+  name: string;
+  summary: string;
+  media: MediaContent;
+  format: string;
+  routineRole: string;
+  highlights: readonly string[];
+  customizationOptions: readonly string[];
+  packagingOptions: readonly string[];
+  evaluationItems: readonly string[];
+  isHot?: boolean;
+}
+
+export interface ProductCatalogCategoryContent {
+  slug: string;
+  name: string;
+  description: string;
+  media: MediaContent;
+}
+
+export interface ProductCatalogContent {
+  categories: readonly ProductCatalogCategoryContent[];
+  products: readonly CatalogProductContent[];
+  reviewNote: string;
 }
 
 export interface EvidencePointContent {
@@ -111,14 +141,9 @@ export interface InquiryContent extends SectionIntroContent {
 }
 
 export interface RecognitionHeroSlideContent {
-  title: string;
-  evidenceMedia: readonly MediaContent[];
-  supportingStatement: string;
-  badges?: readonly {
-    label: string;
-    detail?: string;
-    tone?: "teal" | "orange" | "violet" | "blue";
-  }[];
+  title?: string;
+  media: MediaContent;
+  href?: string;
   action?: ActionContent;
 }
 
@@ -265,4 +290,61 @@ export interface TestimonialsContent extends SectionIntroContent {
     verificationStatus: string;
   }[];
   note?: string;
+}
+
+export interface AboutStatContent {
+  value: string;
+  unit?: string;
+  lines: readonly string[];
+}
+
+export interface AboutCompanyInformationContent extends SectionIntroContent {
+  videoUrl?: string;
+  videoAlt: string;
+  description: string;
+  stats: readonly AboutStatContent[];
+  images: readonly MediaContent[];
+}
+
+export interface AboutRecommendationItemContent {
+  media: MediaContent;
+  text?: string;
+}
+
+export interface AboutRecommendationContent extends SectionIntroContent {
+  items: readonly AboutRecommendationItemContent[];
+}
+
+export type AboutAdvantageIcon =
+  | "certification"
+  | "production"
+  | "research"
+  | "service"
+  | "sustainability";
+
+export interface AboutAdvantageContent {
+  title: string;
+  description: string;
+  icon: AboutAdvantageIcon;
+}
+
+export interface AboutAdvantagesSectionContent extends SectionIntroContent {
+  items: readonly AboutAdvantageContent[];
+}
+
+export interface AboutImageGalleryContent {
+  images: readonly MediaContent[];
+}
+
+export interface AboutCompanyCarouselContent extends SectionIntroContent {
+  subtitle?: string;
+  images: readonly MediaContent[];
+}
+
+export interface AboutPageContent {
+  company: AboutCompanyInformationContent;
+  recommendation: AboutRecommendationContent;
+  advantages: AboutAdvantagesSectionContent;
+  gallery: AboutImageGalleryContent;
+  carousel: AboutCompanyCarouselContent;
 }

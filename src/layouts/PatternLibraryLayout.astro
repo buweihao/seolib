@@ -5,20 +5,21 @@ interface Props { title: string; description: string; }
 const { title, description } = Astro.props;
 
 const groups = [
-  ["/library/patterns/#heroes", "Hero"], ["/library/patterns/#products", "Products"], ["/library/patterns/#evidence", "Evidence"],
-  ["/library/patterns/#process", "Process"], ["/library/patterns/#pathways", "Pathways"], ["/library/patterns/#facility", "Facility"],
-  ["/library/patterns/#quality", "Quality"], ["/library/patterns/#inquiry", "Inquiry"], ["/library/patterns/png-derived/", "PNG-derived"], ["/library/patterns/compositions/", "Compositions"],
+  ["/library/patterns/", "审核导航"],
+  ["/library/patterns/registry/", "组件注册表"],
+  ["/library/patterns/png-derived/", "PNG 衍生零件"],
+  ["/library/patterns/compositions/", "页面组合"],
 ] as const;
 ---
 
 <BaseLayout {title} {description} noindex>
   <header class="library-header">
-    <a class="library-header__brand" href="/library/patterns/">Phase 7.5 Pattern Library</a>
-    <nav aria-label="Pattern categories"><ul>{groups.map(([href, label]) => <li><a href={href}>{label}</a></li>)}</ul></nav>
+    <a class="library-header__brand" href="/library/patterns/">Phase 7.5 UI 组件库</a>
+    <nav aria-label="UI 组件分类"><ul>{groups.map(([href, label]) => <li><a href={href}>{label}</a></li>)}</ul></nav>
   </header>
   <main>
     <div class="library-intro">
-      <p>Content model × UI pattern × composition</p>
+      <p>内容模型 × UI 模式 × 页面组合</p>
       <h1>{title}</h1>
       <div class="library-intro__description">{description}</div>
     </div>

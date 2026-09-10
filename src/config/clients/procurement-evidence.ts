@@ -1,0 +1,471 @@
+import type { AboutPageContent } from "../../content-models/sections";
+import type { ClientSiteConfig } from "../schema";
+
+export const procurementEvidencePaths = {
+  home: "/library/client-previews/procurement-evidence/",
+  products: "/library/client-previews/procurement-evidence/products/",
+  capabilities: "/library/client-previews/procurement-evidence/capabilities/",
+  about: "/library/client-previews/procurement-evidence/about/",
+  contact: "/library/client-previews/procurement-evidence/contact/",
+} as const;
+
+const paths = {
+  ...procurementEvidencePaths,
+  facility: `${procurementEvidencePaths.about}#about-company`,
+  process: `${procurementEvidencePaths.capabilities}#capability-process`,
+  inquiry: procurementEvidencePaths.contact,
+} as const;
+
+const runtimeEnv = import.meta.env ?? {};
+const inquiryDelivery = runtimeEnv.PUBLIC_INQUIRY_DELIVERY === "resend" ? "resend" : "disabled";
+const inquiryAllowedOrigins = (runtimeEnv.PUBLIC_INQUIRY_ALLOWED_ORIGINS ?? "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+export const procurementEvidenceCatalog = {
+  reviewNote: "Product formats, ingredients, packaging options, and development scope are tailored to each brand brief.",
+  categories: [
+    { slug: "facial-skincare", name: "Facial skincare", description: "Daily cleansing, hydration, moisturizing, and routine-support directions for face-care ranges.", media: { src: "/review-assets/product-daily.svg", alt: "Abstract facial skincare packaging", width: 900, height: 700, aspect: "landscape" } },
+    { slug: "targeted-treatments", name: "Targeted treatments", description: "Serum, essence, and mask directions organized around a defined sensory and positioning brief.", media: { src: "/review-assets/product-targeted.svg", alt: "Abstract targeted treatment packaging", width: 900, height: 700, aspect: "landscape" } },
+    { slug: "body-care", name: "Body care", description: "Cleansing, moisturizing, exfoliating, and routine-extension directions for body-care collections.", media: { src: "/review-assets/manufacturing-body.svg", alt: "Abstract body-care packaging", width: 1200, height: 900, aspect: "landscape" } },
+    { slug: "hair-scalp-care", name: "Hair & scalp care", description: "Rinse-off and leave-on directions for daily cleansing, conditioning, and scalp-care routines.", media: { src: "/review-assets/manufacturing-leave-on.svg", alt: "Abstract hair and scalp-care packaging", width: 1200, height: 900, aspect: "landscape" } },
+  ],
+  products: ([
+    { slug: "gentle-gel-cleanser", categorySlug: "facial-skincare", name: "Gentle Gel Cleanser", summary: "A light-rinsing facial cleanser direction for straightforward morning and evening routines.", media: { src: "/review-assets/product-daily.svg", alt: "Abstract packaging for a gentle gel cleanser", width: 900, height: 700, aspect: "square" }, format: "Gel cleanser", routineRole: "Cleanse", highlights: ["Low-foam or soft-foam sensory direction", "Fragrance-free or fragranced brief options", "Everyday-routine positioning"], customizationOptions: ["Texture and foam profile", "Fragrance direction", "Ingredient preference and exclusion brief"], packagingOptions: ["Pump bottle", "Squeeze tube", "Refill discussion where feasible"], evaluationItems: ["Cleansing and rinse feel", "Formula and pack compatibility", "Market-specific claim and label review"] },
+    { slug: "hydration-serum", categorySlug: "facial-skincare", name: "Daily Hydration Serum", summary: "A lightweight serum direction intended to layer within a simple daily skincare routine.", media: { src: "/review-assets/product-targeted.svg", alt: "Abstract packaging for a hydration serum", width: 900, height: 700, aspect: "square" }, format: "Water-based serum", routineRole: "Layer", highlights: ["Lightweight sensory target", "Fast-spreading application", "Routine-compatible finish"], customizationOptions: ["Viscosity and slip", "Ingredient direction", "Fragrance-free brief"], packagingOptions: ["Dropper bottle", "Airless pump", "Standard pump bottle"], evaluationItems: ["Appearance and sensory review", "Stability plan", "Packaging compatibility"] },
+    { slug: "barrier-comfort-cream", categorySlug: "facial-skincare", name: "Barrier Comfort Cream", summary: "A medium-rich moisturizer direction for day, night, or climate-focused collection planning.", media: { src: "/review-assets/product-ritual.svg", alt: "Abstract packaging for a comfort cream", width: 900, height: 700, aspect: "square" }, format: "Face cream", routineRole: "Moisturize", highlights: ["Medium-rich texture direction", "Comforting after-feel", "Day or night positioning"], customizationOptions: ["Richness and absorption profile", "Finish and fragrance", "Ingredient preference brief"], packagingOptions: ["Jar", "Airless jar", "Pump bottle"], evaluationItems: ["Sensory panel criteria", "Stability plan", "Formula and pack compatibility"] },
+    { slug: "clarifying-serum", categorySlug: "targeted-treatments", name: "Clarifying Serum", summary: "A focused serum concept whose ingredients, claims, and evidence route are defined by the destination market.", media: { src: "/review-assets/product-targeted.svg", alt: "Abstract packaging for a clarifying serum", width: 900, height: 700, aspect: "square" }, format: "Targeted serum", routineRole: "Treat", highlights: ["Light, quick-layering direction", "Target-user brief required", "Claim language subject to evidence review"], customizationOptions: ["Active-direction discussion", "Texture and finish", "Fragrance and color brief"], packagingOptions: ["Dropper bottle", "Airless pump", "Treatment pump"], evaluationItems: ["Ingredient and market review", "Stability and compatibility plan", "Claim substantiation requirements"] },
+    { slug: "radiance-essence", categorySlug: "targeted-treatments", name: "Radiance Essence", summary: "A fluid treatment-step concept for brands planning a layered radiance-positioned routine.", media: { src: "/review-assets/launch-focused.svg", alt: "Abstract packaging for a radiance essence", width: 800, height: 600, aspect: "square" }, format: "Fluid essence", routineRole: "Prepare", highlights: ["Fluid, fast-spreading texture", "Layered-routine positioning", "Finish adjustable by brief"], customizationOptions: ["Viscosity and skin feel", "Ingredient direction", "Fragrance-free option discussion"], packagingOptions: ["Treatment bottle", "Pump bottle", "Controlled-dose closure"], evaluationItems: ["Sensory and appearance review", "Claim and label review", "Packaging compatibility"] },
+    { slug: "overnight-mask", categorySlug: "targeted-treatments", name: "Overnight Treatment Mask", summary: "A leave-on mask direction designed around texture, sleeping-routine fit, and an agreed evaluation plan.", media: { src: "/review-assets/product-ritual.svg", alt: "Abstract packaging for an overnight mask", width: 900, height: 700, aspect: "square" }, format: "Leave-on mask", routineRole: "Finish", highlights: ["Cushioned overnight texture", "Non-rinse routine role", "Jar or tube presentation"], customizationOptions: ["Richness and occlusivity direction", "Fragrance direction", "Ingredient preference brief"], packagingOptions: ["Jar", "Squeeze tube", "Airless pack"], evaluationItems: ["Overnight sensory criteria", "Stability plan", "Pack compatibility"] },
+    { slug: "daily-body-wash", categorySlug: "body-care", name: "Daily Body Wash", summary: "A rinse-off body cleanser direction that can anchor a coordinated bath and body range.", media: { src: "/review-assets/manufacturing-rinse.svg", alt: "Abstract packaging for a daily body wash", width: 1200, height: 900, aspect: "square" }, format: "Body wash", routineRole: "Cleanse", highlights: ["Gel or cream-gel direction", "Foam and rinse profile", "Collection-ready fragrance brief"], customizationOptions: ["Foam profile", "Color and fragrance", "Ingredient preference brief"], packagingOptions: ["Pump bottle", "Disc-top bottle", "Refill discussion where feasible"], evaluationItems: ["Foam and rinse evaluation", "Stability plan", "Pack compatibility"] },
+    { slug: "body-lotion", categorySlug: "body-care", name: "Everyday Body Lotion", summary: "A spreadable lotion direction for daily body-care routines and coordinated fragrance collections.", media: { src: "/review-assets/launch-body.svg", alt: "Abstract packaging for an everyday body lotion", width: 800, height: 600, aspect: "square" }, format: "Body lotion", routineRole: "Moisturize", highlights: ["Easy-spread texture", "Adjustable absorption profile", "Coordinated range potential"], customizationOptions: ["Richness and finish", "Fragrance direction", "Visual appearance"], packagingOptions: ["Pump bottle", "Squeeze bottle", "Tube"], evaluationItems: ["Spread and after-feel", "Stability plan", "Packaging compatibility"] },
+    { slug: "polishing-body-scrub", categorySlug: "body-care", name: "Polishing Body Scrub", summary: "A rinse-off exfoliating concept with particle, texture, and use-frequency choices defined during review.", media: { src: "/review-assets/manufacturing-body.svg", alt: "Abstract packaging for a body scrub", width: 1200, height: 900, aspect: "square" }, format: "Rinse-off scrub", routineRole: "Exfoliate", highlights: ["Gel, cream, or oil-based direction", "Particle selection requires review", "Rinse profile adjustable by brief"], customizationOptions: ["Base texture", "Particle type and level", "Fragrance direction"], packagingOptions: ["Jar", "Wide-neck tube", "Squeeze tube where suitable"], evaluationItems: ["Application and rinse evaluation", "Particle and market review", "Pack compatibility"] },
+    { slug: "daily-shampoo", categorySlug: "hair-scalp-care", name: "Daily Shampoo", summary: "A routine shampoo direction built around hair type, foam preference, fragrance, and rinse feel.", media: { src: "/review-assets/manufacturing-rinse.svg", alt: "Abstract packaging for a daily shampoo", width: 1200, height: 900, aspect: "square" }, format: "Shampoo", routineRole: "Cleanse", highlights: ["Daily-use positioning", "Adjustable foam profile", "Hair-type brief required"], customizationOptions: ["Cleansing and foam direction", "Conditioning feel", "Fragrance brief"], packagingOptions: ["Disc-top bottle", "Pump bottle", "Refill discussion where feasible"], evaluationItems: ["Wet use and rinse evaluation", "Hair-feel criteria", "Stability and packaging compatibility"] },
+    { slug: "conditioning-mask", categorySlug: "hair-scalp-care", name: "Conditioning Hair Mask", summary: "A richer rinse-off conditioning direction for weekly or intensive care positioning.", media: { src: "/review-assets/manufacturing-leave-on.svg", alt: "Abstract packaging for a conditioning hair mask", width: 1200, height: 900, aspect: "square" }, format: "Hair mask", routineRole: "Condition", highlights: ["Rich rinse-off texture", "Slip and after-feel targets", "Weekly-routine positioning"], customizationOptions: ["Richness and slip", "Fragrance direction", "Hair-type brief"], packagingOptions: ["Jar", "Wide-neck tube", "Squeeze tube"], evaluationItems: ["Application and rinse feel", "Wet and dry hair evaluation", "Pack compatibility"] },
+    { slug: "scalp-serum", categorySlug: "hair-scalp-care", name: "Leave-on Scalp Serum", summary: "A precision-application scalp-care concept whose positioning and claims require market-specific review.", media: { src: "/review-assets/launch-evidence.svg", alt: "Abstract packaging for a scalp serum", width: 1200, height: 900, aspect: "square" }, format: "Scalp serum", routineRole: "Leave on", highlights: ["Lightweight leave-on direction", "Precision application", "Claim route must be defined"], customizationOptions: ["Viscosity and residue target", "Cooling or neutral sensory direction", "Ingredient preference brief"], packagingOptions: ["Nozzle bottle", "Dropper bottle", "Precision applicator"], evaluationItems: ["Application and residue evaluation", "Ingredient and claim review", "Stability and pack compatibility"] },
+  ] as const).map((product, index) => ({ ...product, isHot: index < 4 })),
+} as const;
+
+export const productCategoryHref = (categorySlug: string) => `${procurementEvidencePaths.products}${categorySlug}/`;
+export const productDetailHref = (categorySlug: string, productSlug: string) => `${productCategoryHref(categorySlug)}${productSlug}/`;
+
+export const procurementEvidenceAbout: AboutPageContent = {
+  company: {
+    eyebrow: "Company information",
+    title: "Company Information",
+    videoAlt: "Skincare manufacturing workflow",
+    description: "Learn how product development, manufacturing, quality review, and packaging coordination connect around a skincare collection.",
+    stats: [
+      { value: "10,000+", unit: "m²", lines: ["The factory covers more than 10,000 square meters"] },
+      { value: "100,000+", unit: "pieces", lines: ["Six professional production lines", "Daily output up to 100,000 pieces"] },
+      { value: "200+", unit: "employees", lines: ["Nearly 200 skilled production staff", "6,000 m² GMPC clean workshop"] },
+    ],
+    images: [
+      { src: "/review-assets/manufacturing-facility.svg", alt: "Skincare manufacturing workflow", width: 1600, height: 1000, aspect: "landscape" },
+      { src: "/review-assets/manufacturing-body.svg", alt: "Body-care manufacturing illustration", width: 1200, height: 900, aspect: "landscape" },
+      { src: "/review-assets/launch-evidence.svg", alt: "Skincare development and quality records", width: 1200, height: 900, aspect: "landscape" },
+      { src: "/review-assets/manufacturing-leave-on.svg", alt: "Leave-on skincare production illustration", width: 1200, height: 900, aspect: "landscape" },
+    ],
+  },
+  recommendation: {
+    eyebrow: "Main recommendation",
+    title: "Main Recommendation",
+    items: [
+      { media: { src: "/review-assets/product-daily.svg", alt: "Facial skincare product direction", width: 900, height: 700, aspect: "landscape" }, text: "Start with a clear product and market brief." },
+      { media: { src: "/review-assets/product-targeted.svg", alt: "Targeted treatment product direction", width: 900, height: 700, aspect: "landscape" }, text: "Define sensory, formula, and claim priorities." },
+      { media: { src: "/review-assets/product-ritual.svg", alt: "Skincare ritual product direction", width: 900, height: 700, aspect: "landscape" }, text: "Build a coherent routine around your range." },
+      { media: { src: "/review-assets/launch-body.svg", alt: "Body-care product direction", width: 800, height: 600, aspect: "landscape" } },
+      { media: { src: "/review-assets/manufacturing-rinse.svg", alt: "Rinse-off product direction", width: 1200, height: 900, aspect: "landscape" }, text: "Keep packaging and production choices visible." },
+      { media: { src: "/review-assets/launch-focused.svg", alt: "Focused treatment product direction", width: 800, height: 600, aspect: "landscape" } },
+    ],
+  },
+  advantages: {
+    eyebrow: "Why choose us",
+    title: "Why Choose Us",
+    items: [
+      { icon: "certification", title: "International certification system", description: "US GMPC certified, with EU ISO 9001 and ISO 22716 dual-system certification and 17 national utility model patents." },
+      { icon: "production", title: "Intelligent production line", description: "Six production lines with daily capacity above 100,000 pieces, supporting new formulations such as freeze-dried powder and single-use masks." },
+      { icon: "research", title: "R&D innovation center", description: "A team of 20+ senior engineers, 10,000+ mature formulas, customized OEM/ODM solutions, and four core technologies." },
+      { icon: "service", title: "Customer service commitment", description: "Rapid response, samples in as little as 3 working days, and complete batch delivery in as little as 7 working days." },
+      { icon: "sustainability", title: "Green manufacturing standards", description: "Full-process traceability, zero addition of disqualified ingredients, and testing support for customized products." },
+    ],
+  },
+  gallery: {
+    images: [
+      { src: "/review-assets/manufacturing-hero.svg", alt: "Skincare manufacturing overview", width: 1600, height: 1000, aspect: "landscape" },
+      { src: "/review-assets/launch-evidence.svg", alt: "Product development evidence overview", width: 1200, height: 900, aspect: "landscape" },
+    ],
+  },
+  carousel: {
+    eyebrow: "Our company",
+    title: "Our Company",
+    subtitle: "Share more of the working environment through a simple, responsive image carousel.",
+    images: [
+      { src: "/review-assets/manufacturing-facility.svg", alt: "Skincare manufacturing workflow", width: 1600, height: 1000, aspect: "landscape" },
+      { src: "/review-assets/manufacturing-body.svg", alt: "Body-care manufacturing illustration", width: 1200, height: 900, aspect: "landscape" },
+      { src: "/review-assets/launch-evidence.svg", alt: "Skincare development and quality records", width: 1200, height: 900, aspect: "landscape" },
+      { src: "/review-assets/manufacturing-leave-on.svg", alt: "Leave-on skincare production illustration", width: 1200, height: 900, aspect: "landscape" },
+    ],
+  },
+};
+
+export const procurementEvidenceClient = {
+  schemaVersion: "1.0",
+  siteId: "procurement-evidence-client",
+  mode: "review",
+  direction: "procurement-evidence",
+  identity: {
+    displayName: {
+      value: "Aurevia Skincare",
+      status: "pending",
+      note: "Neutral skincare brand name used by the local fallback dataset.",
+    },
+    legalName: {
+      value: "Aurevia Skincare",
+      status: "pending",
+      note: "Confirm the contracting entity and whether it should appear publicly.",
+    },
+    summary: {
+      value: "Skincare development and manufacturing support for facial care, body care, and targeted routines.",
+      status: "pending",
+      note: "Replace with a verified positioning statement based on the client's real scope.",
+    },
+  },
+  contact: {
+    inquiryHref: paths.inquiry,
+    inquiryLabel: "Start a skincare inquiry",
+    email: { value: "Business email pending", status: "pending" },
+    location: { value: "Factory location pending", status: "pending" },
+  },
+  seo: {
+    siteUrl: { value: "https://example.invalid", status: "pending", note: "Replace with the verified production domain." },
+    siteName: { value: "Aurevia Skincare", status: "pending" },
+    defaultTitle: { value: "Skincare OEM, ODM & Private Label Manufacturer", status: "pending" },
+    defaultDescription: { value: "Explore facial care, body care, private label, OEM, ODM, and custom skincare development.", status: "pending" },
+    defaultLocale: "en",
+    locales: ["en"],
+  },
+  inquiry: {
+    enabled: true,
+    delivery: inquiryDelivery,
+    endpoint: "/api/inquiry",
+    formType: "project",
+    privacyPolicyHref: runtimeEnv.PUBLIC_INQUIRY_PRIVACY_POLICY_URL || "#privacy-pending",
+    privacyPolicyVersion: runtimeEnv.PUBLIC_INQUIRY_PRIVACY_POLICY_VERSION || "pending",
+    recipientEnvKey: "INQUIRY_TO_EMAIL",
+    fromEnvKey: "INQUIRY_FROM_EMAIL",
+    resendKeyEnvKey: "RESEND_API_KEY",
+    allowedOrigins: inquiryAllowedOrigins,
+    attributionEnabled: true,
+  },
+  theme: {
+    id: "procurement-blue",
+    colors: {
+      canvas: "oklch(98% .004 230)",
+      surface: "white",
+      surfaceSubtle: "oklch(96% .012 225)",
+      ink: "oklch(21% .025 235)",
+      muted: "oklch(46% .025 235)",
+      accent: "oklch(42% .095 225)",
+      accentContrast: "white",
+      border: "oklch(86% .018 225)",
+    },
+  },
+  patterns: {
+    hero: "RecognitionBackdropHero-001",
+    products: "ProductFamilies-001",
+    evidence: "ProofColumns-001",
+    pathways: "BuyerPathways-001",
+    quality: "QualityEvidenceMatrix-001",
+    process: "ProcessSteps-001",
+    facility: "FacilityGallery-001",
+    inquiry: "SplitInquiry-001",
+    navigation: "NavigationDropdown-001",
+    contact: "ContactWorkspace-001",
+    floatingContact: "FloatingContactBar-001",
+  },
+  optionalPatterns: {
+    floatingTrustBar: { pattern: "FloatingTrustBar-001", status: "excluded" },
+    commercialConditions: { pattern: "CommercialConditionsTable-001", status: "awaiting-client-data" },
+    auditProofHub: { pattern: "AuditProofHub-001", status: "deferred" },
+    testimonials: { pattern: "VerifiedTestimonialCards-001", status: "excluded" },
+  },
+  routes: procurementEvidencePaths,
+  catalog: procurementEvidenceCatalog,
+  homepage: {
+    hero: {
+      eyebrow: "Skincare OEM · ODM · Private label",
+      autoplayMs: 7000,
+      slides: [
+        {
+          title: "Bring a focused facial skincare range to market.",
+          media: { src: "/review-assets/product-daily.svg", alt: "Cleanser and daily skincare packaging", width: 900, height: 700, aspect: "landscape" },
+          href: paths.products,
+          action: { href: paths.products, label: "Explore skincare categories" },
+        },
+        {
+          title: "Choose the development route that fits your brand.",
+          media: { src: "/review-assets/manufacturing-body.svg", alt: "Skincare products representing different development routes", width: 1200, height: 900, aspect: "landscape" },
+          href: paths.inquiry,
+          action: { href: paths.inquiry, label: "Start your skincare brief" },
+        },
+      ],
+    },
+    products: {
+      eyebrow: "Skincare categories",
+      title: "Create a range around real consumer routines.",
+      description: "Explore product directions that can be combined into a focused skincare collection.",
+      families: [
+        {
+          name: "Facial cleansers",
+          description: "Gel, cream, oil, balm, and foam formats for daily cleansing and makeup-removal routines.",
+          media: { src: "/review-assets/product-daily.svg", alt: "Abstract facial skincare packaging", width: 900, height: 700 },
+          action: { href: paths.inquiry, label: "Discuss cleansers" },
+        },
+        {
+          name: "Serums & concentrates",
+          description: "Lightweight and layered treatment formats shaped around hydration, radiance, soothing, or barrier-care positioning.",
+          media: { src: "/review-assets/product-targeted.svg", alt: "Abstract targeted skincare treatment packaging", width: 900, height: 700 },
+          action: { href: paths.inquiry, label: "Discuss serums" },
+        },
+        {
+          name: "Moisturizers & creams",
+          description: "Daily lotions, rich creams, gel creams, and overnight textures for different routines and climates.",
+          media: { src: "/review-assets/manufacturing-body.svg", alt: "Abstract body-care packaging", width: 1200, height: 900 },
+          action: { href: paths.inquiry, label: "Discuss moisturizers" },
+        },
+        {
+          name: "Masks & body care",
+          description: "Wash-off masks, sleeping masks, body lotions, creams, scrubs, and oils for collection extensions.",
+          media: { src: "/review-assets/manufacturing-leave-on.svg", alt: "Abstract hair and scalp-care packaging", width: 1200, height: 900 },
+          action: { href: paths.inquiry, label: "Discuss masks and body care" },
+        },
+      ],
+    },
+    evidence: {
+      eyebrow: "Development support",
+      title: "Connect formula, packaging, and launch requirements.",
+      description: "A workable skincare programme brings the product brief, pack format, market needs, and quality documents into one development path.",
+      points: [
+        { title: "Formula direction", description: "Align the format, texture, user routine, ingredient preferences, and positioning before sampling." },
+        { title: "Packaging coordination", description: "Match formula characteristics with pack format, decoration, artwork, and sourcing responsibilities." },
+        { title: "Quality documentation", description: "Confirm the specifications, testing, batch records, and market documents required for the project." },
+      ],
+      media: {
+        src: "/review-assets/launch-evidence.svg",
+        alt: "Skincare development and quality documents",
+        width: 1200,
+        height: 900,
+        aspect: "landscape",
+      },
+      action: { href: paths.capabilities, label: "Explore development capabilities" },
+    },
+    pathways: {
+      eyebrow: "Cooperation routes",
+      title: "Choose a route that matches your product ambition.",
+      description: "Start with a proven base, adapt a product direction, or develop against a custom skincare brief.",
+      pathways: [
+        {
+          title: "Private label",
+          description: "Select from available skincare directions, then apply your branding, packaging, and market requirements.",
+          decisionCue: "Best for a focused launch with fewer development variables.",
+          action: { href: paths.products, label: "Explore product categories" },
+        },
+        {
+          title: "Formula adaptation",
+          description: "Adjust selected sensory, ingredient, fragrance, color, or packaging characteristics within an agreed scope.",
+          decisionCue: "Best for brands seeking controlled differentiation.",
+          action: { href: paths.process, label: "See the development process" },
+        },
+        {
+          title: "Custom development",
+          description: "Develop around a defined product concept, target experience, ingredient direction, packaging plan, and market brief.",
+          decisionCue: "Best for differentiated concepts with a detailed brief.",
+          action: { href: paths.inquiry, label: "Start a custom formula brief" },
+        },
+      ],
+    },
+    quality: {
+      eyebrow: "Quality controls",
+      title: "Quality checkpoints from materials to finished skincare.",
+      description: "Each project moves through defined material, manufacturing, filling, inspection, and release checks.",
+      evidenceLabel: "Typical project records",
+      checkpoints: [
+        { stage: "Incoming materials", controlPurpose: "Confirm identity, condition, documentation, and acceptance before use.", evidenceType: "Supplier and incoming inspection records" },
+        { stage: "In-process control", controlPurpose: "Monitor agreed process parameters and product characteristics during manufacture.", evidenceType: "Batch and in-process records" },
+        { stage: "Finished product release", controlPurpose: "Review specifications, packaging, labeling, testing, and release status.", evidenceType: "Inspection, test, and release records" },
+        { stage: "Traceability and retention", controlPurpose: "Maintain appropriate links between materials, batches, products, and records.", evidenceType: "Traceability and retention records" },
+      ],
+      verificationAction: { href: paths.inquiry, label: "Discuss your quality requirements" },
+    },
+    process: {
+      eyebrow: "How we work",
+      title: "Move from skincare brief to production readiness.",
+      description: "Four decision stages keep the formula, packaging, artwork, quality requirements, and approvals moving together.",
+      responsibilityLabels: { buyer: "Your brand", supplier: "Development team" },
+      steps: [
+        { title: "Share your skincare brief", description: "Define the product type, target routine, market, texture, packaging status, quantity range, and launch timing.", buyerAction: "Share priorities, references, and known constraints.", supplierAction: "Recommend a suitable development route." },
+        { title: "Confirm scope and quotation", description: "Align the selected route, sample scope, packaging responsibilities, testing needs, costs, and assumptions.", buyerAction: "Confirm priorities and commercial expectations.", supplierAction: "Document the proposed scope and quotation basis." },
+        { title: "Review samples and packaging", description: "Evaluate formula direction and pack compatibility against the agreed brief.", buyerAction: "Consolidate feedback and approve revisions.", supplierAction: "Prepare samples and record agreed changes." },
+        { title: "Approve production readiness", description: "Close formula, packaging, artwork, quality, purchasing, and logistics decisions.", buyerAction: "Approve final product and artwork inputs.", supplierAction: "Confirm the production plan and project records." },
+      ],
+    },
+    facility: {
+      eyebrow: "Skincare production",
+      title: "See the areas behind a finished skincare product.",
+      description: "Material handling, bulk manufacturing, filling, inspection, and release form one connected production workflow.",
+      media: {
+        src: "/review-assets/manufacturing-facility.svg",
+        alt: "Skincare manufacturing workflow",
+        width: 1600,
+        height: 1000,
+        aspect: "landscape",
+      },
+      areas: [
+        { name: "Material control", description: "Ingredients and packaging move through receipt, identification, storage, and release checks.", evidenceNote: "Typical records: receipt, status, storage, and release documentation." },
+        { name: "Manufacturing and filling", description: "Bulk preparation, transfer, filling, and line clearance are coordinated around the approved product and pack.", evidenceNote: "Typical records: batch, equipment, filling, and line-clearance documentation." },
+        { name: "Quality and release", description: "Inspection, testing, record review, and release decisions close the batch before shipment.", evidenceNote: "Typical records: inspection, testing, disposition, and release documentation." },
+      ],
+      primaryAction: { href: paths.about, label: "Explore company and facility" },
+    },
+    inquiry: {
+      eyebrow: "Skincare inquiry",
+      title: "Tell us what you want to launch.",
+      description: "Share enough product and market context for the development team to recommend a suitable next step.",
+      preparationItems: ["Product categories and target customer", "Destination market and claim goals", "Packaging status and sourcing preference", "Target quantity range and launch window", "Required testing, records, and certifications"],
+      primaryAction: { href: paths.contact, label: "Start your skincare inquiry" },
+      secondaryAction: { href: paths.process, label: "See how development works" },
+    },
+  },
+  pages: {
+    products: {
+      products: {
+        id: "product-families",
+        eyebrow: "Product families",
+        title: "Start with the categories your collection needs.",
+        description: "Compare product formats, routine roles, sensory directions, and packaging possibilities.",
+        families: procurementEvidenceCatalog.categories.map((category) => ({
+          name: category.name,
+          description: category.description,
+          media: category.media,
+          action: { href: productCategoryHref(category.slug), label: `Explore ${category.name.toLowerCase()}` },
+        })),
+      },
+    },
+    capabilities: {
+      intro: {
+        id: "capabilities-intro",
+        eyebrow: "OEM, ODM & private label scope",
+        title: "Move from product brief to production readiness.",
+        description: "Connect formula development, packaging coordination, sampling, quality planning, and production preparation.",
+        primaryAction: { href: paths.contact, label: "Discuss required capabilities" },
+        breadcrumbs: [{ label: "Home", href: paths.home }, { label: "Capabilities" }],
+      },
+      capabilities: {
+        id: "capability-scope",
+        eyebrow: "Capability map",
+        title: "Keep inputs, decisions, and outputs clear at every stage.",
+        description: "A structured workflow helps brand and development teams coordinate product, packaging, quality, and launch requirements.",
+        items: [
+          { name: "Brief and feasibility", description: "Assess product, market, packaging, evidence, and commercial assumptions.", buyerInput: "Project brief, references, priorities, and constraints.", supplierOutput: "Route recommendation, questions, and quotation basis.", evidenceNote: "Written assumptions and responsibility boundaries." },
+          { name: "Product development", description: "Select or develop a direction against agreed evaluation criteria.", buyerInput: "Target format, experience, claims, and exclusions.", supplierOutput: "Sample direction and revision requirements.", evidenceNote: "Formula and sample records appropriate to scope." },
+          { name: "Packaging coordination", description: "Connect product, pack, decoration, artwork, and sourcing responsibilities.", buyerInput: "Pack format, size, design, and sourcing status.", supplierOutput: "Compatibility questions and dependencies.", evidenceNote: "Approved component and evaluation records where applicable." },
+          { name: "Production and release", description: "Plan manufacturing, filling, inspection, release, packing, and handoff.", buyerInput: "Approved product, packaging, artwork, quantity, and logistics needs.", supplierOutput: "Production plan, quality gates, and agreed records.", evidenceNote: "Batch, release, and traceability records to verify." },
+        ],
+      },
+      quality: {
+        id: "capability-quality",
+        eyebrow: "Quality framework",
+        title: "Follow quality checkpoints throughout development and production.",
+        description: "Material checks, in-process controls, finished-product review, and traceability support a consistent quality workflow.",
+        checkpoints: [
+          { stage: "Incoming materials", controlPurpose: "Confirm identity, condition, documentation, and acceptance before use.", evidenceType: "Supplier and incoming inspection records" },
+          { stage: "In-process control", controlPurpose: "Monitor agreed parameters and product characteristics during manufacture.", evidenceType: "Batch and in-process records" },
+          { stage: "Finished product release", controlPurpose: "Review specifications, packaging, labeling, and release status.", evidenceType: "Inspection, testing, and release records" },
+          { stage: "Traceability and retention", controlPurpose: "Maintain links between materials, batches, products, and records.", evidenceType: "Traceability and retention records" },
+        ],
+        verificationAction: { href: paths.about, label: "Explore quality and facility" },
+      },
+      process: {
+        id: "capability-process",
+        eyebrow: "Cooperation process",
+        title: "Keep approvals and responsibilities visible.",
+        responsibilityLabels: { buyer: "Buyer", supplier: "Supplier" },
+        steps: [
+          { title: "Inquiry and fit review", description: "Clarify business case, scope, market, evidence, and assumptions.", buyerAction: "Provide the project brief.", supplierAction: "Assess fit and missing inputs." },
+          { title: "Route and quotation", description: "Agree scope, outputs, dependencies, exclusions, and quotation basis.", buyerAction: "Confirm priorities and trade-offs.", supplierAction: "Document scope and commercial assumptions." },
+          { title: "Sampling and packaging", description: "Evaluate product and pack against agreed criteria.", buyerAction: "Consolidate feedback and approve decisions.", supplierAction: "Provide samples and record revisions." },
+          { title: "Production readiness", description: "Close product, packaging, artwork, quality, purchasing, and logistics approvals.", buyerAction: "Provide final approvals.", supplierAction: "Confirm readiness and required records." },
+        ],
+      },
+      inquiry: {
+        id: "capabilities-inquiry",
+        eyebrow: "Capability inquiry",
+        title: "Build a support plan around your skincare range.",
+        description: "Share your preferred cooperation model, product scope, packaging direction, market, and launch priorities.",
+        preparationItems: ["Cooperation model", "Product and packaging scope", "Destination market", "Evidence and delivery expectations"],
+        primaryAction: { href: paths.contact, label: "Discuss your project" },
+        secondaryAction: { href: paths.about, label: "Explore company information" },
+      },
+    },
+    about: { content: procurementEvidenceAbout },
+    contact: {
+      intro: {
+        id: "contact-intro",
+        eyebrow: "Contact us",
+        title: "Let’s create your next skincare collection.",
+        description: "Share your product ideas, preferred cooperation route, target market, and packaging direction with our skincare team.",
+        breadcrumbs: [{ label: "Home", href: paths.home }, { label: "Contact" }],
+      },
+      contact: {
+        id: "contact-workspace",
+        eyebrow: "Contact workspace",
+        title: "Tell us about your skincare goals.",
+        description: "A few details about your brand and product direction will help us understand the collection you want to create.",
+        contextTitle: "Choose a starting point",
+        contextItems: [
+          { label: "New product inquiry", value: "Share your skincare concept", href: "#contact-workspace-form", icon: "message" },
+          { label: "Manufacturing inquiry", value: "Discuss production and quality needs", href: "#contact-workspace-form", icon: "location" },
+        ],
+        fields: [
+          { name: "name", label: "Name", placeholder: "Your name", autocomplete: "name", maxLength: 160, required: true, span: "half" },
+          { name: "email", label: "Work email", control: "email", placeholder: "you@company.com", autocomplete: "email", maxLength: 254, required: true, span: "half" },
+          { name: "company", label: "Company", placeholder: "Company or brand name", autocomplete: "organization", maxLength: 200, required: true, span: "half" },
+          { name: "phone", label: "Phone / WhatsApp", control: "tel", placeholder: "Phone or WhatsApp", autocomplete: "tel", maxLength: 80, span: "half" },
+          { name: "productCategory", label: "Product category", control: "select", placeholder: "Select a product direction", required: true, options: procurementEvidenceCatalog.categories.map((category) => ({ label: category.name, value: category.slug })) },
+          { name: "productInterest", label: "Product interest", placeholder: "e.g. niacinamide serum", maxLength: 240, span: "half" },
+          { name: "cooperationModel", label: "Cooperation route", control: "select", placeholder: "Select a route", options: [{ label: "Private label", value: "private-label" }, { label: "OEM", value: "oem" }, { label: "ODM", value: "odm" }, { label: "Not decided", value: "undecided" }] },
+          { name: "destinationMarket", label: "Destination market", placeholder: "e.g. United States", maxLength: 160, span: "half" },
+          { name: "quantityRange", label: "Estimated quantity", placeholder: "e.g. 3,000–5,000 units", maxLength: 120, span: "half" },
+          { name: "message", label: "Your inquiry", control: "textarea", placeholder: "Tell us about your product ideas, packaging direction, requirements, and preferred launch timing.", rows: 6, maxLength: 4000, required: true, span: "full" },
+        ],
+        submitLabel: "Send inquiry",
+        deliveryNote: "Online inquiry service will be available soon.",
+        note: "Include the product category and target market so the right team can follow up.",
+      },
+    },
+  },
+  optionalContent: {},
+  media: [
+    { id: "hero-review", src: "/review-assets/manufacturing-hero.svg", alt: "Skincare manufacturing and product development", rightsStatus: "verified", source: "Original repository review asset" },
+    { id: "facility-review", src: "/review-assets/manufacturing-facility.svg", alt: "Skincare manufacturing workflow", rightsStatus: "verified", source: "Original repository review asset" },
+    { id: "evidence-review", src: "/review-assets/launch-evidence.svg", alt: "Skincare development and quality documents", rightsStatus: "verified", source: "Original repository review asset" },
+    { id: "facial-review", src: "/review-assets/product-daily.svg", alt: "Abstract facial skincare packaging", rightsStatus: "verified", source: "Original repository review asset" },
+    { id: "treatment-review", src: "/review-assets/product-targeted.svg", alt: "Abstract targeted skincare treatment packaging", rightsStatus: "verified", source: "Original repository review asset" },
+    { id: "body-review", src: "/review-assets/manufacturing-body.svg", alt: "Abstract body-care packaging", rightsStatus: "verified", source: "Original repository review asset" },
+    { id: "hair-review", src: "/review-assets/manufacturing-leave-on.svg", alt: "Abstract hair and scalp-care packaging", rightsStatus: "verified", source: "Original repository review asset" },
+    { id: "ritual-review", src: "/review-assets/product-ritual.svg", alt: "Abstract cream and mask packaging", rightsStatus: "verified", source: "Original repository review asset" },
+    { id: "focused-review", src: "/review-assets/launch-focused.svg", alt: "Abstract focused treatment packaging", rightsStatus: "verified", source: "Original repository review asset" },
+    { id: "rinse-review", src: "/review-assets/manufacturing-rinse.svg", alt: "Abstract rinse-off product packaging", rightsStatus: "verified", source: "Original repository review asset" },
+    { id: "launch-body-review", src: "/review-assets/launch-body.svg", alt: "Abstract body lotion packaging", rightsStatus: "verified", source: "Original repository review asset" },
+  ],
+  evidence: [
+    { id: "identity", label: "Company identity and legal entity", status: "pending", note: "Required before publication." },
+    { id: "manufacturing-scope", label: "In-house and partner manufacturing scope", status: "pending", note: "Required before publishing capability claims." },
+    { id: "quality-system", label: "Quality checkpoints, tests, and records", status: "pending", note: "Required before publishing quality claims." },
+    { id: "product-scope", label: "Available product categories and customization scope", status: "pending", note: "Required before publishing catalogue claims." },
+    { id: "commercial-terms", label: "MOQ, timing, fees, and commercial dependencies", status: "pending", note: "CommercialConditionsTable remains disabled until supplied." },
+    { id: "facility-media", label: "Client-owned facility photography and usage rights", status: "pending", note: "Review SVGs cannot be used as client proof." },
+  ],
+} satisfies ClientSiteConfig;

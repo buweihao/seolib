@@ -1,0 +1,29 @@
+---
+import type { AboutImageGalleryContent } from "../../content-models/sections";
+
+interface Props extends AboutImageGalleryContent {
+  id: string;
+  class?: string;
+}
+
+const { id, images, class: className } = Astro.props;
+---
+
+{images.length > 0 && (
+  <section id={id} class:list={["about-image-gallery", className]} aria-label="More about us images">
+    <div class="about-image-gallery__container">
+      <div class="about-image-gallery__list">
+        {images.map((image) => (
+          <img src={image.src} srcset={image.srcset} sizes="(min-width: 72rem) 72rem, 100vw" alt={image.alt} width={image.width} height={image.height} loading="lazy" decoding="async" />
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .about-image-gallery { background: #fff; }
+  .about-image-gallery__container { width: min(100% - 2 * var(--ds-page-gutter), 72rem); margin-inline: auto; padding: clamp(2.75rem, 6vw, 4rem) 0; }
+  .about-image-gallery__list { display: grid; gap: 1.5rem; }
+  .about-image-gallery__list img { display: block; width: 100%; height: auto; }
+</style>

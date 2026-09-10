@@ -1,0 +1,16 @@
+---
+import ContactPage from "../../../../components/compositions/ContactPage.astro";
+import { loadProcurementEvidenceClient } from "../../../../config/clients/procurement-evidence-cms";
+import ClientPageShell from "../../../../layouts/ClientPageShell.astro";
+
+const procurementEvidenceClient = await loadProcurementEvidenceClient();
+---
+
+<ClientPageShell
+  config={procurementEvidenceClient}
+  currentPath={procurementEvidenceClient.routes.contact}
+  title="Contact our skincare team | Aurevia Skincare"
+  description="Share your product direction, cooperation route, target market, packaging needs, and launch timing."
+>
+  <ContactPage {...procurementEvidenceClient.pages.contact} inquiryConfig={procurementEvidenceClient.inquiry} />
+</ClientPageShell>

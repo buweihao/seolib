@@ -1,0 +1,20 @@
+---
+interface FAQItem { question: string; answer: string; }
+interface Props { id: string; title: string; items: FAQItem[]; }
+const { id, title, items } = Astro.props;
+---
+<section id={id} class="contact-faq" aria-labelledby={`${id}-title`}><h2 id={`${id}-title`}>{title}</h2><div>{items.map((item) => <details><summary>{item.question}<span aria-hidden="true">+</span></summary><p>{item.answer}</p></details>)}</div></section>
+<style>
+  .contact-faq { padding: clamp(2rem, 7vw, 6rem); background: color-mix(in oklch, var(--ds-color-canvas), #f2dfac 18%); }
+  h2 { margin: 0 0 2rem; font-size: clamp(2rem, 4vw, 3.5rem); text-align: center; }
+  .contact-faq > div { display: grid; max-width: 72rem; margin: 0 auto; }
+  details { border-top: 1px solid var(--ds-color-border-strong); }
+  details:last-child { border-bottom: 1px solid var(--ds-color-border-strong); }
+  summary { display: flex; min-height: 4rem; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem 0; font-weight: 750; cursor: pointer; }
+  summary::-webkit-details-marker { display: none; }
+  summary span { font-size: 1.5rem; transition: transform .2s ease; }
+  details[open] summary span { transform: rotate(45deg); }
+  details p { max-width: 60ch; margin: -.25rem 0 1.25rem; color: var(--ds-color-muted); }
+  @media (min-width: 54rem) { .contact-faq > div { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 4rem; } }
+  @media (prefers-reduced-motion: reduce) { summary span { transition: none; } }
+</style>

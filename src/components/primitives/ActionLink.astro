@@ -5,6 +5,8 @@ interface Props {
   variant?: "primary" | "secondary" | "text";
   ariaLabel?: string;
   class?: string;
+  target?: string;
+  rel?: string;
 }
 
 const {
@@ -13,7 +15,13 @@ const {
   variant = "primary",
   ariaLabel,
   class: className,
+  target,
+  rel,
 } = Astro.props;
+
+const isExternal = href.startsWith("http://") || href.startsWith("https://") || href.startsWith("//");
+const resolvedTarget = target ?? (isExternal ? "_blank" : undefined);
+const resolvedRel = rel ?? (isExternal ? "noreferrer noopener" : undefined);
 ---
 
 <a
@@ -21,6 +29,8 @@ const {
   data-variant={variant}
   href={href}
   aria-label={ariaLabel}
+  target={resolvedTarget}
+  rel={resolvedRel}
 >
   <span>{label}</span>
   <span class="action-link__mark" aria-hidden="true">→</span>

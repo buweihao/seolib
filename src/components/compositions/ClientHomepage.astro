@@ -1,0 +1,208 @@
+---
+import type { ClientSiteConfig } from "../../config/schema";
+import { hasBlockingConfigIssues, validateClientSiteConfig } from "../../config/validate";
+import ArcFactoryHero from "../patterns/hero/ArcFactoryHero.astro";
+import CenteredProofHero from "../patterns/hero/CenteredProofHero.astro";
+import RecognitionBackdropHero from "../patterns/hero/RecognitionBackdropHero.astro";
+import ProductCategoryList from "../patterns/products/ProductCategoryList.astro";
+import ProductCutoutShelf from "../patterns/products/ProductCutoutShelf.astro";
+import ProductMosaic from "../patterns/products/ProductMosaic.astro";
+import ProofColumns from "../patterns/evidence/ProofColumns.astro";
+import HorizontalProcess from "../patterns/process/HorizontalProcess.astro";
+import ProcessCards from "../patterns/process/ProcessCards.astro";
+import SplitPathways from "../patterns/pathways/SplitPathways.astro";
+import FacilityGallery from "../patterns/facility/FacilityGallery.astro";
+import QualityEvidenceMatrix from "../patterns/quality/QualityEvidenceMatrix.astro";
+import SplitInquiry from "../patterns/inquiry/SplitInquiry.astro";
+import FloatingTrustBar from "../patterns/proof/FloatingTrustBar.astro";
+import StatementHero from "../sections/StatementHero.astro";
+import ProductFamilies from "../sections/ProductFamilies.astro";
+import EvidenceFeature from "../sections/EvidenceFeature.astro";
+import BuyerPathways from "../sections/BuyerPathways.astro";
+import QualityFramework from "../sections/QualityFramework.astro";
+import ProcessSteps from "../sections/ProcessSteps.astro";
+import FacilityOverview from "../sections/FacilityOverview.astro";
+import InquiryCTA from "../sections/InquiryCTA.astro";
+import SiteHeader from "../sections/SiteHeader.astro";
+import SiteFooter from "../sections/SiteFooter.astro";
+import FloatingContactBar from "../patterns/inquiry/FloatingContactBar.astro";
+import FloatingInquiryPanel from "../patterns/inquiry/FloatingInquiryPanel.astro";
+import { buildClientNavigation, buildFloatingContactItems } from "../../lib/client-navigation";
+
+interface Props { config: ClientSiteConfig; }
+
+const { config } = Astro.props;
+const issues = validateClientSiteConfig(config);
+if (hasBlockingConfigIssues(issues)) {
+  throw new Error(`Invalid client configuration: ${issues.filter((issue) => issue.severity === "error").map((issue) => `${issue.path}: ${issue.message}`).join("; ")}`);
+}
+
+const heroPatterns = {
+  "StatementHero-001": StatementHero,
+  "CenteredProofHero-001": CenteredProofHero,
+  "ArcFactoryHero-001": ArcFactoryHero,
+};
+const productPatterns = {
+  "ProductFamilies-001": ProductFamilies,
+  "ProductMosaic-001": ProductMosaic,
+  "ProductCategoryList-001": ProductCategoryList,
+};
+const evidencePatterns = {
+  "EvidenceFeature-001": EvidenceFeature,
+  "ProofColumns-001": ProofColumns,
+};
+const pathwayPatterns = {
+  "BuyerPathways-001": BuyerPathways,
+  "SplitPathways-001": SplitPathways,
+};
+const qualityPatterns = {
+  "QualityFramework-001": QualityFramework,
+  "QualityEvidenceMatrix-001": QualityEvidenceMatrix,
+};
+const processPatterns = {
+  "ProcessSteps-001": ProcessSteps,
+  "HorizontalProcess-001": HorizontalProcess,
+  "ProcessCards-001": ProcessCards,
+};
+const facilityPatterns = {
+  "FacilityOverview-001": FacilityOverview,
+  "FacilityGallery-001": FacilityGallery,
+};
+const inquiryPatterns = {
+  "InquiryCTA-001": InquiryCTA,
+  "SplitInquiry-001": SplitInquiry,
+};
+
+const standardHeroId = config.patterns.hero as keyof typeof heroPatterns;
+const HeroPattern = heroPatterns[standardHeroId];
+const ProductPattern = productPatterns[config.patterns.products];
+const EvidencePattern = evidencePatterns[config.patterns.evidence];
+const PathwayPattern = pathwayPatterns[config.patterns.pathways];
+const QualityPattern = qualityPatterns[config.patterns.quality];
+const ProcessPattern = processPatterns[config.patterns.process];
+const FacilityPattern = facilityPatterns[config.patterns.facility];
+const InquiryPattern = inquiryPatterns[config.patterns.inquiry];
+const trustEnabled = config.optionalPatterns.floatingTrustBar.status === "enabled" && config.optionalContent.floatingTrustBar;
+const navigation = buildClientNavigation(config);
+const floatingContactItems = buildFloatingContactItems(config);
+const floatingInquiryFields = [
+  { name: "firstName", label: "First name", placeholder: "First name", autocomplete: "given-name", required: true },
+  { name: "lastName", label: "Last name", placeholder: "Last name", autocomplete: "family-name" },
+  { name: "email", label: "Email", placeholder: "you@example.com", type: "email" as const, autocomplete: "email", required: true },
+  { name: "phone", label: "Phone", placeholder: "Tel / WhatsApp", type: "tel" as const, autocomplete: "tel" },
+  { name: "company", label: "Company", placeholder: "Company name", autocomplete: "organization" },
+  { name: "message", label: "Message", placeholder: "Write your inquiry here...", rows: 5, required: true },
+];
+const { colors } = config.theme;
+const hotProducts = config.catalog.products.filter((product) => product.isHot).slice(0, 4).map((product) => ({
+  name: product.name,
+  media: product.media,
+  category: config.catalog.categories.find((category) => category.slug === product.categorySlug)?.name,
+  detail: product.format,
+  action: {
+    href: `${config.routes.products}${product.categorySlug}/${product.slug}/`,
+    label: "View product",
+    ariaLabel: `View details for ${product.name}`,
+  },
+}));
+---
+
+<div class="client-site">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <SiteHeader
+    brand={config.identity.displayName.value}
+    brandLogo={config.identity.logo}
+    homeHref={config.routes.home}
+    {navigation}
+    currentPath={config.routes.home}
+    utilityText="Facial skincare · Body care · Private label development"
+    inquiryAction={{ href: config.routes.contact, label: config.contact.inquiryLabel }}
+  />
+
+  <main id="main-content">
+    {"slides" in config.homepage.hero
+      ? <RecognitionBackdropHero {...config.homepage.hero} id="hero" />
+      : <HeroPattern {...config.homepage.hero} id="hero" />}
+    {hotProducts.length > 0 && <ProductCutoutShelf
+      id="hot-products"
+      eyebrow="Featured selection"
+      title="Hot products"
+      description="Explore the product directions currently highlighted by our team."
+      products={hotProducts}
+      action={{ href: config.routes.products, label: "View all products" }}
+    />}
+    <div id="products"><ProductPattern {...config.homepage.products} id="products-pattern" /></div>
+    {trustEnabled && <FloatingTrustBar {...config.optionalContent.floatingTrustBar!} id="trust" />}
+    <PathwayPattern {...config.homepage.pathways} id="pathways" />
+    <div id="evidence"><EvidencePattern {...config.homepage.evidence} id="evidence-pattern" /></div>
+    <div id="quality"><QualityPattern {...config.homepage.quality} id="quality-pattern" /></div>
+    <div id="process"><ProcessPattern {...config.homepage.process} id="process-pattern" /></div>
+    <div id="facility"><FacilityPattern {...config.homepage.facility} id="facility-pattern" /></div>
+    <div id="inquiry"><InquiryPattern {...config.homepage.inquiry} id="inquiry-pattern" /></div>
+  </main>
+
+  <SiteFooter
+    brand={config.identity.displayName.value}
+    description={config.identity.summary.value}
+    linkGroups={[{ title: "Explore", links: navigation }]}
+    contactActions={[{ href: config.routes.contact, label: config.contact.inquiryLabel }]}
+    copyrightLabel="Skincare product development, packaging coordination, and manufacturing support."
+  />
+  <FloatingContactBar id="client-floating-contact" label="Contact shortcuts" items={floatingContactItems} scrollTargetId="main-content" />
+  <FloatingInquiryPanel
+    id="client-floating-inquiry"
+    title="Leave A Message"
+    description="If you are interested in our products, leave your requirements here and our team will review them before the next conversation."
+    triggerLabel="Leave A Message"
+    fields={floatingInquiryFields}
+    submitLabel="Send Inquiry"
+    inquiryConfig={config.inquiry}
+    deliveryNote="Inquiry delivery is being configured for this review site."
+  />
+</div>
+
+<style define:vars={{
+  clientCanvas: colors.canvas,
+  clientSurface: colors.surface,
+  clientSurfaceSubtle: colors.surfaceSubtle,
+  clientInk: colors.ink,
+  clientMuted: colors.muted,
+  clientAccent: colors.accent,
+  clientAccentContrast: colors.accentContrast,
+  clientBorder: colors.border,
+}}>
+  .client-site {
+    --ds-color-canvas: var(--clientCanvas);
+    --ds-color-surface: var(--clientSurface);
+    --ds-color-ink: var(--clientInk);
+    --ds-color-muted: var(--clientMuted);
+    --ds-color-accent: var(--clientAccent);
+    --ds-color-accent-contrast: var(--clientAccentContrast);
+    --ds-color-border: var(--clientBorder);
+    --color-canvas: var(--clientCanvas);
+    --color-surface: var(--clientSurface);
+    --color-surface-subtle: var(--clientSurfaceSubtle);
+    --color-ink: var(--clientInk);
+    --color-text-muted: var(--clientMuted);
+    --color-accent: var(--clientAccent);
+    --color-on-accent: var(--clientAccentContrast);
+    --color-on-ink: var(--clientCanvas);
+    --color-border: var(--clientBorder);
+    --color-border-strong: color-mix(in oklch, var(--clientBorder), var(--clientInk) 20%);
+    min-height: 100vh;
+    background: var(--clientCanvas);
+    color: var(--clientInk);
+  }
+  .skip-link { position: fixed; z-index: 100; top: .5rem; left: .5rem; padding: .75rem 1rem; background: var(--clientInk); color: var(--clientCanvas); transform: translateY(-200%); }
+  .skip-link:focus { transform: translateY(0); }
+  main > div { scroll-margin-top: 1rem; }
+  @media (max-width: 47.99rem) {
+    :global(.client-site .floating-inquiry) { --floating-inquiry-mobile-offset: 4.4rem; }
+  }
+  @media (min-width: 48rem) {
+    :global(.client-site .floating-inquiry) { right: 8rem; }
+    :global(.review-hub-link) { right: max(12rem, calc(env(safe-area-inset-right) + 11rem)) !important; }
+  }
+  @media (max-width: 47.99rem) { .client-site { padding-bottom: 4.4rem; } }
+</style>

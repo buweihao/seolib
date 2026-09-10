@@ -1,0 +1,71 @@
+---
+import type { CatalogProductContent } from "../../content-models/sections";
+import ActionLink from "../primitives/ActionLink.astro";
+import Container from "../primitives/Container.astro";
+import MediaFrame from "../primitives/MediaFrame.astro";
+
+interface Props {
+  id: string;
+  product: CatalogProductContent;
+  inquiryHref: string;
+  reviewNote: string;
+  class?: string;
+}
+
+const { id, product, inquiryHref, reviewNote, class: className } = Astro.props;
+const groups = [
+  { title: "Product direction", items: product.highlights },
+  { title: "Customization discussion", items: product.customizationOptions },
+  { title: "Packaging directions", items: product.packagingOptions },
+  { title: "Evaluation before approval", items: product.evaluationItems },
+] as const;
+---
+
+<section id={id} class:list={["product-detail-profile", className]} aria-labelledby={`${id}-title`}>
+  <Container size="wide">
+    <div class="product-detail-profile__hero">
+      <MediaFrame {...product.media} loading="eager" aspect={product.media.aspect ?? "square"} />
+      <div class="product-detail-profile__summary">
+        <p class="product-detail-profile__eyebrow">{product.format} · {product.routineRole}</p>
+        <h1 id={`${id}-title`}>{product.name}</h1>
+        <p class="product-detail-profile__lead">{product.summary}</p>
+        <dl>
+          <div><dt>Format</dt><dd>{product.format}</dd></div>
+          <div><dt>Routine role</dt><dd>{product.routineRole}</dd></div>
+        </dl>
+        <ActionLink href={inquiryHref} label="Discuss this product direction" />
+        <p class="product-detail-profile__note">{reviewNote}</p>
+      </div>
+    </div>
+
+    <div class="product-detail-profile__groups">
+      {groups.map((group) => (
+        <section>
+          <h2>{group.title}</h2>
+          <ul>
+            {group.items.map((item) => <li>{item}</li>)}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </Container>
+</section>
+
+<style>
+  .product-detail-profile { padding-block: var(--ds-section-compact) var(--ds-section-standard); }
+  .product-detail-profile__hero { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(20rem, .95fr); gap: clamp(2rem, 7vw, 7rem); align-items: center; }
+  .product-detail-profile__summary h1, .product-detail-profile__summary p { margin: 0; }
+  .product-detail-profile__eyebrow { color: var(--ds-color-accent); font-size: .78rem; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; }
+  .product-detail-profile__summary h1 { max-width: 12ch; margin-top: var(--ds-space-4); font-size: clamp(2.75rem, 6vw, 5.75rem); letter-spacing: -.04em; line-height: .98; }
+  .product-detail-profile__lead { max-width: 42rem; margin-top: var(--ds-space-6) !important; color: var(--ds-color-muted); font-size: clamp(1.05rem, 2vw, 1.25rem); }
+  dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--ds-space-4); margin: var(--ds-space-8) 0; padding-block: var(--ds-space-4); border-block: 1px solid var(--ds-color-border); }
+  dt { color: var(--ds-color-muted); font-size: .75rem; text-transform: uppercase; }
+  dd { margin: var(--ds-space-2) 0 0; font-weight: 650; }
+  .product-detail-profile__note { margin-top: var(--ds-space-4) !important; color: var(--ds-color-muted); font-size: .8125rem; }
+  .product-detail-profile__groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; margin-top: var(--ds-section-standard); background: var(--ds-color-border); border: 1px solid var(--ds-color-border); }
+  .product-detail-profile__groups section { background: var(--ds-color-surface); padding: clamp(1.5rem, 4vw, 3rem); }
+  .product-detail-profile__groups h2 { margin: 0; font-size: clamp(1.35rem, 2vw, 1.8rem); }
+  .product-detail-profile__groups ul { margin: var(--ds-space-6) 0 0; padding-left: 1.2rem; color: var(--ds-color-muted); }
+  .product-detail-profile__groups li + li { margin-top: var(--ds-space-3); }
+  @media (max-width: 46rem) { .product-detail-profile__hero, .product-detail-profile__groups { grid-template-columns: 1fr; } .product-detail-profile__summary h1 { max-width: none; } }
+</style>
