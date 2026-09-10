@@ -9,6 +9,9 @@ dist/
 __pycache__/
 *.pyc
 
+# client projects are managed by their own Git repositories
+/client/
+
 # local environment files
 .env
 .env.*
